@@ -12,6 +12,9 @@
 		B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77441A494A2700870150 /* DungeonKitTests.m */; };
 		B32C77501A494A6000870150 /* DKCharacter.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C774E1A494A6000870150 /* DKCharacter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32C77511A494A6000870150 /* DKCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C774F1A494A6000870150 /* DKCharacter.m */; };
+		B32C778C1A49544200870150 /* DKAbilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C778A1A49544200870150 /* DKAbilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B32C778D1A49544200870150 /* DKAbilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C778B1A49544200870150 /* DKAbilities.m */; };
+		B32C778F1A4958D100870150 /* DKAbilitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C778E1A4958D100870150 /* DKAbilitiesTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +36,9 @@
 		B32C77441A494A2700870150 /* DungeonKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DungeonKitTests.m; sourceTree = "<group>"; };
 		B32C774E1A494A6000870150 /* DKCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKCharacter.h; sourceTree = "<group>"; };
 		B32C774F1A494A6000870150 /* DKCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKCharacter.m; sourceTree = "<group>"; };
+		B32C778A1A49544200870150 /* DKAbilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAbilities.h; sourceTree = "<group>"; };
+		B32C778B1A49544200870150 /* DKAbilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAbilities.m; sourceTree = "<group>"; };
+		B32C778E1A4958D100870150 /* DKAbilitiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAbilitiesTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +65,7 @@
 			children = (
 				B32C77341A494A2700870150 /* DungeonKit */,
 				B32C77411A494A2700870150 /* DungeonKitTests */,
+				B32C77351A494A2700870150 /* Supporting Files */,
 				B32C77331A494A2700870150 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -78,7 +85,8 @@
 				B32C77371A494A2700870150 /* DungeonKit.h */,
 				B32C774E1A494A6000870150 /* DKCharacter.h */,
 				B32C774F1A494A6000870150 /* DKCharacter.m */,
-				B32C77351A494A2700870150 /* Supporting Files */,
+				B32C778A1A49544200870150 /* DKAbilities.h */,
+				B32C778B1A49544200870150 /* DKAbilities.m */,
 			);
 			path = DungeonKit;
 			sourceTree = "<group>";
@@ -89,12 +97,14 @@
 				B32C77361A494A2700870150 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			path = DungeonKit;
 			sourceTree = "<group>";
 		};
 		B32C77411A494A2700870150 /* DungeonKitTests */ = {
 			isa = PBXGroup;
 			children = (
 				B32C77441A494A2700870150 /* DungeonKitTests.m */,
+				B32C778E1A4958D100870150 /* DKAbilitiesTests.m */,
 				B32C77421A494A2700870150 /* Supporting Files */,
 			);
 			path = DungeonKitTests;
@@ -117,6 +127,7 @@
 			files = (
 				B32C77381A494A2700870150 /* DungeonKit.h in Headers */,
 				B32C77501A494A6000870150 /* DKCharacter.h in Headers */,
+				B32C778C1A49544200870150 /* DKAbilities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B32C77511A494A6000870150 /* DKCharacter.m in Sources */,
+				B32C778D1A49544200870150 /* DKAbilities.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -225,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */,
+				B32C778F1A4958D100870150 /* DKAbilitiesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -402,6 +415,7 @@
 				B32C774A1A494A2700870150 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		B32C774B1A494A2700870150 /* Build configuration list for PBXNativeTarget "DungeonKitTests" */ = {
 			isa = XCConfigurationList;
@@ -410,6 +424,7 @@
 				B32C774D1A494A2700870150 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
