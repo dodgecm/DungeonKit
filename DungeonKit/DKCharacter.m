@@ -10,6 +10,6 @@
 
 @implementation DKCharacter
 
-@synthesize test;
+@synthesize abilities = _abilities;
 
 @end

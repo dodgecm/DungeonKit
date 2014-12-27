@@ -10,8 +10,7 @@
 
 @implementation DKAbilityScore
 
-@synthesize score = _score;
-@synthesize modifier = _modifier;
+@synthesize abilityModifier = _abilityModifier;
 
 + (id)scoreWithScore: (int) score {
     DKAbilityScore* newScore = [[[self class] alloc] initWithScore:score];
@@ -21,32 +20,30 @@
 - (id)initWithScore: (int) score {
     self = [super init];
     if (self) {
-        self.score = score;
+        self.base = score;
     }
     return self;
 }
 
-- (id)copyWithZone:(NSZone *)zone {
-    DKAbilityScore* newAbilityScore = [[self class] allocWithZone:zone];
-    newAbilityScore.score = self.score;
-    return newAbilityScore;
+- (void)setBase:(int)base {
+    [super setBase:MAX(0,base)]; //ability score base cannot go below 0
 }
 
-- (void)setScore:(int)score {
-    _score = MAX(0,score); //ability scores cannot go below 0
-    _modifier = floor((_score - 10) / 2.0);
+- (void)recalculateScore {
+    [super recalculateScore];
+    _abilityModifier = floor((self.score - 10) / 2.0);
 }
 
-- (NSString*) formattedModifier {
+- (NSString*) formattedAbilityModifier {
     
     NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
     [numberFormatter setPositivePrefix:@"+"];
     [numberFormatter setZeroSymbol:@"+0"];
-    return [numberFormatter stringFromNumber:@(_modifier)];
+    return [numberFormatter stringFromNumber:@(_abilityModifier)];
 }
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@"%@(%i)", [self formattedModifier], _score];
+    return [NSString stringWithFormat:@"%@(%i)", [self formattedAbilityModifier], self.score];
 }
 
 @end
@@ -145,7 +142,7 @@
 }
 
 - (int)modifierForAbility:(DKAbility)ability {
-    return [[self scoreObjectForAbility:ability] modifier];
+    return [[self scoreObjectForAbility:ability] abilityModifier];
 }
 
 - (void)setScore:(int)score ability:(DKAbility)ability {

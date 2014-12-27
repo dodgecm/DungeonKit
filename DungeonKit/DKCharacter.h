@@ -7,12 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DKAbilities.h"
 
 @interface DKCharacter : NSObject {
     
-    int test;
 }
 
-@property (nonatomic, assign) int test;
+@property (nonatomic, strong) DKAbilities* abilities;
 
 @end

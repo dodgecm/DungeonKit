@@ -16,6 +16,8 @@
 		B32C778D1A49544200870150 /* DKAbilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C778B1A49544200870150 /* DKAbilities.m */; };
 		B32C778F1A4958D100870150 /* DKAbilitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C778E1A4958D100870150 /* DKAbilitiesTests.m */; };
 		B32C77931A4E9DD200870150 /* DKAbilityScoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77921A4E9DD200870150 /* DKAbilityScoreTests.m */; };
+		B32C77971A4F64C200870150 /* DKStatistic.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77951A4F64C200870150 /* DKStatistic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B32C77981A4F64C200870150 /* DKStatistic.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77961A4F64C200870150 /* DKStatistic.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +43,8 @@
 		B32C778B1A49544200870150 /* DKAbilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAbilities.m; sourceTree = "<group>"; };
 		B32C778E1A4958D100870150 /* DKAbilitiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAbilitiesTests.m; sourceTree = "<group>"; };
 		B32C77921A4E9DD200870150 /* DKAbilityScoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAbilityScoreTests.m; sourceTree = "<group>"; };
+		B32C77951A4F64C200870150 /* DKStatistic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKStatistic.h; sourceTree = "<group>"; };
+		B32C77961A4F64C200870150 /* DKStatistic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStatistic.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,8 @@
 				B32C77371A494A2700870150 /* DungeonKit.h */,
 				B32C774E1A494A6000870150 /* DKCharacter.h */,
 				B32C774F1A494A6000870150 /* DKCharacter.m */,
+				B32C77951A4F64C200870150 /* DKStatistic.h */,
+				B32C77961A4F64C200870150 /* DKStatistic.m */,
 				B32C778A1A49544200870150 /* DKAbilities.h */,
 				B32C778B1A49544200870150 /* DKAbilities.m */,
 			);
@@ -130,6 +136,7 @@
 			files = (
 				B32C77381A494A2700870150 /* DungeonKit.h in Headers */,
 				B32C77501A494A6000870150 /* DKCharacter.h in Headers */,
+				B32C77971A4F64C200870150 /* DKStatistic.h in Headers */,
 				B32C778C1A49544200870150 /* DKAbilities.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -232,6 +239,7 @@
 			files = (
 				B32C77511A494A6000870150 /* DKCharacter.m in Sources */,
 				B32C778D1A49544200870150 /* DKAbilities.m in Sources */,
+				B32C77981A4F64C200870150 /* DKStatistic.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

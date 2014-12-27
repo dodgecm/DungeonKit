@@ -7,19 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DKStatistic.h"
 
-@interface DKAbilityScore : NSObject <NSCopying>
+@interface DKAbilityScore : DKStatistic
 
-/** The raw score of the ability.  The average starting value for an ability score is around 12. */
-@property (nonatomic, assign) int score;
 /** The modifier based on the raw score.  modifier = ((score - 10) / 2) */
-@property (nonatomic, readonly) int modifier;
-
-+ (id)scoreWithScore:(int) score;
-- (id)initWithScore:(int) score;
+@property (nonatomic, readonly) int abilityModifier;
 
 /** Returns the modifier with the proper prefix, ex: +4, +2, +0, -1 */
-- (NSString*) formattedModifier;
+- (NSString*) formattedAbilityModifier;
 
 @end
 

@@ -17,4 +17,5 @@ FOUNDATION_EXPORT const unsigned char DungeonKitVersionString[];
 // In this header, you should import all the public headers of your framework using statements like #import <DungeonKit/PublicHeader.h>
 
 #import <DungeonKit/DKCharacter.h>
+#import <DungeonKit/DKStatistic.h>
 #import <DungeonKit/DKAbilities.h>

@@ -72,7 +72,7 @@
         XCTAssertNotNil(abilityScore, @"Abilities object should return a non-nil AbilityScore object");
         XCTAssertEqual([abilities scoreForAbility:[ability intValue]], [scoreArray[i] intValue], @"AbilityScore object should match the input values");
         XCTAssertEqual([abilities scoreForAbility:[ability intValue]], abilityScore.score, @"Getter methods should return internally consistent values");
-        XCTAssertEqual([abilities modifierForAbility:[ability intValue]], abilityScore.modifier, @"Getter methods should return internally consistent values");
+        XCTAssertEqual([abilities modifierForAbility:[ability intValue]], abilityScore.abilityModifier, @"Getter methods should return internally consistent values");
         i++;
     }
 }
@@ -85,7 +85,7 @@
     XCTAssertEqual([abilities scoreForAbility:kDKAbility_Strength], 18, @"AbilityScore object should be updated with the new score");
     XCTAssertEqual([abilities modifierForAbility:kDKAbility_Strength], 4, @"AbilityScore object should be updated with the new score");
     XCTAssertEqual([[abilities scoreObjectForAbility:kDKAbility_Strength] score], 18, @"AbilityScore object should be updated with the new score");
-    XCTAssertEqual([[abilities scoreObjectForAbility:kDKAbility_Strength] modifier], 4, @"AbilityScore object should be updated with the new score");
+    XCTAssertEqual([[abilities scoreObjectForAbility:kDKAbility_Strength] abilityModifier], 4, @"AbilityScore object should be updated with the new score");
 }
 
 @end
