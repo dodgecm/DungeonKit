@@ -15,6 +15,7 @@
 		B32C778C1A49544200870150 /* DKAbilities.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C778A1A49544200870150 /* DKAbilities.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32C778D1A49544200870150 /* DKAbilities.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C778B1A49544200870150 /* DKAbilities.m */; };
 		B32C778F1A4958D100870150 /* DKAbilitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C778E1A4958D100870150 /* DKAbilitiesTests.m */; };
+		B32C77931A4E9DD200870150 /* DKAbilityScoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77921A4E9DD200870150 /* DKAbilityScoreTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		B32C778A1A49544200870150 /* DKAbilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKAbilities.h; sourceTree = "<group>"; };
 		B32C778B1A49544200870150 /* DKAbilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAbilities.m; sourceTree = "<group>"; };
 		B32C778E1A4958D100870150 /* DKAbilitiesTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAbilitiesTests.m; sourceTree = "<group>"; };
+		B32C77921A4E9DD200870150 /* DKAbilityScoreTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKAbilityScoreTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				B32C77441A494A2700870150 /* DungeonKitTests.m */,
+				B32C77921A4E9DD200870150 /* DKAbilityScoreTests.m */,
 				B32C778E1A4958D100870150 /* DKAbilitiesTests.m */,
 				B32C77421A494A2700870150 /* Supporting Files */,
 			);
@@ -237,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */,
+				B32C77931A4E9DD200870150 /* DKAbilityScoreTests.m in Sources */,
 				B32C778F1A4958D100870150 /* DKAbilitiesTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
