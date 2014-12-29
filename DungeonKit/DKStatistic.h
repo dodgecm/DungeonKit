@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DKModifier.h"
 
-@interface DKStatistic : NSObject <NSCopying>
+@interface DKStatistic : NSObject <DKModifierOwner>
 
 /** The value of the statistic without any modifiers. */
 @property (nonatomic, assign) int base;
@@ -19,6 +20,8 @@
 
 + (id)statisticWithBase:(int)base;
 - (id)initWithBase:(int)base;
+
+- (void)applyModifier:(DKModifier*)modifier;
 
 - (void)recalculateScore;
 

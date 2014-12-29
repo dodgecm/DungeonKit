@@ -8,7 +8,9 @@
 
 #import "DKStatistic.h"
 
-@implementation DKStatistic
+@implementation DKStatistic {
+    NSMutableArray* _modifiers;
+}
 
 @synthesize base = _base;
 @synthesize score = _score;
@@ -23,14 +25,9 @@
     self = [super init];
     if (self) {
         self.base = base;
+        _modifiers = [NSMutableArray array];
     }
     return self;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-    DKStatistic* newStatistic = [[self class] allocWithZone:zone];
-    newStatistic.base = self.base;
-    return newStatistic;
 }
 
 - (void)setBase:(int)base {
@@ -38,8 +35,28 @@
     [self recalculateScore];
 }
 
+- (void)applyModifier:(DKModifier*)modifier {
+    [_modifiers addObject:modifier];
+    [modifier wasAppliedToStatistic:self];
+    [self recalculateScore];
+}
+
+- (void)removeModifier:(DKModifier*)modifier {
+    [_modifiers removeObject:modifier];
+    [self recalculateScore];
+}
+
 - (void)recalculateScore {
-    _score = _base;
+    
+    //Sort modifiers
+    
+    int newScore = _base;
+    //Apply modifiers
+    for (DKModifier* modifier in _modifiers) {
+        newScore = [modifier modifyStatistic:newScore];
+    }
+    
+    _score = newScore;
 }
 
 @end

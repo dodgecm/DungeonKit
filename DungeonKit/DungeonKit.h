@@ -18,4 +18,5 @@ FOUNDATION_EXPORT const unsigned char DungeonKitVersionString[];
 
 #import <DungeonKit/DKCharacter.h>
 #import <DungeonKit/DKStatistic.h>
+#import <DungeonKit/DKModifier.h>
 #import <DungeonKit/DKAbilities.h>
