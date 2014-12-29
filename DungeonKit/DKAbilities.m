@@ -71,11 +71,6 @@
     return [descriptions objectForKey:@(ability)];
 }
 
-- (id)init {
-    NSAssert(false, @"Direct use of init is disable, please use one of the public constuctors instead");
-    return nil;
-}
-
 - (id)initWithScores:(NSNumber*)firstScore, ... NS_REQUIRES_NIL_TERMINATION {
     
     NSMutableArray* abilityScores = [NSMutableArray array];

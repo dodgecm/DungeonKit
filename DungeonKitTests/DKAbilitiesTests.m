@@ -57,8 +57,6 @@
     NSArray* wrongCountArray = @[@"12", @"12", @"12", @"12", @"12"];
     XCTAssertThrows([[DKAbilities alloc] initWithScoreArray:wrongCountArray],
                     @"Constructor should throw exception if input array contains less than 6 scores");
-    XCTAssertThrows([[DKAbilities alloc] init],
-                    @"Constructor should throw exception if using disabled constuctor");
     
 }
 

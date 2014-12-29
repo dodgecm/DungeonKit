@@ -21,6 +21,7 @@
 		B32C779B1A511E1600870150 /* DKModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77991A511E1600870150 /* DKModifier.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32C779C1A511E1600870150 /* DKModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C779A1A511E1600870150 /* DKModifier.m */; };
 		B32C779E1A511E4300870150 /* DKStatisticTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C779D1A511E4300870150 /* DKStatisticTests.m */; };
+		B32C77A01A514D5F00870150 /* DKModifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C779F1A514D5F00870150 /* DKModifierTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		B32C77991A511E1600870150 /* DKModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKModifier.h; sourceTree = "<group>"; };
 		B32C779A1A511E1600870150 /* DKModifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKModifier.m; sourceTree = "<group>"; };
 		B32C779D1A511E4300870150 /* DKStatisticTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStatisticTests.m; sourceTree = "<group>"; };
+		B32C779F1A514D5F00870150 /* DKModifierTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKModifierTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +123,7 @@
 			children = (
 				B32C77441A494A2700870150 /* DungeonKitTests.m */,
 				B32C779D1A511E4300870150 /* DKStatisticTests.m */,
+				B32C779F1A514D5F00870150 /* DKModifierTests.m */,
 				B32C77921A4E9DD200870150 /* DKAbilityScoreTests.m */,
 				B32C778E1A4958D100870150 /* DKAbilitiesTests.m */,
 				B32C77421A494A2700870150 /* Supporting Files */,
@@ -261,6 +264,7 @@
 				B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */,
 				B32C77931A4E9DD200870150 /* DKAbilityScoreTests.m in Sources */,
 				B32C778F1A4958D100870150 /* DKAbilitiesTests.m in Sources */,
+				B32C77A01A514D5F00870150 /* DKModifierTests.m in Sources */,
 				B32C779E1A511E4300870150 /* DKStatisticTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

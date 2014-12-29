@@ -35,6 +35,7 @@ typedef enum {
 /** Returns a string abbreviation (ex: STR, DEX) for the provided DKAbility enumeration value. */
 + (NSString*) descriptionForAbility: (DKAbility) ability;
 
+- (id)init __unavailable;
 /** Convenience constructor that accepts exactly 6 NSNumbers for ability scores in the order: STR, DEX, CON, INT, WIS, CON */
 - (id)initWithScores:(NSNumber*)firstScore, ... NS_REQUIRES_NIL_TERMINATION;
 /** Constructor that accepts an array of 6 NSNumbers for ability scores
