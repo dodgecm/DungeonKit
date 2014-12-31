@@ -7,6 +7,7 @@
 //
 
 #import "DKAbilities.h"
+#import "DKStatisticIdentifiers.h"
 
 @implementation DKAbilityScore
 
@@ -48,28 +49,14 @@
 
 @end
 
-@implementation DKAbilities {
-    NSMutableDictionary* _abilityNamesToScores;
-}
+@implementation DKAbilities
 
-+ (NSArray*) allAbilities {
-    return @[@(kDKAbility_Strength), @(kDKAbility_Dexterity), @(kDKAbility_Constitution),
-             @(kDKAbility_Intelligence), @(kDKAbility_Wisdom), @(kDKAbility_Charisma)];
-}
-
-+ (NSString*) descriptionForAbility: (DKAbility) ability {
-    static NSDictionary* descriptions;
-    if (!descriptions) {
-        descriptions = @{ @(kDKAbility_Strength): @"STR",
-                          @(kDKAbility_Dexterity): @"DEX",
-                          @(kDKAbility_Constitution): @"CON",
-                          @(kDKAbility_Intelligence): @"INT",
-                          @(kDKAbility_Wisdom): @"WIS",
-                          @(kDKAbility_Charisma): @"CHA"};
-    }
-    
-    return [descriptions objectForKey:@(ability)];
-}
+@synthesize strength = _strength;
+@synthesize dexterity = _dexterity;
+@synthesize constitution = _constitution;
+@synthesize intelligence = _intelligence;
+@synthesize wisdom = _wisdom;
+@synthesize charisma = _charisma;
 
 - (id)initWithScores:(NSNumber*)firstScore, ... NS_REQUIRES_NIL_TERMINATION {
     
@@ -99,13 +86,12 @@
             NSAssert2([score isKindOfClass:[NSNumber class]],
                       @"Received ability score of type %@ (%@), expected NSNumber", NSStringFromClass([score class]), score);
         }
-        _abilityNamesToScores = [NSMutableDictionary dictionary];
-        [self setScore:[scoreArray[0] intValue] ability:kDKAbility_Strength];
-        [self setScore:[scoreArray[1] intValue] ability:kDKAbility_Dexterity];
-        [self setScore:[scoreArray[2] intValue] ability:kDKAbility_Constitution];
-        [self setScore:[scoreArray[3] intValue] ability:kDKAbility_Intelligence];
-        [self setScore:[scoreArray[4] intValue] ability:kDKAbility_Wisdom];
-        [self setScore:[scoreArray[5] intValue] ability:kDKAbility_Charisma];
+        self.strength = [DKAbilityScore scoreWithScore:[scoreArray[0] intValue]];
+        self.dexterity = [DKAbilityScore scoreWithScore:[scoreArray[1] intValue]];
+        self.constitution = [DKAbilityScore scoreWithScore:[scoreArray[2] intValue]];
+        self.intelligence = [DKAbilityScore scoreWithScore:[scoreArray[3] intValue]];
+        self.wisdom = [DKAbilityScore scoreWithScore:[scoreArray[4] intValue]];
+        self.charisma = [DKAbilityScore scoreWithScore:[scoreArray[5] intValue]];
     }
     
     return self;
@@ -116,42 +102,15 @@
     self = [super init];
     if (self) {
 
-        _abilityNamesToScores = [NSMutableDictionary dictionary];
-        [self setScore:str ability:kDKAbility_Strength];
-        [self setScore:dex ability:kDKAbility_Dexterity];
-        [self setScore:con ability:kDKAbility_Constitution];
-        [self setScore:intel ability:kDKAbility_Intelligence];
-        [self setScore:wis ability:kDKAbility_Wisdom];
-        [self setScore:cha ability:kDKAbility_Charisma];
+        self.strength = [DKAbilityScore scoreWithScore:str];
+        self.dexterity = [DKAbilityScore scoreWithScore:dex];
+        self.constitution = [DKAbilityScore scoreWithScore:con];
+        self.intelligence = [DKAbilityScore scoreWithScore:intel];
+        self.wisdom = [DKAbilityScore scoreWithScore:wis];
+        self.charisma = [DKAbilityScore scoreWithScore:cha];
     }
     
     return self;
-}
-
-- (DKAbilityScore*)scoreObjectForAbility:(DKAbility)ability {
-    return _abilityNamesToScores[[NSString stringWithFormat:@"%i", ability]];
-}
-
-- (int)scoreForAbility:(DKAbility)ability {
-    return [[self scoreObjectForAbility:ability] score];
-}
-
-- (int)modifierForAbility:(DKAbility)ability {
-    return [[self scoreObjectForAbility:ability] abilityModifier];
-}
-
-- (void)setScore:(int)score ability:(DKAbility)ability {
-    _abilityNamesToScores[[NSString stringWithFormat:@"%i", ability]] = [DKAbilityScore scoreWithScore:score];
-}
-
-- (NSString*)description {
-    return [NSString stringWithFormat:@"%@:%@\t%@:%@\t%@:%@\t%@:%@\t%@:%@\t%@:%@",
-            [DKAbilities descriptionForAbility:kDKAbility_Strength], [self scoreObjectForAbility:kDKAbility_Strength],
-            [DKAbilities descriptionForAbility:kDKAbility_Dexterity], [self scoreObjectForAbility:kDKAbility_Dexterity],
-            [DKAbilities descriptionForAbility:kDKAbility_Constitution], [self scoreObjectForAbility:kDKAbility_Constitution],
-            [DKAbilities descriptionForAbility:kDKAbility_Intelligence], [self scoreObjectForAbility:kDKAbility_Intelligence],
-            [DKAbilities descriptionForAbility:kDKAbility_Wisdom], [self scoreObjectForAbility:kDKAbility_Wisdom],
-            [DKAbilities descriptionForAbility:kDKAbility_Charisma], [self scoreObjectForAbility:kDKAbility_Charisma]];
 }
 
 @end

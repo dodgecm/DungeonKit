@@ -36,7 +36,7 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 @interface DKModifier : NSObject
 
 /** The amount of the modification. */
-@property (nonatomic, readonly) int value;
+@property (nonatomic, assign) int value;
 /** Describes when this modifier should be applied relative to other modifiers applied to the same statistic. */
 @property (nonatomic, readonly) DKModifierPriority priority;
 /** A function to perform the modification. */

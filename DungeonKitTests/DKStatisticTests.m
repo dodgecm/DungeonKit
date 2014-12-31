@@ -41,8 +41,28 @@
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     [stat applyModifier:modifier];
     XCTAssertEqual(stat.base, 10, @"Modified statistic should calculate correct score.");
-    XCTAssertEqual(stat.score, 15 , @"Modified statistic should calculate correct score.");
+    XCTAssertEqual(stat.score, 15, @"Modified statistic should calculate correct score.");
     XCTAssert([[stat modifiers] containsObject:modifier], @"Modified statistic should update its fields properly.");
+    
+    modifier.value = 3;
+    XCTAssertEqual(stat.score, 13, @"Modified statistic should update score when modifier value is changed.");
+    [modifier removeFromStatistic];
+    XCTAssertEqual(stat.score, 10, @"Modified statistic should update score when modifier is removed.");
+    modifier.value = 5;
+    XCTAssertEqual(stat.score, 10, @"Modified statistic should not update score when removed modifier is changed after the fact.");
 }
 
+- (void)testModifierAdditionErrorCase {
+    
+    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    [stat applyModifier:nil];
+}
+
+- (void)testModifierRemovalErrorCase {
+    
+    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    [stat removeModifier:modifier];
+    [stat removeModifier:nil];
+}
 @end

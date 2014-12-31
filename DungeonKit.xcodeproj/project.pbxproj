@@ -22,6 +22,9 @@
 		B32C779C1A511E1600870150 /* DKModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C779A1A511E1600870150 /* DKModifier.m */; };
 		B32C779E1A511E4300870150 /* DKStatisticTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C779D1A511E4300870150 /* DKStatisticTests.m */; };
 		B32C77A01A514D5F00870150 /* DKModifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C779F1A514D5F00870150 /* DKModifierTests.m */; };
+		B32C77A61A53E15F00870150 /* DKStatisticIdentifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77A51A53E15F00870150 /* DKStatisticIdentifiers.m */; };
+		B32C77A81A53E18C00870150 /* DKStatisticIdentifiers.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77A71A53E17E00870150 /* DKStatisticIdentifiers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B32C77AA1A53E73600870150 /* DKCharacterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77A91A53E73600870150 /* DKCharacterTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,9 @@
 		B32C779A1A511E1600870150 /* DKModifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKModifier.m; sourceTree = "<group>"; };
 		B32C779D1A511E4300870150 /* DKStatisticTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStatisticTests.m; sourceTree = "<group>"; };
 		B32C779F1A514D5F00870150 /* DKModifierTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKModifierTests.m; sourceTree = "<group>"; };
+		B32C77A51A53E15F00870150 /* DKStatisticIdentifiers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStatisticIdentifiers.m; sourceTree = "<group>"; };
+		B32C77A71A53E17E00870150 /* DKStatisticIdentifiers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStatisticIdentifiers.h; sourceTree = "<group>"; };
+		B32C77A91A53E73600870150 /* DKCharacterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKCharacterTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,6 +105,8 @@
 				B32C77371A494A2700870150 /* DungeonKit.h */,
 				B32C774E1A494A6000870150 /* DKCharacter.h */,
 				B32C774F1A494A6000870150 /* DKCharacter.m */,
+				B32C77A71A53E17E00870150 /* DKStatisticIdentifiers.h */,
+				B32C77A51A53E15F00870150 /* DKStatisticIdentifiers.m */,
 				B32C77951A4F64C200870150 /* DKStatistic.h */,
 				B32C77961A4F64C200870150 /* DKStatistic.m */,
 				B32C77991A511E1600870150 /* DKModifier.h */,
@@ -122,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				B32C77441A494A2700870150 /* DungeonKitTests.m */,
+				B32C77A91A53E73600870150 /* DKCharacterTests.m */,
 				B32C779D1A511E4300870150 /* DKStatisticTests.m */,
 				B32C779F1A514D5F00870150 /* DKModifierTests.m */,
 				B32C77921A4E9DD200870150 /* DKAbilityScoreTests.m */,
@@ -151,6 +160,7 @@
 				B32C779B1A511E1600870150 /* DKModifier.h in Headers */,
 				B32C77971A4F64C200870150 /* DKStatistic.h in Headers */,
 				B32C778C1A49544200870150 /* DKAbilities.h in Headers */,
+				B32C77A81A53E18C00870150 /* DKStatisticIdentifiers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B32C77511A494A6000870150 /* DKCharacter.m in Sources */,
+				B32C77A61A53E15F00870150 /* DKStatisticIdentifiers.m in Sources */,
 				B32C779C1A511E1600870150 /* DKModifier.m in Sources */,
 				B32C778D1A49544200870150 /* DKAbilities.m in Sources */,
 				B32C77981A4F64C200870150 /* DKStatistic.m in Sources */,
@@ -263,6 +274,7 @@
 			files = (
 				B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */,
 				B32C77931A4E9DD200870150 /* DKAbilityScoreTests.m in Sources */,
+				B32C77AA1A53E73600870150 /* DKCharacterTests.m in Sources */,
 				B32C778F1A4958D100870150 /* DKAbilitiesTests.m in Sources */,
 				B32C77A01A514D5F00870150 /* DKModifierTests.m in Sources */,
 				B32C779E1A511E4300870150 /* DKStatisticTests.m in Sources */,

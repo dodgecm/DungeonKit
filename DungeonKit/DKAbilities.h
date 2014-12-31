@@ -19,21 +19,14 @@
 
 @end
 
-typedef enum {
-    kDKAbility_Strength = 1,
-    kDKAbility_Dexterity,
-    kDKAbility_Constitution,
-    kDKAbility_Intelligence,
-    kDKAbility_Wisdom,
-    kDKAbility_Charisma,
-} DKAbility;
-
 @interface DKAbilities : NSObject
 
-/** Returns an array of all DKAbility enumeration values as NSNumbers. */
-+ (NSArray*) allAbilities;
-/** Returns a string abbreviation (ex: STR, DEX) for the provided DKAbility enumeration value. */
-+ (NSString*) descriptionForAbility: (DKAbility) ability;
+@property (nonatomic, strong) DKAbilityScore* strength;
+@property (nonatomic, strong) DKAbilityScore* dexterity;
+@property (nonatomic, strong) DKAbilityScore* constitution;
+@property (nonatomic, strong) DKAbilityScore* intelligence;
+@property (nonatomic, strong) DKAbilityScore* wisdom;
+@property (nonatomic, strong) DKAbilityScore* charisma;
 
 - (id)init __unavailable;
 /** Convenience constructor that accepts exactly 6 NSNumbers for ability scores in the order: STR, DEX, CON, INT, WIS, CON */
@@ -43,15 +36,5 @@ typedef enum {
 - (id)initWithScoreArray:(NSArray*)scoreArray;
 /** Constructor that accepts an 6 values for ability scores */
 - (id)initWithStr:(int)str dex:(int)dex con:(int)con intel:(int)intel wis:(int)wis cha:(int)cha;
-
-/** Returns the DKAbilityScore object for the provied ability type */
-- (DKAbilityScore*)scoreObjectForAbility:(DKAbility)ability;
-/** Convenience method that returns the score for the provided ability type */
-- (int)scoreForAbility:(DKAbility)ability;
-/** Convenience method that returns the modifier for the provided ability type */
-- (int)modifierForAbility:(DKAbility)ability;
-
-/** Convenience method that updates the ability score for the provided ability type */
-- (void)setScore:(int)score ability:(DKAbility)ability;
 
 @end
