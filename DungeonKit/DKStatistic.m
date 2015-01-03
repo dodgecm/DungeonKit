@@ -13,7 +13,7 @@
 }
 
 @synthesize base = _base;
-@synthesize score = _score;
+@synthesize value = _value;
 @synthesize modifiers = _modifiers;
 
 + (id)statisticWithBase:(int)base {
@@ -38,7 +38,7 @@
 
 - (void)setBase:(int)base {
     _base = base;
-    [self recalculateScore];
+    [self recalculateValue];
 }
 
 - (void)applyModifier:(DKModifier*)modifier {
@@ -48,7 +48,7 @@
     [_modifiers addObject:modifier];
     [modifier wasAppliedToStatistic:self];
     [modifier addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
-    [self recalculateScore];
+    [self recalculateValue];
 }
 
 - (void)removeModifier:(DKModifier*)modifier {
@@ -58,15 +58,15 @@
     
     [modifier removeObserver:self forKeyPath:@"value"];
     [_modifiers removeObject:modifier];
-    [self recalculateScore];
+    [self recalculateValue];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     //The value of one of our modifiers has changed, so we need to recalculate the score
-    [self recalculateScore];
+    [self recalculateValue];
 }
 
-- (void)recalculateScore {
+- (void)recalculateValue {
     
     //Sort modifiers
     
@@ -76,7 +76,7 @@
         newScore = [modifier modifyStatistic:newScore];
     }
     
-    _score = newScore;
+    _value = newScore;
 }
 
 @end

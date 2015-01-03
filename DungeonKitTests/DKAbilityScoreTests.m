@@ -50,7 +50,7 @@
     DKAbilityScore* ability = [[DKAbilityScore alloc] initWithBase:10];
     XCTAssertEqual(ability.abilityModifier, 0, @"Negative ability scores revert to 0.");
     ability.base = -10;
-    XCTAssertEqual(ability.score, 0, @"Negative ability scores revert to 0.");
+    XCTAssertEqual(ability.value, 0, @"Negative ability scores revert to 0.");
     XCTAssertEqual(ability.abilityModifier, -5, @"Negative ability scores revert to 0.");
 }
 

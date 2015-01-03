@@ -9,7 +9,6 @@
 #import "DKModifier.h"
 
 @interface DKModifier()
-@property (nonatomic, copy, readwrite) DKModifierBlockType modifierBlock;
 @end
 
 @implementation DKModifier
@@ -24,20 +23,20 @@
     if (self) {
         _value = value;
         _priority = priority;
-        self.modifierBlock = block;
+        _modifierBlock = block;
     }
     return self;
 }
 
 - (void)removeFromStatistic {
-    [self.owner removeModifier:self];
+    [_owner removeModifier:self];
     _owner = nil;
 }
 
 - (int) modifyStatistic:(int)input {
     
     if (self.modifierBlock != nil) {
-        return self.modifierBlock(self.value, input);
+        return _modifierBlock(self.value, input);
     } else {
         return input;
     }

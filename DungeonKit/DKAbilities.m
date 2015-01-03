@@ -30,9 +30,9 @@
     [super setBase:MAX(0,base)]; //ability score base cannot go below 0
 }
 
-- (void)recalculateScore {
-    [super recalculateScore];
-    _abilityModifier = floor((self.score - 10) / 2.0);
+- (void)recalculateValue {
+    [super recalculateValue];
+    _abilityModifier = floor((self.value - 10) / 2.0);
 }
 
 - (NSString*) formattedAbilityModifier {
@@ -44,7 +44,7 @@
 }
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@"%@(%i)", [self formattedAbilityModifier], self.score];
+    return [NSString stringWithFormat:@"%@(%i)", [self formattedAbilityModifier], self.value];
 }
 
 @end

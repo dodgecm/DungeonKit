@@ -14,7 +14,7 @@
 /** The value of the statistic without any modifiers. */
 @property (nonatomic, assign) int base;
 /** The value of the statistic after modifiers have been applied. */
-@property (nonatomic, readonly) int score;
+@property (nonatomic, readonly) int value;
 /** An array of modifiers that are currently applied to this statistic. */
 @property (nonatomic, strong, readonly) NSArray* modifiers;
 
@@ -23,6 +23,6 @@
 
 - (void)applyModifier:(DKModifier*)modifier;
 
-- (void)recalculateScore;
+- (void)recalculateValue;
 
 @end

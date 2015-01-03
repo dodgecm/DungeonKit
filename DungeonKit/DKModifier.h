@@ -20,6 +20,7 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 @class DKModifier;
 @protocol DKModifierOwner <NSObject>
 @required
+- (int)value;
 - (void)removeModifier:(DKModifier*)modifier;
 @end
 

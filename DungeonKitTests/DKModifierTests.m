@@ -43,5 +43,15 @@
     XCTAssertNil(modifier.owner, @"Modifier fields should reflect its state properly.");
 }
 
+- (void)testValueChange {
+    
+    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    [stat applyModifier:modifier];
+    XCTAssertEqual(stat.value, 15, @"Statistic should update score when modifier value is changed.");
+    modifier.value = 3;
+    XCTAssertEqual(stat.value, 13, @"Statistic should update score when modifier value is changed.");
+}
+
 
 @end

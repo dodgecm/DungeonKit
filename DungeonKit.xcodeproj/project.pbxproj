@@ -25,6 +25,8 @@
 		B32C77A61A53E15F00870150 /* DKStatisticIdentifiers.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77A51A53E15F00870150 /* DKStatisticIdentifiers.m */; };
 		B32C77A81A53E18C00870150 /* DKStatisticIdentifiers.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77A71A53E17E00870150 /* DKStatisticIdentifiers.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32C77AA1A53E73600870150 /* DKCharacterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77A91A53E73600870150 /* DKCharacterTests.m */; };
+		B32C77AD1A549BD400870150 /* DKDependantModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77AB1A549BD400870150 /* DKDependantModifier.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B32C77AE1A549BD400870150 /* DKDependantModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77AC1A549BD400870150 /* DKDependantModifier.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +61,8 @@
 		B32C77A51A53E15F00870150 /* DKStatisticIdentifiers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStatisticIdentifiers.m; sourceTree = "<group>"; };
 		B32C77A71A53E17E00870150 /* DKStatisticIdentifiers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DKStatisticIdentifiers.h; sourceTree = "<group>"; };
 		B32C77A91A53E73600870150 /* DKCharacterTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKCharacterTests.m; sourceTree = "<group>"; };
+		B32C77AB1A549BD400870150 /* DKDependantModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDependantModifier.h; sourceTree = "<group>"; };
+		B32C77AC1A549BD400870150 /* DKDependantModifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDependantModifier.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +115,8 @@
 				B32C77961A4F64C200870150 /* DKStatistic.m */,
 				B32C77991A511E1600870150 /* DKModifier.h */,
 				B32C779A1A511E1600870150 /* DKModifier.m */,
+				B32C77AB1A549BD400870150 /* DKDependantModifier.h */,
+				B32C77AC1A549BD400870150 /* DKDependantModifier.m */,
 				B32C778A1A49544200870150 /* DKAbilities.h */,
 				B32C778B1A49544200870150 /* DKAbilities.m */,
 			);
@@ -160,6 +166,7 @@
 				B32C779B1A511E1600870150 /* DKModifier.h in Headers */,
 				B32C77971A4F64C200870150 /* DKStatistic.h in Headers */,
 				B32C778C1A49544200870150 /* DKAbilities.h in Headers */,
+				B32C77AD1A549BD400870150 /* DKDependantModifier.h in Headers */,
 				B32C77A81A53E18C00870150 /* DKStatisticIdentifiers.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -261,6 +268,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B32C77511A494A6000870150 /* DKCharacter.m in Sources */,
+				B32C77AE1A549BD400870150 /* DKDependantModifier.m in Sources */,
 				B32C77A61A53E15F00870150 /* DKStatisticIdentifiers.m in Sources */,
 				B32C779C1A511E1600870150 /* DKModifier.m in Sources */,
 				B32C778D1A49544200870150 /* DKAbilities.m in Sources */,
