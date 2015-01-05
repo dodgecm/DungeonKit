@@ -27,18 +27,17 @@
     [super tearDown];
 }
 
+- (void)testConstructor {
+    
+    DKStatistic* statistic = [[DKStatistic alloc] initWithBase:10];
+    XCTAssertNotNil([DKDependentModifierBuilder simpleModifierFromSource:statistic], @"Constructors should return non-nil object.");
+}
+
 - (void)testDependentModifier {
     
     DKStatistic* firstStatistic = [[DKStatistic alloc] initWithBase:2];
     DKStatistic* secondStatistic = [[DKStatistic alloc] initWithBase:14];
-    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:firstStatistic
-                                                                          value:^int(int valueToModify) {
-                                                                              return valueToModify;
-                                                                          }
-                                                                       priority:kDKModifierPriority_Additive
-                                                                          block:^int(int modifierValue, int valueToModify) {
-                                                                              return modifierValue + valueToModify;
-                                                                          }];
+    DKDependentModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
     [secondStatistic applyModifier:modifier];
     XCTAssertEqual(secondStatistic.value, 16, @"Dependant modifier should be applied correctly.");
     firstStatistic.base = 4;
@@ -50,39 +49,21 @@
 - (void)testSimpleCycle {
     
     DKStatistic* firstStatistic = [[DKStatistic alloc] initWithBase:1];
-    DKDependentModifier* firstModifier = [[DKDependentModifier alloc] initWithSource:firstStatistic
-                                                                               value:^int(int valueToModify) {
-                                                                                   return valueToModify;
-                                                                               }
-                                                                            priority:kDKModifierPriority_Additive
-                                                                               block:^int(int modifierValue, int valueToModify) {
-                                                                                   return modifierValue + valueToModify;
-                                                                               }];
+    DKDependentModifier* firstModifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
     [firstStatistic applyModifier:firstModifier];
+    XCTAssert(![[firstStatistic modifiers] containsObject:firstModifier], @"Dependent modifier should not successfully add itself to its source statistic.");
 }
 
 - (void)testModifierInfiniteCycle {
     
     DKStatistic* firstStatistic = [[DKStatistic alloc] initWithBase:1];
     DKStatistic* secondStatistic = [[DKStatistic alloc] initWithBase:2];
-    DKDependentModifier* firstModifier = [[DKDependentModifier alloc] initWithSource:firstStatistic
-                                                                          value:^int(int valueToModify) {
-                                                                              return valueToModify;
-                                                                          }
-                                                                       priority:kDKModifierPriority_Additive
-                                                                          block:^int(int modifierValue, int valueToModify) {
-                                                                              return modifierValue + valueToModify;
-                                                                          }];
-    DKDependentModifier* secondModifier = [[DKDependentModifier alloc] initWithSource:secondStatistic
-                                                                               value:^int(int valueToModify) {
-                                                                                   return valueToModify;
-                                                                               }
-                                                                            priority:kDKModifierPriority_Additive
-                                                                               block:^int(int modifierValue, int valueToModify) {
-                                                                                   return modifierValue + valueToModify;
-                                                                               }];
+    DKDependentModifier* firstModifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
+    DKDependentModifier* secondModifier = [DKDependentModifierBuilder simpleModifierFromSource:secondStatistic];
     [secondStatistic applyModifier:firstModifier];
     [firstStatistic applyModifier:secondModifier];
+    XCTAssert([[secondStatistic modifiers] containsObject:firstModifier], @"Dependent modifier should add itself as long as it doesn't create a cycle.");
+    XCTAssert(![[firstStatistic modifiers] containsObject:secondModifier], @"Dependent modifier should not successfully add itself if it would create a cycle.");
 }
 
 

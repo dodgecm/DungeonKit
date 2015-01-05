@@ -12,9 +12,11 @@
 
 @interface DKCharacter5E : DKCharacter
 
-@property (nonatomic, strong) DKAbilities* abilities;
 @property (nonatomic, strong) DKStatistic* level;
 @property (nonatomic, strong) DKStatistic* proficiencyBonus;
+
+@property (nonatomic, strong) DKAbilities* abilities;
+
 @property (nonatomic, strong) DKStatistic* armorClass;
 @property (nonatomic, strong) DKStatistic* initiativeBonus;
 @property (nonatomic, strong) DKStatistic* movementSpeed;

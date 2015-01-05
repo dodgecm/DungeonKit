@@ -27,7 +27,7 @@
              
              DKStatIDStrength: @"abilities.strength",
              DKStatIDDexterity: @"abilities.dexterity",
-             //DKStatIDConstitution: @"abilities.constitution",
+             DKStatIDConstitution: @"abilities.constitution",
              DKStatIDIntelligence: @"abilities.intelligence",
              DKStatIDWisdom: @"abilities.wisdom",
              DKStatIDCharisma: @"abilities.charisma",

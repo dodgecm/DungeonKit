@@ -31,9 +31,17 @@ typedef int (^DKDependentModifierBlockType)(int valueToModify);
             priority:(DKModifierPriority)priority
                block:(DKModifierBlockType)block;
 
-/** The statistic to which this modifier is currently applied, if any. */
-@property (nonatomic, weak, readonly) NSObject<DKModifierOwner>* source;
+/** The object that this modifier's value will be calculated from. */
+@property (nonatomic, strong, readonly) NSObject<DKModifierOwner>* source;
 /** A method that calculates the value of the modifier from the value of the source. */
 @property (nonatomic, copy, readonly) DKDependentModifierBlockType valueBlock;
+
+@end
+
+/** The DKDependentModifierBuilder class provides convenience initialization methods for generating common modifiers from statistics. */
+@interface DKDependentModifierBuilder : NSObject
+
+/** Initializes a modifier from the source object that simply adds the source's value to the modifier's owner. */
++ (id)simpleModifierFromSource:(NSObject<DKModifierOwner>*)source;
 
 @end

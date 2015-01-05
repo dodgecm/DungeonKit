@@ -67,7 +67,7 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 /** The DKModifierBuilder class provides convenience initialization methods for common DKModifier operations. */
 @interface DKModifierBuilder : NSObject
 
-/** Initializes a standard additive modifier, ex: +2 to STR. */
+/** Initializes a standard additive modifier, ex: +2 to a statistic. */
 + (id)modifierWithAdditiveBonus:(int)bonus;
 
 @end
