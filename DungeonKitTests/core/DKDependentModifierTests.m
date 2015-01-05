@@ -82,7 +82,7 @@
                                                                                    return modifierValue + valueToModify;
                                                                                }];
     [secondStatistic applyModifier:firstModifier];
-    //[firstStatistic applyModifier:secondModifier];
+    [firstStatistic applyModifier:secondModifier];
 }
 
 

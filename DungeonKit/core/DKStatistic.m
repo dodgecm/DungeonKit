@@ -49,18 +49,25 @@
     
     if (!modifier) { return; }
     
+    [_modifiers addObject:modifier];
+    [modifier wasAppliedToStatistic:self];
+    [modifier addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
+    
     if ([modifier isKindOfClass:[DKDependentModifier class]]) {
         //If this is a dependent modifier, we need to do some special checks to make sure we don't have a modifier infinite cycle going on.
         DKDependentModifier* dependentModifier = (DKDependentModifier*) modifier;
-        if (dependentModifier.source == self) {
-            NSLog(@"DungeonKit: WARNING!  Attempted to apply dependent modifier %@ directly to that modifier's source statistic %@", modifier, self);
+        if (dependentModifier.source == self || [self modifierCycleExists]) {
+            
+            [modifier removeFromStatistic];
+            NSLog(@"DungeonKit: WARNING!  Attempted to apply dependent modifier %@ creates a cycle to that modifier's source statistic %@", modifier, self);
             return;
         }
     }
     
-    [_modifiers addObject:modifier];
-    [modifier wasAppliedToStatistic:self];
-    [modifier addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
+    //Sort modifiers since array has changed
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES];
+    [_modifiers sortUsingDescriptors:@[sortDescriptor]];
+    
     [self recalculateValue];
 }
 
@@ -81,10 +88,6 @@
 
 - (void)recalculateValue {
     
-    //Sort modifiers
-    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES];
-    [_modifiers sortUsingDescriptors:@[sortDescriptor]];
-    
     int newScore = _base;
     //Apply modifiers
     for (DKModifier* modifier in _modifiers) {
@@ -92,6 +95,36 @@
     }
     
     self.value = newScore;
+}
+
+- (BOOL) modifierCycleExists {
+    return !isNodeAcyclic(self, [NSMutableSet set]);
+}
+
+BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedStats) {
+    
+    //Basically we're checking for a cycle in a directed graph, where nodes are statistics and modifiers are edges
+    NSMutableSet* childStats = [NSMutableSet set];
+    for (DKModifier* modifier in [statistic modifiers]) {
+        if (![modifier isKindOfClass:[DKDependentModifier class]]) { continue; }
+        
+        DKDependentModifier* dependentModifier = (DKDependentModifier*) modifier;
+        [childStats addObject:dependentModifier.source];
+    }
+    
+    if ([visitedStats intersectsSet: childStats]) { return NO; }
+    for (DKModifier* modifier in [statistic modifiers]) {
+        if (![modifier isKindOfClass:[DKDependentModifier class]]) { continue; }
+        
+        DKDependentModifier* dependentModifier = (DKDependentModifier*) modifier;
+        NSObject<DKModifierOwner>* childStat = dependentModifier.source;
+        [visitedStats addObject:childStat];
+        BOOL isChildAcyclic = isNodeAcyclic(childStat, visitedStats);
+        [visitedStats removeObject:childStat];
+        if (isChildAcyclic == NO) { return NO; }
+    }
+    
+    return YES;
 }
 
 @end
