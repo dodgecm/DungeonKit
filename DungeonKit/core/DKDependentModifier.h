@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "DKModifier.h"
 
-typedef int (^DKDependantModifierBlockType)(int valueToModify);
+typedef int (^DKDependentModifierBlockType)(int valueToModify);
 
-/** The DKModifier class represents a modifier whose value is dependant on another statistic.  For example, the 
+/** The DKModifier class represents a modifier whose value is dependent on another statistic.  For example, the 
  initiative statistic is modified by the character's dexterity score, most skills are modified by the proficiency bonus, etc.
  
  For most use cases, it's best to generate DKDependantModifier objects from the owner DKStatistic class directly.
  */
-@interface DKDependantModifier : DKModifier
+@interface DKDependentModifier : DKModifier
 
 - (id)initWithValue:(int)value
            priority:(DKModifierPriority)priority
@@ -27,13 +27,13 @@ typedef int (^DKDependantModifierBlockType)(int valueToModify);
     @param priority Describes when this modifier should be applied relative to other modifiers applied to the same statistic.
     @param block A function to perform the modification. */
 - (id)initWithSource:(NSObject<DKModifierOwner>*)source
-               value:(DKDependantModifierBlockType)valueBlock
+               value:(DKDependentModifierBlockType)valueBlock
             priority:(DKModifierPriority)priority
                block:(DKModifierBlockType)block;
 
 /** The statistic to which this modifier is currently applied, if any. */
 @property (nonatomic, weak, readonly) NSObject<DKModifierOwner>* source;
 /** A method that calculates the value of the modifier from the value of the source. */
-@property (nonatomic, copy, readonly) DKDependantModifierBlockType valueBlock;
+@property (nonatomic, copy, readonly) DKDependentModifierBlockType valueBlock;
 
 @end

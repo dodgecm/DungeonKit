@@ -8,63 +8,29 @@
 
 #import "DKCharacter.h"
 #import "DKStatisticIdentifiers.h"
+#import "DKConstants.h"
+
+
+@interface DKCharacter()
+@property (nonatomic, strong) NSDictionary* keyPaths;
+@end
 
 @implementation DKCharacter
 
-@synthesize level = _level;
-@synthesize abilities = _abilities;
-@synthesize proficiencyBonus = _proficiencyBonus;
-@synthesize armorClass = _armorClass;
-@synthesize initiativeBonus = _initiativeBonus;
-@synthesize movementSpeed = _movementSpeed;
+@synthesize keyPaths = _keyPaths;
 
-static NSDictionary* keyPaths;
-
-+ (void) buildKeyPaths {
-    keyPaths = @{
-                 DKStatIDLevel: @"level",
-                 DKStatIDProficiencyBonus: @"proficiencyBonus",
-                 DKStatIDArmorClass: @"armorClass",
-                 DKStatIDInitiative: @"initiativeBonus",
-                 DKStatIDMoveSpeed: @"movementSpeed",
-                 
-                 DKStatIDStrength: @"abilities.strength",
-                 DKStatIDDexterity: @"abilities.dexterity",
-                 DKStatIDConstitution: @"abilities.constitution",
-                 DKStatIDIntelligence: @"abilities.intelligence",
-                 DKStatIDWisdom: @"abilities.wisdom",
-                 DKStatIDCharisma: @"abilities.charisma",
-                 };
++ (NSDictionary*) buildKeyPaths {
+    return @{};
 }
 
-+ (NSArray*) allStatisticIDs {
-    
-    if (!keyPaths) {
-        [DKCharacter buildKeyPaths];
-    }
-    return [keyPaths allKeys];
-}
 
-+ (NSArray*) allKeyPaths {
+- (NSArray*) allKeyPaths {
     
-    if (!keyPaths) {
-        [DKCharacter buildKeyPaths];
-    }
-    return [keyPaths allValues];
-}
-
-+ (NSString*) keyPathForStatisticID: (NSString*) statisticID {
-    
-    if (!statisticID) { return nil; }
-    
-    if (!keyPaths) {
-        [DKCharacter buildKeyPaths];
-    }
-    return [keyPaths objectForKey:statisticID];
+    return [_keyPaths allValues];
 }
 
 - (void)dealloc {
-    for (NSString* keyPath in [DKCharacter allKeyPaths]) {
+    for (NSString* keyPath in [self allKeyPaths]) {
         [self removeObserver:self forKeyPath:keyPath];
     }
 }
@@ -73,14 +39,9 @@ static NSDictionary* keyPaths;
     self = [super init];
     if (self) {
         
-        self.level = [DKStatistic statisticWithBase:1];
-        self.proficiencyBonus = [DKStatistic statisticWithBase:2];
-        self.abilities = [[DKAbilities alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
-        self.armorClass = [DKStatistic statisticWithBase:10];
-        self.initiativeBonus = [DKStatistic statisticWithBase:0];
-        self.movementSpeed = [DKStatistic statisticWithBase:0];
+        _keyPaths = [[self class] buildKeyPaths];
         
-        for (NSString* keyPath in [DKCharacter allKeyPaths]) {
+        for (NSString* keyPath in [self allKeyPaths]) {
             [self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:nil];
         }
     }
@@ -91,13 +52,19 @@ static NSDictionary* keyPaths;
     //One of our statistics got replaced, so transfer the modifiers from the old object to the new object
     DKStatistic* oldStat = change[@"old"];
     DKStatistic* newStat = change[@"new"];
-    for (DKModifier* modifier in oldStat.modifiers) {
-        [newStat applyModifier:modifier];
+    
+    //If one of the values is NSNull, skip modifier application
+    if (![oldStat isEqual:[NSNull null]] && ![newStat isEqual:[NSNull null]]) {
+    
+        for (DKModifier* modifier in oldStat.modifiers) {
+            [newStat applyModifier:modifier];
+        }
     }
-}
-
-- (DKStatistic*)statisticForID:(NSString*)statisticID {
-    return [self valueForKeyPath:statisticID];
+        
+    //Send out a notification so all the DKDependantModifiers can update their parent objects
+    [[NSNotificationCenter defaultCenter] postNotificationName:DKStatObjectChangedNotification
+                                                        object:oldStat
+                                                      userInfo:change];
 }
 
 @end

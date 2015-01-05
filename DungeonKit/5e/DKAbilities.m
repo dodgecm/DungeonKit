@@ -35,6 +35,19 @@
     _abilityModifier = floor((self.value - 10) / 2.0);
 }
 
+- (DKDependentModifier*) modifierFromAbilityScore {
+    
+    DKDependentModifier* dependentModifier = [[DKDependentModifier alloc] initWithSource:self
+                                                                                   value:^int(int valueToModify) {
+                                                                                       return valueToModify;
+                                                                                   }
+                                                                                priority:kDKModifierPriority_Additive
+                                                                                   block:^int(int modifierValue, int valueToModify) {
+                                                                                       return valueToModify + floor((modifierValue - 10) / 2.0);
+                                                                                   }];
+    return dependentModifier;
+}
+
 - (NSString*) formattedAbilityModifier {
     
     NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];

@@ -52,6 +52,20 @@
     XCTAssertEqual(stat.value, 10, @"Modified statistic should not update score when removed modifier is changed after the fact.");
 }
 
+- (void)testModifierSorting {
+    
+    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* secondModifier = [[DKModifier alloc] initWithValue:18
+                                                          priority:kDKModifierPriority_Clamping
+                                                             block:^int(int modifierValue, int valueToModify) {
+                                                                 return MAX(modifierValue, valueToModify);
+                                                             }];
+    [stat applyModifier:secondModifier];
+    [stat applyModifier:modifier];
+    XCTAssertEqual(stat.value, 18, @"Modifiers should be applied in the correct value.");
+}
+
 - (void)testModifierAdditionErrorCase {
     
     DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];

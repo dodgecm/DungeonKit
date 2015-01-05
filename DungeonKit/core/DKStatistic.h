@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DKModifier.h"
+#import "DKDependentModifier.h"
 
 @interface DKStatistic : NSObject <DKModifierOwner>
 

@@ -8,6 +8,10 @@
 
 #import "DKStatistic.h"
 
+@interface DKStatistic()
+@property (nonatomic, readwrite) int value;
+@end
+
 @implementation DKStatistic {
     NSMutableArray* _modifiers;
 }
@@ -45,6 +49,15 @@
     
     if (!modifier) { return; }
     
+    if ([modifier isKindOfClass:[DKDependentModifier class]]) {
+        //If this is a dependent modifier, we need to do some special checks to make sure we don't have a modifier infinite cycle going on.
+        DKDependentModifier* dependentModifier = (DKDependentModifier*) modifier;
+        if (dependentModifier.source == self) {
+            NSLog(@"DungeonKit: WARNING!  Attempted to apply dependent modifier %@ directly to that modifier's source statistic %@", modifier, self);
+            return;
+        }
+    }
+    
     [_modifiers addObject:modifier];
     [modifier wasAppliedToStatistic:self];
     [modifier addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
@@ -69,6 +82,8 @@
 - (void)recalculateValue {
     
     //Sort modifiers
+    NSSortDescriptor* sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES];
+    [_modifiers sortUsingDescriptors:@[sortDescriptor]];
     
     int newScore = _base;
     //Apply modifiers
@@ -76,7 +91,7 @@
         newScore = [modifier modifyStatistic:newScore];
     }
     
-    _value = newScore;
+    self.value = newScore;
 }
 
 @end
