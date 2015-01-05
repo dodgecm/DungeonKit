@@ -54,10 +54,14 @@
 + (id)modifierWithAdditiveBonus:(int)bonus {
     DKModifier* modifier = [[DKModifier alloc] initWithValue:bonus
                                                     priority:kDKModifierPriority_Additive
-                                                       block:^int(int modifierValue, int valueToModify) {
-                                return modifierValue + valueToModify;
-                            }];
+                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
     return modifier;
+}
+
++ (DKModifierBlockType)simpleAdditionModifierBlock {
+    return ^int(int modifierValue, int valueToModify) {
+        return modifierValue + valueToModify;
+    };
 }
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "DKCharacter5E.h"
+#import "DKDependentModifier+5E.h"
 
 @implementation DKCharacter5E
 
@@ -40,6 +41,9 @@
         
         self.level = [DKStatistic statisticWithBase:1];
         self.proficiencyBonus = [DKStatistic statisticWithBase:2];
+        DKDependentModifier* levelModifier = [DKDependentModifierBuilder proficiencyBonusModifierFromLevel:_level];
+        [_proficiencyBonus applyModifier:levelModifier];
+        
         self.abilities = [[DKAbilities alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
         self.armorClass = [DKStatistic statisticWithBase:10];
         self.initiativeBonus = [DKStatistic statisticWithBase:0];

@@ -65,4 +65,18 @@
     XCTAssertEqual(character.armorClass.value, 10, @"Dependant modifiers should be removed if the owner statistic is removed.");
 }
 
+- (void)testProficiencyBonus {
+    DKCharacter5E* character = [[DKCharacter5E alloc] init];
+    for (int i = 1; i < 5; i++) {
+        character.level.base = i;
+        XCTAssertEqual(character.proficiencyBonus.value, 2, @"Proficiency bonus should start at +2 for a level 1-4 character.");
+    }
+    
+    character.level.base = 5;
+    XCTAssertEqual(character.proficiencyBonus.value, 3, @"Proficiency bonus should go to +3 for a level 5 character.");
+    
+    character.level.base = 9;
+    XCTAssertEqual(character.proficiencyBonus.value, 4, @"Proficiency bonus should go to +4 for a level 9 character.");
+}
+
 @end

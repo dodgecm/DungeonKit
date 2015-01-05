@@ -99,14 +99,16 @@
 
 + (id)simpleModifierFromSource:(NSObject<DKModifierOwner>*)source {
     DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
-                                                                          value:^int(int valueToModify) {
-                                                                              return valueToModify;
-                                                                          }
+                                                                          value:[DKDependentModifierBuilder simpleValueBlock]
                                                                        priority:kDKModifierPriority_Additive
-                                                                          block:^int(int modifierValue, int valueToModify) {
-                                                                              return modifierValue + valueToModify;
-                                                                          }];
+                                                                          block:[DKModifierBuilder simpleAdditionModifierBlock]];
     return modifier;
+}
+
++ (DKDependentModifierBlockType)simpleValueBlock {
+    return ^int(int valueToModify) {
+        return valueToModify;
+    };
 }
 
 @end

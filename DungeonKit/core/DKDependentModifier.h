@@ -44,4 +44,7 @@ typedef int (^DKDependentModifierBlockType)(int valueToModify);
 /** Initializes a modifier from the source object that simply adds the source's value to the modifier's owner. */
 + (id)simpleModifierFromSource:(NSObject<DKModifierOwner>*)source;
 
+/** A block that simply uses source's value as the modifier value. */
++ (DKDependentModifierBlockType)simpleValueBlock;
+
 @end
