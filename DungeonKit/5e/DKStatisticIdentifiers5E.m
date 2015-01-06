@@ -21,3 +21,10 @@ NSString *const DKStatIDConstitution = @"DKConstitution";
 NSString *const DKStatIDIntelligence = @"DKIntelligence";
 NSString *const DKStatIDWisdom = @"DKWisdom";
 NSString *const DKStatIDCharisma = @"DKCharisma";
+
+NSString *const DKStatIDSavingThrowStrength = @"DKSavingThrowStrength";
+NSString *const DKStatIDSavingThrowDexterity = @"DKSavingThrowDexterity";
+NSString *const DKStatIDSavingThrowConstitution = @"DKSavingThrowConstitution";
+NSString *const DKStatIDSavingThrowIntelligence = @"DKSavingThrowIntelligence";
+NSString *const DKStatIDSavingThrowWisdom = @"DKSavingThrowWisdom";
+NSString *const DKStatIDSavingThrowCharisma = @"DKSavingThrowCharisma";

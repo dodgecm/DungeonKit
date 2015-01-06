@@ -13,6 +13,7 @@
 
 @synthesize level = _level;
 @synthesize abilities = _abilities;
+@synthesize savingThrows = _savingThrows;
 @synthesize proficiencyBonus = _proficiencyBonus;
 @synthesize armorClass = _armorClass;
 @synthesize initiativeBonus = _initiativeBonus;
@@ -32,6 +33,13 @@
              DKStatIDIntelligence: @"abilities.intelligence",
              DKStatIDWisdom: @"abilities.wisdom",
              DKStatIDCharisma: @"abilities.charisma",
+             
+             DKStatIDSavingThrowStrength: @"savingThrows.strength",
+             DKStatIDSavingThrowDexterity: @"savingThrows.dexterity",
+             DKStatIDSavingThrowConstitution: @"savingThrows.constitution",
+             DKStatIDSavingThrowIntelligence: @"savingThrows.intelligence",
+             DKStatIDSavingThrowWisdom: @"savingThrows.wisdom",
+             DKStatIDSavingThrowCharisma: @"savingThrows.charisma",
              };
 }
 
@@ -52,6 +60,7 @@
         
         //Initialize ability score block
         self.abilities = [[DKAbilities5E alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
+        self.savingThrows = [[DKSavingThrows5E alloc] initWithAbilities:_abilities];
         
         //Initialize armor class so that it gets a bonus from dexterity
         self.armorClass = [DKStatistic statisticWithBase:10];

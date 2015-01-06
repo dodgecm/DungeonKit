@@ -37,6 +37,7 @@
 		B3E40D6B1A5BD096004342F3 /* DKSavingThrows5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D691A5BD096004342F3 /* DKSavingThrows5E.m */; };
 		B3E40D6E1A5BD15B004342F3 /* DKStatisticIdentifiers5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E40D6C1A5BD15B004342F3 /* DKStatisticIdentifiers5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3E40D6F1A5BD15B004342F3 /* DKStatisticIdentifiers5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D6D1A5BD15B004342F3 /* DKStatisticIdentifiers5E.m */; };
+		B3F5883C1A5BE2D400E6A745 /* DKSavingThrowsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F5883B1A5BE2D400E6A745 /* DKSavingThrowsTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		B3E40D691A5BD096004342F3 /* DKSavingThrows5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKSavingThrows5E.m; sourceTree = "<group>"; };
 		B3E40D6C1A5BD15B004342F3 /* DKStatisticIdentifiers5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKStatisticIdentifiers5E.h; sourceTree = "<group>"; };
 		B3E40D6D1A5BD15B004342F3 /* DKStatisticIdentifiers5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStatisticIdentifiers5E.m; sourceTree = "<group>"; };
+		B3F5883B1A5BE2D400E6A745 /* DKSavingThrowsTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKSavingThrowsTests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -201,6 +203,7 @@
 				B3E40D5E1A57E587004342F3 /* DKCharacter5ETests.m */,
 				B3E40D531A57E53B004342F3 /* DKAbilitiesTests.m */,
 				B3E40D541A57E53B004342F3 /* DKAbilityScoreTests.m */,
+				B3F5883B1A5BE2D400E6A745 /* DKSavingThrowsTests.m */,
 			);
 			path = 5e;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */,
+				B3F5883C1A5BE2D400E6A745 /* DKSavingThrowsTests.m in Sources */,
 				B3E40D611A5A4D66004342F3 /* DKDependentModifierTests.m in Sources */,
 				B3E40D5C1A57E53B004342F3 /* DKModifierTests.m in Sources */,
 				B3E40D5A1A57E53B004342F3 /* DKAbilityScoreTests.m in Sources */,

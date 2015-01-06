@@ -126,4 +126,9 @@
     return self;
 }
 
+- (NSString*) description {
+    return [NSString stringWithFormat:@"Abilities - STR:%@ DEX:%@ CON:%@ INT:%@ WIS:%@ CHA:%@",
+            _strength, _dexterity, _constitution, _intelligence, _wisdom, _charisma];
+}
+
 @end

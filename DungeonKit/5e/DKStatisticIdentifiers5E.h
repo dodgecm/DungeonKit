@@ -19,3 +19,10 @@ FOUNDATION_EXPORT NSString *const DKStatIDConstitution;
 FOUNDATION_EXPORT NSString *const DKStatIDIntelligence;
 FOUNDATION_EXPORT NSString *const DKStatIDWisdom;
 FOUNDATION_EXPORT NSString *const DKStatIDCharisma;
+
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowStrength;
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowDexterity;
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowConstitution;
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowIntelligence;
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowWisdom;
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowCharisma;

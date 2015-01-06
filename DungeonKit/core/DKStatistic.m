@@ -124,4 +124,8 @@ BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedSt
     return YES;
 }
 
+- (NSString*)description {
+    return [NSString stringWithFormat:@"%i", self.value];
+}
+
 @end
