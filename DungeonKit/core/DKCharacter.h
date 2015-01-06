@@ -13,4 +13,9 @@
     
 }
 
+- (DKStatistic*)statisticForID:(NSString*)statID;
+- (void)addKeyPath:(NSString*)keyPath forStatisticID:(NSString*)statID;
+- (void)setStatistic:(DKStatistic*)statistic forStatisticID:(NSString*)statID;
+- (void)removeStatisticWithID:(NSString*)statID;
+
 @end

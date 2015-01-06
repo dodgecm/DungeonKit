@@ -31,18 +31,17 @@
     XCTAssertNotNil([[DKCharacter5E alloc] init], @"Constructors should return non-nil object.");
 }
 
-- (void)testStatisticChange {
+- (void)testMultipleModifiers {
     
     DKCharacter5E* character = [[DKCharacter5E alloc] init];
+    character.abilities.dexterity.base = 14;
     character.armorClass = [[DKStatistic alloc] initWithBase:10];
     [character.armorClass applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
     XCTAssertEqual(character.armorClass.value, 12, @"Character should start off with the correct armor class value.");
-    character.armorClass = [[DKStatistic alloc] initWithBase:8];
-    XCTAssertEqual(character.armorClass.value, 10, @"Modifier should still be applied after the armor class gets replaced.");
     
     DKDependentModifier* dependentModifier = [character.abilities.dexterity modifierFromAbilityScore];
     [character.armorClass applyModifier:dependentModifier];
-    XCTAssertEqual(character.armorClass.value, 11, @"Modifier should still be applied after the armor class gets replaced.");
+    XCTAssertEqual(character.armorClass.value, 14, @"Modifier should still be applied properly.");
 }
 
 - (void)testDependentModifier {
@@ -77,6 +76,24 @@
     
     character.level.base = 9;
     XCTAssertEqual(character.proficiencyBonus.value, 4, @"Proficiency bonus should go to +4 for a level 9 character.");
+}
+
+- (void)testArmorClass {
+    DKCharacter5E* character = [[DKCharacter5E alloc] init];
+    character.abilities.dexterity.base = 10;
+    XCTAssertEqual(character.armorClass.value, 10, @"Armor class should default to 10.");
+    
+    character.abilities.dexterity.base = 14;
+    XCTAssertEqual(character.armorClass.value, 12, @"Armor class should get bonuses from dexterity.");
+}
+
+- (void)testInitiative {
+    DKCharacter5E* character = [[DKCharacter5E alloc] init];
+    character.abilities.dexterity.base = 10;
+    XCTAssertEqual(character.initiativeBonus.value, 0, @"Initiative should default to +0.");
+    
+    character.abilities.dexterity.base = 14;
+    XCTAssertEqual(character.initiativeBonus.value, 2, @"Initiative should get bonuses from dexterity.");
 }
 
 @end

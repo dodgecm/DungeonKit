@@ -10,6 +10,14 @@
 #import <XCTest/XCTest.h>
 #import "DKCharacter.h"
 
+@interface DKTestCharacter : DKCharacter
+@property (nonatomic, strong) DKStatistic* testStatistic;
+@end
+
+@implementation DKTestCharacter
+@synthesize testStatistic = _testStatistic;
+@end
+
 @interface DKCharacterTests : XCTestCase
 
 @end
@@ -31,14 +39,58 @@
     XCTAssertNotNil([[DKCharacter alloc] init], @"Constructors should return non-nil object.");
 }
 
-- (void)testStatisticChange {
+- (void)testDealloc {
     
-    /*DKCharacter* character = [[DKCharacter alloc] init];
-    character.armorClass = [[DKStatistic alloc] initWithBase:10];
-    [character.armorClass applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
-    XCTAssertEqual(character.armorClass.value, 12, @"Character should start off with the correct armor class value.");
-    character.armorClass = [[DKStatistic alloc] initWithBase:8];
-    XCTAssertEqual(character.armorClass.value, 10, @"Modifier should still be applied after the armor class gets replaced.");*/
+    DKTestCharacter* character = [[DKTestCharacter alloc] init];
+    [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
+}
+
+- (void)testStatisticGetters {
+    
+    DKTestCharacter* character = [[DKTestCharacter alloc] init];
+    DKStatistic* testStat = [DKStatistic statisticWithBase:10];
+    character.testStatistic = testStat;
+    [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
+    XCTAssertEqual(testStat, [character statisticForID:@"test"], @"Statistic should be registered with its identifier properly.");
+    
+    [character removeStatisticWithID:@"test"];
+    XCTAssertNil([character statisticForID:@"test"], @"Statistic should be removed properly.");
+    
+    [character setStatistic:testStat forStatisticID:@"test"];
+    XCTAssertEqual(testStat, [character statisticForID:@"test"], @"Statistic should be registered with its identifier properly.");
+}
+
+- (void)testStatisticSetter {
+    
+    DKTestCharacter* character = [[DKTestCharacter alloc] init];
+    DKStatistic* testStat = [DKStatistic statisticWithBase:10];
+    XCTAssertNil([character statisticForID:@"test"], @"Statistic should be start off as nil.");
+    
+    [character setStatistic:testStat forStatisticID:@"test"];
+    XCTAssertEqual(10, [character statisticForID:@"test"].value, @"Statistic should be registered with its identifier properly.");
+    XCTAssertEqual(testStat, [character statisticForID:@"test"], @"Statistic should be registered with its identifier properly.");
+}
+
+- (void)testAddKeyPath {
+    
+    DKTestCharacter* character = [[DKTestCharacter alloc] init];
+    character.testStatistic = [DKStatistic statisticWithBase:10];
+    [character.testStatistic applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
+
+    [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
+    XCTAssertEqual(character.testStatistic.value, 12, @"Statistic should calculate modifier properly.");
+}
+
+- (void)testStatisticToKeyPath {
+    
+    DKTestCharacter* character = [[DKTestCharacter alloc] init];
+    character.testStatistic = [DKStatistic statisticWithBase:10];
+    DKStatistic* secondStatistic = [DKStatistic statisticWithBase:8];
+    [secondStatistic applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
+    
+    [character setStatistic:secondStatistic forStatisticID:@"test"];
+    [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
+    XCTAssertEqual([character statisticForID:@"test"].value, 10, @"Statistic should transfer modifiers when a statistic ID is replaced.");
 }
 
 @end
