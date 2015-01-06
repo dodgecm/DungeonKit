@@ -22,6 +22,7 @@ FOUNDATION_EXPORT const unsigned char DungeonKitVersionString[];
 #import <DungeonKit/DKDependentModifier.h>
 
 #import <DungeonKit/DKCharacter5E.h>
-#import <DungeonKit/DKStatisticIdentifiers.h>
-#import <DungeonKit/DKAbilities.h>
+#import <DungeonKit/DKStatisticIdentifiers5E.h>
 #import <DungeonKit/DKDependentModifier+5E.h>
+#import <DungeonKit/DKAbilities5E.h>
+#import <DungeonKit/DKSavingThrows5E.h>

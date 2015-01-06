@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Dodge. All rights reserved.
 //
 
-#import "DKAbilities.h"
+#import "DKAbilities5E.h"
 #import "DKStatisticIdentifiers.h"
 
 @implementation DKAbilityScore
@@ -62,7 +62,7 @@
 
 @end
 
-@implementation DKAbilities
+@implementation DKAbilities5E
 
 @synthesize strength = _strength;
 @synthesize dexterity = _dexterity;

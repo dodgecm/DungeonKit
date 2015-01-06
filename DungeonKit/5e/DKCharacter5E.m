@@ -51,7 +51,7 @@
         [_proficiencyBonus applyModifier:levelModifier];
         
         //Initialize ability score block
-        self.abilities = [[DKAbilities alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
+        self.abilities = [[DKAbilities5E alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
         
         //Initialize armor class so that it gets a bonus from dexterity
         self.armorClass = [DKStatistic statisticWithBase:10];

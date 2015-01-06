@@ -7,7 +7,7 @@
 //
 
 #import "DKCharacter.h"
-#import "DKStatisticIdentifiers.h"
+#import "DKStatisticIdentifiers5E.h"
 #import "DKConstants.h"
 
 

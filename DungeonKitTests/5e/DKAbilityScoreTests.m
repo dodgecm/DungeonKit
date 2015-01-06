@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "DKAbilities.h"
+#import "DKAbilities5E.h"
 
 @interface DKAbilityScoreTests : XCTestCase
 

@@ -7,15 +7,15 @@
 //
 
 #import "DKCharacter.h"
-#import "DKStatisticIdentifiers.h"
-#import "DKAbilities.h"
+#import "DKStatisticIdentifiers5E.h"
+#import "DKAbilities5E.h"
 
 @interface DKCharacter5E : DKCharacter
 
 @property (nonatomic, strong) DKStatistic* level;
 @property (nonatomic, strong) DKStatistic* proficiencyBonus;
 
-@property (nonatomic, strong) DKAbilities* abilities;
+@property (nonatomic, strong) DKAbilities5E* abilities;
 
 @property (nonatomic, strong) DKStatistic* armorClass;
 @property (nonatomic, strong) DKStatistic* initiativeBonus;

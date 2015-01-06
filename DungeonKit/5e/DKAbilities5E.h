@@ -22,7 +22,7 @@
 
 @end
 
-@interface DKAbilities : NSObject
+@interface DKAbilities5E : NSObject
 
 @property (nonatomic, strong) DKAbilityScore* strength;
 @property (nonatomic, strong) DKAbilityScore* dexterity;
