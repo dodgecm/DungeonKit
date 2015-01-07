@@ -59,7 +59,7 @@
         if (dependentModifier.source == self || [self modifierCycleExists]) {
             
             [modifier removeFromStatistic];
-            NSLog(@"DungeonKit: WARNING!  Attempted to apply dependent modifier %@ that will create a cycle to that modifier's source statistic %@.  The modifier will not be applied.", modifier, self);
+            NSLog(@"DKStatistic: WARNING!  Attempted to apply dependent modifier %@ that will create a cycle to that modifier's source statistic %@.  The modifier will not be applied.", modifier, self);
             return;
         }
     }
@@ -79,6 +79,17 @@
     [modifier removeObserver:self forKeyPath:@"value"];
     [_modifiers removeObject:modifier];
     [self recalculateValue];
+}
+
+- (void)willBecomeSourceForModifier:(DKDependentModifier*)modifier {
+    
+    if ([self modifierCycleExists]) {
+        
+        NSLog(@"DKStatistic: WARNING!  Attempted to change statistic %@ which will create a modifier cycle.  All modifiers for this statistic will be removed.", self);
+        for (DKModifier* modifier in _modifiers) {
+            [modifier removeFromStatistic];
+        }
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -122,10 +133,6 @@ BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedSt
     }
     
     return YES;
-}
-
-- (NSString*)description {
-    return [NSString stringWithFormat:@"%i", self.value];
 }
 
 @end

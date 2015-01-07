@@ -11,6 +11,6 @@
 /** The DKDependentModifierBuilder class provides convenience initialization methods for generating common modifiers from statistics. */
 @interface DKDependentModifierBuilder (FifthEdition)
 
-+ (id)proficiencyBonusModifierFromLevel:(NSObject<DKModifierOwner>*)source;
++ (id)proficiencyBonusModifierFromLevel:(NSObject<DKDependentModifierOwner>*)source;
 
 @end

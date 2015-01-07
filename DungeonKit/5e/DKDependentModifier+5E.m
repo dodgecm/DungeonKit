@@ -10,7 +10,7 @@
 
 @implementation DKDependentModifierBuilder (FifthEdition)
 
-+ (id)proficiencyBonusModifierFromLevel:(NSObject<DKModifierOwner>*)source {
++ (id)proficiencyBonusModifierFromLevel:(NSObject<DKDependentModifierOwner>*)source {
     
     DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
                                                                           value:^int(int valueToModify) {

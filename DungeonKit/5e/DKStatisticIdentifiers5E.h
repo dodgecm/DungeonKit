@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 Dodge. All rights reserved.
 //
 
-//! Project version number for DungeonKit.
 FOUNDATION_EXPORT NSString *const DKStatIDLevel;
 FOUNDATION_EXPORT NSString *const DKStatIDProficiencyBonus;
 FOUNDATION_EXPORT NSString *const DKStatIDArmorClass;

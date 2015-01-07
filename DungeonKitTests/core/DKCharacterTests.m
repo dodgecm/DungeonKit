@@ -12,10 +12,12 @@
 
 @interface DKTestCharacter : DKCharacter
 @property (nonatomic, strong) DKStatistic* testStatistic;
+@property (nonatomic, strong) DKStatistic* testStatistic2;
 @end
 
 @implementation DKTestCharacter
 @synthesize testStatistic = _testStatistic;
+@synthesize testStatistic2 = _testStatistic2;
 @end
 
 @interface DKCharacterTests : XCTestCase
@@ -91,6 +93,21 @@
     [character setStatistic:secondStatistic forStatisticID:@"test"];
     [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
     XCTAssertEqual([character statisticForID:@"test"].value, 10, @"Statistic should transfer modifiers when a statistic ID is replaced.");
+}
+
+- (void)testModifierCycle {
+    
+    DKTestCharacter* character = [[DKTestCharacter alloc] init];
+    [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
+    [character addKeyPath:@"testStatistic2" forStatisticID:@"test2"];
+    character.testStatistic = [DKStatistic statisticWithBase:10];
+    character.testStatistic2 = [DKStatistic statisticWithBase:10];
+    [character.testStatistic applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:character.testStatistic2]];
+    
+    DKStatistic* newStatistic2 = [DKStatistic statisticWithBase:8];
+    [newStatistic2 applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:character.testStatistic]];
+    character.testStatistic2 = newStatistic2;
+    XCTAssertEqual(character.testStatistic2.modifiers.count, 0, @"Statistic should drop all its modifiers instead of creating a modifier cycle.");
 }
 
 @end

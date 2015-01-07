@@ -22,7 +22,7 @@
     [_source removeObserver:self forKeyPath:@"value"];
 }
 
-- (id)initWithSource:(NSObject<DKModifierOwner>*)source
+- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
                value:(DKDependentModifierBlockType)valueBlock
             priority:(DKModifierPriority)priority
                block:(DKModifierBlockType)block {
@@ -54,7 +54,7 @@
 
 - (void)sourceChanged:(NSNotification*)notif {
     
-    NSObject<DKModifierOwner>* newSource = notif.userInfo[@"new"];
+    NSObject<DKDependentModifierOwner>* newSource = notif.userInfo[@"new"];
     //Catch the case where the new value is null at this entry point to simplify the handling
     if ([newSource isEqual:[NSNull null]]) {
         newSource = nil;
@@ -63,13 +63,14 @@
     [self setSource:newSource];
 }
 
-- (void)setSource:(NSObject<DKModifierOwner>*)source {
+- (void)setSource:(NSObject<DKDependentModifierOwner>*)source {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DKStatObjectChangedNotification object:_source];
     [_source removeObserver:self forKeyPath:@"value"];
     _source = source;
     
     if (_source) {
+        [_source willBecomeSourceForModifier:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sourceChanged:) name:DKStatObjectChangedNotification object:_source];
         [_source addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
     } else {
@@ -93,11 +94,15 @@
     }
 }
 
+- (NSString*)description {
+    return [NSString stringWithFormat:@"Dependent modifier with source: %@, value: %i", _source, _source.value];
+}
+
 @end
 
 @implementation DKDependentModifierBuilder
 
-+ (id)simpleModifierFromSource:(NSObject<DKModifierOwner>*)source {
++ (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source {
     DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
                                                                           value:[DKDependentModifierBuilder simpleValueBlock]
                                                                        priority:kDKModifierPriority_Additive
