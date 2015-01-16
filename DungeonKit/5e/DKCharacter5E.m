@@ -80,7 +80,7 @@
         
         //Initialize ability score block and saving throws
         self.abilities = [[DKAbilities5E alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
-        self.savingThrows = [[DKSavingThrows5E alloc] initWithAbilities:_abilities];
+        self.savingThrows = [[DKSavingThrows5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
         self.skills = [[DKSkills5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
         
         //Initialize armor class so that it gets a bonus from dexterity

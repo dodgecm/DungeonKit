@@ -28,12 +28,14 @@
 
 - (void)testConstructors {
     DKAbilities5E* abilities = [[DKAbilities5E alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
-    XCTAssertNotNil([[DKSavingThrows5E alloc] initWithAbilities:abilities], @"Constructors should return non-nil object.");
+    DKStatistic* proficiencyBonus = [DKStatistic statisticWithBase:2];
+    XCTAssertNotNil([[DKSavingThrows5E alloc] initWithAbilities:abilities proficiencyBonus:proficiencyBonus], @"Constructors should return non-nil object.");
 }
 
 - (void)testSaveValues {
     DKAbilities5E* abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
-    DKSavingThrows5E* saves = [[DKSavingThrows5E alloc] initWithAbilities:abilities];
+    DKStatistic* proficiencyBonus = [DKStatistic statisticWithBase:2];
+    DKSavingThrows5E* saves = [[DKSavingThrows5E alloc] initWithAbilities:abilities proficiencyBonus:proficiencyBonus];
     XCTAssertEqual(saves.constitution.value, 0, @"Saving throw modifier should default to 0.");
     
     abilities.constitution.base = 14;
