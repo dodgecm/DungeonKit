@@ -10,6 +10,11 @@
 		B32C77381A494A2700870150 /* DungeonKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77371A494A2700870150 /* DungeonKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32C773E1A494A2700870150 /* DungeonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B32C77321A494A2700870150 /* DungeonKit.framework */; };
 		B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77441A494A2700870150 /* DungeonKitTests.m */; };
+		B3C605D01A68EE7C007FADAB /* DKSkills5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C605CE1A68EE7C007FADAB /* DKSkills5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3C605D11A68EE7C007FADAB /* DKSkills5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605CF1A68EE7C007FADAB /* DKSkills5E.m */; };
+		B3C605D41A68F90E007FADAB /* DKProficientStatistic.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C605D21A68F90E007FADAB /* DKProficientStatistic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3C605D51A68F90E007FADAB /* DKProficientStatistic.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605D31A68F90E007FADAB /* DKProficientStatistic.m */; };
+		B3C605D71A691282007FADAB /* DKProficientStatisticTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605D61A691282007FADAB /* DKProficientStatisticTests.m */; };
 		B3E40D391A57D20C004342F3 /* DKCharacter.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E40D311A57D20C004342F3 /* DKCharacter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3E40D3A1A57D20C004342F3 /* DKCharacter.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D321A57D20C004342F3 /* DKCharacter.m */; };
 		B3E40D3B1A57D20C004342F3 /* DKDependentModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E40D331A57D20C004342F3 /* DKDependentModifier.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -57,6 +62,11 @@
 		B32C773D1A494A2700870150 /* DungeonKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DungeonKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B32C77431A494A2700870150 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B32C77441A494A2700870150 /* DungeonKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DungeonKitTests.m; sourceTree = "<group>"; };
+		B3C605CE1A68EE7C007FADAB /* DKSkills5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKSkills5E.h; sourceTree = "<group>"; };
+		B3C605CF1A68EE7C007FADAB /* DKSkills5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKSkills5E.m; sourceTree = "<group>"; };
+		B3C605D21A68F90E007FADAB /* DKProficientStatistic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKProficientStatistic.h; sourceTree = "<group>"; };
+		B3C605D31A68F90E007FADAB /* DKProficientStatistic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKProficientStatistic.m; sourceTree = "<group>"; };
+		B3C605D61A691282007FADAB /* DKProficientStatisticTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKProficientStatisticTests.m; sourceTree = "<group>"; };
 		B3E40D311A57D20C004342F3 /* DKCharacter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKCharacter.h; sourceTree = "<group>"; };
 		B3E40D321A57D20C004342F3 /* DKCharacter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKCharacter.m; sourceTree = "<group>"; };
 		B3E40D331A57D20C004342F3 /* DKDependentModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDependentModifier.h; sourceTree = "<group>"; };
@@ -189,10 +199,14 @@
 				B3E40D6D1A5BD15B004342F3 /* DKStatisticIdentifiers5E.m */,
 				B3E40D641A5A8F48004342F3 /* DKDependentModifier+5E.h */,
 				B3E40D661A5A93F0004342F3 /* DKDependentModifier+5E.m */,
+				B3C605D21A68F90E007FADAB /* DKProficientStatistic.h */,
+				B3C605D31A68F90E007FADAB /* DKProficientStatistic.m */,
 				B3E40D421A57D2BE004342F3 /* DKAbilities5E.h */,
 				B3E40D431A57D2BE004342F3 /* DKAbilities5E.m */,
 				B3E40D681A5BD096004342F3 /* DKSavingThrows5E.h */,
 				B3E40D691A5BD096004342F3 /* DKSavingThrows5E.m */,
+				B3C605CE1A68EE7C007FADAB /* DKSkills5E.h */,
+				B3C605CF1A68EE7C007FADAB /* DKSkills5E.m */,
 			);
 			path = 5e;
 			sourceTree = "<group>";
@@ -204,6 +218,7 @@
 				B3E40D531A57E53B004342F3 /* DKAbilitiesTests.m */,
 				B3E40D541A57E53B004342F3 /* DKAbilityScoreTests.m */,
 				B3F5883B1A5BE2D400E6A745 /* DKSavingThrowsTests.m */,
+				B3C605D61A691282007FADAB /* DKProficientStatisticTests.m */,
 			);
 			path = 5e;
 			sourceTree = "<group>";
@@ -229,12 +244,14 @@
 				B3E40D651A5A8F48004342F3 /* DKDependentModifier+5E.h in Headers */,
 				B3E40D461A57D2BE004342F3 /* DKAbilities5E.h in Headers */,
 				B32C77381A494A2700870150 /* DungeonKit.h in Headers */,
+				B3C605D41A68F90E007FADAB /* DKProficientStatistic.h in Headers */,
 				B3E40D4F1A57E369004342F3 /* DKConstants.h in Headers */,
 				B3E40D3B1A57D20C004342F3 /* DKDependentModifier.h in Headers */,
 				B3E40D4C1A57D33F004342F3 /* DKCharacter5E.h in Headers */,
 				B3E40D3D1A57D20C004342F3 /* DKModifier.h in Headers */,
 				B3E40D6E1A5BD15B004342F3 /* DKStatisticIdentifiers5E.h in Headers */,
 				B3E40D3F1A57D20C004342F3 /* DKStatistic.h in Headers */,
+				B3C605D01A68EE7C007FADAB /* DKSkills5E.h in Headers */,
 				B3E40D391A57D20C004342F3 /* DKCharacter.h in Headers */,
 				B3E40D6A1A5BD096004342F3 /* DKSavingThrows5E.h in Headers */,
 			);
@@ -342,7 +359,9 @@
 				B3E40D4D1A57D33F004342F3 /* DKCharacter5E.m in Sources */,
 				B3E40D401A57D20C004342F3 /* DKStatistic.m in Sources */,
 				B3E40D511A57E430004342F3 /* DKConstants.m in Sources */,
+				B3C605D11A68EE7C007FADAB /* DKSkills5E.m in Sources */,
 				B3E40D471A57D2BE004342F3 /* DKAbilities5E.m in Sources */,
+				B3C605D51A68F90E007FADAB /* DKProficientStatistic.m in Sources */,
 				B3E40D6F1A5BD15B004342F3 /* DKStatisticIdentifiers5E.m in Sources */,
 				B3E40D3E1A57D20C004342F3 /* DKModifier.m in Sources */,
 				B3E40D3A1A57D20C004342F3 /* DKCharacter.m in Sources */,
@@ -359,6 +378,7 @@
 				B3E40D5C1A57E53B004342F3 /* DKModifierTests.m in Sources */,
 				B3E40D5A1A57E53B004342F3 /* DKAbilityScoreTests.m in Sources */,
 				B3E40D5F1A57E587004342F3 /* DKCharacter5ETests.m in Sources */,
+				B3C605D71A691282007FADAB /* DKProficientStatisticTests.m in Sources */,
 				B3E40D591A57E53B004342F3 /* DKAbilitiesTests.m in Sources */,
 				B3E40D5D1A57E53B004342F3 /* DKStatisticTests.m in Sources */,
 				B3E40D5B1A57E53B004342F3 /* DKCharacterTests.m in Sources */,

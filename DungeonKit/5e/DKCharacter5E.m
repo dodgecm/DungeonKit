@@ -14,6 +14,7 @@
 @synthesize level = _level;
 @synthesize abilities = _abilities;
 @synthesize savingThrows = _savingThrows;
+@synthesize skills = _skills;
 @synthesize proficiencyBonus = _proficiencyBonus;
 @synthesize armorClass = _armorClass;
 @synthesize initiativeBonus = _initiativeBonus;
@@ -40,6 +41,25 @@
              DKStatIDSavingThrowIntelligence: @"savingThrows.intelligence",
              DKStatIDSavingThrowWisdom: @"savingThrows.wisdom",
              DKStatIDSavingThrowCharisma: @"savingThrows.charisma",
+             
+             DKStatIDSkillAcrobatics: @"skills.acrobatics",
+             DKStatIDSkillAnimalHandling: @"skills.animalHandling",
+             DKStatIDSkillArcana: @"skills.arcana",
+             DKStatIDSkillAthletics: @"skills.athletics",
+             DKStatIDSkillDeception: @"skills.deception",
+             DKStatIDSkillHistory: @"skills.history",
+             DKStatIDSkillInsight: @"skills.insight",
+             DKStatIDSkillIntimidation: @"skills.intimidation",
+             DKStatIDSkillInvestigation: @"skills.investigation",
+             DKStatIDSkillMedicine: @"skills.medicine",
+             DKStatIDSkillNature: @"skills.nature",
+             DKStatIDSkillPerception: @"skills.perception",
+             DKStatIDSkillPerformance: @"skills.performance",
+             DKStatIDSkillPersuasion: @"skills.persuasion",
+             DKStatIDSkillReligion: @"skills.religion",
+             DKStatIDSkillSleightOfHand: @"skills.sleightOfHand",
+             DKStatIDSkillStealth: @"skills.stealth",
+             DKStatIDSkillSurvival: @"skills.survival",
              };
 }
 
@@ -61,6 +81,7 @@
         //Initialize ability score block and saving throws
         self.abilities = [[DKAbilities5E alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
         self.savingThrows = [[DKSavingThrows5E alloc] initWithAbilities:_abilities];
+        self.skills = [[DKSkills5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
         
         //Initialize armor class so that it gets a bonus from dexterity
         self.armorClass = [DKStatistic statisticWithBase:10];

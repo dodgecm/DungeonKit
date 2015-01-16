@@ -73,11 +73,11 @@
         [_source willBecomeSourceForModifier:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sourceChanged:) name:DKStatObjectChangedNotification object:_source];
         [_source addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
+        [self refreshValue];
+        
     } else {
         [self removeFromStatistic];
     }
-    
-    [self refreshValue];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
