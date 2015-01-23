@@ -83,6 +83,9 @@
     DKCharacter5E* character = [[DKCharacter5E alloc] init];
     character.hitPointsMax.base = 10;
     XCTAssertEqual(character.hitPointsCurrent.value, 10, @"Current hit points should reflect changes in maximum HP.");
+    
+    character.hitPointsTemporary.base = 5;
+    XCTAssertEqual(character.hitPointsCurrent.value, 15, @"Current hit points should reflect changes in temporary HP.");
 }
 
 - (void)testArmorClass {

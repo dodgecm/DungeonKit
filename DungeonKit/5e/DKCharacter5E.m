@@ -17,6 +17,7 @@
 @synthesize savingThrows = _savingThrows;
 @synthesize skills = _skills;
 @synthesize hitPointsMax = _hitPointsMax;
+@synthesize hitPointsTemporary = _hitPointsTemporary;
 @synthesize hitPointsCurrent = _hitPointsCurrent;
 @synthesize armorClass = _armorClass;
 @synthesize initiativeBonus = _initiativeBonus;
@@ -27,6 +28,7 @@
              DKStatIDLevel: @"level",
              DKStatIDProficiencyBonus: @"proficiencyBonus",
              DKStatIDHitPointsMax: @"hitPointsMax",
+             DKStatIDHitPointsTemporary: @"hitPointsTemporary",
              DKStatIDHitPointsCurrent: @"hitPointsCurrent",
              DKStatIDArmorClass: @"armorClass",
              DKStatIDInitiative: @"initiativeBonus",
@@ -91,8 +93,10 @@
         
         //Link maximum and current HP so that current HP value will update when max HP value changes
         self.hitPointsMax = [DKStatistic statisticWithBase:0];
+        self.hitPointsTemporary = [DKStatistic statisticWithBase:0];
         self.hitPointsCurrent = [DKStatistic statisticWithBase:0];
         [_hitPointsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitPointsMax]];
+        [_hitPointsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitPointsTemporary]];
         
         //Initialize armor class so that it gets a bonus from dexterity
         self.armorClass = [DKStatistic statisticWithBase:10];
