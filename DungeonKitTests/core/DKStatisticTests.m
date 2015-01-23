@@ -28,7 +28,6 @@
 
 - (void)testConstructors {
     
-    XCTAssertNotNil([[DKStatistic alloc] init], @"Constructors should return non-nil object.");
     XCTAssertNotNil([[DKStatistic alloc] initWithBase:10], @"Constructors should return non-nil object.");
     XCTAssertNotNil([DKStatistic statisticWithBase:10], @"Constructors should return non-nil object.");
 }

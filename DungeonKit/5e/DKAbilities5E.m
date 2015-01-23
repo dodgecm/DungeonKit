@@ -13,19 +13,6 @@
 
 @synthesize abilityModifier = _abilityModifier;
 
-+ (id)scoreWithScore: (int) score {
-    DKAbilityScore* newScore = [[[self class] alloc] initWithScore:score];
-    return newScore;
-}
-
-- (id)initWithScore: (int) score {
-    self = [super init];
-    if (self) {
-        self.base = score;
-    }
-    return self;
-}
-
 - (void)setBase:(int)base {
     [super setBase:MAX(0,base)]; //ability score base cannot go below 0
 }
@@ -99,12 +86,12 @@
             NSAssert2([score isKindOfClass:[NSNumber class]],
                       @"Received ability score of type %@ (%@), expected NSNumber", NSStringFromClass([score class]), score);
         }
-        self.strength = [DKAbilityScore scoreWithScore:[scoreArray[0] intValue]];
-        self.dexterity = [DKAbilityScore scoreWithScore:[scoreArray[1] intValue]];
-        self.constitution = [DKAbilityScore scoreWithScore:[scoreArray[2] intValue]];
-        self.intelligence = [DKAbilityScore scoreWithScore:[scoreArray[3] intValue]];
-        self.wisdom = [DKAbilityScore scoreWithScore:[scoreArray[4] intValue]];
-        self.charisma = [DKAbilityScore scoreWithScore:[scoreArray[5] intValue]];
+        self.strength = [DKAbilityScore statisticWithBase:[scoreArray[0] intValue]];
+        self.dexterity = [DKAbilityScore statisticWithBase:[scoreArray[1] intValue]];
+        self.constitution = [DKAbilityScore statisticWithBase:[scoreArray[2] intValue]];
+        self.intelligence = [DKAbilityScore statisticWithBase:[scoreArray[3] intValue]];
+        self.wisdom = [DKAbilityScore statisticWithBase:[scoreArray[4] intValue]];
+        self.charisma = [DKAbilityScore statisticWithBase:[scoreArray[5] intValue]];
     }
     
     return self;
@@ -115,12 +102,12 @@
     self = [super init];
     if (self) {
 
-        self.strength = [DKAbilityScore scoreWithScore:str];
-        self.dexterity = [DKAbilityScore scoreWithScore:dex];
-        self.constitution = [DKAbilityScore scoreWithScore:con];
-        self.intelligence = [DKAbilityScore scoreWithScore:intel];
-        self.wisdom = [DKAbilityScore scoreWithScore:wis];
-        self.charisma = [DKAbilityScore scoreWithScore:cha];
+        self.strength = [DKAbilityScore statisticWithBase:str];
+        self.dexterity = [DKAbilityScore statisticWithBase:dex];
+        self.constitution = [DKAbilityScore statisticWithBase:con];
+        self.intelligence = [DKAbilityScore statisticWithBase:intel];
+        self.wisdom = [DKAbilityScore statisticWithBase:wis];
+        self.charisma = [DKAbilityScore statisticWithBase:cha];
     }
     
     return self;

@@ -19,6 +19,7 @@
 /** An array of modifiers that are currently applied to this statistic. */
 @property (nonatomic, strong, readonly) NSArray* modifiers;
 
+- (id)init __unavailable;
 + (id)statisticWithBase:(int)base;
 - (id)initWithBase:(int)base;
 

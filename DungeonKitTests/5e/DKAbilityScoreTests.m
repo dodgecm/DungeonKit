@@ -27,14 +27,13 @@
 }
 
 - (void)testConstructors {
-    XCTAssertNotNil([[DKAbilityScore alloc] init], @"Constructors should return non-nil object.");
     XCTAssertNotNil([[DKAbilityScore alloc] initWithBase:10], @"Constructors should return non-nil object.");
     XCTAssertNotNil([DKAbilityScore statisticWithBase:10], @"Constructors should return non-nil object.");
 }
 
 - (void)testModifierCalculation {
     
-    DKAbilityScore* ability = [[DKAbilityScore alloc] init];
+    DKAbilityScore* ability = [[DKAbilityScore alloc] initWithBase:0];
     ability.base = 12;
     XCTAssertEqual(ability.abilityModifier, 1, @"Normal modifier should be calculated properly.");
     ability.base = 11;
