@@ -70,6 +70,9 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 /** Initializes a standard additive modifier, ex: +2 to a statistic. */
 + (id)modifierWithAdditiveBonus:(int)bonus;
 
+/** Initializes a modifier that keeps the statistic value within the given range */
++ (id)modifierWithClampBetween:(int)min and:(int)max;
+
 + (DKModifierBlockType)simpleAdditionModifierBlock;
 
 @end

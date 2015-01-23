@@ -22,6 +22,8 @@
 @synthesize armorClass = _armorClass;
 @synthesize initiativeBonus = _initiativeBonus;
 @synthesize movementSpeed = _movementSpeed;
+@synthesize deathSaveSuccesses = _deathSaveSuccesses;
+@synthesize deathSaveFailures = _deathSaveFailures;
 
 + (NSDictionary*) keyPaths {
     return @{
@@ -33,6 +35,8 @@
              DKStatIDArmorClass: @"armorClass",
              DKStatIDInitiative: @"initiativeBonus",
              DKStatIDMoveSpeed: @"movementSpeed",
+             DKStatIDDeathSaveSuccesses: @"deathSaveSuccesses",
+             DKStatIDDeathSaveFailures: @"deathSaveFailures",
              
              DKStatIDStrength: @"abilities.strength",
              DKStatIDDexterity: @"abilities.dexterity",
@@ -107,6 +111,12 @@
         [_initiativeBonus applyModifier:[_abilities.dexterity modifierFromAbilityScore]];
         
         self.movementSpeed = [DKStatistic statisticWithBase:0];
+        
+        //Cap the value of death saves between 0 and 3
+        self.deathSaveSuccesses = [DKStatistic statisticWithBase:0];
+        self.deathSaveFailures = [DKStatistic statisticWithBase:0];
+        [_deathSaveSuccesses applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
+        [_deathSaveFailures applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
     }
     return self;
 }

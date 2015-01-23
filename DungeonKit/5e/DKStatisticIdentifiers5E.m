@@ -17,6 +17,8 @@ NSString *const DKStatIDHitPointsCurrent = @"DKStatIDHitPointsCurrent";
 NSString *const DKStatIDArmorClass = @"DKArmorClass";
 NSString *const DKStatIDInitiative = @"DKInitiative";
 NSString *const DKStatIDMoveSpeed = @"DKMoveSpeed";
+NSString *const DKStatIDDeathSaveSuccesses = @"DKStatIDDeathSaveSuccesses";
+NSString *const DKStatIDDeathSaveFailures = @"DKStatIDDeathSaveFailures";
 
 NSString *const DKStatIDStrength = @"DKStrength";
 NSString *const DKStatIDDexterity = @"DKDexterity";

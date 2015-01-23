@@ -14,6 +14,8 @@ FOUNDATION_EXPORT NSString *const DKStatIDHitPointsCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDArmorClass;
 FOUNDATION_EXPORT NSString *const DKStatIDInitiative;
 FOUNDATION_EXPORT NSString *const DKStatIDMoveSpeed;
+FOUNDATION_EXPORT NSString *const DKStatIDDeathSaveSuccesses;
+FOUNDATION_EXPORT NSString *const DKStatIDDeathSaveFailures;
 
 FOUNDATION_EXPORT NSString *const DKStatIDStrength;
 FOUNDATION_EXPORT NSString *const DKStatIDDexterity;

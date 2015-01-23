@@ -29,4 +29,7 @@
 @property (nonatomic, strong) DKStatistic* initiativeBonus;
 @property (nonatomic, strong) DKStatistic* movementSpeed;
 
+@property (nonatomic, strong) DKStatistic* deathSaveSuccesses;
+@property (nonatomic, strong) DKStatistic* deathSaveFailures;
+
 @end

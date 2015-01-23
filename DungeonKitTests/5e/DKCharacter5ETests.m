@@ -106,4 +106,23 @@
     XCTAssertEqual(character.initiativeBonus.value, 2, @"Initiative should get bonuses from dexterity.");
 }
 
+- (void)testDeathSaves {
+    
+    DKCharacter5E* character = [[DKCharacter5E alloc] init];
+    NSArray* statsToTest = @[character.deathSaveSuccesses, character.deathSaveFailures];
+    for (DKStatistic* statToTest in statsToTest) {
+        statToTest.base = 0;
+        XCTAssertEqual(statToTest.value, 0, @"Death saves modifiers should not alter valid values.");
+        statToTest.base = 1;
+        XCTAssertEqual(statToTest.value, 1, @"Death saves modifiers should not alter valid values.");
+        statToTest.base = 3;
+        XCTAssertEqual(statToTest.value, 3, @"Death saves modifiers should not alter valid values.");
+        
+        statToTest.base = -1;
+        XCTAssertEqual(statToTest.value, 0, @"Death saves modifiers should clamp invalid values.");
+        statToTest.base = 4;
+        XCTAssertEqual(statToTest.value, 3, @"Death saves modifiers should clamp invalid values.");
+    }
+}
+
 @end
