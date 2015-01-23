@@ -11,6 +11,8 @@
 
 NSString *const DKStatIDLevel = @"DKLevel";
 NSString *const DKStatIDProficiencyBonus = @"DKProficiencyBonus";
+NSString *const DKStatIDHitPointsMax = @"DKStatIDHitPointsMax";
+NSString *const DKStatIDHitPointsCurrent = @"DKStatIDHitPointsCurrent";
 NSString *const DKStatIDArmorClass = @"DKArmorClass";
 NSString *const DKStatIDInitiative = @"DKInitiative";
 NSString *const DKStatIDMoveSpeed = @"DKMoveSpeed";

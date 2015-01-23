@@ -78,6 +78,13 @@
     XCTAssertEqual(character.proficiencyBonus.value, 4, @"Proficiency bonus should go to +4 for a level 9 character.");
 }
 
+- (void)testHitPoints {
+    
+    DKCharacter5E* character = [[DKCharacter5E alloc] init];
+    character.hitPointsMax.base = 10;
+    XCTAssertEqual(character.hitPointsCurrent.value, 10, @"Current hit points should reflect changes in maximum HP.");
+}
+
 - (void)testArmorClass {
     DKCharacter5E* character = [[DKCharacter5E alloc] init];
     character.abilities.dexterity.base = 10;

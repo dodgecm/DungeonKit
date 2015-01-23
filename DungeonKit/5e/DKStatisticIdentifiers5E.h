@@ -8,6 +8,8 @@
 
 FOUNDATION_EXPORT NSString *const DKStatIDLevel;
 FOUNDATION_EXPORT NSString *const DKStatIDProficiencyBonus;
+FOUNDATION_EXPORT NSString *const DKStatIDHitPointsMax;
+FOUNDATION_EXPORT NSString *const DKStatIDHitPointsCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDArmorClass;
 FOUNDATION_EXPORT NSString *const DKStatIDInitiative;
 FOUNDATION_EXPORT NSString *const DKStatIDMoveSpeed;

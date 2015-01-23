@@ -21,6 +21,9 @@
 @property (nonatomic, strong) DKSavingThrows5E* savingThrows;
 @property (nonatomic, strong) DKSkills5E* skills;
 
+@property (nonatomic, strong) DKStatistic* hitPointsMax;
+@property (nonatomic, strong) DKStatistic* hitPointsCurrent;
+
 @property (nonatomic, strong) DKStatistic* armorClass;
 @property (nonatomic, strong) DKStatistic* initiativeBonus;
 @property (nonatomic, strong) DKStatistic* movementSpeed;
