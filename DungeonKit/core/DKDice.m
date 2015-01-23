@@ -50,4 +50,8 @@
     return total;
 }
 
+- (NSString*)description {
+    return [NSString stringWithFormat:@"%id%i", _quantity.value, _sides.value];
+}
+
 @end

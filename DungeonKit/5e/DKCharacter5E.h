@@ -7,6 +7,7 @@
 //
 
 #import "DKCharacter.h"
+#import "DKDice.h"
 #import "DKStatisticIdentifiers5E.h"
 #import "DKAbilities5E.h"
 #import "DKSavingThrows5E.h"
@@ -24,6 +25,8 @@
 @property (nonatomic, strong) DKStatistic* hitPointsMax;
 @property (nonatomic, strong) DKStatistic* hitPointsTemporary;
 @property (nonatomic, strong) DKStatistic* hitPointsCurrent;
+@property (nonatomic, strong) DKDice* hitDiceMax;
+@property (nonatomic, strong) DKDice* hitDiceCurrent;
 
 @property (nonatomic, strong) DKStatistic* armorClass;
 @property (nonatomic, strong) DKStatistic* initiativeBonus;

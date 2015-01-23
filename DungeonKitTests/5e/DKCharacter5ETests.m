@@ -88,6 +88,18 @@
     XCTAssertEqual(character.hitPointsCurrent.value, 15, @"Current hit points should reflect changes in temporary HP.");
 }
 
+- (void)testHitDice {
+    
+    DKCharacter5E* character = [[DKCharacter5E alloc] init];
+    character.level.base = 1;
+    character.hitDiceMax.sides.base = 8;
+    XCTAssertEqual(character.hitDiceMax.quantity.value, character.level.value, @"Hit dice quantity should be equal to the character's level.");
+    XCTAssertEqual(character.hitDiceMax.quantity.value, character.hitDiceCurrent.quantity.value,
+                   @"Max hit dice quantity should be equal the current hit dice quantity.");
+    XCTAssertEqual(character.hitDiceMax.sides.value, character.hitDiceCurrent.sides.value,
+                   @"Max hit dice sides should be equal the current hit dice sides.");
+}
+
 - (void)testArmorClass {
     DKCharacter5E* character = [[DKCharacter5E alloc] init];
     character.abilities.dexterity.base = 10;

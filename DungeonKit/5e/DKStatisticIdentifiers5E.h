@@ -8,12 +8,22 @@
 
 FOUNDATION_EXPORT NSString *const DKStatIDLevel;
 FOUNDATION_EXPORT NSString *const DKStatIDProficiencyBonus;
+
 FOUNDATION_EXPORT NSString *const DKStatIDHitPointsMax;
 FOUNDATION_EXPORT NSString *const DKStatIDHitPointsTemporary;
 FOUNDATION_EXPORT NSString *const DKStatIDHitPointsCurrent;
+
+FOUNDATION_EXPORT NSString *const DKStatIDHitDiceMax;
+FOUNDATION_EXPORT NSString *const DKStatIDHitDiceMaxQuantity;
+FOUNDATION_EXPORT NSString *const DKStatIDHitDiceMaxSides;
+FOUNDATION_EXPORT NSString *const DKStatIDHitDiceCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDHitDiceCurrentQuantity;
+FOUNDATION_EXPORT NSString *const DKStatIDHitDiceCurrentSides;
+
 FOUNDATION_EXPORT NSString *const DKStatIDArmorClass;
 FOUNDATION_EXPORT NSString *const DKStatIDInitiative;
 FOUNDATION_EXPORT NSString *const DKStatIDMoveSpeed;
+
 FOUNDATION_EXPORT NSString *const DKStatIDDeathSaveSuccesses;
 FOUNDATION_EXPORT NSString *const DKStatIDDeathSaveFailures;
 

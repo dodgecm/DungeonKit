@@ -6,7 +6,8 @@
 //  Copyright (c) 2015 Dodge. All rights reserved.
 //
 
-#import <DungeonKit/DungeonKit.h>
+#import <Foundation/Foundation.h>
+#import "DKStatistic.h"
 
 @interface DKDice : DKStatistic
 

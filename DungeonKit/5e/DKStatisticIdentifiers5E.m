@@ -11,12 +11,22 @@
 
 NSString *const DKStatIDLevel = @"DKLevel";
 NSString *const DKStatIDProficiencyBonus = @"DKProficiencyBonus";
+
 NSString *const DKStatIDHitPointsMax = @"DKStatIDHitPointsMax";
 NSString *const DKStatIDHitPointsTemporary = @"DKStatIDHitPointsTemporary";
 NSString *const DKStatIDHitPointsCurrent = @"DKStatIDHitPointsCurrent";
+
+NSString *const DKStatIDHitDiceMax = @"DKStatIDHitDiceMax";
+NSString *const DKStatIDHitDiceMaxQuantity = @"DKStatIDHitDiceMaxQuantity";
+NSString *const DKStatIDHitDiceMaxSides = @"DKStatIDHitDiceMaxSides";
+NSString *const DKStatIDHitDiceCurrent = @"DKStatIDHitDiceCurrent";
+NSString *const DKStatIDHitDiceCurrentQuantity = @"DKStatIDHitDiceCurrentQuantity";
+NSString *const DKStatIDHitDiceCurrentSides = @"DKStatIDHitDiceCurrentSides";
+
 NSString *const DKStatIDArmorClass = @"DKArmorClass";
 NSString *const DKStatIDInitiative = @"DKInitiative";
 NSString *const DKStatIDMoveSpeed = @"DKMoveSpeed";
+
 NSString *const DKStatIDDeathSaveSuccesses = @"DKStatIDDeathSaveSuccesses";
 NSString *const DKStatIDDeathSaveFailures = @"DKStatIDDeathSaveFailures";
 
