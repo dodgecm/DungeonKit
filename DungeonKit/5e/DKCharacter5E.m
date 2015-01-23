@@ -17,6 +17,7 @@
 @synthesize abilities = _abilities;
 @synthesize savingThrows = _savingThrows;
 @synthesize skills = _skills;
+@synthesize currency = _currency;
 @synthesize hitPointsMax = _hitPointsMax;
 @synthesize hitPointsTemporary = _hitPointsTemporary;
 @synthesize hitPointsCurrent = _hitPointsCurrent;
@@ -86,6 +87,12 @@
              DKStatIDSkillSurvival: @"skills.survival",
              
              DKStatIDSkillPassivePerception: @"skills.passivePerception",
+             
+             DKStatIDCurrencyCopper: @"currency.copper",
+             DKStatIDCurrencySilver: @"currency.silver",
+             DKStatIDCurrencyElectrum: @"currency.electrum",
+             DKStatIDCurrencyGold: @"currency.gold",
+             DKStatIDCurrencyPlatinum: @"currency.platinum",
              };
 }
 
@@ -113,6 +120,7 @@
         self.abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
         self.savingThrows = [[DKSavingThrows5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
         self.skills = [[DKSkills5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
+        self.currency = [[DKCurrency5E alloc] init];
         
         //Link maximum and current HP so that current HP value will update when max HP value changes
         self.hitPointsMax = [DKStatistic statisticWithBase:0];

@@ -65,3 +65,9 @@ NSString *const DKStatIDSkillStealth = @"DKStatIDSkillStealth";
 NSString *const DKStatIDSkillSurvival = @"DKStatIDSkillSurvival";
 
 NSString *const DKStatIDSkillPassivePerception = @"DKStatIDSkillPassivePerception";
+
+NSString *const DKStatIDCurrencyCopper = @"DKStatIDCurrencyCopper";
+NSString *const DKStatIDCurrencySilver = @"DKStatIDCurrencySilver";
+NSString *const DKStatIDCurrencyElectrum = @"DKStatIDCurrencyElectrum";
+NSString *const DKStatIDCurrencyGold = @"DKStatIDCurrencyGold";
+NSString *const DKStatIDCurrencyPlatinum = @"DKStatIDCurrencyPlatinum";

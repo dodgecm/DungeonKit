@@ -12,6 +12,7 @@
 #import "DKAbilities5E.h"
 #import "DKSavingThrows5E.h"
 #import "DKSkills5E.h"
+#import "DKCurrency5E.h"
 
 @interface DKCharacter5E : DKCharacter
 
@@ -22,6 +23,7 @@
 @property (nonatomic, strong) DKAbilities5E* abilities;
 @property (nonatomic, strong) DKSavingThrows5E* savingThrows;
 @property (nonatomic, strong) DKSkills5E* skills;
+@property (nonatomic, strong) DKCurrency5E* currency;
 
 @property (nonatomic, strong) DKStatistic* hitPointsMax;
 @property (nonatomic, strong) DKStatistic* hitPointsTemporary;

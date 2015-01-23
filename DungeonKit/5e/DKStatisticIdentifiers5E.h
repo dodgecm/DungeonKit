@@ -62,3 +62,9 @@ FOUNDATION_EXPORT NSString *const DKStatIDSkillStealth;
 FOUNDATION_EXPORT NSString *const DKStatIDSkillSurvival;
 
 FOUNDATION_EXPORT NSString *const DKStatIDSkillPassivePerception;
+
+FOUNDATION_EXPORT NSString *const DKStatIDCurrencyCopper;
+FOUNDATION_EXPORT NSString *const DKStatIDCurrencySilver;
+FOUNDATION_EXPORT NSString *const DKStatIDCurrencyElectrum;
+FOUNDATION_EXPORT NSString *const DKStatIDCurrencyGold;
+FOUNDATION_EXPORT NSString *const DKStatIDCurrencyPlatinum;
