@@ -32,9 +32,7 @@
         
         __weak DKProficientStatistic* weakSelf = self;
         DKDependentModifier* proficiencyModifier = [[DKDependentModifier alloc] initWithSource:proficiencyBonus
-                                                                                         value:^int(int valueToModify) {
-                                                                                             return valueToModify;
-                                                                                         }
+                                                                                         value:[DKDependentModifierBuilder simpleValueBlock]
                                                                                       priority:kDKModifierPriority_Additive
                                                                                          block:^int(int modifierValue, int valueToModify) {
                                                                                              return (weakSelf.proficiencyLevel.value * modifierValue) + valueToModify;

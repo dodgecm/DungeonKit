@@ -28,6 +28,7 @@
 @synthesize sleightOfHand = _sleightOfHand;
 @synthesize stealth = _stealth;
 @synthesize survival = _survival;
+@synthesize passivePerception = _passivePerception;
 
 - (id)initWithAbilities:(DKAbilities5E*)abilities proficiencyBonus:(DKStatistic*)proficiencyBonus {
     self = [super init];
@@ -51,6 +52,7 @@
         self.sleightOfHand = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
         self.stealth = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
         self.survival = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
+        self.passivePerception = [DKStatistic statisticWithBase:10];
         
         //Apply modifiers from the abilities block to the skills
         [_acrobatics applyModifier:[abilities.dexterity modifierFromAbilityScore]];
@@ -71,6 +73,7 @@
         [_sleightOfHand applyModifier:[abilities.dexterity modifierFromAbilityScore]];
         [_stealth applyModifier:[abilities.dexterity modifierFromAbilityScore]];
         [_survival applyModifier:[abilities.wisdom modifierFromAbilityScore]];
+        [_passivePerception applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_perception]];
     }
     return self;
 }

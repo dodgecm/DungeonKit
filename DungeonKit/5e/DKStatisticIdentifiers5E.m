@@ -47,3 +47,5 @@ NSString *const DKStatIDSkillReligion = @"DKStatIDSkillReligion";
 NSString *const DKStatIDSkillSleightOfHand = @"DKStatIDSkillSleightOfHand";
 NSString *const DKStatIDSkillStealth = @"DKStatIDSkillStealth";
 NSString *const DKStatIDSkillSurvival = @"DKStatIDSkillSurvival";
+
+NSString *const DKStatIDSkillPassivePerception = @"DKStatIDSkillPassivePerception";

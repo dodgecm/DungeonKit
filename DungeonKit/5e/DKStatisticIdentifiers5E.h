@@ -44,3 +44,5 @@ FOUNDATION_EXPORT NSString *const DKStatIDSkillReligion;
 FOUNDATION_EXPORT NSString *const DKStatIDSkillSleightOfHand;
 FOUNDATION_EXPORT NSString *const DKStatIDSkillStealth;
 FOUNDATION_EXPORT NSString *const DKStatIDSkillSurvival;
+
+FOUNDATION_EXPORT NSString *const DKStatIDSkillPassivePerception;

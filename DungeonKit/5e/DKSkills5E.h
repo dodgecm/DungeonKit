@@ -31,6 +31,8 @@
 @property (nonatomic, strong) DKProficientStatistic* stealth;
 @property (nonatomic, strong) DKProficientStatistic* survival;
 
+@property (nonatomic, strong) DKStatistic* passivePerception;
+
 - (id)init __unavailable;
 - (id)initWithAbilities:(DKAbilities5E*)abilities proficiencyBonus:(DKStatistic*)proficiencyBonus;
 

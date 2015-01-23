@@ -49,6 +49,9 @@
     
     if (!modifier) { return; }
     
+    //Removes the modifier from a statistic if it's currently applied to one
+    [modifier removeFromStatistic];
+    
     [_modifiers addObject:modifier];
     [modifier wasAppliedToStatistic:self];
     [modifier addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];

@@ -54,4 +54,17 @@
 }
 
 
+- (void)testModifierOnTwoStatistics {
+    
+    //Modifier should only be allowed on one statistic at a time
+    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKStatistic* stat2 = [[DKStatistic alloc] initWithBase:15];
+    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    [stat applyModifier:modifier];
+    [stat2 applyModifier:modifier];
+    XCTAssertEqual(stat.value, 10, @"Modifier should only belong to one statistic at a time.");
+    XCTAssertEqual(stat2.value, 20, @"Modifier should only belong to one statistic at a time.");
+}
+
+
 @end

@@ -60,6 +60,8 @@
              DKStatIDSkillSleightOfHand: @"skills.sleightOfHand",
              DKStatIDSkillStealth: @"skills.stealth",
              DKStatIDSkillSurvival: @"skills.survival",
+             
+             DKStatIDSkillPassivePerception: @"skills.passivePerception",
              };
 }
 

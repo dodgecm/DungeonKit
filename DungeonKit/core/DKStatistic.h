@@ -22,6 +22,7 @@
 + (id)statisticWithBase:(int)base;
 - (id)initWithBase:(int)base;
 
+/** Applies the given modifier to this statistic.  A modifier can only be applied to one statistic at a time. */
 - (void)applyModifier:(DKModifier*)modifier;
 
 - (void)recalculateValue;
