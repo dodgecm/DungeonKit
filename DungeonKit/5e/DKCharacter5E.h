@@ -16,6 +16,7 @@
 @interface DKCharacter5E : DKCharacter
 
 @property (nonatomic, strong) DKStatistic* level;
+@property (nonatomic, strong) DKStatistic* inspiration;
 @property (nonatomic, strong) DKStatistic* proficiencyBonus;
 
 @property (nonatomic, strong) DKAbilities5E* abilities;

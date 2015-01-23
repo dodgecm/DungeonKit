@@ -12,6 +12,7 @@
 @implementation DKCharacter5E
 
 @synthesize level = _level;
+@synthesize inspiration = _inspiration;
 @synthesize proficiencyBonus = _proficiencyBonus;
 @synthesize abilities = _abilities;
 @synthesize savingThrows = _savingThrows;
@@ -30,6 +31,7 @@
 + (NSDictionary*) keyPaths {
     return @{
              DKStatIDLevel: @"level",
+             DKStatIDInspiration: @"inspiration",
              DKStatIDProficiencyBonus: @"proficiencyBonus",
              
              DKStatIDHitPointsMax: @"hitPointsMax",
@@ -96,8 +98,13 @@
             [self addKeyPath:keyPaths[statID] forStatisticID:statID];
         }
         
-        //Initialize level, set up proficiency bonus to increase based on the level automatically
         self.level = [DKStatistic statisticWithBase:1];
+        
+        //Inspiration is binary
+        self.inspiration = [DKStatistic statisticWithBase:0];
+        [_inspiration applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:1]];
+        
+        //Set up proficiency bonus to increase based on the level automatically
         self.proficiencyBonus = [DKStatistic statisticWithBase:2];
         DKDependentModifier* levelModifier = [DKDependentModifierBuilder proficiencyBonusModifierFromLevel:_level];
         [_proficiencyBonus applyModifier:levelModifier];

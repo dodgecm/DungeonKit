@@ -10,6 +10,7 @@
 #import "DKStatisticIdentifiers.h"
 
 NSString *const DKStatIDLevel = @"DKLevel";
+NSString *const DKStatIDInspiration = @"DKStatIDInspiration";
 NSString *const DKStatIDProficiencyBonus = @"DKProficiencyBonus";
 
 NSString *const DKStatIDHitPointsMax = @"DKStatIDHitPointsMax";

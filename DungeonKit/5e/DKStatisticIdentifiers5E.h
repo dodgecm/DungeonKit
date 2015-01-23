@@ -7,6 +7,7 @@
 //
 
 FOUNDATION_EXPORT NSString *const DKStatIDLevel;
+FOUNDATION_EXPORT NSString *const DKStatIDInspiration;
 FOUNDATION_EXPORT NSString *const DKStatIDProficiencyBonus;
 
 FOUNDATION_EXPORT NSString *const DKStatIDHitPointsMax;
