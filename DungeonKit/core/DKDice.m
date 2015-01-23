@@ -26,6 +26,9 @@
         _quantity = [DKStatistic statisticWithBase:quantity];
         _sides = [DKStatistic statisticWithBase:sides];
         
+        [_quantity applyModifier:[DKModifierBuilder modifierWithMinimum:0]];
+        [_sides applyModifier:[DKModifierBuilder modifierWithMinimum:0]];
+        
         [self roll];
     }
     return self;

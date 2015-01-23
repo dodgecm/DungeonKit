@@ -58,6 +58,16 @@
     return modifier;
 }
 
++ (id)modifierWithMinimum:(int)min {
+    
+    DKModifier* modifier = [[DKModifier alloc] initWithValue:0
+                                                    priority:kDKModifierPriority_Clamping
+                                                       block:^int(int modifierValue, int valueToModify) {
+                                                           return MAX(min, valueToModify);
+                                                       }];
+    return modifier;
+}
+
 + (id)modifierWithClampBetween:(int)min and:(int)max {
     
     DKModifier* modifier = [[DKModifier alloc] initWithValue:0

@@ -67,6 +67,10 @@
     //Kind of undefined functionality, but let's be explicit with our expectations, shall we
     DKDice* d0 = [[DKDice alloc] initWithQuantity:1 sides:0];
     XCTAssertEqual([d0 roll], 0, @"Zero sided dice should have a result of zero.");
+    
+    //Modifiers solve this edge case...
+    DKDice* dNegative = [[DKDice alloc] initWithQuantity:1 sides:-5];
+    XCTAssertEqual([dNegative roll], 0, @"Negative sided dice should have a result of zero.");
 }
 
 @end
