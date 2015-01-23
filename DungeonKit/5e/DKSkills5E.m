@@ -31,8 +31,14 @@
 @synthesize passivePerception = _passivePerception;
 
 - (id)initWithAbilities:(DKAbilities5E*)abilities proficiencyBonus:(DKStatistic*)proficiencyBonus {
+    
     self = [super init];
     if (self) {
+        
+        if (!abilities || !proficiencyBonus) {
+            NSLog(@"DKSkills5E: Expected non-nil abilities: %@ and proficiency bonus: %@", abilities, proficiencyBonus);
+            return nil;
+        }
         
         self.acrobatics = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
         self.animalHandling = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
