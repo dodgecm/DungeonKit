@@ -13,6 +13,8 @@
 @interface DKTestCharacter : DKCharacter
 @property (nonatomic, strong) DKStatistic* testStatistic;
 @property (nonatomic, strong) DKStatistic* testStatistic2;
+@property (nonatomic, strong) DKModifierGroup* modifierGroup;
+@property (nonatomic, strong) DKModifierGroup* modifierGroup2;
 @end
 
 @implementation DKTestCharacter
@@ -22,13 +24,32 @@
 
 @interface DKCharacterTests : XCTestCase
 
+@property (nonatomic, strong) DKTestCharacter* testCharacter;
+@property (nonatomic, strong) DKStatistic* testStatistic;
+@property (nonatomic, strong) DKModifier* testModifier;
+@property (nonatomic, strong) DKModifierGroup* testGroup;
+
 @end
 
 @implementation DKCharacterTests
 
+@synthesize testCharacter = _testCharacter;
+@synthesize testStatistic = _testStatistic;
+@synthesize testModifier = _testModifier;
+@synthesize testGroup = _testGroup;
+
 - (void)setUp {
     [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
+    
+    self.testCharacter = [[DKTestCharacter alloc] init];
+    self.testStatistic = [DKStatistic statisticWithBase:10];
+    self.testModifier = [DKModifierBuilder modifierWithAdditiveBonus:2];
+    
+    DKModifier* groupModifierOne = [DKModifierBuilder modifierWithAdditiveBonus:3];
+    DKModifier* groupModifierTwo = [DKModifierBuilder modifierWithAdditiveBonus:1];
+    self.testGroup = [[DKModifierGroup alloc] init];
+    [_testGroup addModifier:groupModifierOne forStatisticID:@"test"];
+    [_testGroup addModifier:groupModifierTwo forStatisticID:@"two"];
 }
 
 - (void)tearDown {
@@ -108,6 +129,54 @@
     [newStatistic2 applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:character.testStatistic]];
     character.testStatistic2 = newStatistic2;
     XCTAssertEqual(character.testStatistic2.modifiers.count, 0, @"Statistic should drop all its modifiers instead of creating a modifier cycle.");
+}
+
+- (void)testModifierRouting {
+    
+    [_testCharacter addKeyPath:@"testStatistic" forStatisticID:@"test"];
+    _testCharacter.testStatistic = _testStatistic;
+    XCTAssertEqual(_testCharacter.testStatistic.value, 10, @"Modifier has not been added yet.");
+    
+    [_testCharacter applyModifier:_testModifier toStatisticWithID:@"test"];
+    XCTAssertEqual(_testCharacter.testStatistic.value, 12, @"Modifier should be routed properly to the statistic.");
+    
+    [_testModifier removeFromStatistic];
+    XCTAssertEqual(_testCharacter.testStatistic.value, 10, @"Modifier should still be removed properly.");
+}
+
+- (void)testModifierGroupOperations {
+    
+    [_testCharacter addKeyPath:@"testStatistic" forStatisticID:@"test"];
+    _testCharacter.testStatistic = _testStatistic;
+    XCTAssertNil([_testCharacter modifierGroupForID:@"group"], @"Group has not been added yet.");
+    XCTAssertEqual(_testCharacter.testStatistic.value, 10, @"Modifier has not been added yet.");
+    
+    [_testCharacter addModifierGroup:_testGroup forGroupID:@"group"];
+    XCTAssertEqual([_testCharacter modifierGroupForID:@"group"], _testGroup, @"Modifier group getter should return correct object.");
+    XCTAssertEqual(_testCharacter.testStatistic.value, 13, @"Modifier group should be applied properly.");
+    
+    [_testCharacter removeModifierGroup:_testGroup];
+    XCTAssertEqual(_testCharacter.testStatistic.value, 10, @"Modifier group should be removed properly.");
+}
+
+- (void)testModifierGroupKeypathOperations {
+    
+    [_testCharacter addKeyPath:@"testStatistic" forStatisticID:@"test"];
+    _testCharacter.testStatistic = _testStatistic;
+    
+    [_testCharacter addKeyPath:@"modifierGroup" forModifierGroupID:@"group1"];
+    DKModifierGroup* firstGroup = [[DKModifierGroup alloc] init];
+    [firstGroup addModifier:_testModifier forStatisticID:@"test"];
+    _testCharacter.modifierGroup = firstGroup;
+    
+    XCTAssertEqual(_testCharacter.testStatistic.value, 12, @"Modifier group should be applied properly.");
+    
+    _testCharacter.modifierGroup = nil;
+    XCTAssertEqual(_testCharacter.testStatistic.value, 10, @"Modifier group should be removed properly.");
+    
+    _testCharacter.modifierGroup = firstGroup;
+    [_testCharacter removeModifierGroupWithID:@"group1"];
+    XCTAssertEqual(_testCharacter.testStatistic.value, 10, @"Modifier group should be removed properly.");
 }
 
 @end

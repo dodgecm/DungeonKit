@@ -8,7 +8,7 @@
 
 #import "DKCharacter.h"
 #import "DKDice.h"
-#import "DKStatisticIdentifiers5E.h"
+#import "DKStatisticIDs5E.h"
 #import "DKAbilities5E.h"
 #import "DKSavingThrows5E.h"
 #import "DKSkills5E.h"

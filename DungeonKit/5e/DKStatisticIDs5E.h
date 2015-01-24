@@ -1,5 +1,5 @@
 //
-//  DKStatisticIdentifiers.h
+//  DKStatisticIDs5E.h
 //  DungeonKit
 //
 //  Created by Christopher Dodge on 12/31/14.
