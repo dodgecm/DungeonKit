@@ -24,6 +24,7 @@ FOUNDATION_EXPORT NSString *const DKStatIDHitDiceCurrentSides;
 FOUNDATION_EXPORT NSString *const DKStatIDArmorClass;
 FOUNDATION_EXPORT NSString *const DKStatIDInitiative;
 FOUNDATION_EXPORT NSString *const DKStatIDMoveSpeed;
+FOUNDATION_EXPORT NSString *const DKStatIDDarkvision;
 
 FOUNDATION_EXPORT NSString *const DKStatIDDeathSaveSuccesses;
 FOUNDATION_EXPORT NSString *const DKStatIDDeathSaveFailures;
@@ -41,6 +42,13 @@ FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowConstitution;
 FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowIntelligence;
 FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowWisdom;
 FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowCharisma;
+
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowStrengthProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowDexterityProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowConstitutionProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowIntelligenceProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowWisdomProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowCharismaProficiency;
 
 FOUNDATION_EXPORT NSString *const DKStatIDSkillAcrobatics;
 FOUNDATION_EXPORT NSString *const DKStatIDSkillAnimalHandling;
@@ -60,6 +68,25 @@ FOUNDATION_EXPORT NSString *const DKStatIDSkillReligion;
 FOUNDATION_EXPORT NSString *const DKStatIDSkillSleightOfHand;
 FOUNDATION_EXPORT NSString *const DKStatIDSkillStealth;
 FOUNDATION_EXPORT NSString *const DKStatIDSkillSurvival;
+
+FOUNDATION_EXPORT NSString *const DKStatIDSkillAcrobaticsProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillAnimalHandlingProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillArcanaProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillAthleticsProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillDeceptionProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillHistoryProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillInsightProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillIntimidationProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillInvestigationProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillMedicineProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillNatureProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillPerceptionProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillPerformanceProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillPersuasionProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillReligionProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillSleightOfHandProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillStealthProficiency;
+FOUNDATION_EXPORT NSString *const DKStatIDSkillSurvivalProficiency;
 
 FOUNDATION_EXPORT NSString *const DKStatIDSkillPassivePerception;
 

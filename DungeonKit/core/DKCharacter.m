@@ -32,6 +32,13 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
             [self removeObserver:self forKeyPath:keyPath];
         }
     }
+    
+    for (id object in [_modifierGroups allValues]) {
+        if ([object isKindOfClass:[NSString class]]) {
+            NSString* keyPath = (NSString*)object;
+            [self removeObserver:self forKeyPath:keyPath];
+        }
+    }
 }
 
 - (id)init {

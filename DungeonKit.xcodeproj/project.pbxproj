@@ -18,6 +18,10 @@
 		B36BF33D1A7351D700979EE9 /* DKModifierGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF33B1A7351D700979EE9 /* DKModifierGroup.m */; };
 		B36BF3401A737C1300979EE9 /* DKStatisticIDs5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF33E1A737C1300979EE9 /* DKStatisticIDs5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B36BF3411A737C1300979EE9 /* DKStatisticIDs5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF33F1A737C1300979EE9 /* DKStatisticIDs5E.m */; };
+		B36BF3491A762FE900979EE9 /* DKModifierGroupIDs5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF3471A762FE900979EE9 /* DKModifierGroupIDs5E.h */; };
+		B36BF34A1A762FE900979EE9 /* DKModifierGroupIDs5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3481A762FE900979EE9 /* DKModifierGroupIDs5E.m */; };
+		B36BF3511A7630A800979EE9 /* DKRace5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF34F1A7630A800979EE9 /* DKRace5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B36BF3521A7630A800979EE9 /* DKRace5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3501A7630A800979EE9 /* DKRace5E.m */; };
 		B3C605D01A68EE7C007FADAB /* DKSkills5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C605CE1A68EE7C007FADAB /* DKSkills5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3C605D11A68EE7C007FADAB /* DKSkills5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605CF1A68EE7C007FADAB /* DKSkills5E.m */; };
 		B3C605D41A68F90E007FADAB /* DKProficientStatistic.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C605D21A68F90E007FADAB /* DKProficientStatistic.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -79,6 +83,10 @@
 		B36BF33B1A7351D700979EE9 /* DKModifierGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKModifierGroup.m; sourceTree = "<group>"; };
 		B36BF33E1A737C1300979EE9 /* DKStatisticIDs5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKStatisticIDs5E.h; sourceTree = "<group>"; };
 		B36BF33F1A737C1300979EE9 /* DKStatisticIDs5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStatisticIDs5E.m; sourceTree = "<group>"; };
+		B36BF3471A762FE900979EE9 /* DKModifierGroupIDs5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKModifierGroupIDs5E.h; sourceTree = "<group>"; };
+		B36BF3481A762FE900979EE9 /* DKModifierGroupIDs5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKModifierGroupIDs5E.m; sourceTree = "<group>"; };
+		B36BF34F1A7630A800979EE9 /* DKRace5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKRace5E.h; sourceTree = "<group>"; };
+		B36BF3501A7630A800979EE9 /* DKRace5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKRace5E.m; sourceTree = "<group>"; };
 		B3C605CE1A68EE7C007FADAB /* DKSkills5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKSkills5E.h; sourceTree = "<group>"; };
 		B3C605CF1A68EE7C007FADAB /* DKSkills5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKSkills5E.m; sourceTree = "<group>"; };
 		B3C605D21A68F90E007FADAB /* DKProficientStatistic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKProficientStatistic.h; sourceTree = "<group>"; };
@@ -191,6 +199,17 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		B36BF3461A762FE900979EE9 /* ModifierGroups */ = {
+			isa = PBXGroup;
+			children = (
+				B36BF3471A762FE900979EE9 /* DKModifierGroupIDs5E.h */,
+				B36BF3481A762FE900979EE9 /* DKModifierGroupIDs5E.m */,
+				B36BF34F1A7630A800979EE9 /* DKRace5E.h */,
+				B36BF3501A7630A800979EE9 /* DKRace5E.m */,
+			);
+			path = ModifierGroups;
+			sourceTree = "<group>";
+		};
 		B3E40D301A57D20C004342F3 /* core */ = {
 			isa = PBXGroup;
 			children = (
@@ -215,6 +234,7 @@
 		B3E40D411A57D2BE004342F3 /* 5e */ = {
 			isa = PBXGroup;
 			children = (
+				B36BF3461A762FE900979EE9 /* ModifierGroups */,
 				B3E40D4A1A57D33F004342F3 /* DKCharacter5E.h */,
 				B3E40D4B1A57D33F004342F3 /* DKCharacter5E.m */,
 				B36BF33E1A737C1300979EE9 /* DKStatisticIDs5E.h */,
@@ -275,6 +295,8 @@
 				B36BF3401A737C1300979EE9 /* DKStatisticIDs5E.h in Headers */,
 				B3E40D4F1A57E369004342F3 /* DKConstants.h in Headers */,
 				B3E40D3B1A57D20C004342F3 /* DKDependentModifier.h in Headers */,
+				B36BF3491A762FE900979EE9 /* DKModifierGroupIDs5E.h in Headers */,
+				B36BF3511A7630A800979EE9 /* DKRace5E.h in Headers */,
 				B36BF33C1A7351D700979EE9 /* DKModifierGroup.h in Headers */,
 				B3C605EA1A722F83007FADAB /* DKDice.h in Headers */,
 				B3E40D4C1A57D33F004342F3 /* DKCharacter5E.h in Headers */,
@@ -389,6 +411,8 @@
 				B3E40D671A5A93F0004342F3 /* DKDependentModifier+5E.m in Sources */,
 				B3E40D4D1A57D33F004342F3 /* DKCharacter5E.m in Sources */,
 				B3E40D401A57D20C004342F3 /* DKStatistic.m in Sources */,
+				B36BF34A1A762FE900979EE9 /* DKModifierGroupIDs5E.m in Sources */,
+				B36BF3521A7630A800979EE9 /* DKRace5E.m in Sources */,
 				B36BF33D1A7351D700979EE9 /* DKModifierGroup.m in Sources */,
 				B3E40D511A57E430004342F3 /* DKConstants.m in Sources */,
 				B3C605EB1A722F83007FADAB /* DKDice.m in Sources */,

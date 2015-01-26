@@ -12,6 +12,8 @@
 @implementation DKCharacter5E
 
 @synthesize level = _level;
+@synthesize race = _race;
+@synthesize subrace = _subrace;
 @synthesize inspiration = _inspiration;
 @synthesize proficiencyBonus = _proficiencyBonus;
 @synthesize abilities = _abilities;
@@ -26,10 +28,11 @@
 @synthesize armorClass = _armorClass;
 @synthesize initiativeBonus = _initiativeBonus;
 @synthesize movementSpeed = _movementSpeed;
+@synthesize darkvisionRange = _darkvisionRange;
 @synthesize deathSaveSuccesses = _deathSaveSuccesses;
 @synthesize deathSaveFailures = _deathSaveFailures;
 
-+ (NSDictionary*) keyPaths {
++ (NSDictionary*) statisticKeyPaths {
     return @{
              DKStatIDLevel: @"level",
              DKStatIDInspiration: @"inspiration",
@@ -49,6 +52,7 @@
              DKStatIDArmorClass: @"armorClass",
              DKStatIDInitiative: @"initiativeBonus",
              DKStatIDMoveSpeed: @"movementSpeed",
+             DKStatIDDarkvision: @"darkvisionRange",
              
              DKStatIDDeathSaveSuccesses: @"deathSaveSuccesses",
              DKStatIDDeathSaveFailures: @"deathSaveFailures",
@@ -66,6 +70,13 @@
              DKStatIDSavingThrowIntelligence: @"savingThrows.intelligence",
              DKStatIDSavingThrowWisdom: @"savingThrows.wisdom",
              DKStatIDSavingThrowCharisma: @"savingThrows.charisma",
+             
+             DKStatIDSavingThrowStrengthProficiency: @"savingThrows.strength.proficiencyLevel",
+             DKStatIDSavingThrowDexterityProficiency: @"savingThrows.dexterity.proficiencyLevel",
+             DKStatIDSavingThrowConstitutionProficiency: @"savingThrows.constitution.proficiencyLevel",
+             DKStatIDSavingThrowIntelligenceProficiency: @"savingThrows.intelligence.proficiencyLevel",
+             DKStatIDSavingThrowWisdomProficiency: @"savingThrows.wisdom.proficiencyLevel",
+             DKStatIDSavingThrowCharismaProficiency: @"savingThrows.charisma.proficiencyLevel",
              
              DKStatIDSkillAcrobatics: @"skills.acrobatics",
              DKStatIDSkillAnimalHandling: @"skills.animalHandling",
@@ -86,6 +97,25 @@
              DKStatIDSkillStealth: @"skills.stealth",
              DKStatIDSkillSurvival: @"skills.survival",
              
+             DKStatIDSkillAcrobaticsProficiency: @"skills.acrobatics.proficiencyLevel",
+             DKStatIDSkillAnimalHandlingProficiency: @"skills.animalHandling.proficiencyLevel",
+             DKStatIDSkillArcanaProficiency: @"skills.arcana.proficiencyLevel",
+             DKStatIDSkillAthleticsProficiency: @"skills.athletics.proficiencyLevel",
+             DKStatIDSkillDeceptionProficiency: @"skills.deception.proficiencyLevel",
+             DKStatIDSkillHistoryProficiency: @"skills.history.proficiencyLevel",
+             DKStatIDSkillInsightProficiency: @"skills.insight.proficiencyLevel",
+             DKStatIDSkillIntimidationProficiency: @"skills.intimidation.proficiencyLevel",
+             DKStatIDSkillInvestigationProficiency: @"skills.investigation.proficiencyLevel",
+             DKStatIDSkillMedicineProficiency: @"skills.medicine.proficiencyLevel",
+             DKStatIDSkillNatureProficiency: @"skills.nature.proficiencyLevel",
+             DKStatIDSkillPerceptionProficiency: @"skills.perception.proficiencyLevel",
+             DKStatIDSkillPerformanceProficiency: @"skills.performance.proficiencyLevel",
+             DKStatIDSkillPersuasionProficiency: @"skills.persuasion.proficiencyLevel",
+             DKStatIDSkillReligionProficiency: @"skills.religion.proficiencyLevel",
+             DKStatIDSkillSleightOfHandProficiency: @"skills.sleightOfHand.proficiencyLevel",
+             DKStatIDSkillStealthProficiency: @"skills.stealth.proficiencyLevel",
+             DKStatIDSkillSurvivalProficiency: @"skills.survival.proficiencyLevel",
+             
              DKStatIDSkillPassivePerception: @"skills.passivePerception",
              
              DKStatIDCurrencyCopper: @"currency.copper",
@@ -96,16 +126,30 @@
              };
 }
 
++ (NSDictionary*) modifierGroupKeyPaths {
+    return @{
+             DKModifierGroupIDRace: @"race",
+             DKModifierGroupIDSubrace: @"subrace",
+             };
+}
+
 - (id)init {
     self = [super init];
     if (self) {
         
-        NSDictionary* keyPaths = [DKCharacter5E keyPaths];
-        for (NSString* statID in [keyPaths allKeys]) {
-            [self addKeyPath:keyPaths[statID] forStatisticID:statID];
+        NSDictionary* statKeyPaths = [DKCharacter5E statisticKeyPaths];
+        for (NSString* statID in [statKeyPaths allKeys]) {
+            [self addKeyPath:statKeyPaths[statID] forStatisticID:statID];
+        }
+        
+        NSDictionary* groupKeyPaths = [DKCharacter5E modifierGroupKeyPaths];
+        for (NSString* groupID in [groupKeyPaths allKeys]) {
+            [self addKeyPath:groupKeyPaths[groupID] forModifierGroupID:groupID];
         }
         
         self.level = [DKStatistic statisticWithBase:1];
+        self.race = [DKRace5EBuilder human];
+        self.subrace = nil;
         
         //Inspiration is binary
         self.inspiration = [DKStatistic statisticWithBase:0];
@@ -146,6 +190,7 @@
         [_initiativeBonus applyModifier:[_abilities.dexterity modifierFromAbilityScore]];
         
         self.movementSpeed = [DKStatistic statisticWithBase:0];
+        self.darkvisionRange = [DKStatistic statisticWithBase:0];
         
         //Cap the value of death saves between 0 and 3
         self.deathSaveSuccesses = [DKStatistic statisticWithBase:0];

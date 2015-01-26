@@ -9,6 +9,8 @@
 #import "DKCharacter.h"
 #import "DKDice.h"
 #import "DKStatisticIDs5E.h"
+#import "DKModifierGroupIDs5E.h"
+#import "DKRace5E.h"
 #import "DKAbilities5E.h"
 #import "DKSavingThrows5E.h"
 #import "DKSkills5E.h"
@@ -17,6 +19,9 @@
 @interface DKCharacter5E : DKCharacter
 
 @property (nonatomic, strong) DKStatistic* level;
+@property (nonatomic, strong) DKRace5E* race;
+@property (nonatomic, strong) DKSubrace5E* subrace;
+
 @property (nonatomic, strong) DKStatistic* inspiration;
 @property (nonatomic, strong) DKStatistic* proficiencyBonus;
 
@@ -34,6 +39,7 @@
 @property (nonatomic, strong) DKStatistic* armorClass;
 @property (nonatomic, strong) DKStatistic* initiativeBonus;
 @property (nonatomic, strong) DKStatistic* movementSpeed;
+@property (nonatomic, strong) DKStatistic* darkvisionRange;
 
 @property (nonatomic, strong) DKStatistic* deathSaveSuccesses;
 @property (nonatomic, strong) DKStatistic* deathSaveFailures;

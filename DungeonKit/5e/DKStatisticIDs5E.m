@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DKStatisticIdentifiers.h"
+#import "DKStatisticIDs5E.h"
 
 NSString *const DKStatIDLevel = @"DKLevel";
 NSString *const DKStatIDInspiration = @"DKStatIDInspiration";
@@ -27,6 +27,7 @@ NSString *const DKStatIDHitDiceCurrentSides = @"DKStatIDHitDiceCurrentSides";
 NSString *const DKStatIDArmorClass = @"DKArmorClass";
 NSString *const DKStatIDInitiative = @"DKInitiative";
 NSString *const DKStatIDMoveSpeed = @"DKMoveSpeed";
+NSString *const DKStatIDDarkvision = @"DKStatIDDarkvision";
 
 NSString *const DKStatIDDeathSaveSuccesses = @"DKStatIDDeathSaveSuccesses";
 NSString *const DKStatIDDeathSaveFailures = @"DKStatIDDeathSaveFailures";
@@ -44,6 +45,13 @@ NSString *const DKStatIDSavingThrowConstitution = @"DKSavingThrowConstitution";
 NSString *const DKStatIDSavingThrowIntelligence = @"DKSavingThrowIntelligence";
 NSString *const DKStatIDSavingThrowWisdom = @"DKSavingThrowWisdom";
 NSString *const DKStatIDSavingThrowCharisma = @"DKSavingThrowCharisma";
+
+NSString *const DKStatIDSavingThrowStrengthProficiency = @"DKStatIDSavingThrowStrengthProficiency";
+NSString *const DKStatIDSavingThrowDexterityProficiency = @"DKStatIDSavingThrowDexterityProficiency";
+NSString *const DKStatIDSavingThrowConstitutionProficiency = @"DKStatIDSavingThrowConstitutionProficiency";
+NSString *const DKStatIDSavingThrowIntelligenceProficiency = @"DKStatIDSavingThrowIntelligenceProficiency";
+NSString *const DKStatIDSavingThrowWisdomProficiency = @"DKStatIDSavingThrowWisdomProficiency";
+NSString *const DKStatIDSavingThrowCharismaProficiency = @"DKStatIDSavingThrowCharismaProficiency";
 
 NSString *const DKStatIDSkillAcrobatics = @"DKStatIDSkillAcrobatics";
 NSString *const DKStatIDSkillAnimalHandling = @"DKStatIDSkillAnimalHandling";
@@ -63,6 +71,25 @@ NSString *const DKStatIDSkillReligion = @"DKStatIDSkillReligion";
 NSString *const DKStatIDSkillSleightOfHand = @"DKStatIDSkillSleightOfHand";
 NSString *const DKStatIDSkillStealth = @"DKStatIDSkillStealth";
 NSString *const DKStatIDSkillSurvival = @"DKStatIDSkillSurvival";
+
+NSString *const DKStatIDSkillAcrobaticsProficiency = @"DKStatIDSkillAcrobaticsProficiency";
+NSString *const DKStatIDSkillAnimalHandlingProficiency = @"DKStatIDSkillAnimalHandlingProficiency";
+NSString *const DKStatIDSkillArcanaProficiency = @"DKStatIDSkillArcanaProficiency";
+NSString *const DKStatIDSkillAthleticsProficiency = @"DKStatIDSkillAthleticsProficiency";
+NSString *const DKStatIDSkillDeceptionProficiency = @"DKStatIDSkillDeceptionProficiency";
+NSString *const DKStatIDSkillHistoryProficiency = @"DKStatIDSkillHistoryProficiency";
+NSString *const DKStatIDSkillInsightProficiency = @"DKStatIDSkillInsightProficiency";
+NSString *const DKStatIDSkillIntimidationProficiency = @"DKStatIDSkillIntimidationProficiency";
+NSString *const DKStatIDSkillInvestigationProficiency = @"DKStatIDSkillInvestigationProficiency";
+NSString *const DKStatIDSkillMedicineProficiency = @"DKStatIDSkillMedicineProficiency";
+NSString *const DKStatIDSkillNatureProficiency = @"DKStatIDSkillNatureProficiency";
+NSString *const DKStatIDSkillPerceptionProficiency = @"DKStatIDSkillPerceptionProficiency";
+NSString *const DKStatIDSkillPerformanceProficiency = @"DKStatIDSkillPerformanceProficiency";
+NSString *const DKStatIDSkillPersuasionProficiency = @"DKStatIDSkillPersuasionProficiency";
+NSString *const DKStatIDSkillReligionProficiency = @"DKStatIDSkillReligionProficiency";
+NSString *const DKStatIDSkillSleightOfHandProficiency = @"DKStatIDSkillSleightOfHandProficiency";
+NSString *const DKStatIDSkillStealthProficiency = @"DKStatIDSkillStealthProficiency";
+NSString *const DKStatIDSkillSurvivalProficiency = @"DKStatIDSkillSurvivalProficiency";
 
 NSString *const DKStatIDSkillPassivePerception = @"DKStatIDSkillPassivePerception";
 
