@@ -44,4 +44,15 @@
 @property (nonatomic, strong) DKStatistic* deathSaveSuccesses;
 @property (nonatomic, strong) DKStatistic* deathSaveFailures;
 
+@property (nonatomic, strong) DKStatistic* weaponProficiencies;
+@property (nonatomic, strong) DKStatistic* armorProficiencies;
+@property (nonatomic, strong) DKStatistic* toolProficiencies;
+
+@property (nonatomic, strong) DKStatistic* languages;
+
+@property (nonatomic, strong) DKStatistic* resistances;
+@property (nonatomic, strong) DKStatistic* immunities;
+
+@property (nonatomic, strong) DKStatistic* otherTraits;
+
 @end

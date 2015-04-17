@@ -13,6 +13,8 @@ typedef enum {
     kDKModifierPriority_Additive = 1,
     /** A min/max/clamp operation, ex: Raises STR to a minimum of 18 */
     kDKModifierPriority_Clamping,
+    /** Priority for modifiers that do not modify a statistic's value, but modify the statistic in some other context */
+    kDKModifierPriority_Informational,
 } DKModifierPriority;
 
 typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
@@ -83,6 +85,8 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 + (id)modifierWithClampBetween:(int)min and:(int)max;
 /** Initializes a modifier that keeps the statistic value within the given range */
 + (id)modifierWithClampBetween:(int)min and:(int)max explanation:(NSString*)explanation;
+
++ (id)modifierWithExplanation:(NSString*)explanation;
 
 + (DKModifierBlockType)simpleAdditionModifierBlock;
 

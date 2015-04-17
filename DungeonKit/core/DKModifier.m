@@ -124,4 +124,14 @@
     };
 }
 
++ (id)modifierWithExplanation:(NSString*)explanation {
+    
+    DKModifier* modifier = [[DKModifier alloc] initWithValue:0
+                                                    priority:kDKModifierPriority_Informational
+                                                       block:^int(int modifierValue, int valueToModify) {
+                                                           return valueToModify;
+                                                       }];
+    return modifier;
+}
+
 @end

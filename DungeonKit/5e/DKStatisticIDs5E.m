@@ -32,6 +32,17 @@ NSString *const DKStatIDDarkvision = @"DKStatIDDarkvision";
 NSString *const DKStatIDDeathSaveSuccesses = @"DKStatIDDeathSaveSuccesses";
 NSString *const DKStatIDDeathSaveFailures = @"DKStatIDDeathSaveFailures";
 
+NSString *const DKStatIDWeaponProficiencies = @"DKStatIDWeaponProficiencies";
+NSString *const DKStatIDArmorProficiencies = @"DKStatIDArmorProficiencies";
+NSString *const DKStatIDToolProficiencies = @"DKStatIDToolProficiencies";
+
+NSString *const DKStatIDLanguages = @"DKStatIDLanguages";
+
+NSString *const DKStatIDResistances = @"DKStatIDResistances";
+NSString *const DKStatIDImmunities = @"DKStatIDImmunities";
+
+NSString *const DKStatIDOtherTraits = @"DKStatIDOtherTraits";
+
 NSString *const DKStatIDStrength = @"DKStrength";
 NSString *const DKStatIDDexterity = @"DKDexterity";
 NSString *const DKStatIDConstitution = @"DKConstitution";
@@ -45,6 +56,7 @@ NSString *const DKStatIDSavingThrowConstitution = @"DKSavingThrowConstitution";
 NSString *const DKStatIDSavingThrowIntelligence = @"DKSavingThrowIntelligence";
 NSString *const DKStatIDSavingThrowWisdom = @"DKSavingThrowWisdom";
 NSString *const DKStatIDSavingThrowCharisma = @"DKSavingThrowCharisma";
+NSString *const DKStatIDSavingThrowOther = @"DKStatIDSavingThrowOther";
 
 NSString *const DKStatIDSavingThrowStrengthProficiency = @"DKStatIDSavingThrowStrengthProficiency";
 NSString *const DKStatIDSavingThrowDexterityProficiency = @"DKStatIDSavingThrowDexterityProficiency";

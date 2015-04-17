@@ -66,5 +66,12 @@
     XCTAssertEqual(stat2.value, 20, @"Modifier should only belong to one statistic at a time.");
 }
 
+- (void)testInformationalModifier {
+    
+    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKModifier* modifier = [DKModifierBuilder modifierWithExplanation:@"This is a modifier that does not change a statistic's value."];
+    [stat applyModifier:modifier];
+    XCTAssertEqual(stat.value, 10, @"Informational modifier should not change statistic's value.");
+}
 
 @end

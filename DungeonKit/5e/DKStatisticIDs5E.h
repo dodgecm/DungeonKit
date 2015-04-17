@@ -29,6 +29,17 @@ FOUNDATION_EXPORT NSString *const DKStatIDDarkvision;
 FOUNDATION_EXPORT NSString *const DKStatIDDeathSaveSuccesses;
 FOUNDATION_EXPORT NSString *const DKStatIDDeathSaveFailures;
 
+FOUNDATION_EXPORT NSString *const DKStatIDWeaponProficiencies;
+FOUNDATION_EXPORT NSString *const DKStatIDArmorProficiencies;
+FOUNDATION_EXPORT NSString *const DKStatIDToolProficiencies;
+
+FOUNDATION_EXPORT NSString *const DKStatIDLanguages;
+
+FOUNDATION_EXPORT NSString *const DKStatIDResistances;
+FOUNDATION_EXPORT NSString *const DKStatIDImmunities;
+
+FOUNDATION_EXPORT NSString *const DKStatIDOtherTraits;
+
 FOUNDATION_EXPORT NSString *const DKStatIDStrength;
 FOUNDATION_EXPORT NSString *const DKStatIDDexterity;
 FOUNDATION_EXPORT NSString *const DKStatIDConstitution;
@@ -42,6 +53,7 @@ FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowConstitution;
 FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowIntelligence;
 FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowWisdom;
 FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowCharisma;
+FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowOther;
 
 FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowStrengthProficiency;
 FOUNDATION_EXPORT NSString *const DKStatIDSavingThrowDexterityProficiency;

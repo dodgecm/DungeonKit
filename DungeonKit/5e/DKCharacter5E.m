@@ -31,6 +31,13 @@
 @synthesize darkvisionRange = _darkvisionRange;
 @synthesize deathSaveSuccesses = _deathSaveSuccesses;
 @synthesize deathSaveFailures = _deathSaveFailures;
+@synthesize weaponProficiencies = _weaponProficiencies;
+@synthesize armorProficiencies = _armorProficiencies;
+@synthesize toolProficiencies = _toolProficiencies;
+@synthesize languages = _languages;
+@synthesize resistances = _resistances;
+@synthesize immunities = _immunities;
+@synthesize otherTraits = _otherTraits;
 
 + (NSDictionary*) statisticKeyPaths {
     return @{
@@ -57,6 +64,17 @@
              DKStatIDDeathSaveSuccesses: @"deathSaveSuccesses",
              DKStatIDDeathSaveFailures: @"deathSaveFailures",
              
+             DKStatIDWeaponProficiencies: @"weaponProficiencies",
+             DKStatIDArmorProficiencies: @"armorProficiencies",
+             DKStatIDToolProficiencies: @"toolProficiencies",
+             
+             DKStatIDLanguages: @"languages",
+             
+             DKStatIDResistances: @"resistances",
+             DKStatIDImmunities: @"immunities",
+             
+             DKStatIDOtherTraits: @"otherTraits",
+             
              DKStatIDStrength: @"abilities.strength",
              DKStatIDDexterity: @"abilities.dexterity",
              DKStatIDConstitution: @"abilities.constitution",
@@ -70,6 +88,7 @@
              DKStatIDSavingThrowIntelligence: @"savingThrows.intelligence",
              DKStatIDSavingThrowWisdom: @"savingThrows.wisdom",
              DKStatIDSavingThrowCharisma: @"savingThrows.charisma",
+             DKStatIDSavingThrowOther: @"savingThrows.other",
              
              DKStatIDSavingThrowStrengthProficiency: @"savingThrows.strength.proficiencyLevel",
              DKStatIDSavingThrowDexterityProficiency: @"savingThrows.dexterity.proficiencyLevel",
@@ -148,8 +167,6 @@
         }
         
         self.level = [DKStatistic statisticWithBase:1];
-        self.race = [DKRace5EBuilder human];
-        self.subrace = nil;
         
         //Inspiration is binary
         self.inspiration = [DKStatistic statisticWithBase:0];
@@ -192,11 +209,25 @@
         self.movementSpeed = [DKStatistic statisticWithBase:0];
         self.darkvisionRange = [DKStatistic statisticWithBase:0];
         
+        self.weaponProficiencies = [DKStatistic statisticWithBase:0];
+        self.armorProficiencies = [DKStatistic statisticWithBase:0];
+        self.toolProficiencies = [DKStatistic statisticWithBase:0];
+        
+        self.languages = [DKStatistic statisticWithBase:0];
+        self.resistances = [DKStatistic statisticWithBase:0];
+        self.immunities = [DKStatistic statisticWithBase:0];
+        
+        self.otherTraits = [DKStatistic statisticWithBase:0];
+        
         //Cap the value of death saves between 0 and 3
         self.deathSaveSuccesses = [DKStatistic statisticWithBase:0];
         self.deathSaveFailures = [DKStatistic statisticWithBase:0];
         [_deathSaveSuccesses applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
         [_deathSaveFailures applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
+        
+        //Now that all the statistics are set up, we can add modifier groups
+        self.race = [DKRace5EBuilder human];
+        self.subrace = nil;
     }
     return self;
 }
