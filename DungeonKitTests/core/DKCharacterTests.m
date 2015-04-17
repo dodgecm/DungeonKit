@@ -20,6 +20,8 @@
 @implementation DKTestCharacter
 @synthesize testStatistic = _testStatistic;
 @synthesize testStatistic2 = _testStatistic2;
+@synthesize modifierGroup = _modifierGroup;
+@synthesize modifierGroup2 = _modifierGroup2;
 @end
 
 @interface DKCharacterTests : XCTestCase

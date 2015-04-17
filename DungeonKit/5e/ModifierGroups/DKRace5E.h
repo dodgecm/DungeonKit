@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "DKModifierGroup.h"
 
-typedef DKModifierGroup DKRace5E;
-typedef DKModifierGroup DKSubrace5E;
+@class DKCharacter5E;
+
+//Normally I would just use a typedef here, but KVO explodes after the use of C style unions.  Beware.
+@compatibility_alias DKRace5E DKModifierGroup;
+@compatibility_alias DKSubrace5E DKModifierGroup;
 
 @interface DKRace5EBuilder : NSObject
 
@@ -23,7 +26,7 @@ typedef DKModifierGroup DKSubrace5E;
 
 @interface DKSubrace5EBuilder : NSObject
 
-+ (DKSubrace5E*)hillDwarf;
++ (DKSubrace5E*)hillDwarfFromCharacter:(DKCharacter5E*)character;
 + (DKSubrace5E*)mountainDwarf;
 
 + (DKSubrace5E*)highElf;

@@ -80,7 +80,7 @@
     self = [super init];
     if (self) {
         //Input checking
-        NSAssert1([scoreArray count] == 6, @"Received score array with size %lu, expected 6", [scoreArray count]);
+        NSAssert1([scoreArray count] == 6, @"Received score array with size %lu, expected 6", (unsigned long) [scoreArray count]);
         for (NSNumber* score in scoreArray) {
             NSAssert2([score isKindOfClass:[NSNumber class]],
                       @"Received ability score of type %@ (%@), expected NSNumber", NSStringFromClass([score class]), score);

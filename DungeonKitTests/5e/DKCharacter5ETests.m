@@ -137,4 +137,22 @@
     }
 }
 
+- (void)testRaces {
+    
+    DKCharacter5E* character = [[DKCharacter5E alloc] init];
+    NSArray* racesToTest = @[[DKRace5EBuilder human], [DKRace5EBuilder elf], [DKRace5EBuilder dwarf], [DKRace5EBuilder halfling]];
+    for (DKRace5E* newRace in racesToTest) {
+        DKRace5E* oldRace = character.race;
+        character.race = newRace;
+        
+        for (DKModifier* modifier in oldRace.allModifiers) {
+            XCTAssertNil(modifier.owner, @"Old race modifiers should get removed");
+        }
+        for (DKModifier* modifier in newRace.allModifiers) {
+            XCTAssertNotNil(modifier.owner, @"New race modifiers should get applied");
+        }
+    }
+    
+}
+
 @end

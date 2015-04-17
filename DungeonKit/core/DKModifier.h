@@ -43,6 +43,8 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 @property (nonatomic, readonly) DKModifierPriority priority;
 /** A function to perform the modification. */
 @property (nonatomic, copy, readonly) DKModifierBlockType modifierBlock;
+/** An optional explanation of the nature or source of this modifier */
+@property (nonatomic, copy) NSString* explanation;
 /** The statistic to which this modifier is currently applied, if any. */
 @property (nonatomic, weak, readonly) id<DKModifierOwner> owner;
 
@@ -69,12 +71,18 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 
 /** Initializes a standard additive modifier, ex: +2 to a statistic. */
 + (id)modifierWithAdditiveBonus:(int)bonus;
+/** Initializes a standard additive modifier, ex: +2 to a statistic. */
++ (id)modifierWithAdditiveBonus:(int)bonus explanation:(NSString*)explanation;
 
 /** Initializes a modifier that keeps the statistic value above the given minimum */
 + (id)modifierWithMinimum:(int)min;
+/** Initializes a modifier that keeps the statistic value above the given minimum */
++ (id)modifierWithMinimum:(int)min explanation:(NSString*)explanation;
 
 /** Initializes a modifier that keeps the statistic value within the given range */
 + (id)modifierWithClampBetween:(int)min and:(int)max;
+/** Initializes a modifier that keeps the statistic value within the given range */
++ (id)modifierWithClampBetween:(int)min and:(int)max explanation:(NSString*)explanation;
 
 + (DKModifierBlockType)simpleAdditionModifierBlock;
 

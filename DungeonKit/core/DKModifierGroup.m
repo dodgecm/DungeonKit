@@ -61,4 +61,13 @@
     _owner = owner;
 }
 
+- (NSString*)description {
+    
+    NSMutableString* description = [NSMutableString stringWithFormat:@"Modifier group with %lu modifier(s):", (unsigned long)[_modifiersByStatID count]];
+    for (DKModifier* modifier in _modifiersByStatID.allValues) {
+        [description appendFormat:@"\n%@", modifier];
+    }
+    return description;
+}
+
 @end
