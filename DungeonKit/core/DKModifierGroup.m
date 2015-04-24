@@ -8,48 +8,93 @@
 
 #import "DKModifierGroup.h"
 
+@interface DKModifierGroup()
+@property (nonatomic, strong, readonly) NSDictionary* modifierHashesToStatIDs;
+@end
+
 @implementation DKModifierGroup {
-    NSMutableDictionary* _modifiersByStatID;
+    NSMutableDictionary* _modifierHashesToStatIDs;
+    NSMutableArray* _modifiers;
+    NSMutableSet* _subgroups;
 }
 
-@synthesize modifiersByStatID = _modifiersByStatID;
+@synthesize modifierHashesToStatIDs = _modifierHashesToStatIDs;
+@synthesize modifiers = _modifiers;
+@synthesize subgroups = _subgroups;
 @synthesize owner = _owner;
 
 - (id)init {
     self = [super init];
     if (self) {
-        _modifiersByStatID = [NSMutableDictionary dictionary];
+        _modifierHashesToStatIDs = [NSMutableDictionary dictionary];
+        _modifiers = [NSMutableArray array];
+        _subgroups = [NSMutableSet set];
     }
     return self;
 }
 
-- (NSArray*)allModifiers {
-    return [_modifiersByStatID allValues];
+- (NSString*)statIDForModifier:(DKModifier*)modifier {
+    return [_modifierHashesToStatIDs objectForKey: @([modifier hash]) ];
 }
 
 - (void)addModifier:(DKModifier*)modifier forStatisticID:(NSString*)statID {
     
-    if (!statID) {
-        NSLog(@"DKModifierGroup: Attempted to add modifier: %@ but statistic ID cannot be nil.", modifier);
+    if (!statID || !modifier) {
+        NSLog(@"DKModifierGroup: Attempted to add modifier: %@ for statistic ID: %@ cannot be nil.", modifier, statID);
         return;
     }
     
     [_owner group:self willAddModifier:modifier forStatID:statID];
-    [_modifiersByStatID setObject:modifier forKey:statID];
+    [_modifiers addObject:modifier];
+    [_modifierHashesToStatIDs setObject:statID forKey:@([modifier hash])];
 }
 
-- (void)removeModifierForStatisticID:(NSString*)statID {
+- (void)removeModifier:(DKModifier*)modifier {
     
-    if (!statID) {
-        NSLog(@"DKModifierGroup: Attempted to remove modifier but statistic ID cannot be nil.");
+    if (!modifier) {
+        NSLog(@"DKModifierGroup: Attempted to remove nil modifier.");
         return;
     }
     
-    DKModifier* modifierToRemove = _modifiersByStatID[statID];
-    if (modifierToRemove) {
-        [_owner group:self willRemoveModifier:modifierToRemove];
-        [_modifiersByStatID removeObjectForKey:statID];
+    [_owner group:self willRemoveModifier:modifier];
+    [_modifiers removeObject:modifier];
+    [_modifierHashesToStatIDs removeObjectForKey:@([modifier hash])];
+}
+
+- (void)addSubgroup:(DKModifierGroup*)subgroup {
+    
+    if (!subgroup || [subgroup isEqual:[NSNull null]]) { 
+        NSLog(@"DKModifierGroup: Attempted to add nil subgroup.");
+        return;
+    } else if ([_subgroups containsObject:subgroup]) {
+        NSLog(@"DKModifierGroup: Attempted to add subgroup: %@ that already belongs to this modifier group.", subgroup);
+        return;
     }
+    
+    [subgroup removeFromOwner];
+    [_subgroups addObject:subgroup];
+    for (DKModifier* modifier in subgroup.modifiers) {
+        
+        NSString* statID = [subgroup statIDForModifier:modifier];
+        [self addModifier:modifier forStatisticID:statID];
+    }
+    
+    [subgroup wasAddedToOwner:self];
+}
+
+- (void)removeSubgroup:(DKModifierGroup*)subgroup {
+    
+    if (!subgroup || [subgroup isEqual:[NSNull null]]) {
+        NSLog(@"DKModifierGroup: Attempted to remove nil subgroup.");
+        return;
+    }
+    
+    [_subgroups removeObject:subgroup];
+    for (DKModifier* modifier in subgroup.modifiers) {
+        
+        [self removeModifier:modifier];
+    }
+    [subgroup wasAddedToOwner:nil];
 }
 
 - (void)removeFromOwner {
@@ -61,10 +106,29 @@
     _owner = owner;
 }
 
+#pragma DKModifierGroupOwner
+
+- (void)removeModifierGroup:(DKModifierGroup*)modifierGroup {
+    
+    [self removeSubgroup:modifierGroup];
+}
+
+- (void)group:(DKModifierGroup*)modifierGroup willAddModifier:(DKModifier*)modifier forStatID:(NSString*)statID {
+    
+    [_owner group:self willAddModifier:modifier forStatID:statID];
+    [self addModifier:modifier forStatisticID:statID];
+}
+
+- (void)group:(DKModifierGroup*)modifierGroup willRemoveModifier:(DKModifier*)modifier {
+    
+    [_owner group:self willRemoveModifier:modifier];
+    [self removeModifier:modifier];
+}
+
 - (NSString*)description {
     
-    NSMutableString* description = [NSMutableString stringWithFormat:@"Modifier group with %lu modifier(s):", (unsigned long)[_modifiersByStatID count]];
-    for (DKModifier* modifier in _modifiersByStatID.allValues) {
+    NSMutableString* description = [NSMutableString stringWithFormat:@"Modifier group with %lu modifier(s):", (unsigned long) _modifiers.count];
+    for (DKModifier* modifier in _modifiers) {
         [description appendFormat:@"\n%@", modifier];
     }
     return description;

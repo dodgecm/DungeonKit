@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B32222661AEA144300EE0DD6 /* DKModifierGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32222651AEA144300EE0DD6 /* DKModifierGroupTests.m */; };
 		B32C77381A494A2700870150 /* DungeonKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77371A494A2700870150 /* DungeonKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32C773E1A494A2700870150 /* DungeonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B32C77321A494A2700870150 /* DungeonKit.framework */; };
 		B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77441A494A2700870150 /* DungeonKitTests.m */; };
@@ -69,6 +70,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B32222651AEA144300EE0DD6 /* DKModifierGroupTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKModifierGroupTests.m; sourceTree = "<group>"; };
 		B32C77321A494A2700870150 /* DungeonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DungeonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B32C77361A494A2700870150 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B32C77371A494A2700870150 /* DungeonKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DungeonKit.h; sourceTree = "<group>"; };
@@ -277,6 +279,7 @@
 				B3E40D601A5A4D66004342F3 /* DKDependentModifierTests.m */,
 				B3E40D581A57E53B004342F3 /* DKStatisticTests.m */,
 				B36BF32E1A72337B00979EE9 /* DKDiceTests.m */,
+				B32222651AEA144300EE0DD6 /* DKModifierGroupTests.m */,
 			);
 			path = core;
 			sourceTree = "<group>";
@@ -434,6 +437,7 @@
 				B3F5883C1A5BE2D400E6A745 /* DKSavingThrowsTests.m in Sources */,
 				B36BF32F1A72337B00979EE9 /* DKDiceTests.m in Sources */,
 				B3E40D611A5A4D66004342F3 /* DKDependentModifierTests.m in Sources */,
+				B32222661AEA144300EE0DD6 /* DKModifierGroupTests.m in Sources */,
 				B3E40D5C1A57E53B004342F3 /* DKModifierTests.m in Sources */,
 				B3E40D5A1A57E53B004342F3 /* DKAbilityScoreTests.m in Sources */,
 				B3E40D5F1A57E587004342F3 /* DKCharacter5ETests.m in Sources */,

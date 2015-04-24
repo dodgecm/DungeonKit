@@ -17,19 +17,26 @@
 - (void)group:(DKModifierGroup*)modifierGroup willRemoveModifier:(DKModifier*)modifier;
 @end
 
-@interface DKModifierGroup : NSObject
+@interface DKModifierGroup : NSObject <DKModifierGroupOwner>
 
-@property (nonatomic, strong, readonly) NSDictionary* modifiersByStatID;
+/** Array of DKModifiers that this DKModifierGroup is the owner of (including modifiers from subgroups). */
+@property (nonatomic, strong, readonly) NSArray* modifiers;
+/** Array of DKModifierGroups that this DKModifierGroup is the owner of. */
+@property (nonatomic, strong, readonly) NSSet* subgroups;
 @property (nonatomic, weak, readonly) id<DKModifierGroupOwner> owner;
 
-- (NSArray*)allModifiers;
-- (void)addModifier:(DKModifier*)modifier forStatisticID:(NSString*)statID;
-- (void)removeModifierForStatisticID:(NSString*)statID;
+- (NSString*)statIDForModifier:(DKModifier*)modifier;
 
-/** Removes the modifier from its owner character. */
+- (void)addModifier:(DKModifier*)modifier forStatisticID:(NSString*)statID;
+- (void)removeModifier:(DKModifier*)modifier;
+
+- (void)addSubgroup:(DKModifierGroup*)subgroup;
+- (void)removeSubgroup:(DKModifierGroup*)subgroup;
+
+/** Removes the modifier group from its owner. */
 - (void)removeFromOwner;
 
-/** Callback method for when the modifier group gets added.  Only DKCharacter and similar owner
+/** Callback method for when the modifier group gets changed.  Only DKCharacter and similar owner
  classes should call this method directly.  */
 - (void)wasAddedToOwner:(id<DKModifierGroupOwner>)owner;
 

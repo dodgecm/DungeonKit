@@ -149,8 +149,8 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     [_modifierGroups setObject:modifierGroup forKey:groupID];
     
     //Apply all the modifiers in this group to our statistics
-    for (NSString* statID in [[modifierGroup modifiersByStatID] allKeys]) {
-        [self applyModifier:[modifierGroup modifiersByStatID][statID] toStatisticWithID:statID];
+    for (DKModifier* modifier in modifierGroup.modifiers) {
+        [self applyModifier:modifier toStatisticWithID:[modifierGroup statIDForModifier:modifier]];
     }
     
     [modifierGroup wasAddedToOwner:self];
@@ -175,11 +175,12 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     }
     
     //Remove all the modifiers in this group from our statistics
-    for (DKModifier* modifier in [groupToRemove allModifiers]) {
+    for (DKModifier* modifier in groupToRemove.modifiers) {
         [modifier removeFromStatistic];
     }
     
     [_modifierGroups removeObjectForKey:groupID];
+    [groupToRemove wasAddedToOwner:nil];
 }
 
 #pragma DKModifierGroupOwner
@@ -221,13 +222,13 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
         //Remove all the modifiers in the old group and apply the modifiers from the new group
         DKModifierGroup* oldGroup = change[@"old"];
         if ([oldGroup isEqual:[NSNull null]]) { oldGroup = nil; }
-        for (DKModifier* modifier in [oldGroup allModifiers]) {
+        for (DKModifier* modifier in oldGroup.modifiers) {
             [modifier removeFromStatistic];
         }
         DKModifierGroup* newGroup = change[@"new"];
         if ([newGroup isEqual:[NSNull null]]) { newGroup = nil; }
-        for (NSString* statID in [[newGroup modifiersByStatID] allKeys]) {
-            [self applyModifier:[newGroup modifiersByStatID][statID] toStatisticWithID:statID];
+        for (DKModifier* modifier in newGroup.modifiers) {
+            [self applyModifier:modifier toStatisticWithID:[newGroup statIDForModifier:modifier]];
         }
     }
 }

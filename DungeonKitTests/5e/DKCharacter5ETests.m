@@ -145,10 +145,10 @@
         DKRace5E* oldRace = character.race;
         character.race = newRace;
         
-        for (DKModifier* modifier in oldRace.allModifiers) {
+        for (DKModifier* modifier in oldRace.modifiers) {
             XCTAssertNil(modifier.owner, @"Old race modifiers should get removed");
         }
-        for (DKModifier* modifier in newRace.allModifiers) {
+        for (DKModifier* modifier in newRace.modifiers) {
             XCTAssertNotNil(modifier.owner, @"New race modifiers should get applied");
         }
     }
