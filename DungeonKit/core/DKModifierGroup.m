@@ -21,6 +21,7 @@
 @synthesize modifierHashesToStatIDs = _modifierHashesToStatIDs;
 @synthesize modifiers = _modifiers;
 @synthesize subgroups = _subgroups;
+@synthesize explanation = _explanation;
 @synthesize owner = _owner;
 
 - (id)init {
@@ -125,11 +126,35 @@
     [self removeModifier:modifier];
 }
 
+- (NSString*)shortDescription {
+    
+    NSMutableString* description = [NSMutableString string];
+    if ([_explanation length]) { [description appendString:_explanation]; }
+    for (DKModifierGroup* subgroup in _subgroups) {
+        [description appendFormat:@"\n%@", subgroup];
+    }
+    for (DKModifier* modifier in _modifiers) {
+        [description appendFormat:@"\n\t%@", modifier];
+    }
+    return description;
+}
+
 - (NSString*)description {
     
-    NSMutableString* description = [NSMutableString stringWithFormat:@"Modifier group with %lu modifier(s):", (unsigned long) _modifiers.count];
-    for (DKModifier* modifier in _modifiers) {
-        [description appendFormat:@"\n%@", modifier];
+    NSMutableString* description = [NSMutableString stringWithString:@"Modifier group: "];
+    if ([_explanation length]) { [description appendFormat:@"%@\n", _explanation]; }
+    if ([_subgroups count]) {
+        [description appendString:[NSString stringWithFormat:@"%lu subgroups(s):", (unsigned long) _subgroups.count]];
+        for (DKModifierGroup* subgroup in _subgroups) {
+            [description appendFormat:@"\n%@", [subgroup shortDescription]];
+        }
+        [description appendFormat:@"\n\n"];
+    }
+    if ([_modifiers count]) {
+        [description appendString:[NSString stringWithFormat:@"%lu modifier(s):", (unsigned long) _modifiers.count]];
+        for (DKModifier* modifier in _modifiers) {
+            [description appendFormat:@"\n%@", modifier];
+        }
     }
     return description;
 }

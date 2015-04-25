@@ -23,6 +23,8 @@
 @property (nonatomic, strong, readonly) NSArray* modifiers;
 /** Array of DKModifierGroups that this DKModifierGroup is the owner of. */
 @property (nonatomic, strong, readonly) NSSet* subgroups;
+/** An optional explanation of the nature or source of this modifier group */
+@property (nonatomic, copy) NSString* explanation;
 @property (nonatomic, weak, readonly) id<DKModifierGroupOwner> owner;
 
 - (NSString*)statIDForModifier:(DKModifier*)modifier;
@@ -40,4 +42,7 @@
  classes should call this method directly.  */
 - (void)wasAddedToOwner:(id<DKModifierGroupOwner>)owner;
 
+- (NSString*)shortDescription;
+
 @end
+

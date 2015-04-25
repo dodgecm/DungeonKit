@@ -131,6 +131,7 @@
                                                        block:^int(int modifierValue, int valueToModify) {
                                                            return valueToModify;
                                                        }];
+    modifier.explanation = explanation;
     return modifier;
 }
 
