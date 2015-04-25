@@ -41,6 +41,8 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 
 /** The amount of the modification. */
 @property (nonatomic, assign) int value;
+/** A flag for whether this modifier should be applied to its owner */
+@property (nonatomic, assign) BOOL enabled;
 /** Describes when this modifier should be applied relative to other modifiers applied to the same statistic. */
 @property (nonatomic, readonly) DKModifierPriority priority;
 /** A function to perform the modification. */

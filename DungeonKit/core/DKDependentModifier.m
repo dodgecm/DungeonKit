@@ -16,6 +16,7 @@
 
 @synthesize source = _source;
 @synthesize valueBlock = _valueBlock;
+@synthesize enabledBlock = _enabledBlock;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DKStatObjectChangedNotification object:nil];
@@ -24,6 +25,19 @@
 
 - (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
                value:(DKDependentModifierBlockType)valueBlock
+            priority:(DKModifierPriority)priority
+               block:(DKModifierBlockType)block {
+    
+    return [self initWithSource:source
+                          value:valueBlock
+                        enabled:^BOOL(int sourceValue) { return YES; }
+                       priority:priority
+                          block:block];
+}
+
+- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
+               value:(DKDependentModifierBlockType)valueBlock
+             enabled:(DKDependentModifierEnabledBlockType)enabledBlock
             priority:(DKModifierPriority)priority
                block:(DKModifierBlockType)block {
     
@@ -44,6 +58,9 @@
         
         _source = source;
         _valueBlock = valueBlock;
+        _enabledBlock = enabledBlock;
+        
+        [self refreshValue];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sourceChanged:) name:DKStatObjectChangedNotification object:_source];
         [_source addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
@@ -87,6 +104,12 @@
 
 - (void)refreshValue {
     
+    if (_enabledBlock) {
+        self.enabled = _enabledBlock([_source value]);
+    } else {
+        self.enabled = YES;
+    }
+    
     if (_valueBlock) {
         self.value = _valueBlock([_source value]);
     } else {
@@ -113,6 +136,13 @@
 + (DKDependentModifierBlockType)simpleValueBlock {
     return ^int(int valueToModify) {
         return valueToModify;
+    };
+}
+
++ (DKDependentModifierEnabledBlockType)enableWhenGreaterThanOrEqualTo:(int)threshold {
+    return ^BOOL(int sourceValue) {
+        if (sourceValue >= threshold) return YES;
+        else return NO;
     };
 }
 

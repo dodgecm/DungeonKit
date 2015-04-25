@@ -66,6 +66,27 @@
     XCTAssert(![[firstStatistic modifiers] containsObject:secondModifier], @"Dependent modifier should not successfully add itself if it would create a cycle.");
 }
 
-
+- (void)testAutoEnable {
+    
+    DKStatistic* firstStatistic = [[DKStatistic alloc] initWithBase:0];
+    DKStatistic* secondStatistic = [[DKStatistic alloc] initWithBase:5];
+    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:firstStatistic
+                                                                          value:^int(int valueToModify) { return 5; }
+                                                                        enabled:[DKDependentModifierBuilder enableWhenGreaterThanOrEqualTo:10]
+                                                                       priority:kDKModifierPriority_Additive
+                                                                          block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    
+    [secondStatistic applyModifier:modifier];
+    XCTAssertFalse(modifier.enabled, @"Modifier should be disabled since first statistic is below the threshold.");
+    XCTAssertTrue([secondStatistic.disabledModifiers containsObject:modifier], @"Modifier should be disabled since first statistic is below the threshold.");
+    
+    firstStatistic.base = 10;
+    XCTAssertTrue(modifier.enabled, @"Modifier should be enabled since first statistic is at the threshold.");
+    XCTAssertTrue([secondStatistic.enabledModifiers containsObject:modifier], @"Modifier should be enabled since first statistic is at the threshold.");
+    
+    firstStatistic.base = 0;
+    XCTAssertFalse(modifier.enabled, @"Modifier should be disabled since first statistic is below the threshold.");
+    XCTAssertTrue([secondStatistic.disabledModifiers containsObject:modifier], @"Modifier should be disabled since first statistic is below the threshold.");
+}
 
 @end

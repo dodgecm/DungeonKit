@@ -14,6 +14,7 @@
 @implementation DKModifier
 
 @synthesize value = _value;
+@synthesize enabled = _enabled;
 @synthesize priority = _priority;
 @synthesize modifierBlock = _modifierBlock;
 @synthesize explanation = _explanation;
@@ -23,6 +24,7 @@
     self = [super init];
     if (self) {
         _value = value;
+        _enabled = YES;
         _priority = priority;
         _modifierBlock = block;
     }
@@ -36,7 +38,7 @@
 
 - (int) modifyStatistic:(int)input {
     
-    if (self.modifierBlock != nil) {
+    if (self.modifierBlock != nil && self.enabled) {
         return _modifierBlock(self.value, input);
     } else {
         return input;

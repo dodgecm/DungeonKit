@@ -65,6 +65,32 @@
     XCTAssertEqual(stat.value, 18, @"Modifiers should be applied in the correct value.");
 }
 
+- (void)testModifierFiltering {
+    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKModifier* firstModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* secondModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* thirdModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* fourthModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    [stat applyModifier:firstModifier];
+    [stat applyModifier:secondModifier];
+    [stat applyModifier:thirdModifier];
+    [stat applyModifier:fourthModifier];
+    firstModifier.enabled = NO;
+    thirdModifier.enabled = NO;
+    
+    NSArray* enabledModifiers = [stat enabledModifiers];
+    XCTAssertFalse([enabledModifiers containsObject:firstModifier], @"Modifiers should get filtered correctly.");
+    XCTAssertFalse([enabledModifiers containsObject:thirdModifier], @"Modifiers should get filtered correctly.");
+    XCTAssertTrue([enabledModifiers containsObject:secondModifier], @"Modifiers should get filtered correctly.");
+    XCTAssertTrue([enabledModifiers containsObject:fourthModifier], @"Modifiers should get filtered correctly.");
+    
+    NSArray* disabledModifiers = [stat disabledModifiers];
+    XCTAssertTrue([disabledModifiers containsObject:firstModifier], @"Modifiers should get filtered correctly.");
+    XCTAssertTrue([disabledModifiers containsObject:thirdModifier], @"Modifiers should get filtered correctly.");
+    XCTAssertFalse([disabledModifiers containsObject:secondModifier], @"Modifiers should get filtered correctly.");
+    XCTAssertFalse([disabledModifiers containsObject:fourthModifier], @"Modifiers should get filtered correctly.");
+}
+
 - (void)testModifierAdditionErrorCase {
     
     DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];

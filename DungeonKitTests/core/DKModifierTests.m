@@ -74,4 +74,17 @@
     XCTAssertEqual(stat.value, 10, @"Informational modifier should not change statistic's value.");
 }
 
+- (void)testEnabledModifier {
+    
+    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    [stat applyModifier:modifier];
+    XCTAssertEqual(stat.value, 15, @"Statistic should update score when modifier value is changed.");
+    
+    modifier.enabled = NO;
+    XCTAssertEqual(stat.value, 10, @"Statistic should update score when enabled value is changed.");
+    modifier.enabled = YES;
+    XCTAssertEqual(stat.value, 15, @"Statistic should update score when enabled value is changed.");
+}
+
 @end

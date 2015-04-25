@@ -28,6 +28,7 @@
 -(void)dealloc {
     for (DKModifier* modifier in _modifiers) {
         [modifier removeObserver:self forKeyPath:@"value"];
+        [modifier removeObserver:self forKeyPath:@"enabled"];
     }
 }
 
@@ -45,6 +46,14 @@
     [self recalculateValue];
 }
 
+- (NSArray*)enabledModifiers {
+    return [_modifiers filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"enabled == true"]];
+}
+
+- (NSArray*)disabledModifiers {
+    return [_modifiers filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"enabled == false"]];
+}
+
 - (void)applyModifier:(DKModifier*)modifier {
     
     if (!modifier) { return; }
@@ -55,6 +64,7 @@
     [_modifiers addObject:modifier];
     [modifier wasAppliedToStatistic:self];
     [modifier addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
+    [modifier addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionNew context:nil];
     
     if ([modifier isKindOfClass:[DKDependentModifier class]]) {
         //If this is a dependent modifier, we need to do some special checks to make sure we don't have a modifier infinite cycle going on.
@@ -80,6 +90,7 @@
     if (![_modifiers containsObject:modifier]) { return; }
     
     [modifier removeObserver:self forKeyPath:@"value"];
+    [modifier removeObserver:self forKeyPath:@"enabled"];
     [_modifiers removeObject:modifier];
     [self recalculateValue];
 }
@@ -96,6 +107,7 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+        
     //The value of one of our modifiers has changed, so we need to recalculate the score
     [self recalculateValue];
 }
