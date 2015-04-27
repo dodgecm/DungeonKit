@@ -11,9 +11,3 @@
 
 //Normally I would just use a typedef here, but KVO explodes after the use of C style unions.  Beware.
 @compatibility_alias DKClass5E DKModifierGroup;
-
-@interface DKClass5EBuilder : NSObject
-
-+ (DKClass5E*)cleric;
-
-@end

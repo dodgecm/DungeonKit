@@ -106,9 +106,7 @@
     
     if (_enabledBlock) {
         self.enabled = _enabledBlock([_source value]);
-    } else {
-        self.enabled = YES;
-    }
+    } 
     
     if (_valueBlock) {
         self.value = _valueBlock([_source value]);
@@ -130,6 +128,30 @@
                                                                           value:[DKDependentModifierBuilder simpleValueBlock]
                                                                        priority:kDKModifierPriority_Additive
                                                                           block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    return modifier;
+}
+
++ (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source explanation:(NSString*)explanation {
+    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
+                                                                          value:[DKDependentModifierBuilder simpleValueBlock]
+                                                                       priority:kDKModifierPriority_Additive
+                                                                          block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    modifier.explanation = explanation;
+    return modifier;
+}
+
++ (id)informationalModifierFromSource:(NSObject<DKDependentModifierOwner>*)source threshold:(int)threshold explanation:(NSString*)explanation {
+    
+    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
+                                                                          value:^int(int sourceValue) {
+                                                                              return 0;
+                                                                          }
+                                                                        enabled:[DKDependentModifierBuilder enableWhenGreaterThanOrEqualTo:threshold]
+                                                                       priority:kDKModifierPriority_Informational
+                                                                          block:^int(int modifierValue, int valueToModify) {
+                                                                              return valueToModify;
+                                                                          }];
+    modifier.explanation = explanation;
     return modifier;
 }
 
