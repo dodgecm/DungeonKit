@@ -19,6 +19,7 @@
 @synthesize abilities = _abilities;
 @synthesize savingThrows = _savingThrows;
 @synthesize skills = _skills;
+@synthesize spells = _spells;
 @synthesize currency = _currency;
 @synthesize hitPointsMax = _hitPointsMax;
 @synthesize hitPointsTemporary = _hitPointsTemporary;
@@ -142,6 +143,40 @@
              DKStatIDCurrencyElectrum: @"currency.electrum",
              DKStatIDCurrencyGold: @"currency.gold",
              DKStatIDCurrencyPlatinum: @"currency.platinum",
+             
+             DKStatIDSpellSaveDC: @"spells.spellSaveDC",
+             DKStatIDSpellAttackBonus: @"spells.spellAttackBonus",
+             
+             DKStatIDFirstLevelSpellSlotsCurrent: @"spells.firstLevelSpellSlotsCurrent",
+             DKStatIDSecondLevelSpellSlotsCurrent: @"spells.secondLevelSpellSlotsCurrent",
+             DKStatIDThirdLevelSpellSlotsCurrent: @"spells.thirdLevelSpellSlotsCurrent",
+             DKStatIDFourthLevelSpellSlotsCurrent: @"spells.fourthLevelSpellSlotsCurrent",
+             DKStatIDFifthLevelSpellSlotsCurrent: @"spells.fifthLevelSpellSlotsCurrent",
+             DKStatIDSixthLevelSpellSlotsCurrent: @"spells.sixthLevelSpellSlotsCurrent",
+             DKStatIDSeventhLevelSpellSlotsCurrent: @"spells.seventhLevelSpellSlotsCurrent",
+             DKStatIDEighthLevelSpellSlotsCurrent: @"spells.eighthLevelSpellSlotsCurrent",
+             DKStatIDNinthLevelSpellSlotsCurrent: @"spells.ninthLevelSpellSlotsCurrent",
+             
+             DKStatIDFirstLevelSpellSlotsMax: @"spells.firstLevelSpellSlotsMax",
+             DKStatIDSecondLevelSpellSlotsMax: @"spells.secondLevelSpellSlotsMax",
+             DKStatIDThirdLevelSpellSlotsMax: @"spells.thirdLevelSpellSlotsMax",
+             DKStatIDFourthLevelSpellSlotsMax: @"spells.fourthLevelSpellSlotsMax",
+             DKStatIDFifthLevelSpellSlotsMax: @"spells.fifthLevelSpellSlotsMax",
+             DKStatIDSixthLevelSpellSlotsMax: @"spells.sixthLevelSpellSlotsMax",
+             DKStatIDSeventhLevelSpellSlotsMax: @"spells.seventhLevelSpellSlotsMax",
+             DKStatIDEighthLevelSpellSlotsMax: @"spells.eighthLevelSpellSlotsMax",
+             DKStatIDNinthLevelSpellSlotsMax: @"spells.ninthLevelSpellSlotsMax",
+             
+             DKStatIDCantrips: @"spells.spellbook.cantrips",
+             DKStatIDFirstLevelSpells: @"spells.spellbook.firstLevelSpells",
+             DKStatIDSecondLevelSpells: @"spells.spellbook.secondLevelSpells",
+             DKStatIDThirdLevelSpells: @"spells.spellbook.thirdLevelSpells",
+             DKStatIDFourthLevelSpells: @"spells.spellbook.fourthLevelSpells",
+             DKStatIDFifthLevelSpells: @"spells.spellbook.fifthLevelSpells",
+             DKStatIDSixthLevelSpells: @"spells.spellbook.sixthLevelSpells",
+             DKStatIDSeventhLevelSpells: @"spells.spellbook.seventhLevelSpells",
+             DKStatIDEighthLevelSpells: @"spells.spellbook.eighthLevelSpells",
+             DKStatIDNinthLevelSpells: @"spells.spellbook.ninthLevelSpells",
              };
 }
 
@@ -181,6 +216,7 @@
         self.abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
         self.savingThrows = [[DKSavingThrows5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
         self.skills = [[DKSkills5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
+        self.spells = [[DKSpells5E alloc] initWithProficiencyBonus:_proficiencyBonus];
         self.currency = [[DKCurrency5E alloc] init];
         
         //Link maximum and current HP so that current HP value will update when max HP value changes

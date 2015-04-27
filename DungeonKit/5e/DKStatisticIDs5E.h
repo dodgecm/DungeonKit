@@ -107,3 +107,37 @@ FOUNDATION_EXPORT NSString *const DKStatIDCurrencySilver;
 FOUNDATION_EXPORT NSString *const DKStatIDCurrencyElectrum;
 FOUNDATION_EXPORT NSString *const DKStatIDCurrencyGold;
 FOUNDATION_EXPORT NSString *const DKStatIDCurrencyPlatinum;
+
+FOUNDATION_EXPORT NSString *const DKStatIDSpellSaveDC;
+FOUNDATION_EXPORT NSString *const DKStatIDSpellAttackBonus;
+
+FOUNDATION_EXPORT NSString *const DKStatIDFirstLevelSpellSlotsCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDSecondLevelSpellSlotsCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDThirdLevelSpellSlotsCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDFourthLevelSpellSlotsCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDFifthLevelSpellSlotsCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDSixthLevelSpellSlotsCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDSeventhLevelSpellSlotsCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDEighthLevelSpellSlotsCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDNinthLevelSpellSlotsCurrent;
+
+FOUNDATION_EXPORT NSString *const DKStatIDFirstLevelSpellSlotsMax;
+FOUNDATION_EXPORT NSString *const DKStatIDSecondLevelSpellSlotsMax;
+FOUNDATION_EXPORT NSString *const DKStatIDThirdLevelSpellSlotsMax;
+FOUNDATION_EXPORT NSString *const DKStatIDFourthLevelSpellSlotsMax;
+FOUNDATION_EXPORT NSString *const DKStatIDFifthLevelSpellSlotsMax;
+FOUNDATION_EXPORT NSString *const DKStatIDSixthLevelSpellSlotsMax;
+FOUNDATION_EXPORT NSString *const DKStatIDSeventhLevelSpellSlotsMax;
+FOUNDATION_EXPORT NSString *const DKStatIDEighthLevelSpellSlotsMax;
+FOUNDATION_EXPORT NSString *const DKStatIDNinthLevelSpellSlotsMax;
+
+FOUNDATION_EXPORT NSString *const DKStatIDCantrips;
+FOUNDATION_EXPORT NSString *const DKStatIDFirstLevelSpells;
+FOUNDATION_EXPORT NSString *const DKStatIDSecondLevelSpells;
+FOUNDATION_EXPORT NSString *const DKStatIDThirdLevelSpells;
+FOUNDATION_EXPORT NSString *const DKStatIDFourthLevelSpells;
+FOUNDATION_EXPORT NSString *const DKStatIDFifthLevelSpells;
+FOUNDATION_EXPORT NSString *const DKStatIDSixthLevelSpells;
+FOUNDATION_EXPORT NSString *const DKStatIDSeventhLevelSpells;
+FOUNDATION_EXPORT NSString *const DKStatIDEighthLevelSpells;
+FOUNDATION_EXPORT NSString *const DKStatIDNinthLevelSpells;

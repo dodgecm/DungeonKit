@@ -12,6 +12,8 @@
 		B32222781AEB5DCE00EE0DD6 /* DKClass5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B32222761AEB5DCE00EE0DD6 /* DKClass5E.m */; };
 		B322227B1AEB740E00EE0DD6 /* DKSpells5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B32222791AEB740E00EE0DD6 /* DKSpells5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B322227C1AEB740E00EE0DD6 /* DKSpells5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B322227A1AEB740E00EE0DD6 /* DKSpells5E.m */; };
+		B322227F1AED6CCD00EE0DD6 /* DKSpellbook5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B322227D1AED6CCD00EE0DD6 /* DKSpellbook5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B32222801AED6CCD00EE0DD6 /* DKSpellbook5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B322227E1AED6CCD00EE0DD6 /* DKSpellbook5E.m */; };
 		B32C77381A494A2700870150 /* DungeonKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77371A494A2700870150 /* DungeonKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32C773E1A494A2700870150 /* DungeonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B32C77321A494A2700870150 /* DungeonKit.framework */; };
 		B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77441A494A2700870150 /* DungeonKitTests.m */; };
@@ -79,6 +81,8 @@
 		B32222761AEB5DCE00EE0DD6 /* DKClass5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKClass5E.m; sourceTree = "<group>"; };
 		B32222791AEB740E00EE0DD6 /* DKSpells5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKSpells5E.h; sourceTree = "<group>"; };
 		B322227A1AEB740E00EE0DD6 /* DKSpells5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKSpells5E.m; sourceTree = "<group>"; };
+		B322227D1AED6CCD00EE0DD6 /* DKSpellbook5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKSpellbook5E.h; sourceTree = "<group>"; };
+		B322227E1AED6CCD00EE0DD6 /* DKSpellbook5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKSpellbook5E.m; sourceTree = "<group>"; };
 		B32C77321A494A2700870150 /* DungeonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DungeonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B32C77361A494A2700870150 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B32C77371A494A2700870150 /* DungeonKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DungeonKit.h; sourceTree = "<group>"; };
@@ -263,6 +267,8 @@
 				B3C605CF1A68EE7C007FADAB /* DKSkills5E.m */,
 				B32222791AEB740E00EE0DD6 /* DKSpells5E.h */,
 				B322227A1AEB740E00EE0DD6 /* DKSpells5E.m */,
+				B322227D1AED6CCD00EE0DD6 /* DKSpellbook5E.h */,
+				B322227E1AED6CCD00EE0DD6 /* DKSpellbook5E.m */,
 				B36BF3301A724EE600979EE9 /* DKCurrency5E.h */,
 				B36BF3311A724EE600979EE9 /* DKCurrency5E.m */,
 			);
@@ -317,6 +323,7 @@
 				B36BF33C1A7351D700979EE9 /* DKModifierGroup.h in Headers */,
 				B3C605EA1A722F83007FADAB /* DKDice.h in Headers */,
 				B3E40D4C1A57D33F004342F3 /* DKCharacter5E.h in Headers */,
+				B322227F1AED6CCD00EE0DD6 /* DKSpellbook5E.h in Headers */,
 				B3E40D3D1A57D20C004342F3 /* DKModifier.h in Headers */,
 				B3E40D3F1A57D20C004342F3 /* DKStatistic.h in Headers */,
 				B3C605D01A68EE7C007FADAB /* DKSkills5E.h in Headers */,
@@ -436,6 +443,7 @@
 				B3C605EB1A722F83007FADAB /* DKDice.m in Sources */,
 				B3C605D11A68EE7C007FADAB /* DKSkills5E.m in Sources */,
 				B3E40D471A57D2BE004342F3 /* DKAbilities5E.m in Sources */,
+				B32222801AED6CCD00EE0DD6 /* DKSpellbook5E.m in Sources */,
 				B3C605D51A68F90E007FADAB /* DKProficientStatistic.m in Sources */,
 				B322227C1AEB740E00EE0DD6 /* DKSpells5E.m in Sources */,
 				B3E40D3E1A57D20C004342F3 /* DKModifier.m in Sources */,

@@ -34,4 +34,5 @@ FOUNDATION_EXPORT const unsigned char DungeonKitVersionString[];
 #import <DungeonKit/DKSavingThrows5E.h>
 #import <DungeonKit/DKSkills5E.h>
 #import <DungeonKit/DKSpells5E.h>
+#import <DungeonKit/DKSpellbook5E.h>
 #import <DungeonKit/DKCurrency5E.h>

@@ -110,3 +110,37 @@ NSString *const DKStatIDCurrencySilver = @"DKStatIDCurrencySilver";
 NSString *const DKStatIDCurrencyElectrum = @"DKStatIDCurrencyElectrum";
 NSString *const DKStatIDCurrencyGold = @"DKStatIDCurrencyGold";
 NSString *const DKStatIDCurrencyPlatinum = @"DKStatIDCurrencyPlatinum";
+
+NSString *const DKStatIDSpellSaveDC = @"DKStatIDSpellSaveDC";
+NSString *const DKStatIDSpellAttackBonus = @"DKStatIDSpellAttackBonus";
+
+NSString *const DKStatIDFirstLevelSpellSlotsCurrent = @"DKStatIDFirstLevelSpellSlotsCurrent";
+NSString *const DKStatIDSecondLevelSpellSlotsCurrent = @"DKStatIDSecondLevelSpellSlotsCurrent";
+NSString *const DKStatIDThirdLevelSpellSlotsCurrent = @"DKStatIDThirdLevelSpellSlotsCurrent";
+NSString *const DKStatIDFourthLevelSpellSlotsCurrent = @"DKStatIDFourthLevelSpellSlotsCurrent";
+NSString *const DKStatIDFifthLevelSpellSlotsCurrent = @"DKStatIDFifthLevelSpellSlotsCurrent";
+NSString *const DKStatIDSixthLevelSpellSlotsCurrent = @"DKStatIDSixthLevelSpellSlotsCurrent";
+NSString *const DKStatIDSeventhLevelSpellSlotsCurrent = @"DKStatIDSeventhLevelSpellSlotsCurrent";
+NSString *const DKStatIDEighthLevelSpellSlotsCurrent = @"DKStatIDEighthLevelSpellSlotsCurrent";
+NSString *const DKStatIDNinthLevelSpellSlotsCurrent = @"DKStatIDNinthLevelSpellSlotsCurrent";
+
+NSString *const DKStatIDFirstLevelSpellSlotsMax = @"DKStatIDFirstLevelSpellSlotsMax";
+NSString *const DKStatIDSecondLevelSpellSlotsMax = @"DKStatIDSecondLevelSpellSlotsMax";
+NSString *const DKStatIDThirdLevelSpellSlotsMax = @"DKStatIDThirdLevelSpellSlotsMax";
+NSString *const DKStatIDFourthLevelSpellSlotsMax = @"DKStatIDFourthLevelSpellSlotsMax";
+NSString *const DKStatIDFifthLevelSpellSlotsMax = @"DKStatIDFifthLevelSpellSlotsMax";
+NSString *const DKStatIDSixthLevelSpellSlotsMax = @"DKStatIDSixthLevelSpellSlotsMax";
+NSString *const DKStatIDSeventhLevelSpellSlotsMax = @"DKStatIDSeventhLevelSpellSlotsMax";
+NSString *const DKStatIDEighthLevelSpellSlotsMax = @"DKStatIDEighthLevelSpellSlotsMax";
+NSString *const DKStatIDNinthLevelSpellSlotsMax = @"DKStatIDNinthLevelSpellSlotsMax";
+
+NSString *const DKStatIDCantrips = @"DKStatIDCantrips";
+NSString *const DKStatIDFirstLevelSpells = @"DKStatIDFirstLevelSpells";
+NSString *const DKStatIDSecondLevelSpells = @"DKStatIDSecondLevelSpells";
+NSString *const DKStatIDThirdLevelSpells = @"DKStatIDThirdLevelSpells";
+NSString *const DKStatIDFourthLevelSpells = @"DKStatIDFourthLevelSpells";
+NSString *const DKStatIDFifthLevelSpells = @"DKStatIDFifthLevelSpells";
+NSString *const DKStatIDSixthLevelSpells = @"DKStatIDSixthLevelSpells";
+NSString *const DKStatIDSeventhLevelSpells = @"DKStatIDSeventhLevelSpells";
+NSString *const DKStatIDEighthLevelSpells = @"DKStatIDEighthLevelSpells";
+NSString *const DKStatIDNinthLevelSpells = @"DKStatIDNinthLevelSpells";
