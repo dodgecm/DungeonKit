@@ -34,6 +34,12 @@
     return dependentModifier;
 }
 
+- (DKDependentModifier*) modifierFromAbilityScoreWithExplanation:(NSString*)explanation {
+    DKDependentModifier* modifier = [self modifierFromAbilityScore];
+    modifier.explanation = explanation;
+    return modifier;
+}
+
 - (NSString*) formattedAbilityModifier {
     
     NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];

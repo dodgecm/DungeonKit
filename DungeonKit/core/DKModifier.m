@@ -64,7 +64,9 @@
         modifierString = [NSString stringWithFormat:@"%@: ", [formatter stringFromNumber:@([self modifyStatistic:0])]];
     }
     
-    return [NSString stringWithFormat:@"%@%@", modifierString, _explanation];
+    NSString* disabled = @"";
+    if (!self.enabled) { disabled = @" - disabled"; }
+    return [NSString stringWithFormat:@"%@%@%@", modifierString, _explanation, disabled];
 }
 
 @end

@@ -116,7 +116,24 @@
 }
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"Dependent modifier with source: %@, value: %i", _source, _source.value];
+    
+    if (![self.explanation length]) {
+        
+        NSString* modifierString = @"";
+        if (self.priority == kDKModifierPriority_Additive) {
+            
+            NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
+            formatter.positivePrefix = @"+";
+            formatter.zeroSymbol = @"+0";
+            modifierString = [NSString stringWithFormat:@"%@", [formatter stringFromNumber:@(_source.value)]];
+            
+            NSString* disabled = @"";
+            if (!self.enabled) { disabled = @" - disabled"; }
+            return [modifierString stringByAppendingString:disabled];
+        }
+        else { return [super description]; }
+    }
+    else { return [super description]; };
 }
 
 @end

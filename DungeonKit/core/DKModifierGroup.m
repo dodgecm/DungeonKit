@@ -130,9 +130,6 @@
     
     NSMutableString* description = [NSMutableString string];
     if ([_explanation length]) { [description appendString:_explanation]; }
-    for (DKModifierGroup* subgroup in _subgroups) {
-        [description appendFormat:@"\n%@", subgroup];
-    }
     for (DKModifier* modifier in _modifiers) {
         [description appendFormat:@"\n\t%@", modifier];
     }
@@ -153,7 +150,8 @@
     if ([_modifiers count]) {
         [description appendString:[NSString stringWithFormat:@"%lu modifier(s):", (unsigned long) _modifiers.count]];
         for (DKModifier* modifier in _modifiers) {
-            [description appendFormat:@"\n%@", modifier];
+            NSString* statID = [self statIDForModifier:modifier];
+            [description appendFormat:@"\n%@: %@", statID, modifier];
         }
     }
     return description;

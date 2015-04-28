@@ -26,9 +26,12 @@
     class.explanation = @"Cleric class modifiers";
     [class addModifier:[DKModifierBuilder modifierWithAdditiveBonus:8 explanation:@"Cleric hit die"]
         forStatisticID:DKStatIDHitDiceMaxSides];
-    [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:abilities.wisdom explanation:@"Cleric spellcasting ability: Wisdom"]  forStatisticID:DKStatIDSpellSaveDC];
-    [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:abilities.wisdom explanation:@"Cleric spellcasting ability: Wisdom"] forStatisticID:DKStatIDSpellAttackBonus];
-    [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:abilities.wisdom explanation:@"Cleric spellcasting ability: Wisdom"] forStatisticID:DKStatIDPreparedSpellsMax];
+    [class addModifier:[abilities.wisdom modifierFromAbilityScoreWithExplanation:@"Cleric spellcasting ability: Wisdom"]
+        forStatisticID:DKStatIDSpellSaveDC];
+    [class addModifier:[abilities.wisdom modifierFromAbilityScoreWithExplanation:@"Cleric spellcasting ability: Wisdom"]
+        forStatisticID:DKStatIDSpellAttackBonus];
+    [class addModifier:[abilities.wisdom modifierFromAbilityScoreWithExplanation:@"Cleric spellcasting ability: Wisdom"]
+        forStatisticID:DKStatIDPreparedSpellsMax];
     [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:level explanation:@"Cleric level"]
         forStatisticID:DKStatIDPreparedSpellsMax];
     [class addModifier:[DKModifierBuilder modifierWithMinimum:1 explanation:@"Minimum of 1 prepared spell"]

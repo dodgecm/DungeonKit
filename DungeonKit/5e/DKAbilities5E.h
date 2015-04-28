@@ -16,6 +16,7 @@
 @property (nonatomic, readonly) int abilityModifier;
 
 - (DKDependentModifier*) modifierFromAbilityScore;
+- (DKDependentModifier*) modifierFromAbilityScoreWithExplanation:(NSString*)explanation;
 
 /** Returns the modifier with the proper prefix, ex: +4, +2, +0, -1 */
 - (NSString*) formattedAbilityModifier;
