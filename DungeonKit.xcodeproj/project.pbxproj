@@ -28,7 +28,7 @@
 		B36BF34A1A762FE900979EE9 /* DKModifierGroupIDs5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3481A762FE900979EE9 /* DKModifierGroupIDs5E.m */; };
 		B36BF3511A7630A800979EE9 /* DKRace5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF34F1A7630A800979EE9 /* DKRace5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B36BF3521A7630A800979EE9 /* DKRace5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3501A7630A800979EE9 /* DKRace5E.m */; };
-		B3BB9ECF1AEEE0B100012A3B /* DKCleric5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BB9ECD1AEEE0B100012A3B /* DKCleric5E.h */; };
+		B3BB9ECF1AEEE0B100012A3B /* DKCleric5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BB9ECD1AEEE0B100012A3B /* DKCleric5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3BB9ED01AEEE0B100012A3B /* DKCleric5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BB9ECE1AEEE0B100012A3B /* DKCleric5E.m */; };
 		B3BB9ED21AEEE21700012A3B /* DKClass5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BB9ED11AEEE21700012A3B /* DKClass5E.m */; };
 		B3C605D01A68EE7C007FADAB /* DKSkills5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C605CE1A68EE7C007FADAB /* DKSkills5E.h */; settings = {ATTRIBUTES = (Public, ); }; };

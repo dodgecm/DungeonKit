@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "DKModifierGroup.h"
+#import "DKCleric5E.h"
 
-//Normally I would just use a typedef here, but KVO explodes after the use of C style unions.  Beware.
-@compatibility_alias DKClass5E DKModifierGroup;
+@interface DKClass5E : NSObject
+
+@property (nonatomic, strong) DKCleric5E* cleric;
+
+@end

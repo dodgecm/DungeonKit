@@ -110,6 +110,7 @@ FOUNDATION_EXPORT NSString *const DKStatIDCurrencyPlatinum;
 
 FOUNDATION_EXPORT NSString *const DKStatIDSpellSaveDC;
 FOUNDATION_EXPORT NSString *const DKStatIDSpellAttackBonus;
+FOUNDATION_EXPORT NSString *const DKStatIDPreparedSpellsMax;
 
 FOUNDATION_EXPORT NSString *const DKStatIDFirstLevelSpellSlotsCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDSecondLevelSpellSlotsCurrent;
@@ -141,3 +142,7 @@ FOUNDATION_EXPORT NSString *const DKStatIDSixthLevelSpells;
 FOUNDATION_EXPORT NSString *const DKStatIDSeventhLevelSpells;
 FOUNDATION_EXPORT NSString *const DKStatIDEighthLevelSpells;
 FOUNDATION_EXPORT NSString *const DKStatIDNinthLevelSpells;
+
+FOUNDATION_EXPORT NSString *const DKStatIDClericLevel;
+FOUNDATION_EXPORT NSString *const DKStatIDChannelDivinityUsesCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDChannelDivinityUsesMax;

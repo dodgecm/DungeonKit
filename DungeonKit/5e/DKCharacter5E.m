@@ -14,6 +14,7 @@
 @synthesize level = _level;
 @synthesize race = _race;
 @synthesize subrace = _subrace;
+@synthesize classes = _classes;
 @synthesize inspiration = _inspiration;
 @synthesize proficiencyBonus = _proficiencyBonus;
 @synthesize abilities = _abilities;
@@ -146,6 +147,7 @@
              
              DKStatIDSpellSaveDC: @"spells.spellSaveDC",
              DKStatIDSpellAttackBonus: @"spells.spellAttackBonus",
+             DKStatIDPreparedSpellsMax: @"spells.preparedSpellsMax",
              
              DKStatIDFirstLevelSpellSlotsCurrent: @"spells.firstLevelSpellSlotsCurrent",
              DKStatIDSecondLevelSpellSlotsCurrent: @"spells.secondLevelSpellSlotsCurrent",
@@ -177,6 +179,10 @@
              DKStatIDSeventhLevelSpells: @"spells.spellbook.seventhLevelSpells",
              DKStatIDEighthLevelSpells: @"spells.spellbook.eighthLevelSpells",
              DKStatIDNinthLevelSpells: @"spells.spellbook.ninthLevelSpells",
+             
+             DKStatIDClericLevel: @"classes.cleric.clericLevel",
+             DKStatIDChannelDivinityUsesCurrent: @"classes.cleric.channelDivinityUsesCurrent",
+             DKStatIDChannelDivinityUsesMax: @"classes.cleric.channelDivinityUsesMax",
              };
 }
 
@@ -201,7 +207,7 @@
             [self addKeyPath:groupKeyPaths[groupID] forModifierGroupID:groupID];
         }
         
-        self.level = [DKStatistic statisticWithBase:1];
+        self.level = [DKStatistic statisticWithBase:0];
         
         //Inspiration is binary
         self.inspiration = [DKStatistic statisticWithBase:0];
@@ -264,6 +270,8 @@
         //Now that all the statistics are set up, we can add modifier groups
         self.race = [DKRace5EBuilder human];
         self.subrace = nil;
+        
+        self.classes = [[DKClass5E alloc] init];
     }
     return self;
 }

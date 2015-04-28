@@ -7,3 +7,19 @@
 //
 
 #import "DKClass5E.h"
+
+@implementation DKClass5E
+
+@synthesize cleric = _cleric;
+
+- (id)init {
+    
+    self = [super init];
+    if (self) {
+        
+    }
+    
+    return self;
+}
+
+@end

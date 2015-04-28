@@ -11,6 +11,7 @@
 #import "DKStatisticIDs5E.h"
 #import "DKModifierGroupIDs5E.h"
 #import "DKRace5E.h"
+#import "DKClass5E.h"
 #import "DKAbilities5E.h"
 #import "DKSavingThrows5E.h"
 #import "DKSkills5E.h"
@@ -22,6 +23,7 @@
 @property (nonatomic, strong) DKStatistic* level;
 @property (nonatomic, strong) DKRace5E* race;
 @property (nonatomic, strong) DKSubrace5E* subrace;
+@property (nonatomic, strong) DKClass5E* classes;
 
 @property (nonatomic, strong) DKStatistic* inspiration;
 @property (nonatomic, strong) DKStatistic* proficiencyBonus;

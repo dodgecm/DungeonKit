@@ -113,6 +113,7 @@ NSString *const DKStatIDCurrencyPlatinum = @"DKStatIDCurrencyPlatinum";
 
 NSString *const DKStatIDSpellSaveDC = @"DKStatIDSpellSaveDC";
 NSString *const DKStatIDSpellAttackBonus = @"DKStatIDSpellAttackBonus";
+NSString *const DKStatIDPreparedSpellsMax = @"DKStatIDPreparedSpellsMax";
 
 NSString *const DKStatIDFirstLevelSpellSlotsCurrent = @"DKStatIDFirstLevelSpellSlotsCurrent";
 NSString *const DKStatIDSecondLevelSpellSlotsCurrent = @"DKStatIDSecondLevelSpellSlotsCurrent";
@@ -144,3 +145,7 @@ NSString *const DKStatIDSixthLevelSpells = @"DKStatIDSixthLevelSpells";
 NSString *const DKStatIDSeventhLevelSpells = @"DKStatIDSeventhLevelSpells";
 NSString *const DKStatIDEighthLevelSpells = @"DKStatIDEighthLevelSpells";
 NSString *const DKStatIDNinthLevelSpells = @"DKStatIDNinthLevelSpells";
+
+NSString *const DKStatIDClericLevel = @"DKStatIDClericLevel";
+NSString *const DKStatIDChannelDivinityUsesCurrent = @"DKStatIDChannelDivinityUsesCurrent";
+NSString *const DKStatIDChannelDivinityUsesMax = @"DKStatIDChannelDivinityUsesMax";
