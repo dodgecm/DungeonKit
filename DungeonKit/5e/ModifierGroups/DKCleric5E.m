@@ -12,28 +12,9 @@
 
 @implementation DKCleric5E
 
-@synthesize clericLevel = _clericLevel;
 @synthesize channelDivinityUsesCurrent = _channelDivinityUsesCurrent;
 @synthesize channelDivinityUsesMax = _channelDivinityUsesMax;
 @synthesize divineDomain = _divineDomain;
-
-- (id)init {
-    
-    self = [super init];
-    if (self) {
-        
-        self.clericLevel = [DKStatistic statisticWithBase:0];
-        self.channelDivinityUsesMax = [DKStatistic statisticWithBase:0];
-        self.channelDivinityUsesCurrent = [DKStatistic statisticWithBase:0];
-        [_channelDivinityUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_channelDivinityUsesMax]];
-    }
-    
-    return self;
-}
-
-@end
-
-@implementation DKCleric5EBuilder
 
 + (DKModifierGroup*)clericWithLevel:(DKStatistic*)level abilities:(DKAbilities5E*)abilities {
     
@@ -77,10 +58,10 @@
                 forStatisticID:DKStatIDSkillReligionProficiency];
     [class addSubgroup:skillSubgroup];
     
-    DKModifierGroup* cantripsGroup = [DKCleric5EBuilder cantripsWithLevel:level];
+    DKModifierGroup* cantripsGroup = [DKCleric5E cantripsWithLevel:level];
     [class addSubgroup:cantripsGroup];
     
-    DKModifierGroup* spellSlotsGroup = [DKCleric5EBuilder spellSlotsWithLevel:level];
+    DKModifierGroup* spellSlotsGroup = [DKCleric5E spellSlotsWithLevel:level];
     [class addSubgroup:spellSlotsGroup];
     
     return class;
@@ -201,15 +182,29 @@
     [spellSlotsGroup addModifier:eighthLevelSpellSlots forStatisticID:DKStatIDEighthLevelSpellSlotsMax];
     
     DKDependentModifier* ninthLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
-                                                                                       value:^int(int sourceValue) {
-                                                                                           if (sourceValue <= 16) { return 0; }
-                                                                                           else { return 1; }
-                                                                                       }
-                                                                                    priority:kDKModifierPriority_Additive
-                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                                      value:^int(int sourceValue) {
+                                                                                          if (sourceValue <= 16) { return 0; }
+                                                                                          else { return 1; }
+                                                                                      }
+                                                                                   priority:kDKModifierPriority_Additive
+                                                                                      block:[DKModifierBuilder simpleAdditionModifierBlock]];
     [spellSlotsGroup addModifier:ninthLevelSpellSlots forStatisticID:DKStatIDNinthLevelSpellSlotsMax];
     
     return spellSlotsGroup;
+}
+
+- (id)initWithAbilities:(DKAbilities5E*)abilities {
+    
+    self = [super init];
+    if (self) {
+        
+        self.channelDivinityUsesMax = [DKStatistic statisticWithBase:0];
+        self.channelDivinityUsesCurrent = [DKStatistic statisticWithBase:0];
+        [_channelDivinityUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_channelDivinityUsesMax]];
+        
+        self.classModifiers = [DKCleric5E clericWithLevel:self.classLevel abilities:abilities];
+    }
+    return self;
 }
 
 @end

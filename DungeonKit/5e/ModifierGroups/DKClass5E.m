@@ -10,16 +10,25 @@
 
 @implementation DKClass5E
 
-@synthesize cleric = _cleric;
+@synthesize classLevel = _classLevel;
+@synthesize classModifiers = _classModifiers;
 
 - (id)init {
     
     self = [super init];
     if (self) {
-        
+        self.classLevel = [DKStatistic statisticWithBase:0];
     }
     
     return self;
 }
+
+@end
+
+#import "DKCleric5E.h"
+
+@implementation DKClasses5E
+
+@synthesize cleric = _cleric;
 
 @end

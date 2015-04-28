@@ -9,21 +9,16 @@
 #import <Foundation/Foundation.h>
 #import "DKStatistic.h"
 #import "DKModifierGroup.h"
+#import "DKClass5E.h"
 
 @class DKAbilities5E;
 
-@interface DKCleric5E : NSObject
+@interface DKCleric5E : DKClass5E
 
-@property (nonatomic, strong) DKStatistic* clericLevel;
 @property (nonatomic, strong) DKStatistic* channelDivinityUsesCurrent;
 @property (nonatomic, strong) DKStatistic* channelDivinityUsesMax;
-@property (nonatomic, strong) DKModifierGroup* clericModifiers;
 @property (nonatomic, strong) DKModifierGroup* divineDomain;
 
-@end
-
-@interface DKCleric5EBuilder : NSObject
-
-+ (DKModifierGroup*)clericWithLevel:(DKStatistic*)level abilities:(DKAbilities5E*)abilities;
+- (id)initWithAbilities:(DKAbilities5E*)abilities;
 
 @end

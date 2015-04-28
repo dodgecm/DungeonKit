@@ -7,10 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DKStatistic.h"
 #import "DKModifierGroup.h"
-#import "DKCleric5E.h"
 
 @interface DKClass5E : NSObject
+
+@property (nonatomic, strong) DKStatistic* classLevel;
+@property (nonatomic, strong) DKModifierGroup* classModifiers;
+
+@end
+
+@class DKCleric5E;
+
+@interface DKClasses5E : NSObject
 
 @property (nonatomic, strong) DKCleric5E* cleric;
 

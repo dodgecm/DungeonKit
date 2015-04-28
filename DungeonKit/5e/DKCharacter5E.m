@@ -180,7 +180,7 @@
              DKStatIDEighthLevelSpells: @"spells.spellbook.eighthLevelSpells",
              DKStatIDNinthLevelSpells: @"spells.spellbook.ninthLevelSpells",
              
-             DKStatIDClericLevel: @"classes.cleric.clericLevel",
+             DKStatIDClericLevel: @"classes.cleric.classLevel",
              DKStatIDChannelDivinityUsesCurrent: @"classes.cleric.channelDivinityUsesCurrent",
              DKStatIDChannelDivinityUsesMax: @"classes.cleric.channelDivinityUsesMax",
              };
@@ -271,7 +271,8 @@
         self.race = [DKRace5EBuilder human];
         self.subrace = nil;
         
-        self.classes = [[DKClass5E alloc] init];
+        self.classes = [[DKClasses5E alloc] init];
+        _classes.cleric = [[DKCleric5E alloc] initWithAbilities:_abilities];
     }
     return self;
 }
