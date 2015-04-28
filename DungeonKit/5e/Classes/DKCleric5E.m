@@ -226,10 +226,7 @@
     
     DKModifierGroup* turnUndeadGroup = [[DKModifierGroup alloc] init];
     DKDependentModifier* turnUndeadAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                   value:^int(int sourceValue) {
-                                                                                       if (sourceValue <= 1) { return 0; }
-                                                                                       else { return 1; }
-                                                                                   }
+                                                                                   value:^int(int sourceValue) { return 1; }
                                                                                  enabled:^BOOL(int sourceValue) {
                                                                                      if (sourceValue <= 1) { return NO; }
                                                                                      else { return YES; }
@@ -308,10 +305,7 @@
     "equal to or lower than your cleric level, your deity intervenes.  If your deity intervenes, you can't use this feature again for 7 days.  Otherwise, "
     "you can use it again after you finish a long rest.";
     DKDependentModifier* divineInterventionAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                           value:^int(int sourceValue) {
-                                                                                               if (sourceValue <= 9) { return 0; }
-                                                                                               else { return 1; }
-                                                                                           }
+                                                                                           value:^int(int sourceValue) { return 1; }
                                                                                          enabled:^BOOL(int sourceValue) {
                                                                                              if (sourceValue <= 9) { return NO; }
                                                                                              else { return YES; }
@@ -331,6 +325,74 @@
 
 #pragma mark -
 
++ (DKModifierGroup*)lifeDomainWithLevel:(DKStatistic*)level {
+    
+    DKModifierGroup* lifeDomainGroup = [[DKModifierGroup alloc] init];
+    lifeDomainGroup.explanation = @"Divine Domain: Life";
+    
+    DKModifier* armorProficiency = [DKModifierBuilder modifierWithExplanation:@"Life Domain Armor Proficiency: Heavy Armor"];
+    [lifeDomainGroup addModifier:armorProficiency forStatisticID:DKStatIDArmorProficiencies];
+    
+    DKModifier* discipleOfLife = [DKModifierBuilder modifierWithExplanation:@"Disciple of Life: Whenever you use a spell of 1st level or higher to "
+                                  "restore hit points to a creature, the creature regains additional hit points equal to 2 + the spell's level."];
+    [lifeDomainGroup addModifier:discipleOfLife forStatisticID:DKStatIDClericTraits];
+    
+    NSString* preserveLifeExplanation = @"Channel Divinity - Preserve Life: As an action, you present your holy symbol and evoke healing energy that "
+    "can restore a number of hit points equal to five times your cleric level.  Choose any creatures within 30 feet of you, and divide those hit points "
+    "among them.  This feature can restore a creature to no more than half of its hit point maximum.  You can't use this feature on an undead or "
+    "a construct.";
+    DKDependentModifier* preserveLifeAbility = [[DKDependentModifier alloc] initWithSource:level
+                                                                                     value:^int(int sourceValue) { return 1; }
+                                                                                   enabled:^BOOL(int sourceValue) {
+                                                                                       if (sourceValue <= 1) { return NO; }
+                                                                                       else { return YES; }
+                                                                                   }
+                                                                                  priority:kDKModifierPriority_Additive                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    preserveLifeAbility.explanation = preserveLifeExplanation;
+    [lifeDomainGroup addModifier:preserveLifeAbility forStatisticID:DKStatIDClericTraits];
+    
+    NSString* blessedHealerExplanation = @"Blessed Healer: The healing spells you cast on others heal you as well.  When you cast a spell of 1st "
+    "level or higher that restores hit points to a creature other than you, you regain hit points equal to 2 + the spell’s level.";
+    DKDependentModifier* blessedHealerAbility = [[DKDependentModifier alloc] initWithSource:level
+                                                                                      value:^int(int sourceValue) { return 1; }
+                                                                                    enabled:^BOOL(int sourceValue) {
+                                                                                        if (sourceValue <= 5) { return NO; }
+                                                                                        else { return YES; }
+                                                                                    }
+                                                                                   priority:kDKModifierPriority_Additive                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    blessedHealerAbility.explanation = blessedHealerExplanation;
+    [lifeDomainGroup addModifier:blessedHealerAbility forStatisticID:DKStatIDClericTraits];
+    
+    NSString* divineStrikeExplanation = @"Divine Strike: You gain the ability to infuse your weapon strikes with divine energy. Once on each of your "
+    "turns when you hit a creature with a weapon attack, you can cause the attack to deal an extra 1d8 radiant damage to the target. When you reach 14th "
+    "level, the extra damage increases to 2d8.";
+    DKDependentModifier* divineStrikeAbility = [[DKDependentModifier alloc] initWithSource:level
+                                                                                     value:^int(int sourceValue) { return 1; }
+                                                                                   enabled:^BOOL(int sourceValue) {
+                                                                                       if (sourceValue <= 7) { return NO; }
+                                                                                       else { return YES; }
+                                                                                   }
+                                                                                  priority:kDKModifierPriority_Additive                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    divineStrikeAbility.explanation = divineStrikeExplanation;
+    [lifeDomainGroup addModifier:divineStrikeAbility forStatisticID:DKStatIDClericTraits];
+    
+    NSString* supremeHealingExplanation = @"Supreme Healing: When you would normally roll one or more dice to restore hit points with a spell, you "
+    "instead use the highest number possible for each die.";
+    DKDependentModifier* supremeHealingAbility = [[DKDependentModifier alloc] initWithSource:level
+                                                                                     value:^int(int sourceValue) { return 1; }
+                                                                                   enabled:^BOOL(int sourceValue) {
+                                                                                       if (sourceValue <= 16) { return NO; }
+                                                                                       else { return YES; }
+                                                                                   }
+                                                                                  priority:kDKModifierPriority_Additive                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    supremeHealingAbility.explanation = supremeHealingExplanation;
+    [lifeDomainGroup addModifier:supremeHealingAbility forStatisticID:DKStatIDClericTraits];
+    
+    return lifeDomainGroup;
+}
+
+#pragma mark -
+
 - (id)initWithAbilities:(DKAbilities5E*)abilities {
     
     self = [super init];
@@ -344,6 +406,7 @@
         self.divineIntervention = [DKStatistic statisticWithBase:0];
         
         self.classModifiers = [DKCleric5E clericWithLevel:self.classLevel abilities:abilities];
+        self.divineDomain = [DKCleric5E lifeDomainWithLevel:self.classLevel];
     }
     return self;
 }
