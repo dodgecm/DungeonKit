@@ -7,17 +7,48 @@
 //
 
 #import "DKClass5E.h"
+#import "DKStatisticIDs5E.h"
 
 @implementation DKClass5E
 
 @synthesize classLevel = _classLevel;
+@synthesize classTraits = _classTraits;
 @synthesize classModifiers = _classModifiers;
+
+#pragma mark -
+
++ (DKModifierGroup*)abilityScoreImprovementForThreshold:(int)threshold level:(DKStatistic*)classLevel {
+    
+    DKModifierGroup* abilityScoreSubgroup = [[DKModifierGroup alloc] init];
+    abilityScoreSubgroup.explanation = [NSString stringWithFormat:@"Ability score improvements for level %i", threshold];
+    
+    DKDependentModifier* strModifier = [[DKDependentModifier alloc] initWithSource:classLevel
+                                                                             value:^int(int sourceValue) { return 1; }
+                                                                           enabled:[DKDependentModifierBuilder enableWhenGreaterThanOrEqualTo:threshold]
+                                                                          priority:kDKModifierPriority_Additive
+                                                                             block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    strModifier.explanation = [NSString stringWithFormat:@"Ability score improvement for level %i (default)", threshold];
+    [abilityScoreSubgroup addModifier:strModifier forStatisticID:DKStatIDStrength];
+    
+    DKDependentModifier* dexModifier = [[DKDependentModifier alloc] initWithSource:classLevel
+                                                                             value:^int(int sourceValue) { return 1; }
+                                                                           enabled:[DKDependentModifierBuilder enableWhenGreaterThanOrEqualTo:threshold]
+                                                                          priority:kDKModifierPriority_Additive
+                                                                             block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    dexModifier.explanation = [NSString stringWithFormat:@"Ability score improvement for level %i (default)", threshold];
+    [abilityScoreSubgroup addModifier:dexModifier forStatisticID:DKStatIDDexterity];
+    
+    return abilityScoreSubgroup;
+}
+
+#pragma mark -
 
 - (id)init {
     
     self = [super init];
     if (self) {
         self.classLevel = [DKStatistic statisticWithBase:0];
+        self.classTraits = [DKStatistic statisticWithBase:0];
     }
     
     return self;

@@ -14,7 +14,11 @@
 
 @synthesize channelDivinityUsesCurrent = _channelDivinityUsesCurrent;
 @synthesize channelDivinityUsesMax = _channelDivinityUsesMax;
+@synthesize turnUndead = _turnUndead;
+@synthesize divineIntervention = _divineIntervention;
 @synthesize divineDomain = _divineDomain;
+
+#pragma mark -
 
 + (DKModifierGroup*)clericWithLevel:(DKStatistic*)level abilities:(DKAbilities5E*)abilities {
     
@@ -29,6 +33,11 @@
         forStatisticID:DKStatIDPreparedSpellsMax];
     [class addModifier:[DKModifierBuilder modifierWithMinimum:1 explanation:@"Minimum of 1 prepared spell"]
         forStatisticID:DKStatIDPreparedSpellsMax];
+    [class addModifier:[DKModifierBuilder modifierWithExplanation:@"Channel Divinity: You have the ability to channel divine energy directly from your deity, using that energy to fuel magical effects.  When you use your Channel Divinity, you choose which effect to create.  You must then finish a short or long rest to use your Channel Divinity again."]
+        forStatisticID:DKStatIDClericTraits];
+    [class addModifier:[DKModifierBuilder modifierWithExplanation:@"Ritual Casting: You can cast a cleric spell as a ritual if that spell "
+                        "has the ritual tag and you have the spell prepared"]
+        forStatisticID:DKStatIDClericTraits];
     
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Cleric Saving Throw Proficiency: Wisdom"]
         forStatisticID:DKStatIDSavingThrowWisdomProficiency];
@@ -50,6 +59,12 @@
                                                                                      block:[DKModifierBuilder simpleAdditionModifierBlock]];
     [class addModifier:channelDivinityUses forStatisticID:DKStatIDChannelDivinityUsesMax];
     
+    DKModifierGroup* turnUndeadGroup = [DKCleric5E turnUndeadWithLevel:level];
+    [class addSubgroup:turnUndeadGroup];
+    
+    DKModifierGroup* divineInterventionGroup = [DKCleric5E divineInterventionWithLevel:level];
+    [class addSubgroup:divineInterventionGroup];
+    
     DKModifierGroup* skillSubgroup = [[DKModifierGroup alloc] init];
     skillSubgroup.explanation = @"Cleric Skill Proficiencies: Choose two from History, Insight, Medicine, Persuasion, and Religion";
     [skillSubgroup addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Cleric Skill Proficiency: History (default)"]
@@ -63,6 +78,17 @@
     
     DKModifierGroup* spellSlotsGroup = [DKCleric5E spellSlotsWithLevel:level];
     [class addSubgroup:spellSlotsGroup];
+    
+    DKModifierGroup* fourthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:4 level:level];
+    [class addSubgroup:fourthLevelAbilityScore];
+    DKModifierGroup* eighthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:8 level:level];
+    [class addSubgroup:eighthLevelAbilityScore];
+    DKModifierGroup* twelfthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:12 level:level];
+    [class addSubgroup:twelfthLevelAbilityScore];
+    DKModifierGroup* sixteenthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:16 level:level];
+    [class addSubgroup:sixteenthLevelAbilityScore];
+    DKModifierGroup* nineteenthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:19 level:level];
+    [class addSubgroup:nineteenthLevelAbilityScore];
     
     return class;
 }
@@ -193,6 +219,115 @@
     return spellSlotsGroup;
 }
 
++ (DKModifierGroup*)turnUndeadWithLevel:(DKStatistic*)level {
+    
+    DKModifierGroup* turnUndeadGroup = [[DKModifierGroup alloc] init];
+    DKDependentModifier* turnUndeadAbility = [[DKDependentModifier alloc] initWithSource:level
+                                                                                   value:^int(int sourceValue) {
+                                                                                       if (sourceValue <= 1) { return 0; }
+                                                                                       else { return 1; }
+                                                                                   }
+                                                                                 enabled:^BOOL(int sourceValue) {
+                                                                                     if (sourceValue <= 1) { return NO; }
+                                                                                     else { return YES; }
+                                                                                 }
+                                                                                priority:kDKModifierPriority_Additive                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    turnUndeadAbility.explanation = @"Channel Divinity - Turn Undead: As an action, you present your holy symbol and speak a prayer censuring the undead.  "  "Each undead that can see or hear you within 30 feet of you must make a Wisdom saving throw.  If the creature fails its saving throw, "
+        "it is turned for 1 minute or until it takes any damage.";
+    [turnUndeadGroup addModifier:turnUndeadAbility forStatisticID:DKStatIDTurnUndead];
+    
+    NSString* destroyUndeadExplanation = @"Destroy Undead: When an undead fails its saving throw against your Turn Undead feature, "
+    "the creature is instantly destroyed if its challenge rating is at or below a certain threshold.";
+    DKDependentModifier* destroyUndeadAbility = [DKDependentModifierBuilder informationalModifierFromSource:level
+                                                                                                  threshold:5
+                                                                                                explanation:destroyUndeadExplanation];
+    [turnUndeadGroup addModifier:destroyUndeadAbility forStatisticID:DKStatIDTurnUndead];
+    
+    DKDependentModifier* firstCRThreshold = [[DKDependentModifier alloc] initWithSource:level
+                                                                                   value:^int(int sourceValue) { return 0; }
+                                                                                 enabled:^BOOL(int sourceValue) {
+                                                                                     if (sourceValue <= 4 || sourceValue >= 8) { return NO; }
+                                                                                     else { return YES; }
+                                                                                 }
+                                                                                priority:kDKModifierPriority_Informational                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    firstCRThreshold.explanation = @"Destroy Undead destroys undead creatures of CR 1/2 or lower.";
+    [turnUndeadGroup addModifier:firstCRThreshold forStatisticID:DKStatIDTurnUndead];
+    
+    DKDependentModifier* secondCRThreshold = [[DKDependentModifier alloc] initWithSource:level
+                                                                                   value:^int(int sourceValue) { return 0; }
+                                                                                 enabled:^BOOL(int sourceValue) {
+                                                                                     if (sourceValue <= 7 || sourceValue >= 11) { return NO; }
+                                                                                     else { return YES; }
+                                                                                 }
+                                                                                priority:kDKModifierPriority_Informational                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    secondCRThreshold.explanation = @"Destroy Undead destroys undead creatures of CR 1 or lower.";
+    [turnUndeadGroup addModifier:secondCRThreshold forStatisticID:DKStatIDTurnUndead];
+    
+    DKDependentModifier* thirdCRThreshold = [[DKDependentModifier alloc] initWithSource:level
+                                                                                  value:^int(int sourceValue) { return 0; }
+                                                                                enabled:^BOOL(int sourceValue) {
+                                                                                    if (sourceValue <= 10 || sourceValue >= 14) { return NO; }
+                                                                                    else { return YES; }
+                                                                                }
+                                                                               priority:kDKModifierPriority_Informational                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    thirdCRThreshold.explanation = @"Destroy Undead destroys undead creatures of CR 2 or lower.";
+    [turnUndeadGroup addModifier:thirdCRThreshold forStatisticID:DKStatIDTurnUndead];
+    
+    DKDependentModifier* fourthCRThreshold = [[DKDependentModifier alloc] initWithSource:level
+                                                                                   value:^int(int sourceValue) { return 0; }
+                                                                                 enabled:^BOOL(int sourceValue) {
+                                                                                     if (sourceValue <= 13 || sourceValue >= 17) { return NO; }
+                                                                                     else { return YES; }
+                                                                                 }
+                                                                                priority:kDKModifierPriority_Informational                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    fourthCRThreshold.explanation = @"Destroy Undead destroys undead creatures of CR 3 or lower.";
+    [turnUndeadGroup addModifier:fourthCRThreshold forStatisticID:DKStatIDTurnUndead];
+    
+    DKDependentModifier* fifthCRThreshold = [[DKDependentModifier alloc] initWithSource:level
+                                                                                  value:^int(int sourceValue) { return 0; }
+                                                                                enabled:^BOOL(int sourceValue) {
+                                                                                    if (sourceValue <= 16) { return NO; }
+                                                                                    else { return YES; }
+                                                                                }
+                                                                               priority:kDKModifierPriority_Informational                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    fifthCRThreshold.explanation = @"Destroy Undead destroys undead creatures of CR 4 or lower.";
+    [turnUndeadGroup addModifier:fifthCRThreshold forStatisticID:DKStatIDTurnUndead];
+    
+    return turnUndeadGroup;
+}
+
++ (DKModifierGroup*)divineInterventionWithLevel:(DKStatistic*)level {
+    
+    DKModifierGroup* divineInterventionGroup = [[DKModifierGroup alloc] init];
+    
+    NSString* divineInterventionExplanation = @"Divine Intervention: You can call on your deity to intervene on your behalf when your need is great.  "
+    "Imploring your deity's aid requires you to use your action.  Describe the assistance you seek, and roll percentile dice.  If you roll a number "
+    "equal to or lower than your cleric level, your deity intervenes.  If your deity intervenes, you can't use this feature again for 7 days.  Otherwise, "
+    "you can use it again after you finish a long rest.";
+    DKDependentModifier* divineInterventionAbility = [[DKDependentModifier alloc] initWithSource:level
+                                                                                           value:^int(int sourceValue) {
+                                                                                               if (sourceValue <= 9) { return 0; }
+                                                                                               else { return 1; }
+                                                                                           }
+                                                                                         enabled:^BOOL(int sourceValue) {
+                                                                                             if (sourceValue <= 9) { return NO; }
+                                                                                             else { return YES; }
+                                                                                         }
+                                                                                        priority:kDKModifierPriority_Additive                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    divineInterventionAbility.explanation = divineInterventionExplanation;
+    [divineInterventionGroup addModifier:divineInterventionAbility forStatisticID:DKStatIDDivineIntervention];
+    
+    NSString* autoInterveneExplanation = @"Your call for intervention succeeds automatically, no roll required.";
+    DKDependentModifier* autoInterveneAbility = [DKDependentModifierBuilder informationalModifierFromSource:level
+                                                                                                  threshold:20
+                                                                                                explanation:autoInterveneExplanation];
+    [divineInterventionGroup addModifier:autoInterveneAbility forStatisticID:DKStatIDDivineIntervention];
+    
+    return divineInterventionGroup;
+}
+
+#pragma mark -
+
 - (id)initWithAbilities:(DKAbilities5E*)abilities {
     
     self = [super init];
@@ -201,6 +336,9 @@
         self.channelDivinityUsesMax = [DKStatistic statisticWithBase:0];
         self.channelDivinityUsesCurrent = [DKStatistic statisticWithBase:0];
         [_channelDivinityUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_channelDivinityUsesMax]];
+        
+        self.turnUndead = [DKStatistic statisticWithBase:0];
+        self.divineIntervention = [DKStatistic statisticWithBase:0];
         
         self.classModifiers = [DKCleric5E clericWithLevel:self.classLevel abilities:abilities];
     }

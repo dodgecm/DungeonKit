@@ -181,8 +181,11 @@
              DKStatIDNinthLevelSpells: @"spells.spellbook.ninthLevelSpells",
              
              DKStatIDClericLevel: @"classes.cleric.classLevel",
+             DKStatIDClericTraits: @"classes.cleric.classTraits",
              DKStatIDChannelDivinityUsesCurrent: @"classes.cleric.channelDivinityUsesCurrent",
              DKStatIDChannelDivinityUsesMax: @"classes.cleric.channelDivinityUsesMax",
+             DKStatIDTurnUndead: @"classes.cleric.turnUndead",
+             DKStatIDDivineIntervention: @"classes.cleric.divineIntervention",
              };
 }
 

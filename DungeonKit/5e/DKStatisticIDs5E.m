@@ -147,5 +147,8 @@ NSString *const DKStatIDEighthLevelSpells = @"DKStatIDEighthLevelSpells";
 NSString *const DKStatIDNinthLevelSpells = @"DKStatIDNinthLevelSpells";
 
 NSString *const DKStatIDClericLevel = @"DKStatIDClericLevel";
+NSString *const DKStatIDClericTraits = @"DKStatIDClericTraits";
 NSString *const DKStatIDChannelDivinityUsesCurrent = @"DKStatIDChannelDivinityUsesCurrent";
 NSString *const DKStatIDChannelDivinityUsesMax = @"DKStatIDChannelDivinityUsesMax";
+NSString *const DKStatIDTurnUndead = @"DKStatIDTurnUndead";
+NSString *const DKStatIDDivineIntervention = @"DKStatIDDivineIntervention";
