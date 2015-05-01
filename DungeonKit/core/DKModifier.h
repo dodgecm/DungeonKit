@@ -47,6 +47,8 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 @property (nonatomic, readonly) DKModifierPriority priority;
 /** A function to perform the modification. */
 @property (nonatomic, copy, readonly) DKModifierBlockType modifierBlock;
+/** An expression to perform the modification. */
+@property (nonatomic, copy, readonly) NSExpression* modifierExpression;
 /** An optional explanation of the nature or source of this modifier */
 @property (nonatomic, copy) NSString* explanation;
 /** The statistic to which this modifier is currently applied, if any. */
@@ -57,6 +59,10 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 - (id)initWithValue:(int)value
            priority:(DKModifierPriority)priority
               block:(DKModifierBlockType)block;
+
+- (id)initWithValue:(int)value
+           priority:(DKModifierPriority)priority
+         expression:(NSExpression*)expression;
 
 /** Removes the modifier from its owner statistic. */
 - (void)removeFromStatistic;
@@ -90,6 +96,7 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 
 + (id)modifierWithExplanation:(NSString*)explanation;
 
++ (NSExpression*)simpleAdditionModifierExpression;
 + (DKModifierBlockType)simpleAdditionModifierBlock;
 
 @end
