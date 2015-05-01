@@ -49,8 +49,23 @@ typedef BOOL (^DKDependentModifierEnabledBlockType)(int sourceValue);
             priority:(DKModifierPriority)priority
                block:(DKModifierBlockType)block;
 
+- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
+               value:(NSExpression*)valueExpression
+            priority:(DKModifierPriority)priority
+          expression:(NSExpression*)expression;
+
+- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
+               value:(NSExpression*)valueExpression
+             enabled:(NSPredicate*)enabledPredicate
+            priority:(DKModifierPriority)priority
+          expression:(NSExpression*)expression;
+
 /** The object that this modifier's value will be calculated from. */
 @property (nonatomic, strong, readonly) NSObject<DKDependentModifierOwner>* source;
+/** A method that calculates the value of the modifier from the value of the source. */
+@property (nonatomic, copy, readonly) NSExpression* valueExpression;
+/** A method that enables or disables the modifier from the value of the source. */
+@property (nonatomic, copy, readonly) NSPredicate* enabledPredicate;
 /** A method that calculates the value of the modifier from the value of the source. */
 @property (nonatomic, copy, readonly) DKDependentModifierBlockType valueBlock;
 /** A method that enables or disables the modifier from the value of the source. */
@@ -69,6 +84,8 @@ typedef BOOL (^DKDependentModifierEnabledBlockType)(int sourceValue);
 
 /** A block that simply uses source's value as the modifier value. */
 + (DKDependentModifierBlockType)simpleValueBlock;
+/** An expression that simply uses source's value as the modifier value. */
++ (NSExpression*)simpleValueExpression;
 
 + (DKDependentModifierEnabledBlockType)enableWhenGreaterThanOrEqualTo:(int)threshold;
 

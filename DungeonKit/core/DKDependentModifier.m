@@ -15,6 +15,8 @@
 @implementation DKDependentModifier
 
 @synthesize source = _source;
+@synthesize valueExpression = _valueExpression;
+@synthesize enabledPredicate = _enabledPredicate;
 @synthesize valueBlock = _valueBlock;
 @synthesize enabledBlock = _enabledBlock;
 
@@ -69,6 +71,48 @@
     return self;
 }
 
+- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
+               value:(NSExpression*)valueExpression
+            priority:(DKModifierPriority)priority
+          expression:(NSExpression*)expression {
+    
+    NSPredicate* enabledPredicate = [NSPredicate predicateWithValue:YES];
+    return [self initWithSource:source
+                          value:valueExpression
+                        enabled:enabledPredicate
+                       priority:priority
+                          expression:expression];
+}
+
+- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
+               value:(NSExpression*)valueExpression
+             enabled:(NSPredicate*)enabledPredicate
+            priority:(DKModifierPriority)priority
+          expression:(NSExpression*)expression {
+    
+    NSAssert(source, @"Source for dependent modifier must not be nil.");
+    
+    NSMutableDictionary* context = [@{ @"source": @(source.value) } mutableCopy];
+    int startingValue = [[_valueExpression expressionValueWithObject:self context:context] intValue];
+    
+    self = [super initWithValue:startingValue
+                       priority:priority
+                     expression:expression];
+    if (self) {
+        
+        _source = source;
+        _valueExpression = valueExpression;
+        _enabledPredicate = enabledPredicate;
+        
+        [self refreshValue];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sourceChanged:) name:DKStatObjectChangedNotification object:_source];
+        [_source addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
+        
+    }
+    return self;
+}
+
 - (void)sourceChanged:(NSNotification*)notif {
     
     NSObject<DKDependentModifierOwner>* newSource = notif.userInfo[@"new"];
@@ -104,14 +148,21 @@
 
 - (void)refreshValue {
     
-    if (_enabledBlock) {
+    if (self.enabledPredicate != nil) {
+        NSDictionary* context = @{ @"source": @(_source.value) };
+        self.enabled = [_enabledPredicate evaluateWithObject:self substitutionVariables:context];
+    } else if (_enabledBlock) {
         self.enabled = _enabledBlock([_source value]);
     } 
     
-    if (_valueBlock) {
+    if (self.valueExpression != nil) {
+        NSMutableDictionary* context = [@{ @"source": @(_source.value) } mutableCopy];
+        self.value = [[_valueExpression expressionValueWithObject:self context:context] intValue];
+    }
+    else if (_valueBlock) {
         self.value = _valueBlock([_source value]);
     } else {
-        self.value = [_source value];
+        self.value = 0;
     }
 }
 
@@ -142,17 +193,14 @@
 
 + (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source {
     DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
-                                                                          value:[DKDependentModifierBuilder simpleValueBlock]
+                                                                          value:[DKDependentModifierBuilder simpleValueExpression]
                                                                        priority:kDKModifierPriority_Additive
-                                                                          block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                          expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     return modifier;
 }
 
 + (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source explanation:(NSString*)explanation {
-    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
-                                                                          value:[DKDependentModifierBuilder simpleValueBlock]
-                                                                       priority:kDKModifierPriority_Additive
-                                                                          block:[DKModifierBuilder simpleAdditionModifierBlock]];
+    DKDependentModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:source];
     modifier.explanation = explanation;
     return modifier;
 }
@@ -160,14 +208,10 @@
 + (id)informationalModifierFromSource:(NSObject<DKDependentModifierOwner>*)source threshold:(int)threshold explanation:(NSString*)explanation {
     
     DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
-                                                                          value:^int(int sourceValue) {
-                                                                              return 0;
-                                                                          }
-                                                                        enabled:[DKDependentModifierBuilder enableWhenGreaterThanOrEqualTo:threshold]
+                                                                          value:nil
+                                                                        enabled:[DKDependentModifierBuilder enabledWhenGreaterThanOrEqualTo:threshold]
                                                                        priority:kDKModifierPriority_Informational
-                                                                          block:^int(int modifierValue, int valueToModify) {
-                                                                              return valueToModify;
-                                                                          }];
+                                                                     expression:nil];
     modifier.explanation = explanation;
     return modifier;
 }
@@ -178,11 +222,19 @@
     };
 }
 
++ (NSExpression*)simpleValueExpression {
+    return [NSExpression expressionForVariable:@"source"];
+}
+
 + (DKDependentModifierEnabledBlockType)enableWhenGreaterThanOrEqualTo:(int)threshold {
     return ^BOOL(int sourceValue) {
         if (sourceValue >= threshold) return YES;
         else return NO;
     };
+}
+
++ (NSPredicate*)enabledWhenGreaterThanOrEqualTo:(int)threshold {
+    return [NSPredicate predicateWithFormat:@"$source >= %i", threshold];
 }
 
 @end

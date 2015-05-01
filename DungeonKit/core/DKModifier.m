@@ -126,7 +126,7 @@
 
 + (id)modifierWithClampBetween:(int)min and:(int)max {
     
-    NSExpression* clampExpression =  [NSExpression expressionWithFormat:@"min:({%i, max:({%i, $input}) })",max, min];
+    NSExpression* clampExpression =  [NSExpression expressionWithFormat:@"min:({%i, max:({%i, $input}) })", max, min];
     DKModifier* modifier = [[DKModifier alloc] initWithValue:0
                                                     priority:kDKModifierPriority_Clamping
                                                        expression:clampExpression];
