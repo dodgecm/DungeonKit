@@ -132,4 +132,36 @@
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(20)}], @"Predicate should return correct result.");
 }
 
+- (void) testExpressionBuilders {
+    
+    NSDictionary* piecewiseFunction = @{ [NSValue valueWithRange:NSMakeRange(0, 2)] : @(2),
+                                         [NSValue valueWithRange:NSMakeRange(2, 2)] : @(4),
+                                         [NSValue valueWithRange:NSMakeRange(4, 2)] : @(6) };
+    NSExpression* expression = [DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:piecewiseFunction
+                                                                            usingDependency:@"source"];
+    NSMutableDictionary* context = [NSMutableDictionary dictionary];
+    
+    context[@"source"] = @(-1);
+    XCTAssertNil([expression expressionValueWithObject:nil context:context], @"Piecewise function should return correct result.");
+    
+    context[@"source"] = @(0);
+    XCTAssertEqualObjects([expression expressionValueWithObject:nil context:context], @(2), @"Piecewise function should return correct result.");
+    context[@"source"] = @(1);
+    XCTAssertEqualObjects([expression expressionValueWithObject:nil context:context], @(2), @"Piecewise function should return correct result.");
+    
+    context[@"source"] = @(2);
+    XCTAssertEqualObjects([expression expressionValueWithObject:nil context:context], @(4), @"Piecewise function should return correct result.");
+    context[@"source"] = @(3);
+    XCTAssertEqualObjects([expression expressionValueWithObject:nil context:context], @(4), @"Piecewise function should return correct result.");
+    
+    context[@"source"] = @(4);
+    XCTAssertEqualObjects([expression expressionValueWithObject:nil context:context], @(6), @"Piecewise function should return correct result.");
+    context[@"source"] = @(5);
+    XCTAssertEqualObjects([expression expressionValueWithObject:nil context:context], @(6), @"Piecewise function should return correct result.");
+
+    context[@"source"] = @(6);
+    XCTAssertNil([expression expressionValueWithObject:nil context:context], @"Piecewise function should return correct result.");
+    
+}
+
 @end

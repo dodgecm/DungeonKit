@@ -55,11 +55,7 @@
     
     DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
-    DKModifier* secondModifier = [[DKModifier alloc] initWithValue:18
-                                                          priority:kDKModifierPriority_Clamping
-                                                             block:^int(int modifierValue, int valueToModify) {
-                                                                 return MAX(modifierValue, valueToModify);
-                                                             }];
+    DKModifier* secondModifier = [DKModifierBuilder modifierWithMinimum:18];
     [stat applyModifier:secondModifier];
     [stat applyModifier:modifier];
     XCTAssertEqual(stat.value, 18, @"Modifiers should be applied in the correct value.");

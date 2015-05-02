@@ -16,21 +16,9 @@
 @synthesize value = _value;
 @synthesize enabled = _enabled;
 @synthesize priority = _priority;
-@synthesize modifierBlock = _modifierBlock;
 @synthesize modifierExpression = _modifierExpression;
 @synthesize explanation = _explanation;
 @synthesize owner = _owner;
-
-- (id)initWithValue:(int)value priority:(DKModifierPriority)priority block:(DKModifierBlockType)block {
-    self = [super init];
-    if (self) {
-        _value = value;
-        _enabled = YES;
-        _priority = priority;
-        _modifierBlock = block;
-    }
-    return self;
-}
 
 - (id)initWithValue:(int)value
            priority:(DKModifierPriority)priority
@@ -58,9 +46,7 @@
                                            @"value": @(self.value) } mutableCopy];
         return [[_modifierExpression expressionValueWithObject:self context:context] intValue];
     }
-    else if (self.modifierBlock != nil && self.enabled) {
-        return _modifierBlock(self.value, input);
-    } else {
+    else {
         return input;
     }
 }
@@ -145,19 +131,11 @@
     return [NSExpression expressionWithFormat:@"$input+$value"];
 }
 
-+ (DKModifierBlockType)simpleAdditionModifierBlock {
-    return ^int(int modifierValue, int valueToModify) {
-        return modifierValue + valueToModify;
-    };
-}
-
 + (id)modifierWithExplanation:(NSString*)explanation {
     
     DKModifier* modifier = [[DKModifier alloc] initWithValue:0
                                                     priority:kDKModifierPriority_Informational
-                                                       block:^int(int modifierValue, int valueToModify) {
-                                                           return valueToModify;
-                                                       }];
+                                                  expression:[NSExpression expressionForVariable:@"input"]];
     modifier.explanation = explanation;
     return modifier;
 }

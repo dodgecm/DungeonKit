@@ -9,9 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "DKModifier.h"
 
-typedef int (^DKDependentModifierBlockType)(int sourceValue);
-typedef BOOL (^DKDependentModifierEnabledBlockType)(int sourceValue);
-
 @class DKDependentModifier;
 @protocol DKDependentModifierOwner <DKModifierOwner>
 @required
@@ -27,56 +24,45 @@ typedef BOOL (^DKDependentModifierEnabledBlockType)(int sourceValue);
 
 - (id)initWithValue:(int)value
            priority:(DKModifierPriority)priority
-              block:(DKModifierBlockType)block __unavailable;
+         expression:(NSExpression*)expression __unavailable;
 
-/** @param source The object that this modifier's value will be calculated from. 
-    @param value A method that calculates the value of the modifier from the value of the source.  If nil, it will use the source's value directly.
-    @param priority Describes when this modifier should be applied relative to other modifiers applied to the same statistic.
-    @param block A function to perform the modification. */
-- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
-               value:(DKDependentModifierBlockType)valueBlock
-            priority:(DKModifierPriority)priority
-               block:(DKModifierBlockType)block;
-
-/** @param source The object that this modifier's value will be calculated from.
- @param value A method that calculates the value of the modifier from the value of the source.  If nil, it will use the source's value directly.
- @param value A method that returns whether to enable the modifier based on the value of the source.  If nil, the modifier will always be enabled.
+/** @param source The object that this modifier's value will be calculated from.  Assigned the dependency key of "source" by default.
+ @param value An expression that calculates the value of the modifier from the value of the source.  If nil, the modifier will have a value of 0.
  @param priority Describes when this modifier should be applied relative to other modifiers applied to the same statistic.
- @param block A function to perform the modification. */
-/*- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
-               value:(DKDependentModifierBlockType)valueBlock
-             enabled:(DKDependentModifierEnabledBlockType)enabledBlock
-            priority:(DKModifierPriority)priority
-               block:(DKModifierBlockType)block;*/
-
+ @param expression An expression that applies the modifier's value to the owner statistic. */
 - (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
                value:(NSExpression*)valueExpression
             priority:(DKModifierPriority)priority
           expression:(NSExpression*)expression;
 
+/** @param source The object that this modifier's value will be calculated from.  Assigned the dependency key of "source" by default.
+ @param value An expression that calculates the value of the modifier from the value of the source.  If nil, the modifier will have a value of 0.
+ @param enabled A predicate that evaluates based on its dependencies whether this modifier should apply its value to its owner statistic.
+ @param priority Describes when this modifier should be applied relative to other modifiers applied to the same statistic.
+ @param expression An expression that applies the modifier's value to the owner statistic. */
 - (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
                value:(NSExpression*)valueExpression
              enabled:(NSPredicate*)enabledPredicate
             priority:(DKModifierPriority)priority
           expression:(NSExpression*)expression;
 
+/** @param dependencies A dictionary of strings mapped to DKDependentModifierOwner objects.  The value of each statistic this modifier depends on can be referenced by its key string inside the value expression and the enabled expression.
+ @param value An expression that calculates the value of the modifier from the value of the source.  If nil, the modifier will have a value of 0.
+ @param enabled A predicate that evaluates based on its dependencies whether this modifier should apply its value to its owner statistic.
+ @param priority Describes when this modifier should be applied relative to other modifiers applied to the same statistic.
+ @param expression An expression that applies the modifier's value to the owner statistic. */
 - (id)initWithDependencies:(NSDictionary*)dependencies
                      value:(NSExpression*)valueExpression
                    enabled:(NSPredicate*)enabledPredicate
                   priority:(DKModifierPriority)priority
                 expression:(NSExpression*)expression;
 
-/** The object that this modifier's value will be calculated from. */
-//@property (nonatomic, strong, readonly) NSObject<DKDependentModifierOwner>* source;
+/** A dictionary of strings to DKDependentModifierOwner objects that this modifier can pull values from */
 @property (nonatomic, strong, readonly) NSDictionary* dependencies;
 /** A method that calculates the value of the modifier from the value of the source. */
 @property (nonatomic, copy, readonly) NSExpression* valueExpression;
 /** A method that enables or disables the modifier from the value of the source. */
 @property (nonatomic, copy, readonly) NSPredicate* enabledPredicate;
-/** A method that calculates the value of the modifier from the value of the source. */
-@property (nonatomic, copy, readonly) DKDependentModifierBlockType valueBlock;
-/** A method that enables or disables the modifier from the value of the source. */
-@property (nonatomic, copy, readonly) DKDependentModifierEnabledBlockType enabledBlock;
 
 - (void)addDependency:(NSObject<DKDependentModifierOwner>*)dependency forKey:(NSString*)key;
 - (void)removeDependencyforKey:(NSString*)key;
@@ -88,18 +74,21 @@ typedef BOOL (^DKDependentModifierEnabledBlockType)(int sourceValue);
 
 /** Initializes a modifier from the source object that simply adds the source's value to the modifier's owner. */
 + (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source;
-+ (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source explanation:(NSString*)explanation;
 
-+ (id)informationalModifierFromSource:(NSObject<DKDependentModifierOwner>*)source threshold:(int)threshold explanation:(NSString*)explanation;
++ (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
+                   explanation:(NSString*)explanation;
 
-/** A block that simply uses source's value as the modifier value. */
-+ (DKDependentModifierBlockType)simpleValueBlock;
-/** An expression that simply uses source's value as the modifier value. */
-+ (NSExpression*)simpleValueExpression;
-/** An expression that simply uses the dependency's value as the modifier value. */
-+ (NSExpression*)valueFromDependency:(NSString*)dependencyName;
++ (id)informationalModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
+                              enabled:(NSPredicate*)enabledPredicate
+                          explanation:(NSString*)explanation;
+
+/** An expression that simply uses the specified dependency's value as the modifier value. */
++ (NSExpression*)valueFromDependency:(NSString*)dependencyKey;
 /** An expression that has a constant value instead of relying on any of the dependencies. */
 + (NSExpression*)expressionForConstantValue:(int)value;
+
++ (NSValue*)rangeValueWithMin:(NSInteger)min max:(NSInteger)max;
++ (NSExpression*)valueFromPiecewiseFunctionRanges:(NSDictionary*)ranges usingDependency:(NSString*)dependencyKey;
 
 //+ (DKDependentModifierEnabledBlockType)enableWhenGreaterThanOrEqualTo:(int)threshold;
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(int)threshold;

@@ -51,15 +51,16 @@
     [class addModifier:[DKModifierBuilder modifierWithExplanation:@"Cleric Armor Proficiencies: Light and medium armor, shields"]
         forStatisticID:DKStatIDArmorProficiencies];
     
+    NSExpression* channelDivinityValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                         @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:1] : @(0),
+                                            [DKDependentModifierBuilder rangeValueWithMin:2 max:5] : @(1),
+                                            [DKDependentModifierBuilder rangeValueWithMin:6 max:17] : @(2),
+                                            [DKDependentModifierBuilder rangeValueWithMin:18 max:20] : @(3) }
+                                                                               usingDependency:@"source"];
     DKDependentModifier* channelDivinityUses = [[DKDependentModifier alloc] initWithSource:level
-                                                                                     value:^int(int sourceValue) {
-                                                                                         if (sourceValue <= 1) { return 0; }
-                                                                                         if (sourceValue >= 2 && sourceValue <= 5) { return 1; }
-                                                                                         else if (sourceValue >= 6 && sourceValue <= 17) { return 2; }
-                                                                                         else { return 3; }
-                                                                                     }
+                                                                                     value:channelDivinityValue
                                                                                   priority:kDKModifierPriority_Additive
-                                                                                     block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                                expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [class addModifier:channelDivinityUses forStatisticID:DKStatIDChannelDivinityUsesMax];
     
     DKModifierGroup* turnUndeadGroup = [DKCleric5E turnUndeadWithLevel:level];
@@ -110,14 +111,17 @@
     DKModifierGroup* cantripSecondGroup = [[DKModifierGroup alloc] init];
     cantripSecondGroup.explanation = @"Clerics are granted one additional cantrip at fourth level";
     [cantripsGroup addSubgroup:cantripSecondGroup];
-    [cantripSecondGroup addModifier:[DKDependentModifierBuilder informationalModifierFromSource:level threshold:4
+    [cantripSecondGroup addModifier:[DKDependentModifierBuilder informationalModifierFromSource:level
+                                                                                      enabled:[DKDependentModifierBuilder
+                                                                                               enabledWhen:@"source" isGreaterThanOrEqualTo:4]
                                                                                     explanation:@"Spare the Dying (default)"]
                      forStatisticID:DKStatIDCantrips];
     
     DKModifierGroup* cantripThirdGroup = [[DKModifierGroup alloc] init];
     cantripThirdGroup.explanation = @"Clerics are granted one additional cantrip at tenth level";
     [cantripsGroup addSubgroup:cantripThirdGroup];
-    [cantripThirdGroup addModifier:[DKDependentModifierBuilder informationalModifierFromSource:level threshold:10
+    [cantripThirdGroup addModifier:[DKDependentModifierBuilder informationalModifierFromSource:level
+                                                                                       enabled:[DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:10]
                                                                                    explanation:@"Guidance (default)"]
                     forStatisticID:DKStatIDCantrips];
     
@@ -129,94 +133,104 @@
     DKModifierGroup* spellSlotsGroup = [[DKModifierGroup alloc] init];
     spellSlotsGroup.explanation = @"Cleric spell slots";
     
+    NSExpression* firstLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:0] : @(0),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:1 max:1] : @(2),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:2 max:2] : @(3),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:3 max:20] : @(4) }
+                                                                                          usingDependency:@"source"];
     DKDependentModifier* firstLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
-                                                                                      value:^int(int sourceValue) {
-                                                                                          if (sourceValue == 1) { return 2; }
-                                                                                          else if (sourceValue == 2) { return 3; }
-                                                                                          else { return 4; }
-                                                                                      }
-                                                                                   priority:kDKModifierPriority_Additive
-                                                                                      block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                                     value:firstLevelSpellSlotsValue
+                                                                                  priority:kDKModifierPriority_Additive
+                                                                                expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [spellSlotsGroup addModifier:firstLevelSpellSlots forStatisticID:DKStatIDFirstLevelSpellSlotsMax];
     
+    NSExpression* secondLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:2] : @(0),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:3 max:3] : @(2),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:4 max:20] : @(3) }
+                                                                                          usingDependency:@"source"];
     DKDependentModifier* secondLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
-                                                                                       value:^int(int sourceValue) {
-                                                                                           if (sourceValue <= 2) { return 0; }
-                                                                                           else if (sourceValue == 2) { return 2; }
-                                                                                           else { return 3; }
-                                                                                       }
-                                                                                    priority:kDKModifierPriority_Additive
-                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                                      value:secondLevelSpellSlotsValue
+                                                                                   priority:kDKModifierPriority_Additive
+                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [spellSlotsGroup addModifier:secondLevelSpellSlots forStatisticID:DKStatIDSecondLevelSpellSlotsMax];
     
+    NSExpression* thirdLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                               @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:4] : @(0),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:5 max:5] : @(2),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:6 max:20] : @(3) }
+                                                                                           usingDependency:@"source"];
     DKDependentModifier* thirdLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
-                                                                                      value:^int(int sourceValue) {
-                                                                                          if (sourceValue <= 4) { return 0; }
-                                                                                          else if (sourceValue == 5) { return 2; }
-                                                                                          else { return 3; }
-                                                                                      }
-                                                                                   priority:kDKModifierPriority_Additive
-                                                                                      block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                                       value:thirdLevelSpellSlotsValue
+                                                                                    priority:kDKModifierPriority_Additive
+                                                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [spellSlotsGroup addModifier:thirdLevelSpellSlots forStatisticID:DKStatIDThirdLevelSpellSlotsMax];
     
+    NSExpression* fourthLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:6] : @(0),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:7 max:7] : @(1),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:8 max:8] : @(2),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:9 max:20] : @(3) }
+                                                                                          usingDependency:@"source"];
     DKDependentModifier* fourthLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
-                                                                                       value:^int(int sourceValue) {
-                                                                                           if (sourceValue <= 6) { return 0; }
-                                                                                           else if (sourceValue == 7) { return 1; }
-                                                                                           else if (sourceValue == 8) { return 2; }
-                                                                                           else { return 3; }
-                                                                                       }
-                                                                                    priority:kDKModifierPriority_Additive
-                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                                      value:fourthLevelSpellSlotsValue
+                                                                                   priority:kDKModifierPriority_Additive
+                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [spellSlotsGroup addModifier:fourthLevelSpellSlots forStatisticID:DKStatIDFourthLevelSpellSlotsMax];
     
+    NSExpression* fifthLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                               @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:8] : @(0),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:9 max:9] : @(1),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:10 max:17] : @(2),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:18 max:20] : @(3) }
+                                                                                           usingDependency:@"source"];
     DKDependentModifier* fifthLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
-                                                                                      value:^int(int sourceValue) {
-                                                                                          if (sourceValue <= 8) { return 0; }
-                                                                                          else if (sourceValue == 9) { return 1; }
-                                                                                          else if (sourceValue >= 10 && sourceValue <= 17) { return 2; }
-                                                                                          else { return 3; }
-                                                                                      }
-                                                                                   priority:kDKModifierPriority_Additive
-                                                                                      block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                                       value:fifthLevelSpellSlotsValue
+                                                                                    priority:kDKModifierPriority_Additive
+                                                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [spellSlotsGroup addModifier:fifthLevelSpellSlots forStatisticID:DKStatIDFifthLevelSpellSlotsMax];
     
+    NSExpression* sixthLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:10] : @(0),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:11 max:18] : @(1),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:19 max:20] : @(2) }
+                                                                                          usingDependency:@"source"];
     DKDependentModifier* sixthLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
-                                                                                      value:^int(int sourceValue) {
-                                                                                          if (sourceValue <= 10) { return 0; }
-                                                                                          else if (sourceValue >= 11 && sourceValue <= 18) { return 1; }
-                                                                                          else { return 2; }
-                                                                                      }
+                                                                                      value:sixthLevelSpellSlotsValue
                                                                                    priority:kDKModifierPriority_Additive
-                                                                                      block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [spellSlotsGroup addModifier:sixthLevelSpellSlots forStatisticID:DKStatIDSixthLevelSpellSlotsMax];
     
+    NSExpression* seventhLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:12] : @(0),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:13 max:19] : @(1),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:20 max:20] : @(2) }
+                                                                                          usingDependency:@"source"];
     DKDependentModifier* seventhLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
-                                                                                        value:^int(int sourceValue) {
-                                                                                            if (sourceValue <= 12) { return 0; }
-                                                                                            else if (sourceValue >= 13 && sourceValue <= 19) { return 1; }
-                                                                                            else { return 2; }
-                                                                                        }
-                                                                                     priority:kDKModifierPriority_Additive
-                                                                                        block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                                      value:seventhLevelSpellSlotsValue
+                                                                                   priority:kDKModifierPriority_Additive
+                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [spellSlotsGroup addModifier:seventhLevelSpellSlots forStatisticID:DKStatIDSeventhLevelSpellSlotsMax];
     
+    NSExpression* eighthLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                                @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:14] : @(0),
+                                                   [DKDependentModifierBuilder rangeValueWithMin:15 max:20] : @(1) }
+                                                                                            usingDependency:@"source"];
     DKDependentModifier* eighthLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
-                                                                                       value:^int(int sourceValue) {
-                                                                                           if (sourceValue <= 14) { return 0; }
-                                                                                           else { return 1; }
-                                                                                       }
-                                                                                    priority:kDKModifierPriority_Additive
-                                                                                       block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                                        value:eighthLevelSpellSlotsValue
+                                                                                     priority:kDKModifierPriority_Additive
+                                                                                   expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [spellSlotsGroup addModifier:eighthLevelSpellSlots forStatisticID:DKStatIDEighthLevelSpellSlotsMax];
     
+    NSExpression* ninthLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                               @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:16] : @(0),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:17 max:20] : @(1) }
+                                                                                           usingDependency:@"source"];
     DKDependentModifier* ninthLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
-                                                                                      value:^int(int sourceValue) {
-                                                                                          if (sourceValue <= 16) { return 0; }
-                                                                                          else { return 1; }
-                                                                                      }
-                                                                                   priority:kDKModifierPriority_Additive
-                                                                                      block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                                       value:ninthLevelSpellSlotsValue
+                                                                                    priority:kDKModifierPriority_Additive
+                                                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [spellSlotsGroup addModifier:ninthLevelSpellSlots forStatisticID:DKStatIDNinthLevelSpellSlotsMax];
     
     return spellSlotsGroup;
@@ -238,7 +252,8 @@
     NSString* destroyUndeadExplanation = @"Destroy Undead: When an undead fails its saving throw against your Turn Undead feature, "
     "the creature is instantly destroyed if its challenge rating is at or below a certain threshold.";
     DKDependentModifier* destroyUndeadAbility = [DKDependentModifierBuilder informationalModifierFromSource:level
-                                                                                                  threshold:5
+                                                                                                    enabled:[DKDependentModifierBuilder
+                                                                                                             enabledWhen:@"source" isGreaterThanOrEqualTo:5]
                                                                                                 explanation:destroyUndeadExplanation];
     [turnUndeadGroup addModifier:destroyUndeadAbility forStatisticID:DKStatIDTurnUndead];
     
@@ -311,7 +326,8 @@
     
     NSString* autoInterveneExplanation = @"Your call for intervention succeeds automatically, no roll required.";
     DKDependentModifier* autoInterveneAbility = [DKDependentModifierBuilder informationalModifierFromSource:level
-                                                                                                  threshold:20
+                                                                                                    enabled:[DKDependentModifierBuilder
+                                                                                                             enabledWhen:@"source" isGreaterThanOrEqualTo:20]
                                                                                                 explanation:autoInterveneExplanation];
     [divineInterventionGroup addModifier:autoInterveneAbility forStatisticID:DKStatIDDivineIntervention];
     

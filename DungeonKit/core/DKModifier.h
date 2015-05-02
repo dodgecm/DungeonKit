@@ -17,8 +17,6 @@ typedef enum {
     kDKModifierPriority_Informational,
 } DKModifierPriority;
 
-typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
-
 @class DKModifier;
 @protocol DKModifierOwner <NSObject>
 @required
@@ -45,8 +43,6 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 @property (nonatomic, assign) BOOL enabled;
 /** Describes when this modifier should be applied relative to other modifiers applied to the same statistic. */
 @property (nonatomic, readonly) DKModifierPriority priority;
-/** A function to perform the modification. */
-@property (nonatomic, copy, readonly) DKModifierBlockType modifierBlock;
 /** An expression to perform the modification. */
 @property (nonatomic, copy, readonly) NSExpression* modifierExpression;
 /** An optional explanation of the nature or source of this modifier */
@@ -55,11 +51,8 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 @property (nonatomic, weak, readonly) id<DKModifierOwner> owner;
 
 - (id)init __unavailable;
-/** @see DKModifierBuilder */
-- (id)initWithValue:(int)value
-           priority:(DKModifierPriority)priority
-              block:(DKModifierBlockType)block;
 
+/** @see DKModifierBuilder */
 - (id)initWithValue:(int)value
            priority:(DKModifierPriority)priority
          expression:(NSExpression*)expression;
@@ -94,9 +87,9 @@ typedef int (^DKModifierBlockType)(int modifierValue, int valueToModify);
 /** Initializes a modifier that keeps the statistic value within the given range */
 + (id)modifierWithClampBetween:(int)min and:(int)max explanation:(NSString*)explanation;
 
+/** Initializes a modifier with no mathematical effects */
 + (id)modifierWithExplanation:(NSString*)explanation;
 
 + (NSExpression*)simpleAdditionModifierExpression;
-+ (DKModifierBlockType)simpleAdditionModifierBlock;
 
 @end

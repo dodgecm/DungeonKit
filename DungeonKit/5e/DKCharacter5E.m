@@ -7,7 +7,6 @@
 //
 
 #import "DKCharacter5E.h"
-#import "DKDependentModifier+5E.h"
 
 @implementation DKCharacter5E
 

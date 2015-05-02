@@ -19,8 +19,6 @@
 @synthesize dependencies = _dependencies;
 @synthesize valueExpression = _valueExpression;
 @synthesize enabledPredicate = _enabledPredicate;
-@synthesize valueBlock = _valueBlock;
-@synthesize enabledBlock = _enabledBlock;
 
 - (void)dealloc {
     
@@ -28,52 +26,6 @@
     for (NSObject<DKDependentModifierOwner>* dependency in _dependencies.allValues) {
         [dependency removeObserver:self forKeyPath:@"value"];
     }
-}
-
-- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
-               value:(DKDependentModifierBlockType)valueBlock
-            priority:(DKModifierPriority)priority
-               block:(DKModifierBlockType)block {
-    
-    return [self initWithSource:source
-                          value:valueBlock
-                        enabled:^BOOL(int sourceValue) { return YES; }
-                       priority:priority
-                          block:block];
-}
-
-- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
-               value:(DKDependentModifierBlockType)valueBlock
-             enabled:(DKDependentModifierEnabledBlockType)enabledBlock
-            priority:(DKModifierPriority)priority
-               block:(DKModifierBlockType)block {
-    
-    NSAssert(source, @"Source for dependent modifier must not be nil.");
-    
-    //Set the value block to grab the owner's value directly if an explicit function wasn't provided
-    if (!valueBlock) {
-        valueBlock = ^int(int valueToModify) {
-            return valueToModify;
-        };
-    }
-    int startingValue = valueBlock([source value]);
-    
-    self = [super initWithValue:startingValue
-                       priority:priority
-                          block:block];
-    if (self) {
-        
-        //_source = source;
-        _valueBlock = valueBlock;
-        _enabledBlock = enabledBlock;
-        
-        [self refreshValue];
-        
-        /*[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dependencyChanged:) name:DKStatObjectChangedNotification object:_source];
-        [_source addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];*/
-        
-    }
-    return self;
 }
 
 - (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
@@ -205,16 +157,12 @@
     
     if (self.enabledPredicate != nil) {
         self.enabled = [_enabledPredicate evaluateWithObject:self substitutionVariables:context];
-    } else if (_enabledBlock) {
-        //self.enabled = _enabledBlock([_source value]);
-    } 
+    }
     
     if (self.valueExpression != nil) {
         self.value = [[_valueExpression expressionValueWithObject:self context:context] intValue];
     }
-    else if (_valueBlock) {
-        //self.value = _valueBlock([_source value]);
-    } else {
+    else {
         self.value = 0;
     }
 }
@@ -246,7 +194,7 @@
 
 + (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source {
     DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
-                                                                          value:[DKDependentModifierBuilder simpleValueExpression]
+                                                                          value:[DKDependentModifierBuilder valueFromDependency:@"source"]
                                                                        priority:kDKModifierPriority_Additive
                                                                           expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     return modifier;
@@ -258,35 +206,44 @@
     return modifier;
 }
 
-+ (id)informationalModifierFromSource:(NSObject<DKDependentModifierOwner>*)source threshold:(int)threshold explanation:(NSString*)explanation {
++ (id)informationalModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
+                              enabled:(NSPredicate*)enabledPredicate
+                          explanation:(NSString*)explanation {
     
     DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
                                                                           value:nil
-                                                                        enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                 isGreaterThanOrEqualTo:threshold]
+                                                                        enabled:enabledPredicate
                                                                        priority:kDKModifierPriority_Informational
                                                                      expression:nil];
     modifier.explanation = explanation;
     return modifier;
 }
 
-+ (DKDependentModifierBlockType)simpleValueBlock {
-    return ^int(int valueToModify) {
-        return valueToModify;
-    };
-}
-
-+ (NSExpression*)simpleValueExpression {
-    return [NSExpression expressionForVariable:@"source"];
-}
-
-/** An expression that simply uses the dependency's value as the modifier value. */
-+ (NSExpression*)valueFromDependency:(NSString*)dependencyName {
-    return [NSExpression expressionForVariable:dependencyName];
++ (NSExpression*)valueFromDependency:(NSString*)dependencyKey {
+    return [NSExpression expressionForVariable:dependencyKey];
 }
 
 + (NSExpression*)expressionForConstantValue:(int)value {
     return [NSExpression expressionForConstantValue:@(value)];
+}
+
++ (NSValue*)rangeValueWithMin:(NSInteger)min max:(NSInteger)max {
+    return [NSValue valueWithRange:NSMakeRange(min, max + 1 - min)];
+}
+
++ (NSExpression*)valueFromPiecewiseFunctionRanges:(NSDictionary*)ranges usingDependency:(NSString*)dependencyKey {
+
+    NSMutableDictionary* piecewiseFunction = [NSMutableDictionary dictionary];
+    for (NSValue* key in ranges.allKeys) {
+        NSRange range = key.rangeValue;
+        NSNumber* value = ranges[key];
+        for (NSInteger j = range.location; j < range.location + range.length; j++) {
+            piecewiseFunction[@(j)] = value;
+        }
+    }
+    return [NSExpression expressionForFunction:[NSExpression expressionForConstantValue:piecewiseFunction]
+                                  selectorName:@"objectForKey:"
+                                     arguments:@[ [NSExpression expressionForVariable:dependencyKey] ] ];
 }
 
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(int)threshold {
