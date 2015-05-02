@@ -69,7 +69,7 @@
     if ([modifier isKindOfClass:[DKDependentModifier class]]) {
         //If this is a dependent modifier, we need to do some special checks to make sure we don't have a modifier infinite cycle going on.
         DKDependentModifier* dependentModifier = (DKDependentModifier*) modifier;
-        if (dependentModifier.source == self || [self modifierCycleExists]) {
+        if ([dependentModifier.dependencies.allValues containsObject:self] || [self modifierCycleExists]) {
             
             [modifier removeFromStatistic];
             NSLog(@"DKStatistic: WARNING!  Attempted to apply dependent modifier %@ that will create a cycle to that modifier's source statistic %@.  The modifier will not be applied.", modifier, self);
@@ -135,7 +135,9 @@ BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedSt
         if (![modifier isKindOfClass:[DKDependentModifier class]]) { continue; }
         
         DKDependentModifier* dependentModifier = (DKDependentModifier*) modifier;
-        [childStats addObject:dependentModifier.source];
+        for (NSObject<DKModifierOwner>* statistic in dependentModifier.dependencies.allValues) {
+            [childStats addObject:statistic];
+        }
     }
     
     if ([visitedStats intersectsSet: childStats]) { return NO; }

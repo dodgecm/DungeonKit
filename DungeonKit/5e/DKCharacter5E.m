@@ -218,7 +218,11 @@
         
         //Set up proficiency bonus to increase based on the level automatically
         self.proficiencyBonus = [DKStatistic statisticWithBase:2];
-        DKDependentModifier* levelModifier = [DKDependentModifierBuilder proficiencyBonusModifierFromLevel:_level];
+        DKDependentModifier* levelModifier = [[DKDependentModifier alloc] initWithSource:_level
+                                                                                   value:[NSExpression expressionWithFormat:
+                                                                                          @"max:({ 0, ($source - 1) / 4 })"]
+                                                                                priority:kDKModifierPriority_Additive
+                                                                              expression:[DKModifierBuilder simpleAdditionModifierExpression]];
         [_proficiencyBonus applyModifier:levelModifier];
         
         //Initialize ability score block and saving throws

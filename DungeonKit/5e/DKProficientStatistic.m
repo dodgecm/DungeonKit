@@ -13,10 +13,6 @@
 
 @synthesize proficiencyLevel = _proficiencyLevel;
 
-- (void)dealloc {
-    [_proficiencyLevel removeObserver:self forKeyPath:@"value"];
-}
-
 + (id)statisticWithBase:(int)base proficiencyBonus:(DKStatistic*)proficiencyBonus {
     
     DKProficientStatistic* newStat = [[[self class] alloc] initWithBase:base proficiencyBonus:proficiencyBonus];
@@ -28,23 +24,15 @@
     self = [super initWithBase:base];
     if (self) {
         _proficiencyLevel = [DKStatistic statisticWithBase:0];
-        [_proficiencyLevel addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
-        
-        __weak DKProficientStatistic* weakSelf = self;
-        DKDependentModifier* proficiencyModifier = [[DKDependentModifier alloc] initWithSource:proficiencyBonus
-                                                                                         value:[DKDependentModifierBuilder simpleValueBlock]
-                                                                                      priority:kDKModifierPriority_Additive
-                                                                                         block:^int(int modifierValue, int valueToModify) {
-                                                                                             return (weakSelf.proficiencyLevel.value * modifierValue) + valueToModify;
-                                                                                         }];
+        DKDependentModifier* proficiencyModifier = [[DKDependentModifier alloc] initWithDependencies: @{ @"bonus": proficiencyBonus,
+                                                                                                         @"level": _proficiencyLevel }
+                                                                                               value:[NSExpression expressionWithFormat:@"$bonus*$level"]
+                                                                                             enabled:nil
+                                                                                            priority:kDKModifierPriority_Additive
+                                                                                          expression:[DKModifierBuilder simpleAdditionModifierExpression]];
         [self applyModifier:proficiencyModifier];
     }
     return self;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    //If the proficiency level value gets changed, we want to recalculate our value
-    [self recalculateValue];
 }
 
 @end

@@ -12,17 +12,22 @@
 @interface DKDependentModifier()
 @end
 
-@implementation DKDependentModifier
+@implementation DKDependentModifier {
+    NSMutableDictionary* _dependencies;
+}
 
-@synthesize source = _source;
+@synthesize dependencies = _dependencies;
 @synthesize valueExpression = _valueExpression;
 @synthesize enabledPredicate = _enabledPredicate;
 @synthesize valueBlock = _valueBlock;
 @synthesize enabledBlock = _enabledBlock;
 
 - (void)dealloc {
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:DKStatObjectChangedNotification object:nil];
-    [_source removeObserver:self forKeyPath:@"value"];
+    for (NSObject<DKDependentModifierOwner>* dependency in _dependencies.allValues) {
+        [dependency removeObserver:self forKeyPath:@"value"];
+    }
 }
 
 - (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
@@ -58,14 +63,14 @@
                           block:block];
     if (self) {
         
-        _source = source;
+        //_source = source;
         _valueBlock = valueBlock;
         _enabledBlock = enabledBlock;
         
         [self refreshValue];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sourceChanged:) name:DKStatObjectChangedNotification object:_source];
-        [_source addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
+        /*[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dependencyChanged:) name:DKStatObjectChangedNotification object:_source];
+        [_source addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];*/
         
     }
     return self;
@@ -90,53 +95,97 @@
             priority:(DKModifierPriority)priority
           expression:(NSExpression*)expression {
     
-    NSAssert(source, @"Source for dependent modifier must not be nil.");
+    return [self initWithDependencies:@{ @"source":source }
+                                value:valueExpression
+                              enabled:enabledPredicate
+                             priority:priority
+                           expression:expression];
+}
+
+- (id)initWithDependencies:(NSDictionary*)dependencies
+                     value:(NSExpression*)valueExpression
+                   enabled:(NSPredicate*)enabledPredicate
+                  priority:(DKModifierPriority)priority
+                expression:(NSExpression*)expression {
     
-    NSMutableDictionary* context = [@{ @"source": @(source.value) } mutableCopy];
-    int startingValue = [[_valueExpression expressionValueWithObject:self context:context] intValue];
-    
-    self = [super initWithValue:startingValue
+    NSAssert(dependencies.count, @"Dependencies for dependent modifier must not be empty.");
+    self = [super initWithValue:0
                        priority:priority
                      expression:expression];
     if (self) {
         
-        _source = source;
+        _dependencies = [NSMutableDictionary dictionary];
+        for (NSString* key in dependencies) {
+            [self addDependency:dependencies[key] forKey:key];
+        }
         _valueExpression = valueExpression;
         _enabledPredicate = enabledPredicate;
         
         [self refreshValue];
         
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sourceChanged:) name:DKStatObjectChangedNotification object:_source];
-        [_source addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
-        
     }
     return self;
 }
 
-- (void)sourceChanged:(NSNotification*)notif {
+- (void)addDependency:(NSObject<DKDependentModifierOwner>*)dependency forKey:(NSString*)key {
     
-    NSObject<DKDependentModifierOwner>* newSource = notif.userInfo[@"new"];
-    //Catch the case where the new value is null at this entry point to simplify the handling
-    if ([newSource isEqual:[NSNull null]]) {
-        newSource = nil;
-    }
+    static NSArray* reservedKeys;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        //These keys are reserved by the NSExpression string parser; see the very bottom of
+        //https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/Predicates/Articles/pSyntax.html
+        reservedKeys = @[@"AND", @"OR", @"IN", @"NOT", @"ALL", @"ANY", @"SOME", @"NONE", @"LIKE", @"CASEINSENSITIVE", @"CI", @"MATCHES", @"CONTAINS", @"BEGINSWITH", @"ENDSWITH", @"BETWEEN", @"NULL", @"NIL", @"SELF", @"TRUE", @"YES", @"FALSE", @"NO", @"FIRST", @"LAST", @"SIZE", @"ANYKEY", @"SUBQUERY", @"CAST", @"TRUEPREDICATE", @"FALSEPREDICATE", @"UTI-CONFORMS-TO", @"UTI-EQUALS"];
+    });
     
-    [self setSource:newSource];
+    NSAssert([key length], @"Key for dependency must not be empty or nil.");
+    NSAssert(dependency, @"Source for dependent modifier must not be nil.");
+    NSAssert(![_dependencies allKeysForObject:dependency].count, @"Source must not already be a dependency of this modifier.");
+    NSAssert1(![reservedKeys containsObject:[key uppercaseString]], @"Key \"%@\" is one of the NSExpression reserved words.  Name it something else instead.", key);
+    
+    [self removeDependencyforKey:key];
+    
+    _dependencies[key] = dependency;
+    [dependency willBecomeSourceForModifier:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dependencyChanged:) name:DKStatObjectChangedNotification object:dependency];
+    [dependency addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
+    
+    [self refreshValue];
 }
 
-- (void)setSource:(NSObject<DKDependentModifierOwner>*)source {
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:DKStatObjectChangedNotification object:_source];
-    [_source removeObserver:self forKeyPath:@"value"];
-    _source = source;
+- (void)removeDependencyforKey:(NSString*)key {
     
-    if (_source) {
-        [_source willBecomeSourceForModifier:self];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sourceChanged:) name:DKStatObjectChangedNotification object:_source];
-        [_source addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
-        [self refreshValue];
+    NSAssert([key length], @"Key for dependency must not be empty or nil.");
+    NSObject<DKDependentModifierOwner>* dependency = _dependencies[key];
+    
+    if (dependency) {
         
-    } else {
+        [_dependencies removeObjectForKey:key];
+        [[NSNotificationCenter defaultCenter] removeObserver:self name:DKStatObjectChangedNotification object:dependency];
+        [dependency removeObserver:self forKeyPath:@"value"];
+    }
+}
+
+- (void)dependencyChanged:(NSNotification*)notif {
+    
+    NSObject<DKDependentModifierOwner>* oldSource = notif.userInfo[@"old"];
+    NSObject<DKDependentModifierOwner>* newSource = notif.userInfo[@"new"];
+    
+    if ([oldSource isEqual:[NSNull null]] || !oldSource) { }
+    else {
+        
+        NSArray* keys = [_dependencies allKeysForObject:oldSource];
+        //Hopefully there should only be one key returned here...
+        for (NSString* key in keys) {
+            
+            if ([newSource isEqual:[NSNull null]] || !newSource) {
+                [self removeDependencyforKey:key];
+            } else {
+                [self addDependency:newSource forKey:key];
+            }
+        }
+    }
+    
+    if (!_dependencies.count) {
         [self removeFromStatistic];
     }
 }
@@ -148,19 +197,23 @@
 
 - (void)refreshValue {
     
+    NSMutableDictionary* context = [NSMutableDictionary dictionary];
+    for (NSString* key in _dependencies) {
+        NSObject<DKDependentModifierOwner>* dependency = _dependencies[key];
+        context[key] = @(dependency.value);
+    }
+    
     if (self.enabledPredicate != nil) {
-        NSDictionary* context = @{ @"source": @(_source.value) };
         self.enabled = [_enabledPredicate evaluateWithObject:self substitutionVariables:context];
     } else if (_enabledBlock) {
-        self.enabled = _enabledBlock([_source value]);
+        //self.enabled = _enabledBlock([_source value]);
     } 
     
     if (self.valueExpression != nil) {
-        NSMutableDictionary* context = [@{ @"source": @(_source.value) } mutableCopy];
         self.value = [[_valueExpression expressionValueWithObject:self context:context] intValue];
     }
     else if (_valueBlock) {
-        self.value = _valueBlock([_source value]);
+        //self.value = _valueBlock([_source value]);
     } else {
         self.value = 0;
     }
@@ -176,7 +229,7 @@
             NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
             formatter.positivePrefix = @"+";
             formatter.zeroSymbol = @"+0";
-            modifierString = [NSString stringWithFormat:@"%@", [formatter stringFromNumber:@(_source.value)]];
+            modifierString = [NSString stringWithFormat:@"%@", [formatter stringFromNumber:@(self.value)]];
             
             NSString* disabled = @"";
             if (!self.enabled) { disabled = @" - disabled"; }
@@ -209,7 +262,8 @@
     
     DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
                                                                           value:nil
-                                                                        enabled:[DKDependentModifierBuilder enabledWhenGreaterThanOrEqualTo:threshold]
+                                                                        enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                 isGreaterThanOrEqualTo:threshold]
                                                                        priority:kDKModifierPriority_Informational
                                                                      expression:nil];
     modifier.explanation = explanation;
@@ -226,15 +280,41 @@
     return [NSExpression expressionForVariable:@"source"];
 }
 
-+ (DKDependentModifierEnabledBlockType)enableWhenGreaterThanOrEqualTo:(int)threshold {
-    return ^BOOL(int sourceValue) {
-        if (sourceValue >= threshold) return YES;
-        else return NO;
-    };
+/** An expression that simply uses the dependency's value as the modifier value. */
++ (NSExpression*)valueFromDependency:(NSString*)dependencyName {
+    return [NSExpression expressionForVariable:dependencyName];
 }
 
-+ (NSPredicate*)enabledWhenGreaterThanOrEqualTo:(int)threshold {
-    return [NSPredicate predicateWithFormat:@"$source >= %i", threshold];
++ (NSExpression*)expressionForConstantValue:(int)value {
+    return [NSExpression expressionForConstantValue:@(value)];
+}
+
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(int)threshold {
+
+    // $dependencyName >= threshold
+    return [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForVariable:dependencyName]
+                                              rightExpression:[NSExpression expressionForConstantValue:@(threshold)]
+                                                     modifier:NSDirectPredicateModifier
+                                                         type:NSGreaterThanOrEqualToPredicateOperatorType
+                                                      options:0];
+}
+
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToOrBetween:(int)lowThreshold and:(int)highThreshold {
+    
+    // ($dependencyName >= lowThreshold) && ($dependencyName <= highThreshold)
+    NSPredicate* firstPredicate = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForVariable:dependencyName]
+                                                                     rightExpression:[NSExpression expressionForConstantValue:@(lowThreshold)]
+                                                                            modifier:NSDirectPredicateModifier
+                                                                                type:NSGreaterThanOrEqualToPredicateOperatorType
+                                                                             options:0];
+    
+    NSPredicate* secondPredicate = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForVariable:dependencyName]
+                                                                      rightExpression:[NSExpression expressionForConstantValue:@(highThreshold)]
+                                                                             modifier:NSDirectPredicateModifier
+                                                                                 type:NSLessThanOrEqualToPredicateOperatorType
+                                                                              options:0];
+    
+    return [NSCompoundPredicate andPredicateWithSubpredicates:@[firstPredicate, secondPredicate]];
 }
 
 @end

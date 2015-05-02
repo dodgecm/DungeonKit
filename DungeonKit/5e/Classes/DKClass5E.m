@@ -23,18 +23,20 @@
     abilityScoreSubgroup.explanation = [NSString stringWithFormat:@"Ability score improvements for level %i", threshold];
     
     DKDependentModifier* strModifier = [[DKDependentModifier alloc] initWithSource:classLevel
-                                                                             value:^int(int sourceValue) { return 1; }
-                                                                           enabled:[DKDependentModifierBuilder enableWhenGreaterThanOrEqualTo:threshold]
-                                                                          priority:kDKModifierPriority_Additive
-                                                                             block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                          value:[NSExpression expressionForConstantValue:@(1)]
+                                                                           enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                    isGreaterThanOrEqualTo:threshold]
+                                                                       priority:kDKModifierPriority_Additive
+                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     strModifier.explanation = [NSString stringWithFormat:@"Ability score improvement for level %i (default)", threshold];
     [abilityScoreSubgroup addModifier:strModifier forStatisticID:DKStatIDStrength];
     
     DKDependentModifier* dexModifier = [[DKDependentModifier alloc] initWithSource:classLevel
-                                                                             value:^int(int sourceValue) { return 1; }
-                                                                           enabled:[DKDependentModifierBuilder enableWhenGreaterThanOrEqualTo:threshold]
+                                                                             value:[NSExpression expressionForConstantValue:@(1)]
+                                                                           enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                    isGreaterThanOrEqualTo:threshold]
                                                                           priority:kDKModifierPriority_Additive
-                                                                             block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                        expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     dexModifier.explanation = [NSString stringWithFormat:@"Ability score improvement for level %i (default)", threshold];
     [abilityScoreSubgroup addModifier:dexModifier forStatisticID:DKStatIDDexterity];
     

@@ -23,14 +23,17 @@
 
 - (DKDependentModifier*) modifierFromAbilityScore {
     
+    static NSExpression* abilityExpression;
+    static dispatch_once_t once;
+    dispatch_once(&once, ^{
+        abilityExpression = [NSExpression expressionWithFormat: @"$input + floor:( ($value-10)/2.0 )"];
+    });
+    
+    //Use the copy of abilityExpression so that we only have to do the expensive string parsing once
     DKDependentModifier* dependentModifier = [[DKDependentModifier alloc] initWithSource:self
-                                                                                   value:^int(int valueToModify) {
-                                                                                       return valueToModify;
-                                                                                   }
+                                                                                   value:[DKDependentModifierBuilder valueFromDependency:@"source"]
                                                                                 priority:kDKModifierPriority_Additive
-                                                                                   block:^int(int modifierValue, int valueToModify) {
-                                                                                       return valueToModify + floor((modifierValue - 10) / 2.0);
-                                                                                   }];
+                                                                              expression:[abilityExpression copy]];
     return dependentModifier;
 }
 

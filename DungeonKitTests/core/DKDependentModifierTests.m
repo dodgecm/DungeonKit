@@ -71,10 +71,11 @@
     DKStatistic* firstStatistic = [[DKStatistic alloc] initWithBase:0];
     DKStatistic* secondStatistic = [[DKStatistic alloc] initWithBase:5];
     DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:firstStatistic
-                                                                          value:^int(int valueToModify) { return 5; }
-                                                                        enabled:[DKDependentModifierBuilder enableWhenGreaterThanOrEqualTo:10]
+                                                                          value:[NSExpression expressionForConstantValue:@(5)]
+                                                                        enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                 isGreaterThanOrEqualTo:10]
                                                                        priority:kDKModifierPriority_Additive
-                                                                          block:[DKModifierBuilder simpleAdditionModifierBlock]];
+                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     
     [secondStatistic applyModifier:modifier];
     XCTAssertFalse(modifier.enabled, @"Modifier should be disabled since first statistic is below the threshold.");
@@ -87,6 +88,48 @@
     firstStatistic.base = 0;
     XCTAssertFalse(modifier.enabled, @"Modifier should be disabled since first statistic is below the threshold.");
     XCTAssertTrue([secondStatistic.disabledModifiers containsObject:modifier], @"Modifier should be disabled since first statistic is below the threshold.");
+}
+
+- (void)testMultipleDependencies {
+    
+    DKStatistic* firstStatistic = [[DKStatistic alloc] initWithBase:1];
+    DKStatistic* secondStatistic = [[DKStatistic alloc] initWithBase:2];
+    DKStatistic* thirdStatistic = [[DKStatistic alloc] initWithBase:3];
+    
+    DKDependentModifier* dependenciesModifier = [[DKDependentModifier alloc] initWithDependencies: @{ @"abc": firstStatistic,
+                                                                                                      @"dfe": secondStatistic }
+                                                                                           value:[NSExpression expressionWithFormat:@"$abc+$dfe"]
+                                                                                         enabled:nil
+                                                                                        priority:kDKModifierPriority_Additive
+                                                                                      expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [thirdStatistic applyModifier:dependenciesModifier];
+    XCTAssertEqual(thirdStatistic.value, 6, @"Multiple dependency modifier should add proper value to its statistic.");
+}
+
+- (void)testReservedExpressionStrings {
+    
+    DKStatistic* statistic = [[DKStatistic alloc] initWithBase:1];
+    DKStatistic* badStatistic = [[DKStatistic alloc] initWithBase:1];
+    DKDependentModifier* dependenciesModifier = [[DKDependentModifier alloc] initWithDependencies: @{ @"abc": statistic }
+                                                                                            value:[NSExpression expressionWithFormat:@"$abc"]
+                                                                                          enabled:nil
+                                                                                         priority:kDKModifierPriority_Additive
+                                                                                       expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    XCTAssertThrows([dependenciesModifier addDependency:badStatistic forKey:@"first"], @"Should not be able to use the reserved key name.");
+}
+
+- (void)testPredicateBuilders {
+    
+    NSPredicate* predicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:10];
+    XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(10)}], @"Predicate should return correct result.");
+    XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(15)}], @"Predicate should return correct result.");
+    XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(5)}], @"Predicate should return correct result.");
+    
+    predicate = [DKDependentModifierBuilder enabledWhen:@"source" isEqualToOrBetween:10 and:15];
+    XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(10)}], @"Predicate should return correct result.");
+    XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(15)}], @"Predicate should return correct result.");
+    XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(5)}], @"Predicate should return correct result.");
+    XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(20)}], @"Predicate should return correct result.");
 }
 
 @end

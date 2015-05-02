@@ -43,11 +43,11 @@ typedef BOOL (^DKDependentModifierEnabledBlockType)(int sourceValue);
  @param value A method that returns whether to enable the modifier based on the value of the source.  If nil, the modifier will always be enabled.
  @param priority Describes when this modifier should be applied relative to other modifiers applied to the same statistic.
  @param block A function to perform the modification. */
-- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
+/*- (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
                value:(DKDependentModifierBlockType)valueBlock
              enabled:(DKDependentModifierEnabledBlockType)enabledBlock
             priority:(DKModifierPriority)priority
-               block:(DKModifierBlockType)block;
+               block:(DKModifierBlockType)block;*/
 
 - (id)initWithSource:(NSObject<DKDependentModifierOwner>*)source
                value:(NSExpression*)valueExpression
@@ -60,8 +60,15 @@ typedef BOOL (^DKDependentModifierEnabledBlockType)(int sourceValue);
             priority:(DKModifierPriority)priority
           expression:(NSExpression*)expression;
 
+- (id)initWithDependencies:(NSDictionary*)dependencies
+                     value:(NSExpression*)valueExpression
+                   enabled:(NSPredicate*)enabledPredicate
+                  priority:(DKModifierPriority)priority
+                expression:(NSExpression*)expression;
+
 /** The object that this modifier's value will be calculated from. */
-@property (nonatomic, strong, readonly) NSObject<DKDependentModifierOwner>* source;
+//@property (nonatomic, strong, readonly) NSObject<DKDependentModifierOwner>* source;
+@property (nonatomic, strong, readonly) NSDictionary* dependencies;
 /** A method that calculates the value of the modifier from the value of the source. */
 @property (nonatomic, copy, readonly) NSExpression* valueExpression;
 /** A method that enables or disables the modifier from the value of the source. */
@@ -70,6 +77,9 @@ typedef BOOL (^DKDependentModifierEnabledBlockType)(int sourceValue);
 @property (nonatomic, copy, readonly) DKDependentModifierBlockType valueBlock;
 /** A method that enables or disables the modifier from the value of the source. */
 @property (nonatomic, copy, readonly) DKDependentModifierEnabledBlockType enabledBlock;
+
+- (void)addDependency:(NSObject<DKDependentModifierOwner>*)dependency forKey:(NSString*)key;
+- (void)removeDependencyforKey:(NSString*)key;
 
 @end
 
@@ -86,7 +96,13 @@ typedef BOOL (^DKDependentModifierEnabledBlockType)(int sourceValue);
 + (DKDependentModifierBlockType)simpleValueBlock;
 /** An expression that simply uses source's value as the modifier value. */
 + (NSExpression*)simpleValueExpression;
+/** An expression that simply uses the dependency's value as the modifier value. */
++ (NSExpression*)valueFromDependency:(NSString*)dependencyName;
+/** An expression that has a constant value instead of relying on any of the dependencies. */
++ (NSExpression*)expressionForConstantValue:(int)value;
 
-+ (DKDependentModifierEnabledBlockType)enableWhenGreaterThanOrEqualTo:(int)threshold;
+//+ (DKDependentModifierEnabledBlockType)enableWhenGreaterThanOrEqualTo:(int)threshold;
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(int)threshold;
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToOrBetween:(int)lowThreshold and:(int)highThreshold;
 
 @end
