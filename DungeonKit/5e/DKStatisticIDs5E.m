@@ -113,6 +113,7 @@ NSString *const DKStatIDCurrencyPlatinum = @"DKCurrencyPlatinum";
 
 NSString *const DKStatIDSpellSaveDC = @"DKSpellSaveDC";
 NSString *const DKStatIDSpellAttackBonus = @"DKSpellAttackBonus";
+NSString *const DKStatIDPreparedSpells = @"DKPreparedSpells";
 NSString *const DKStatIDPreparedSpellsMax = @"DKPreparedSpellsMax";
 
 NSString *const DKStatIDFirstLevelSpellSlotsCurrent = @"DKFirstLevelSpellSlotsCurrent";

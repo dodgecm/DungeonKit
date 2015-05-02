@@ -146,6 +146,7 @@
              
              DKStatIDSpellSaveDC: @"spells.spellSaveDC",
              DKStatIDSpellAttackBonus: @"spells.spellAttackBonus",
+             DKStatIDPreparedSpells: @"spells.preparedSpells",
              DKStatIDPreparedSpellsMax: @"spells.preparedSpellsMax",
              
              DKStatIDFirstLevelSpellSlotsCurrent: @"spells.firstLevelSpellSlotsCurrent",

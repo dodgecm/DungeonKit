@@ -14,6 +14,7 @@
 
 @synthesize spellSaveDC = _spellSaveDC;
 @synthesize spellAttackBonus = _spellAttackBonus;
+@synthesize preparedSpells = _preparedSpells;
 @synthesize preparedSpellsMax = _preparedSpellsMax;
 
 @synthesize firstLevelSpellSlotsCurrent = _firstLevelSpellSlotsCurrent;
@@ -52,6 +53,7 @@
         self.spellAttackBonus = [DKStatistic statisticWithBase:0];
         [self.spellSaveDC applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:proficiencyBonus]];
         [self.spellAttackBonus applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:proficiencyBonus]];
+        self.preparedSpells = [DKStatistic statisticWithBase:0];
         self.preparedSpellsMax = [DKStatistic statisticWithBase:0];
         
         self.firstLevelSpellSlotsCurrent = [DKStatistic statisticWithBase:0];

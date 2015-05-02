@@ -334,6 +334,42 @@
     return divineInterventionGroup;
 }
 
++ (DKModifierGroup*)domainSpellsGroupClericLevel:(DKStatistic*)level spellDictionary:(NSDictionary*)spellsDict {
+
+    DKModifierGroup* domainSpellsGroup = [[DKModifierGroup alloc] init];
+    DKModifier* domainInfoModifier = [DKModifierBuilder modifierWithExplanation:@"Divine Domain: Spells granted by your Divine Domain do not count against "
+                                      "your prepared spells limit."];
+    [domainSpellsGroup addModifier:domainInfoModifier forStatisticID:DKStatIDPreparedSpellsMax];
+    
+    for (NSNumber* levelThreshold in spellsDict.allKeys) {
+        NSArray* spellExplanations = spellsDict[levelThreshold];
+        for (NSString* spellName in spellExplanations) {
+            
+            DKModifier* modifier = [[DKDependentModifier alloc] initWithSource:level
+                                                                         value:[DKDependentModifierBuilder expressionForConstantValue:0]
+                                                                       enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                isGreaterThanOrEqualTo:levelThreshold.intValue]
+                                                                      priority:kDKModifierPriority_Additive
+                                                                    expression:nil];
+            modifier.explanation = [NSString stringWithFormat:@"%@ (Divine Domain)", spellName];
+            [domainSpellsGroup addModifier:modifier forStatisticID:DKStatIDPreparedSpells];
+        }
+    }
+    
+    return domainSpellsGroup;
+}
+
++ (DKModifier*)domainSpellWithClericLevel:(DKStatistic*)level levelThreshold:(int)minimumLevel explanation:(NSString*)explanation {
+    
+    return [[DKDependentModifier alloc] initWithSource:level
+                                                 value:nil
+                                               enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                        isGreaterThanOrEqualTo:minimumLevel]
+                                              priority:kDKModifierPriority_Informational
+                                            expression:nil];
+    
+}
+
 #pragma mark -
 
 + (DKModifierGroup*)lifeDomainWithLevel:(DKStatistic*)level {
@@ -343,6 +379,14 @@
     
     DKModifier* armorProficiency = [DKModifierBuilder modifierWithExplanation:@"Life Domain Armor Proficiency: Heavy Armor"];
     [lifeDomainGroup addModifier:armorProficiency forStatisticID:DKStatIDArmorProficiencies];
+    
+    NSDictionary* spells = @{ @(1): @[ @"Bless", @"Cure Wounds" ],
+                              @(3): @[ @"Lesser Restoration", @"Spiritual Weapon" ],
+                              @(5): @[ @"Beacon of Hope", @"Revivify" ],
+                              @(7): @[ @"Death Ward", @"Guardian of Faith" ],
+                              @(9): @[ @"Mass Cure Wounds", @"Raise Dead" ] };
+    DKModifierGroup* lifeDomainSpellsGroup = [DKCleric5E domainSpellsGroupClericLevel:level spellDictionary:spells];
+    [lifeDomainGroup addSubgroup:lifeDomainSpellsGroup];
     
     DKModifier* discipleOfLife = [DKModifierBuilder modifierWithExplanation:@"Disciple of Life: Whenever you use a spell of 1st level or higher to "
                                   "restore hit points to a creature, the creature regains additional hit points equal to 2 + the spell's level."];
