@@ -29,14 +29,14 @@
 
 - (void)testConstructor {
     
-    DKStatistic* statistic = [[DKNumericStatistic alloc] initWithBase:10];
+    DKStatistic* statistic = [[DKNumericStatistic alloc] initWithInt:10];
     XCTAssertNotNil([DKDependentModifierBuilder simpleModifierFromSource:statistic], @"Constructors should return non-nil object.");
 }
 
 - (void)testDependentModifier {
     
-    DKNumericStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithBase:2];
-    DKNumericStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithBase:14];
+    DKNumericStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:2];
+    DKNumericStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:14];
     DKDependentModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
     [secondStatistic applyModifier:modifier];
     XCTAssertEqualObjects(secondStatistic.value, @16, @"Dependant modifier should be applied correctly.");
@@ -48,7 +48,7 @@
 
 - (void)testSimpleCycle {
     
-    DKStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithBase:1];
+    DKStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:1];
     DKDependentModifier* firstModifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
     [firstStatistic applyModifier:firstModifier];
     XCTAssert(![[firstStatistic modifiers] containsObject:firstModifier], @"Dependent modifier should not successfully add itself to its source statistic.");
@@ -56,8 +56,8 @@
 
 - (void)testModifierInfiniteCycle {
     
-    DKStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithBase:1];
-    DKStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithBase:2];
+    DKStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:1];
+    DKStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:2];
     DKDependentModifier* firstModifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
     DKDependentModifier* secondModifier = [DKDependentModifierBuilder simpleModifierFromSource:secondStatistic];
     [secondStatistic applyModifier:firstModifier];
@@ -68,8 +68,8 @@
 
 - (void)testAutoEnable {
     
-    DKNumericStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithBase:0];
-    DKNumericStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithBase:5];
+    DKNumericStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:0];
+    DKNumericStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:5];
     DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:firstStatistic
                                                                           value:[NSExpression expressionForConstantValue:@(5)]
                                                                         enabled:[DKDependentModifierBuilder enabledWhen:@"source"
@@ -92,9 +92,9 @@
 
 - (void)testMultipleDependencies {
     
-    DKStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithBase:1];
-    DKStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithBase:2];
-    DKStatistic* thirdStatistic = [[DKNumericStatistic alloc] initWithBase:3];
+    DKStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:1];
+    DKStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:2];
+    DKStatistic* thirdStatistic = [[DKNumericStatistic alloc] initWithInt:3];
     
     DKDependentModifier* dependenciesModifier = [[DKDependentModifier alloc] initWithDependencies: @{ @"abc": firstStatistic,
                                                                                                       @"dfe": secondStatistic }
@@ -108,8 +108,8 @@
 
 - (void)testReservedExpressionStrings {
     
-    DKStatistic* statistic = [[DKNumericStatistic alloc] initWithBase:1];
-    DKStatistic* badStatistic = [[DKNumericStatistic alloc] initWithBase:1];
+    DKStatistic* statistic = [[DKNumericStatistic alloc] initWithInt:1];
+    DKStatistic* badStatistic = [[DKNumericStatistic alloc] initWithInt:1];
     DKDependentModifier* dependenciesModifier = [[DKDependentModifier alloc] initWithDependencies: @{ @"abc": statistic }
                                                                                             value:[NSExpression expressionWithFormat:@"$abc"]
                                                                                           enabled:nil

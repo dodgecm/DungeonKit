@@ -9,14 +9,16 @@
 #import "DKStatistic.h"
 
 @interface DKStatistic()
+@property (nonatomic, readwrite) id<NSObject> base;
+@property (nonatomic, readwrite) id<NSObject> value;
 @end
 
 @implementation DKStatistic {
     NSMutableArray* _modifiers;
 }
 
-@dynamic base;
-@dynamic value;
+@synthesize base = _base;
+@synthesize value = _value;
 @synthesize modifiers = _modifiers;
 
 - (void)dealloc {
@@ -33,6 +35,25 @@
         _modifiers = [NSMutableArray array];
     }
     return self;
+}
+
++ (id)statisticWithBase:(id<NSObject>)base {
+    DKStatistic* newStat = [[[self class] alloc] initWithBase:base];
+    return newStat;
+}
+- (id)initWithBase:(id<NSObject>)base {
+    
+    self = [super init];
+    if (self) {
+        self.base = base;
+        _modifiers = [NSMutableArray array];
+    }
+    return self;
+}
+
+- (void)setBase:(id<NSObject>)base {
+    _base = base;
+    [self recalculateValue];
 }
 
 - (NSArray*)enabledModifiers {
@@ -101,7 +122,17 @@
     [self recalculateValue];
 }
 
-- (void)recalculateValue { }
+
+- (void)recalculateValue {
+    
+    id<NSObject> newValue = self.base;
+    //Apply modifiers
+    for (DKModifier* modifier in self.modifiers) {
+        newValue = [modifier modifyStatistic:newValue];
+    }
+    
+    self.value = newValue;
+}
 
 - (BOOL) modifierCycleExists {
     return !isNodeAcyclic(self, [NSMutableSet set]);
@@ -141,41 +172,46 @@ BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedSt
 
 @implementation DKNumericStatistic
 
-@synthesize base = _base;
-@synthesize value = _value;
+@dynamic base;
+@dynamic value;
 
-+ (id)statisticWithBase:(int)base {
-    DKNumericStatistic* newStat = [[[self class] alloc] initWithBase:base];
++ (id)statisticWithInt:(int)integer {
+    DKNumericStatistic* newStat = [[[self class] alloc] initWithInt:integer];
     return newStat;
 }
 
-- (id)initWithBase:(int)base {
+- (id)initWithInt:(int)integer {
     
-    self = [super init];
-    if (self) {
-        self.base = @(base);
-    }
+    self = [super initWithBase:@(integer)];
     return self;
 }
 
-- (void)setBase:(NSNumber*)base {
-    _base = base;
-    [self recalculateValue];
-}
-
-- (void)recalculateValue {
-    
-    NSNumber* newScore = _base;
-    //Apply modifiers
-    for (DKModifier* modifier in self.modifiers) {
-        newScore = [modifier modifyStatistic:newScore];
-    }
-    
-    self.value = newScore;
-}
-
 - (int)intValue {
-    return _value.intValue;
+    return self.value.intValue;
 }
 
 @end
+
+
+@interface DKSetStatistic()
+@property (nonatomic, readwrite) NSSet* value;
+@end
+
+@implementation DKSetStatistic
+
+@synthesize base;
+@dynamic value;
+
++ (id)statisticWithSet:(NSSet*)set {
+    DKSetStatistic* newStat = [[[self class] alloc] initWithSet:set];
+    return newStat;
+}
+
+- (id)initWithSet:(NSSet*)set {
+    
+    self = [super initWithBase:set];
+    return self;
+}
+
+@end
+

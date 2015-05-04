@@ -22,9 +22,9 @@
 
 - (id)initWithBase:(int)base proficiencyBonus:(DKNumericStatistic*)proficiencyBonus {
     
-    self = [super initWithBase:base];
+    self = [super initWithInt:base];
     if (self) {
-        _proficiencyLevel = [DKNumericStatistic statisticWithBase:0];
+        _proficiencyLevel = [DKNumericStatistic statisticWithInt:0];
         DKDependentModifier* proficiencyModifier = [[DKDependentModifier alloc] initWithDependencies: @{ @"bonus": proficiencyBonus,
                                                                                                          @"level": _proficiencyLevel }
                                                                                                value:[NSExpression expressionWithFormat:@"$bonus*$level"]

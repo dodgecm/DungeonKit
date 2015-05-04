@@ -28,14 +28,14 @@
 }
 
 - (void)testConstructors {
-    DKNumericStatistic* proficiencyBonus = [DKNumericStatistic statisticWithBase:2];
+    DKNumericStatistic* proficiencyBonus = [DKNumericStatistic statisticWithInt:2];
     XCTAssertNotNil([DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus], @"Constructors should return non-nil object.");
     XCTAssertNotNil([[DKProficientStatistic alloc] initWithBase:0 proficiencyBonus:proficiencyBonus], @"Constructors should return non-nil object.");
 }
 
 - (void)testProficiencyLevel {
     
-    DKNumericStatistic* proficiencyBonus = [DKNumericStatistic statisticWithBase:2];
+    DKNumericStatistic* proficiencyBonus = [DKNumericStatistic statisticWithInt:2];
     DKProficientStatistic* proficiencyStat = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
     proficiencyStat.proficiencyLevel.base = @1;
     XCTAssertEqualObjects(proficiencyStat.value, @2, @"Proficiency bonus should be applied according to proficiency level.");

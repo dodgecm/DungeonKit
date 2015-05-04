@@ -50,8 +50,8 @@
     
     self = [super init];
     if (self) {
-        self.classLevel = [DKNumericStatistic statisticWithBase:0];
-        self.classTraits = [DKNumericStatistic statisticWithBase:0];
+        self.classLevel = [DKNumericStatistic statisticWithInt:0];
+        self.classTraits = [DKNumericStatistic statisticWithInt:0];
     }
     
     return self;

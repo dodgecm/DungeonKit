@@ -160,7 +160,7 @@
     }
     
     if (self.valueExpression != nil) {
-        self.value = [[_valueExpression expressionValueWithObject:self context:context] intValue];
+        self.value = [_valueExpression expressionValueWithObject:self context:context];
     }
     else {
         self.value = 0;
@@ -177,7 +177,7 @@
             NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
             formatter.positivePrefix = @"+";
             formatter.zeroSymbol = @"+0";
-            modifierString = [NSString stringWithFormat:@"%@", [formatter stringFromNumber:@(self.value)]];
+            modifierString = [NSString stringWithFormat:@"%@", [formatter stringFromNumber:(NSNumber*)self.value]];
             
             NSString* disabled = @"";
             if (!self.enabled) { disabled = @" - disabled"; }

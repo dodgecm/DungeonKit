@@ -28,7 +28,7 @@
 
 - (void)testConstructors {
     
-    DKNumericStatistic* proficiencyBonus = [DKNumericStatistic statisticWithBase:2];
+    DKNumericStatistic* proficiencyBonus = [DKNumericStatistic statisticWithInt:2];
     DKAbilities5E* abilities = [[DKAbilities5E alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
     DKSkills5E* skills = [[DKSkills5E alloc] initWithAbilities:abilities proficiencyBonus:proficiencyBonus];
     XCTAssertNotNil(skills, @"Constructors should return non-nil object.");
@@ -42,7 +42,7 @@
 
 - (void)testSkillValues {
     
-    DKNumericStatistic* proficiencyBonus = [DKNumericStatistic statisticWithBase:2];
+    DKNumericStatistic* proficiencyBonus = [DKNumericStatistic statisticWithInt:2];
     DKAbilities5E* abilities = [[DKAbilities5E alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
     DKSkills5E* skills = [[DKSkills5E alloc] initWithAbilities:abilities proficiencyBonus:proficiencyBonus];
     

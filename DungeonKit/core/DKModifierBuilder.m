@@ -11,9 +11,10 @@
 @implementation DKModifierBuilder
 
 + (id)modifierWithAdditiveBonus:(int)bonus {
-    DKModifier* modifier = [[DKModifier alloc] initWithValue:bonus
-                                                    priority:kDKModifierPriority_Additive
-                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    
+    DKModifier* modifier = [DKModifier modifierWithNumericValue:bonus
+                                                       priority:kDKModifierPriority_Additive
+                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     return modifier;
 }
 
@@ -27,9 +28,9 @@
 + (id)modifierWithMinimum:(int)min {
     
     NSExpression* maxExpression =  [NSExpression expressionWithFormat:@"max:({%i, $input})", min];
-    DKModifier* modifier = [[DKModifier alloc] initWithValue:0
-                                                    priority:kDKModifierPriority_Clamping
-                                                  expression:maxExpression];
+    DKModifier* modifier = [DKModifier modifierWithNumericValue:0
+                                                       priority:kDKModifierPriority_Clamping
+                                                     expression:maxExpression];
     return modifier;
 }
 
@@ -43,9 +44,9 @@
 + (id)modifierWithClampBetween:(int)min and:(int)max {
     
     NSExpression* clampExpression =  [NSExpression expressionWithFormat:@"min:({%i, max:({%i, $input}) })", max, min];
-    DKModifier* modifier = [[DKModifier alloc] initWithValue:0
-                                                    priority:kDKModifierPriority_Clamping
-                                                  expression:clampExpression];
+    DKModifier* modifier = [DKModifier modifierWithNumericValue:0
+                                                       priority:kDKModifierPriority_Clamping
+                                                     expression:clampExpression];
     return modifier;
 }
 
@@ -63,9 +64,9 @@
 
 + (id)modifierWithExplanation:(NSString*)explanation {
     
-    DKModifier* modifier = [[DKModifier alloc] initWithValue:0
-                                                    priority:kDKModifierPriority_Informational
-                                                  expression:[NSExpression expressionForVariable:@"input"]];
+    DKModifier* modifier = [DKModifier modifierWithNumericValue:0
+                                                       priority:kDKModifierPriority_Informational
+                                                     expression:[NSExpression expressionForVariable:@"input"]];
     modifier.explanation = explanation;
     return modifier;
 }

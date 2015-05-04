@@ -19,6 +19,10 @@
 /** An array of modifiers, both enabled and disabled, that are currently applied to this statistic. */
 @property (nonatomic, strong, readonly) NSArray* modifiers;
 
++ (id)statisticWithBase:(id<NSObject>)base;
+- (id)init __unavailable;
+- (id)initWithBase:(id<NSObject>)base;
+
 /** Applies the given modifier to this statistic.  A modifier can only be applied to one statistic at a time. */
 - (void)applyModifier:(DKModifier*)modifier;
 - (NSArray*)enabledModifiers;
@@ -28,15 +32,28 @@
 
 @end
 
+#pragma mark -
 @interface DKNumericStatistic : DKStatistic
 
 /** The value of the statistic without any modifiers. */
 @property (nonatomic, copy, readwrite) NSNumber* base;
 @property (nonatomic, readonly) NSNumber* value;
 
-+ (id)statisticWithBase:(int)base;
-- (id)initWithBase:(int)base;
++ (id)statisticWithInt:(int)base;
+- (id)initWithInt:(int)base;
 
 - (int)intValue;
+
+@end
+
+#pragma mark -
+@interface DKSetStatistic : DKStatistic
+
+/** The value of the statistic without any modifiers. */
+@property (nonatomic, copy, readwrite) NSSet* base;
+@property (nonatomic, readonly) NSSet* value;
+
++ (id)statisticWithSet:(NSSet*)base;
+- (id)initWithSet:(NSSet*)base;
 
 @end

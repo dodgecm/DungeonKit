@@ -17,9 +17,9 @@
  The character's proficiency bonus will be added to this statistic once for each proficiency level. */
 @property (nonatomic, strong, readonly) DKNumericStatistic* proficiencyLevel;
 
-+ (id)statisticWithBase:(int)base __unavailable;
++ (id)statisticWithInt:(int)base __unavailable;
 + (id)statisticWithBase:(int)base proficiencyBonus:(DKNumericStatistic*)proficiencyBonus;
-- (id)initWithBase:(int)base __unavailable;
+- (id)initWithInt:(int)base __unavailable;
 - (id)initWithBase:(int)base proficiencyBonus:(DKNumericStatistic*)proficiencyBonus;
 
 @end

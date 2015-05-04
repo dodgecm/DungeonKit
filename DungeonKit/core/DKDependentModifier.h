@@ -22,7 +22,7 @@
  */
 @interface DKDependentModifier : DKModifier
 
-- (id)initWithValue:(int)value
+- (id)initWithValue:(id<NSObject>)value
            priority:(DKModifierPriority)priority
          expression:(NSExpression*)expression __unavailable;
 

@@ -19,11 +19,11 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.copper = [DKNumericStatistic statisticWithBase:0];
-        self.silver = [DKNumericStatistic statisticWithBase:0];
-        self.electrum = [DKNumericStatistic statisticWithBase:0];
-        self.gold = [DKNumericStatistic statisticWithBase:0];
-        self.platinum = [DKNumericStatistic statisticWithBase:0];
+        self.copper = [DKNumericStatistic statisticWithInt:0];
+        self.silver = [DKNumericStatistic statisticWithInt:0];
+        self.electrum = [DKNumericStatistic statisticWithInt:0];
+        self.gold = [DKNumericStatistic statisticWithInt:0];
+        self.platinum = [DKNumericStatistic statisticWithInt:0];
     }
     return self;
 }

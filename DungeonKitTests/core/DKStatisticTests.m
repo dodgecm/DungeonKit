@@ -29,12 +29,12 @@
 
 - (void)testConstructors {
     
-    XCTAssertNotNil([[DKNumericStatistic alloc] initWithBase:10], @"Constructors should return non-nil object.");
-    XCTAssertNotNil([DKNumericStatistic statisticWithBase:10], @"Constructors should return non-nil object.");
+    XCTAssertNotNil([[DKNumericStatistic alloc] initWithInt:10], @"Constructors should return non-nil object.");
+    XCTAssertNotNil([DKNumericStatistic statisticWithInt:10], @"Constructors should return non-nil object.");
 }
 
 - (void)testModifiers {
-    DKNumericStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
+    DKNumericStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
     XCTAssertEqualObjects(stat.base, @10, @"Unmodified statistic should start with correct score.");
     XCTAssertEqualObjects(stat.value, @10 , @"Unmodified statistic should start with correct score.");
     
@@ -44,17 +44,17 @@
     XCTAssertEqualObjects(stat.value, @15, @"Modified statistic should calculate correct score.");
     XCTAssert([[stat modifiers] containsObject:modifier], @"Modified statistic should update its fields properly.");
     
-    modifier.value = 3;
+    modifier.value = @3;
     XCTAssertEqualObjects(stat.value, @13, @"Modified statistic should update score when modifier value is changed.");
     [modifier removeFromStatistic];
     XCTAssertEqualObjects(stat.value, @10, @"Modified statistic should update score when modifier is removed.");
-    modifier.value = 5;
+    modifier.value = @5;
     XCTAssertEqualObjects(stat.value, @10, @"Modified statistic should not update score when removed modifier is changed after the fact.");
 }
 
 - (void)testModifierSorting {
     
-    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     DKModifier* secondModifier = [DKModifierBuilder modifierWithMinimum:18];
     [stat applyModifier:secondModifier];
@@ -63,7 +63,7 @@
 }
 
 - (void)testModifierFiltering {
-    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
     DKModifier* firstModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     DKModifier* secondModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     DKModifier* thirdModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
@@ -90,13 +90,13 @@
 
 - (void)testModifierAdditionErrorCase {
     
-    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
     [stat applyModifier:nil];
 }
 
 - (void)testModifierRemovalErrorCase {
     
-    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     [stat removeModifier:modifier];
     [stat removeModifier:nil];

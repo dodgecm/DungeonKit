@@ -95,12 +95,12 @@
             NSAssert2([score isKindOfClass:[NSNumber class]],
                       @"Received ability score of type %@ (%@), expected NSNumber", NSStringFromClass([score class]), score);
         }
-        self.strength = [DKAbilityScore statisticWithBase:[scoreArray[0] intValue]];
-        self.dexterity = [DKAbilityScore statisticWithBase:[scoreArray[1] intValue]];
-        self.constitution = [DKAbilityScore statisticWithBase:[scoreArray[2] intValue]];
-        self.intelligence = [DKAbilityScore statisticWithBase:[scoreArray[3] intValue]];
-        self.wisdom = [DKAbilityScore statisticWithBase:[scoreArray[4] intValue]];
-        self.charisma = [DKAbilityScore statisticWithBase:[scoreArray[5] intValue]];
+        self.strength = [DKAbilityScore statisticWithInt:[scoreArray[0] intValue]];
+        self.dexterity = [DKAbilityScore statisticWithInt:[scoreArray[1] intValue]];
+        self.constitution = [DKAbilityScore statisticWithInt:[scoreArray[2] intValue]];
+        self.intelligence = [DKAbilityScore statisticWithInt:[scoreArray[3] intValue]];
+        self.wisdom = [DKAbilityScore statisticWithInt:[scoreArray[4] intValue]];
+        self.charisma = [DKAbilityScore statisticWithInt:[scoreArray[5] intValue]];
     }
     
     return self;
@@ -111,12 +111,12 @@
     self = [super init];
     if (self) {
 
-        self.strength = [DKAbilityScore statisticWithBase:str];
-        self.dexterity = [DKAbilityScore statisticWithBase:dex];
-        self.constitution = [DKAbilityScore statisticWithBase:con];
-        self.intelligence = [DKAbilityScore statisticWithBase:intel];
-        self.wisdom = [DKAbilityScore statisticWithBase:wis];
-        self.charisma = [DKAbilityScore statisticWithBase:cha];
+        self.strength = [DKAbilityScore statisticWithInt:str];
+        self.dexterity = [DKAbilityScore statisticWithInt:dex];
+        self.constitution = [DKAbilityScore statisticWithInt:con];
+        self.intelligence = [DKAbilityScore statisticWithInt:intel];
+        self.wisdom = [DKAbilityScore statisticWithInt:wis];
+        self.charisma = [DKAbilityScore statisticWithInt:cha];
     }
     
     return self;

@@ -20,7 +20,27 @@
 @synthesize explanation = _explanation;
 @synthesize owner = _owner;
 
-- (id)initWithValue:(int)value
++ (id)modifierWithNumericValue:(int)value
+                      priority:(DKModifierPriority)priority
+                    expression:(NSExpression*)expression {
+    
+    DKModifier* modifier = [[[self class] alloc] initWithValue:@(value)
+                                                      priority:priority
+                                                    expression:expression];
+    return modifier;
+}
+
++ (id)modifierWithCollectionValue:(NSSet*)value
+                         priority:(DKModifierPriority)priority
+                       expression:(NSExpression*)expression {
+    
+    DKModifier* modifier = [[[self class] alloc] initWithValue:value
+                                                      priority:priority
+                                                    expression:expression];
+    return modifier;
+}
+
+- (id)initWithValue:(id<NSObject>)value
            priority:(DKModifierPriority)priority
          expression:(NSExpression*)expression {
     
@@ -43,7 +63,7 @@
     
     if (self.modifierExpression != nil && self.enabled) {
         NSMutableDictionary* context = [@{ @"input": input,
-                                           @"value": @(self.value) } mutableCopy];
+                                           @"value": self.value } mutableCopy];
         return [_modifierExpression expressionValueWithObject:self context:context];
     }
     else {
@@ -67,7 +87,7 @@
         NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
         formatter.positivePrefix = @"+";
         formatter.zeroSymbol = @"+0";
-        modifierString = [NSString stringWithFormat:@"%@: ", [formatter stringFromNumber:[self modifyStatistic:@(0)]]];
+        modifierString = [NSString stringWithFormat:@"%@: ", [formatter stringFromNumber:(NSNumber*)[self modifyStatistic:@(0)]]];
     }
     
     NSString* disabled = @"";

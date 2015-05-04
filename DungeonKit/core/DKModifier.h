@@ -38,7 +38,7 @@ typedef enum {
 @interface DKModifier : NSObject
 
 /** The amount of the modification. */
-@property (nonatomic, assign) int value;
+@property (nonatomic, strong) id<NSObject> value;
 /** A flag for whether this modifier should be applied to its owner */
 @property (nonatomic, assign) BOOL enabled;
 /** Describes when this modifier should be applied relative to other modifiers applied to the same statistic. */
@@ -50,10 +50,18 @@ typedef enum {
 /** The statistic to which this modifier is currently applied, if any. */
 @property (nonatomic, weak, readonly) id<DKModifierOwner> owner;
 
++ (id)modifierWithNumericValue:(int)value
+                      priority:(DKModifierPriority)priority
+                    expression:(NSExpression*)expression;
+
++ (id)modifierWithCollectionValue:(NSSet*)value
+                         priority:(DKModifierPriority)priority
+                       expression:(NSExpression*)expression;
+
 - (id)init __unavailable;
 
 /** @see DKModifierBuilder */
-- (id)initWithValue:(int)value
+- (id)initWithValue:(id<NSObject>)value
            priority:(DKModifierPriority)priority
          expression:(NSExpression*)expression;
 
@@ -62,7 +70,7 @@ typedef enum {
 
 /** Performs the modification on an input number.  Only DKStatistic and similar modifier owner
  classes should call this method directly. */
-- (NSNumber*) modifyStatistic:(NSNumber*)input;
+- (id<NSObject>) modifyStatistic:(id<NSObject>)input;
 /** Callback method for when the modifier gets applied.  Only DKStatistic and similar modifier owner 
  classes should call this method directly.  */
 - (void)wasAppliedToStatistic:(id<DKModifierOwner>)owner;

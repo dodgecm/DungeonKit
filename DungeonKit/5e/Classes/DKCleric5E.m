@@ -450,12 +450,12 @@
     self = [super init];
     if (self) {
         
-        self.channelDivinityUsesMax = [DKNumericStatistic statisticWithBase:0];
-        self.channelDivinityUsesCurrent = [DKNumericStatistic statisticWithBase:0];
+        self.channelDivinityUsesMax = [DKNumericStatistic statisticWithInt:0];
+        self.channelDivinityUsesCurrent = [DKNumericStatistic statisticWithInt:0];
         [_channelDivinityUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_channelDivinityUsesMax]];
         
-        self.turnUndead = [DKNumericStatistic statisticWithBase:0];
-        self.divineIntervention = [DKNumericStatistic statisticWithBase:0];
+        self.turnUndead = [DKNumericStatistic statisticWithInt:0];
+        self.divineIntervention = [DKNumericStatistic statisticWithInt:0];
         
         self.classModifiers = [DKCleric5E clericWithLevel:self.classLevel abilities:abilities];
         self.divineDomain = [DKCleric5E lifeDomainWithLevel:self.classLevel];

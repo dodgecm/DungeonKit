@@ -45,7 +45,7 @@
     [super setUp];
     
     self.testCharacter = [[DKTestCharacter alloc] init];
-    self.testStatistic = [DKNumericStatistic statisticWithBase:10];
+    self.testStatistic = [DKNumericStatistic statisticWithInt:10];
     self.testModifier = [DKModifierBuilder modifierWithAdditiveBonus:2];
     
     DKModifier* groupModifierOne = [DKModifierBuilder modifierWithAdditiveBonus:3];
@@ -74,7 +74,7 @@
 - (void)testStatisticGetters {
     
     DKTestCharacter* character = [[DKTestCharacter alloc] init];
-    DKStatistic* testStat = [DKNumericStatistic statisticWithBase:10];
+    DKStatistic* testStat = [DKNumericStatistic statisticWithInt:10];
     character.testStatistic = testStat;
     [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
     XCTAssertEqual(testStat, [character statisticForID:@"test"], @"Statistic should be registered with its identifier properly.");
@@ -89,7 +89,7 @@
 - (void)testStatisticSetter {
     
     DKTestCharacter* character = [[DKTestCharacter alloc] init];
-    DKStatistic* testStat = [DKNumericStatistic statisticWithBase:10];
+    DKStatistic* testStat = [DKNumericStatistic statisticWithInt:10];
     XCTAssertNil([character statisticForID:@"test"], @"Statistic should be start off as nil.");
     
     [character setStatistic:testStat forStatisticID:@"test"];
@@ -100,7 +100,7 @@
 - (void)testAddKeyPath {
     
     DKTestCharacter* character = [[DKTestCharacter alloc] init];
-    character.testStatistic = [DKNumericStatistic statisticWithBase:10];
+    character.testStatistic = [DKNumericStatistic statisticWithInt:10];
     [character.testStatistic applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
 
     [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
@@ -110,8 +110,8 @@
 - (void)testStatisticToKeyPath {
     
     DKTestCharacter* character = [[DKTestCharacter alloc] init];
-    character.testStatistic = [DKNumericStatistic statisticWithBase:10];
-    DKStatistic* secondStatistic = [DKNumericStatistic statisticWithBase:8];
+    character.testStatistic = [DKNumericStatistic statisticWithInt:10];
+    DKStatistic* secondStatistic = [DKNumericStatistic statisticWithInt:8];
     [secondStatistic applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
     
     [character setStatistic:secondStatistic forStatisticID:@"test"];
@@ -124,11 +124,11 @@
     DKTestCharacter* character = [[DKTestCharacter alloc] init];
     [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
     [character addKeyPath:@"testStatistic2" forStatisticID:@"test2"];
-    character.testStatistic = [DKNumericStatistic statisticWithBase:10];
-    character.testStatistic2 = [DKNumericStatistic statisticWithBase:10];
+    character.testStatistic = [DKNumericStatistic statisticWithInt:10];
+    character.testStatistic2 = [DKNumericStatistic statisticWithInt:10];
     [character.testStatistic applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:character.testStatistic2]];
     
-    DKStatistic* newStatistic2 = [DKNumericStatistic statisticWithBase:8];
+    DKStatistic* newStatistic2 = [DKNumericStatistic statisticWithInt:8];
     [newStatistic2 applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:character.testStatistic]];
     character.testStatistic2 = newStatistic2;
     XCTAssertEqual(character.testStatistic2.modifiers.count, 0, @"Statistic should drop all its modifiers instead of creating a modifier cycle.");

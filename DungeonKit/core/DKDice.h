@@ -17,8 +17,8 @@
 /** The number of sides on the dice.  Ex: for 3d6, the sides would be 6 */
 @property (nonatomic, strong, readonly) DKNumericStatistic* sides;
 
-+ (id)statisticWithBase:(int)base __unavailable;
-- (id)initWithBase:(int)base __unavailable;
++ (id)statisticWithInt:(int)base __unavailable;
+- (id)initWithInt:(int)base __unavailable;
 
 + (id)diceWithQuantity:(int)quantity sides:(int)sides;
 - (id)initWithQuantity:(int)quantity sides:(int)sides;

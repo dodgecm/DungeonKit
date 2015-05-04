@@ -22,10 +22,10 @@
 
 - (id)initWithQuantity:(int)quantity sides:(int)sides {
     
-    self = [super initWithBase:0];
+    self = [super initWithInt:0];
     if (self) {
-        _quantity = [DKNumericStatistic statisticWithBase:quantity];
-        _sides = [DKNumericStatistic statisticWithBase:sides];
+        _quantity = [DKNumericStatistic statisticWithInt:quantity];
+        _sides = [DKNumericStatistic statisticWithInt:sides];
         
         [_quantity applyModifier:[DKModifierBuilder modifierWithMinimum:0]];
         [_sides applyModifier:[DKModifierBuilder modifierWithMinimum:0]];

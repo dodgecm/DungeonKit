@@ -211,14 +211,14 @@
             [self addKeyPath:groupKeyPaths[groupID] forModifierGroupID:groupID];
         }
         
-        self.level = [DKNumericStatistic statisticWithBase:0];
+        self.level = [DKNumericStatistic statisticWithInt:0];
         
         //Inspiration is binary
-        self.inspiration = [DKNumericStatistic statisticWithBase:0];
+        self.inspiration = [DKNumericStatistic statisticWithInt:0];
         [_inspiration applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:1]];
         
         //Set up proficiency bonus to increase based on the level automatically
-        self.proficiencyBonus = [DKNumericStatistic statisticWithBase:2];
+        self.proficiencyBonus = [DKNumericStatistic statisticWithInt:2];
         DKDependentModifier* levelModifier = [[DKDependentModifier alloc] initWithSource:_level
                                                                                    value:[NSExpression expressionWithFormat:
                                                                                           @"max:({ 0, ($source - 1) / 4 })"]
@@ -234,9 +234,9 @@
         self.currency = [[DKCurrency5E alloc] init];
         
         //Link maximum and current HP so that current HP value will update when max HP value changes
-        self.hitPointsMax = [DKNumericStatistic statisticWithBase:0];
-        self.hitPointsTemporary = [DKNumericStatistic statisticWithBase:0];
-        self.hitPointsCurrent = [DKNumericStatistic statisticWithBase:0];
+        self.hitPointsMax = [DKNumericStatistic statisticWithInt:0];
+        self.hitPointsTemporary = [DKNumericStatistic statisticWithInt:0];
+        self.hitPointsCurrent = [DKNumericStatistic statisticWithInt:0];
         [_hitPointsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitPointsMax]];
         [_hitPointsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitPointsTemporary]];
         
@@ -249,29 +249,29 @@
         [_hitDiceCurrent.sides applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitDiceMax.sides]];
         
         //Initialize armor class so that it gets a bonus from dexterity
-        self.armorClass = [DKNumericStatistic statisticWithBase:10];
+        self.armorClass = [DKNumericStatistic statisticWithInt:10];
         [_armorClass applyModifier:[_abilities.dexterity modifierFromAbilityScore]];
         
         //Initialize initiative so that it gets a bonus from dexterity
-        self.initiativeBonus = [DKNumericStatistic statisticWithBase:0];
+        self.initiativeBonus = [DKNumericStatistic statisticWithInt:0];
         [_initiativeBonus applyModifier:[_abilities.dexterity modifierFromAbilityScore]];
         
-        self.movementSpeed = [DKNumericStatistic statisticWithBase:0];
-        self.darkvisionRange = [DKNumericStatistic statisticWithBase:0];
+        self.movementSpeed = [DKNumericStatistic statisticWithInt:0];
+        self.darkvisionRange = [DKNumericStatistic statisticWithInt:0];
         
-        self.weaponProficiencies = [DKNumericStatistic statisticWithBase:0];
-        self.armorProficiencies = [DKNumericStatistic statisticWithBase:0];
-        self.toolProficiencies = [DKNumericStatistic statisticWithBase:0];
+        self.weaponProficiencies = [DKNumericStatistic statisticWithInt:0];
+        self.armorProficiencies = [DKNumericStatistic statisticWithInt:0];
+        self.toolProficiencies = [DKNumericStatistic statisticWithInt:0];
         
-        self.languages = [DKNumericStatistic statisticWithBase:0];
-        self.resistances = [DKNumericStatistic statisticWithBase:0];
-        self.immunities = [DKNumericStatistic statisticWithBase:0];
+        self.languages = [DKNumericStatistic statisticWithInt:0];
+        self.resistances = [DKNumericStatistic statisticWithInt:0];
+        self.immunities = [DKNumericStatistic statisticWithInt:0];
         
-        self.otherTraits = [DKNumericStatistic statisticWithBase:0];
+        self.otherTraits = [DKNumericStatistic statisticWithInt:0];
         
         //Cap the value of death saves between 0 and 3
-        self.deathSaveSuccesses = [DKNumericStatistic statisticWithBase:0];
-        self.deathSaveFailures = [DKNumericStatistic statisticWithBase:0];
+        self.deathSaveSuccesses = [DKNumericStatistic statisticWithInt:0];
+        self.deathSaveFailures = [DKNumericStatistic statisticWithInt:0];
         [_deathSaveSuccesses applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
         [_deathSaveFailures applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
         

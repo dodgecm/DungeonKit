@@ -27,13 +27,13 @@
 }
 
 - (void)testConstructors {
-    XCTAssertNotNil([[DKAbilityScore alloc] initWithBase:10], @"Constructors should return non-nil object.");
-    XCTAssertNotNil([DKAbilityScore statisticWithBase:10], @"Constructors should return non-nil object.");
+    XCTAssertNotNil([[DKAbilityScore alloc] initWithInt:10], @"Constructors should return non-nil object.");
+    XCTAssertNotNil([DKAbilityScore statisticWithInt:10], @"Constructors should return non-nil object.");
 }
 
 - (void)testModifierCalculation {
     
-    DKAbilityScore* ability = [[DKAbilityScore alloc] initWithBase:0];
+    DKAbilityScore* ability = [[DKAbilityScore alloc] initWithInt:0];
     ability.base = @12;
     XCTAssertEqual(ability.abilityModifier, 1, @"Normal modifier should be calculated properly.");
     ability.base = @11;
@@ -46,7 +46,7 @@
 
 - (void)testNegativeScores {
     
-    DKAbilityScore* ability = [[DKAbilityScore alloc] initWithBase:10];
+    DKAbilityScore* ability = [[DKAbilityScore alloc] initWithInt:10];
     XCTAssertEqual(ability.abilityModifier, 0, @"Negative ability scores revert to 0.");
     ability.base = @(-10);
     XCTAssertEqualObjects(ability.value, @0, @"Negative ability scores revert to 0.");
@@ -55,9 +55,9 @@
 
 - (void)testModifierFormatting {
     
-    XCTAssertEqualObjects(@"+0", [[DKAbilityScore statisticWithBase:10] formattedAbilityModifier], @"Modifier should be formatted with the correct prefix.");
-    XCTAssertEqualObjects(@"+2", [[DKAbilityScore statisticWithBase:14] formattedAbilityModifier], @"Modifier should be formatted with the correct prefix.");
-    XCTAssertEqualObjects(@"-2", [[DKAbilityScore statisticWithBase:6] formattedAbilityModifier], @"Modifier should be formatted with the correct prefix.");
+    XCTAssertEqualObjects(@"+0", [[DKAbilityScore statisticWithInt:10] formattedAbilityModifier], @"Modifier should be formatted with the correct prefix.");
+    XCTAssertEqualObjects(@"+2", [[DKAbilityScore statisticWithInt:14] formattedAbilityModifier], @"Modifier should be formatted with the correct prefix.");
+    XCTAssertEqualObjects(@"-2", [[DKAbilityScore statisticWithInt:6] formattedAbilityModifier], @"Modifier should be formatted with the correct prefix.");
 }
 
 @end

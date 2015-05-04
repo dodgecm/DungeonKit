@@ -36,7 +36,7 @@
     
     DKCharacter5E* character = [[DKCharacter5E alloc] init];
     character.abilities.dexterity.base = @14;
-    character.armorClass = [[DKNumericStatistic alloc] initWithBase:10];
+    character.armorClass = [[DKNumericStatistic alloc] initWithInt:10];
     [character.armorClass applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
     XCTAssertEqualObjects(character.armorClass.value, @12, @"Character should start off with the correct armor class value.");
     
@@ -48,8 +48,8 @@
 - (void)testDependentModifier {
     
     DKCharacter5E* character = [[DKCharacter5E alloc] init];
-    character.abilities.dexterity = [[DKAbilityScore alloc] initWithBase:14];
-    character.armorClass = [[DKNumericStatistic alloc] initWithBase:10];
+    character.abilities.dexterity = [[DKAbilityScore alloc] initWithInt:14];
+    character.armorClass = [[DKNumericStatistic alloc] initWithInt:10];
     
     DKDependentModifier* dependentModifier = [character.abilities.dexterity modifierFromAbilityScore];
     [character.armorClass applyModifier:dependentModifier];
@@ -58,7 +58,7 @@
     character.abilities.dexterity.base = @12;
     XCTAssertEqualObjects(character.armorClass.value, @11, @"Dependant modifier should be applied correctly after changing the owner's base value.");
     
-    character.abilities.dexterity = [[DKAbilityScore alloc] initWithBase:16];
+    character.abilities.dexterity = [[DKAbilityScore alloc] initWithInt:16];
     XCTAssertEqualObjects(character.armorClass.value, @13, @"Dependant modifier should be applied correctly after changing the owner object.");
     
     character.abilities.dexterity = nil;
