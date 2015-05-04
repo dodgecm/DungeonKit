@@ -51,14 +51,14 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     return self;
 }
 
-- (DKStatistic*)statisticForID:(NSString*)statID {
+- (DKNumericStatistic*)statisticForID:(NSString*)statID {
     if (!statID) { return nil; }
     id statOrKeyPath = [_statistics objectForKey:statID];
     if ([statOrKeyPath isKindOfClass:[NSString class]]) {
         NSString* keyPath = (NSString*)statOrKeyPath;
         return [self valueForKeyPath:keyPath];
     }
-    else if ([statOrKeyPath isKindOfClass:[DKStatistic class]]) {
+    else if ([statOrKeyPath isKindOfClass:[DKNumericStatistic class]]) {
         return statOrKeyPath;
     } else {
         return nil;
@@ -82,7 +82,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
                                                                  @"new": newStat}];
 }
 
-- (void)setStatistic:(DKStatistic*)statistic forStatisticID:(NSString*)statID {
+- (void)setStatistic:(DKNumericStatistic*)statistic forStatisticID:(NSString*)statID {
     
     if (!statID) { return; }
     id oldStat = [self statisticForID:statID];
@@ -108,7 +108,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
         NSString* keyPath = (NSString*)statisticToRemove;
         [self removeObserver:self forKeyPath:keyPath];
         
-    } else if ([statisticToRemove isKindOfClass:[DKStatistic class]]) {
+    } else if ([statisticToRemove isKindOfClass:[DKNumericStatistic class]]) {
         //Otherwise, it was just registered directly
     }
     [_statistics removeObjectForKey:statID];
@@ -211,7 +211,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     
     if (context == DKCharacterStatisticKVOContext) {
         
-        DKStatistic* oldStat = change[@"old"];
+        DKNumericStatistic* oldStat = change[@"old"];
         //Send out a notification so all the DKDependantModifiers can update their parent objects
         [[NSNotificationCenter defaultCenter] postNotificationName:DKStatObjectChangedNotification
                                                             object:oldStat

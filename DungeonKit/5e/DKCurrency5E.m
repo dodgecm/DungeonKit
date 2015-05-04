@@ -19,18 +19,19 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.copper = [DKStatistic statisticWithBase:0];
-        self.silver = [DKStatistic statisticWithBase:0];
-        self.electrum = [DKStatistic statisticWithBase:0];
-        self.gold = [DKStatistic statisticWithBase:0];
-        self.platinum = [DKStatistic statisticWithBase:0];
+        self.copper = [DKNumericStatistic statisticWithBase:0];
+        self.silver = [DKNumericStatistic statisticWithBase:0];
+        self.electrum = [DKNumericStatistic statisticWithBase:0];
+        self.gold = [DKNumericStatistic statisticWithBase:0];
+        self.platinum = [DKNumericStatistic statisticWithBase:0];
     }
     return self;
 }
 
 - (NSString*) description {
     return [NSString stringWithFormat:@"PP: %i GP: %i EP: %i SP: %i CP: %i",
-            _platinum.value, _gold.value, _electrum.value, _silver.value, _copper.value];
+            _platinum.value.intValue, _gold.value.intValue,
+            _electrum.value.intValue, _silver.value.intValue, _copper.value.intValue];
 }
 
 @end

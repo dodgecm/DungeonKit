@@ -26,16 +26,16 @@
     self = [super init];
     if (self) {
         
-        self.cantrips = [DKStatistic statisticWithBase:0];
-        self.firstLevelSpells = [DKStatistic statisticWithBase:0];
-        self.secondLevelSpells = [DKStatistic statisticWithBase:0];
-        self.thirdLevelSpells = [DKStatistic statisticWithBase:0];
-        self.fourthLevelSpells = [DKStatistic statisticWithBase:0];
-        self.fifthLevelSpells = [DKStatistic statisticWithBase:0];
-        self.sixthLevelSpells = [DKStatistic statisticWithBase:0];
-        self.seventhLevelSpells = [DKStatistic statisticWithBase:0];
-        self.eighthLevelSpells = [DKStatistic statisticWithBase:0];
-        self.ninthLevelSpells = [DKStatistic statisticWithBase:0];
+        self.cantrips = [DKNumericStatistic statisticWithBase:0];
+        self.firstLevelSpells = [DKNumericStatistic statisticWithBase:0];
+        self.secondLevelSpells = [DKNumericStatistic statisticWithBase:0];
+        self.thirdLevelSpells = [DKNumericStatistic statisticWithBase:0];
+        self.fourthLevelSpells = [DKNumericStatistic statisticWithBase:0];
+        self.fifthLevelSpells = [DKNumericStatistic statisticWithBase:0];
+        self.sixthLevelSpells = [DKNumericStatistic statisticWithBase:0];
+        self.seventhLevelSpells = [DKNumericStatistic statisticWithBase:0];
+        self.eighthLevelSpells = [DKNumericStatistic statisticWithBase:0];
+        self.ninthLevelSpells = [DKNumericStatistic statisticWithBase:0];
     }
     
     return self;

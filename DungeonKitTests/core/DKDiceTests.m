@@ -42,7 +42,7 @@
     }
     
     for (NSNumber* result in [frequency allKeys]) {
-        XCTAssert(result.intValue >= 1 && result.intValue <= d6.quantity.value * d6.sides.value, @"No rolls should fall outside the bounds.");
+        XCTAssert(result.intValue >= 1 && result.intValue <= d6.quantity.intValue * d6.sides.intValue, @"No rolls should fall outside the bounds.");
     }
 }
 
@@ -56,7 +56,7 @@
     }
     
     for (NSNumber* result in [frequency allKeys]) {
-        XCTAssert(result.intValue >= 1 && result.intValue <= fiveD20.quantity.value * fiveD20.sides.value, @"No rolls should fall outside the bounds.");
+        XCTAssert(result.intValue >= 1 && result.intValue <= fiveD20.quantity.intValue * fiveD20.sides.intValue, @"No rolls should fall outside the bounds.");
     }
 }
 

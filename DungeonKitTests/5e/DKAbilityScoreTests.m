@@ -34,13 +34,13 @@
 - (void)testModifierCalculation {
     
     DKAbilityScore* ability = [[DKAbilityScore alloc] initWithBase:0];
-    ability.base = 12;
+    ability.base = @12;
     XCTAssertEqual(ability.abilityModifier, 1, @"Normal modifier should be calculated properly.");
-    ability.base = 11;
+    ability.base = @11;
     XCTAssertEqual(ability.abilityModifier, 0, @"Normal modifier should be calculated properly.");
-    ability.base = 10;
+    ability.base = @10;
     XCTAssertEqual(ability.abilityModifier, 0, @"Normal modifier should be calculated properly.");
-    ability.base = 9;
+    ability.base = @9;
     XCTAssertEqual(ability.abilityModifier, -1, @"Normal modifier should be calculated properly.");
 }
 
@@ -48,8 +48,8 @@
     
     DKAbilityScore* ability = [[DKAbilityScore alloc] initWithBase:10];
     XCTAssertEqual(ability.abilityModifier, 0, @"Negative ability scores revert to 0.");
-    ability.base = -10;
-    XCTAssertEqual(ability.value, 0, @"Negative ability scores revert to 0.");
+    ability.base = @(-10);
+    XCTAssertEqualObjects(ability.value, @0, @"Negative ability scores revert to 0.");
     XCTAssertEqual(ability.abilityModifier, -5, @"Negative ability scores revert to 0.");
 }
 

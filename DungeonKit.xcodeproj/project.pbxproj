@@ -27,6 +27,8 @@
 		B36BF34A1A762FE900979EE9 /* DKModifierGroupIDs5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3481A762FE900979EE9 /* DKModifierGroupIDs5E.m */; };
 		B36BF3511A7630A800979EE9 /* DKRace5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF34F1A7630A800979EE9 /* DKRace5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B36BF3521A7630A800979EE9 /* DKRace5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3501A7630A800979EE9 /* DKRace5E.m */; };
+		B3751BCE1AF72E110018F5D3 /* DKModifierBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = B3751BCC1AF72E110018F5D3 /* DKModifierBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3751BCF1AF72E110018F5D3 /* DKModifierBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = B3751BCD1AF72E110018F5D3 /* DKModifierBuilder.m */; };
 		B3BB9EE41AEF553000012A3B /* DKClass5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BB9EE01AEF553000012A3B /* DKClass5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3BB9EE51AEF553000012A3B /* DKClass5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BB9EE11AEF553000012A3B /* DKClass5E.m */; };
 		B3BB9EE61AEF553000012A3B /* DKCleric5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BB9EE21AEF553000012A3B /* DKCleric5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -101,6 +103,8 @@
 		B36BF3481A762FE900979EE9 /* DKModifierGroupIDs5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKModifierGroupIDs5E.m; sourceTree = "<group>"; };
 		B36BF34F1A7630A800979EE9 /* DKRace5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKRace5E.h; sourceTree = "<group>"; };
 		B36BF3501A7630A800979EE9 /* DKRace5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKRace5E.m; sourceTree = "<group>"; };
+		B3751BCC1AF72E110018F5D3 /* DKModifierBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKModifierBuilder.h; sourceTree = "<group>"; };
+		B3751BCD1AF72E110018F5D3 /* DKModifierBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKModifierBuilder.m; sourceTree = "<group>"; };
 		B3BB9EE01AEF553000012A3B /* DKClass5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKClass5E.h; sourceTree = "<group>"; };
 		B3BB9EE11AEF553000012A3B /* DKClass5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKClass5E.m; sourceTree = "<group>"; };
 		B3BB9EE21AEF553000012A3B /* DKCleric5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKCleric5E.h; sourceTree = "<group>"; };
@@ -252,6 +256,8 @@
 				B3E40D361A57D20C004342F3 /* DKModifier.m */,
 				B3E40D331A57D20C004342F3 /* DKDependentModifier.h */,
 				B3E40D341A57D20C004342F3 /* DKDependentModifier.m */,
+				B3751BCC1AF72E110018F5D3 /* DKModifierBuilder.h */,
+				B3751BCD1AF72E110018F5D3 /* DKModifierBuilder.m */,
 				B3E40D371A57D20C004342F3 /* DKStatistic.h */,
 				B3E40D381A57D20C004342F3 /* DKStatistic.m */,
 				B3C605E81A722F83007FADAB /* DKDice.h */,
@@ -336,6 +342,7 @@
 				B36BF3511A7630A800979EE9 /* DKRace5E.h in Headers */,
 				B36BF33C1A7351D700979EE9 /* DKModifierGroup.h in Headers */,
 				B3BB9EE61AEF553000012A3B /* DKCleric5E.h in Headers */,
+				B3751BCE1AF72E110018F5D3 /* DKModifierBuilder.h in Headers */,
 				B3C605EA1A722F83007FADAB /* DKDice.h in Headers */,
 				B3E40D4C1A57D33F004342F3 /* DKCharacter5E.h in Headers */,
 				B322227F1AED6CCD00EE0DD6 /* DKSpellbook5E.h in Headers */,
@@ -453,6 +460,7 @@
 				B3E40D401A57D20C004342F3 /* DKStatistic.m in Sources */,
 				B36BF34A1A762FE900979EE9 /* DKModifierGroupIDs5E.m in Sources */,
 				B36BF3521A7630A800979EE9 /* DKRace5E.m in Sources */,
+				B3751BCF1AF72E110018F5D3 /* DKModifierBuilder.m in Sources */,
 				B36BF33D1A7351D700979EE9 /* DKModifierGroup.m in Sources */,
 				B3E40D511A57E430004342F3 /* DKConstants.m in Sources */,
 				B3C605EB1A722F83007FADAB /* DKDice.m in Sources */,

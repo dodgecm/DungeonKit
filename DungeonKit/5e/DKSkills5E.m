@@ -7,6 +7,7 @@
 //
 
 #import "DKSkills5E.h"
+#import "DKModifierBuilder.h"
 
 @implementation DKSkills5E
 
@@ -30,7 +31,7 @@
 @synthesize survival = _survival;
 @synthesize passivePerception = _passivePerception;
 
-- (id)initWithAbilities:(DKAbilities5E*)abilities proficiencyBonus:(DKStatistic*)proficiencyBonus {
+- (id)initWithAbilities:(DKAbilities5E*)abilities proficiencyBonus:(DKNumericStatistic*)proficiencyBonus {
     
     self = [super init];
     if (self) {
@@ -58,7 +59,7 @@
         self.sleightOfHand = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
         self.stealth = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
         self.survival = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
-        self.passivePerception = [DKStatistic statisticWithBase:10];
+        self.passivePerception = [DKNumericStatistic statisticWithBase:10];
         
         //Apply modifiers from the abilities block to the skills
         [_acrobatics applyModifier:[abilities.dexterity modifierFromAbilityScore]];

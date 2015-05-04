@@ -10,7 +10,7 @@
 #import "DKStatistic.h"
 #import "DKDependentModifier.h"
 
-@interface DKAbilityScore : DKStatistic
+@interface DKAbilityScore : DKNumericStatistic
 
 /** The modifier based on the raw score.  modifier = ((score - 10) / 2) */
 @property (nonatomic, readonly) int abilityModifier;

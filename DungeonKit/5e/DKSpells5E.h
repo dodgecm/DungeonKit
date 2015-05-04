@@ -14,32 +14,32 @@
 
 @property (nonatomic, strong) DKSpellbook5E* spellbook;
 
-@property (nonatomic, strong) DKStatistic* spellSaveDC;
-@property (nonatomic, strong) DKStatistic* spellAttackBonus;
-@property (nonatomic, strong) DKStatistic* preparedSpells;
-@property (nonatomic, strong) DKStatistic* preparedSpellsMax;
+@property (nonatomic, strong) DKNumericStatistic* spellSaveDC;
+@property (nonatomic, strong) DKNumericStatistic* spellAttackBonus;
+@property (nonatomic, strong) DKNumericStatistic* preparedSpells;
+@property (nonatomic, strong) DKNumericStatistic* preparedSpellsMax;
 
-@property (nonatomic, strong) DKStatistic* firstLevelSpellSlotsCurrent;
-@property (nonatomic, strong) DKStatistic* secondLevelSpellSlotsCurrent;
-@property (nonatomic, strong) DKStatistic* thirdLevelSpellSlotsCurrent;
-@property (nonatomic, strong) DKStatistic* fourthLevelSpellSlotsCurrent;
-@property (nonatomic, strong) DKStatistic* fifthLevelSpellSlotsCurrent;
-@property (nonatomic, strong) DKStatistic* sixthLevelSpellSlotsCurrent;
-@property (nonatomic, strong) DKStatistic* seventhLevelSpellSlotsCurrent;
-@property (nonatomic, strong) DKStatistic* eighthLevelSpellSlotsCurrent;
-@property (nonatomic, strong) DKStatistic* ninthLevelSpellSlotsCurrent;
+@property (nonatomic, strong) DKNumericStatistic* firstLevelSpellSlotsCurrent;
+@property (nonatomic, strong) DKNumericStatistic* secondLevelSpellSlotsCurrent;
+@property (nonatomic, strong) DKNumericStatistic* thirdLevelSpellSlotsCurrent;
+@property (nonatomic, strong) DKNumericStatistic* fourthLevelSpellSlotsCurrent;
+@property (nonatomic, strong) DKNumericStatistic* fifthLevelSpellSlotsCurrent;
+@property (nonatomic, strong) DKNumericStatistic* sixthLevelSpellSlotsCurrent;
+@property (nonatomic, strong) DKNumericStatistic* seventhLevelSpellSlotsCurrent;
+@property (nonatomic, strong) DKNumericStatistic* eighthLevelSpellSlotsCurrent;
+@property (nonatomic, strong) DKNumericStatistic* ninthLevelSpellSlotsCurrent;
 
-@property (nonatomic, strong) DKStatistic* firstLevelSpellSlotsMax;
-@property (nonatomic, strong) DKStatistic* secondLevelSpellSlotsMax;
-@property (nonatomic, strong) DKStatistic* thirdLevelSpellSlotsMax;
-@property (nonatomic, strong) DKStatistic* fourthLevelSpellSlotsMax;
-@property (nonatomic, strong) DKStatistic* fifthLevelSpellSlotsMax;
-@property (nonatomic, strong) DKStatistic* sixthLevelSpellSlotsMax;
-@property (nonatomic, strong) DKStatistic* seventhLevelSpellSlotsMax;
-@property (nonatomic, strong) DKStatistic* eighthLevelSpellSlotsMax;
-@property (nonatomic, strong) DKStatistic* ninthLevelSpellSlotsMax;
+@property (nonatomic, strong) DKNumericStatistic* firstLevelSpellSlotsMax;
+@property (nonatomic, strong) DKNumericStatistic* secondLevelSpellSlotsMax;
+@property (nonatomic, strong) DKNumericStatistic* thirdLevelSpellSlotsMax;
+@property (nonatomic, strong) DKNumericStatistic* fourthLevelSpellSlotsMax;
+@property (nonatomic, strong) DKNumericStatistic* fifthLevelSpellSlotsMax;
+@property (nonatomic, strong) DKNumericStatistic* sixthLevelSpellSlotsMax;
+@property (nonatomic, strong) DKNumericStatistic* seventhLevelSpellSlotsMax;
+@property (nonatomic, strong) DKNumericStatistic* eighthLevelSpellSlotsMax;
+@property (nonatomic, strong) DKNumericStatistic* ninthLevelSpellSlotsMax;
 
 - (id)init __unavailable;
-- (id)initWithProficiencyBonus:(DKStatistic*)proficiencyBonus;
+- (id)initWithProficiencyBonus:(DKNumericStatistic*)proficiencyBonus;
 
 @end

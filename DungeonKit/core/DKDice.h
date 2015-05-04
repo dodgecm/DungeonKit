@@ -9,13 +9,13 @@
 #import <Foundation/Foundation.h>
 #import "DKStatistic.h"
 
-@interface DKDice : DKStatistic
+@interface DKDice : DKNumericStatistic
 
 /** The quantity of dice.  Ex: for 3d6, the quantity would be 3 */
-@property (nonatomic, strong, readonly) DKStatistic* quantity;
+@property (nonatomic, strong, readonly) DKNumericStatistic* quantity;
 
 /** The number of sides on the dice.  Ex: for 3d6, the sides would be 6 */
-@property (nonatomic, strong, readonly) DKStatistic* sides;
+@property (nonatomic, strong, readonly) DKNumericStatistic* sides;
 
 + (id)statisticWithBase:(int)base __unavailable;
 - (id)initWithBase:(int)base __unavailable;

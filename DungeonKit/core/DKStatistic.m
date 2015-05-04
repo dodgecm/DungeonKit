@@ -9,41 +9,30 @@
 #import "DKStatistic.h"
 
 @interface DKStatistic()
-@property (nonatomic, readwrite) int value;
 @end
 
 @implementation DKStatistic {
     NSMutableArray* _modifiers;
 }
 
-@synthesize base = _base;
-@synthesize value = _value;
+@dynamic base;
+@dynamic value;
 @synthesize modifiers = _modifiers;
 
-+ (id)statisticWithBase:(int)base {
-    DKStatistic* newStat = [[[self class] alloc] initWithBase:base];
-    return newStat;
-}
-
--(void)dealloc {
+- (void)dealloc {
     for (DKModifier* modifier in _modifiers) {
         [modifier removeObserver:self forKeyPath:@"value"];
         [modifier removeObserver:self forKeyPath:@"enabled"];
     }
 }
 
-- (id)initWithBase:(int)base {
+- (id) init {
+    
     self = [super init];
     if (self) {
-        self.base = base;
         _modifiers = [NSMutableArray array];
     }
     return self;
-}
-
-- (void)setBase:(int)base {
-    _base = base;
-    [self recalculateValue];
 }
 
 - (NSArray*)enabledModifiers {
@@ -112,16 +101,7 @@
     [self recalculateValue];
 }
 
-- (void)recalculateValue {
-    
-    int newScore = _base;
-    //Apply modifiers
-    for (DKModifier* modifier in _modifiers) {
-        newScore = [modifier modifyStatistic:newScore];
-    }
-    
-    self.value = newScore;
-}
+- (void)recalculateValue { }
 
 - (BOOL) modifierCycleExists {
     return !isNodeAcyclic(self, [NSMutableSet set]);
@@ -150,6 +130,52 @@ BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedSt
     }
     
     return YES;
+}
+
+@end
+
+
+@interface DKNumericStatistic()
+@property (nonatomic, readwrite) NSNumber* value;
+@end
+
+@implementation DKNumericStatistic
+
+@synthesize base = _base;
+@synthesize value = _value;
+
++ (id)statisticWithBase:(int)base {
+    DKNumericStatistic* newStat = [[[self class] alloc] initWithBase:base];
+    return newStat;
+}
+
+- (id)initWithBase:(int)base {
+    
+    self = [super init];
+    if (self) {
+        self.base = @(base);
+    }
+    return self;
+}
+
+- (void)setBase:(NSNumber*)base {
+    _base = base;
+    [self recalculateValue];
+}
+
+- (void)recalculateValue {
+    
+    NSNumber* newScore = _base;
+    //Apply modifiers
+    for (DKModifier* modifier in self.modifiers) {
+        newScore = [modifier modifyStatistic:newScore];
+    }
+    
+    self.value = newScore;
+}
+
+- (int)intValue {
+    return _value.intValue;
 }
 
 @end

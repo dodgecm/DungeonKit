@@ -13,22 +13,30 @@
 @interface DKStatistic : NSObject <DKDependentModifierOwner>
 
 /** The value of the statistic without any modifiers. */
-@property (nonatomic, assign) int base;
+@property (nonatomic, readonly) id<NSObject> base;
 /** The value of the statistic after modifiers have been applied. */
-@property (nonatomic, readonly) int value;
+@property (nonatomic, readonly) id<NSObject> value;
 /** An array of modifiers, both enabled and disabled, that are currently applied to this statistic. */
 @property (nonatomic, strong, readonly) NSArray* modifiers;
 
-- (id)init __unavailable;
-+ (id)statisticWithBase:(int)base;
-- (id)initWithBase:(int)base;
-
+/** Applies the given modifier to this statistic.  A modifier can only be applied to one statistic at a time. */
+- (void)applyModifier:(DKModifier*)modifier;
 - (NSArray*)enabledModifiers;
 - (NSArray*)disabledModifiers;
 
-/** Applies the given modifier to this statistic.  A modifier can only be applied to one statistic at a time. */
-- (void)applyModifier:(DKModifier*)modifier;
-
 - (void)recalculateValue;
+
+@end
+
+@interface DKNumericStatistic : DKStatistic
+
+/** The value of the statistic without any modifiers. */
+@property (nonatomic, copy, readwrite) NSNumber* base;
+@property (nonatomic, readonly) NSNumber* value;
+
++ (id)statisticWithBase:(int)base;
+- (id)initWithBase:(int)base;
+
+- (int)intValue;
 
 @end

@@ -28,7 +28,7 @@
 
 - (void)testConstructors {
     
-    DKStatistic* proficiencyBonus = [DKStatistic statisticWithBase:2];
+    DKNumericStatistic* proficiencyBonus = [DKNumericStatistic statisticWithBase:2];
     DKAbilities5E* abilities = [[DKAbilities5E alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
     DKSkills5E* skills = [[DKSkills5E alloc] initWithAbilities:abilities proficiencyBonus:proficiencyBonus];
     XCTAssertNotNil(skills, @"Constructors should return non-nil object.");
@@ -42,7 +42,7 @@
 
 - (void)testSkillValues {
     
-    DKStatistic* proficiencyBonus = [DKStatistic statisticWithBase:2];
+    DKNumericStatistic* proficiencyBonus = [DKNumericStatistic statisticWithBase:2];
     DKAbilities5E* abilities = [[DKAbilities5E alloc] initWithStr:12 dex:12 con:12 intel:12 wis:12 cha:12];
     DKSkills5E* skills = [[DKSkills5E alloc] initWithAbilities:abilities proficiencyBonus:proficiencyBonus];
     
@@ -53,27 +53,27 @@
     
     for (int i = 0; i < abilitiesToTest.count; i++) {
         
-        DKStatistic* abilityToTest = abilitiesToTest[i];
+        DKNumericStatistic* abilityToTest = abilitiesToTest[i];
         DKProficientStatistic* skillToTest = skillsToTest[i];
         
-        proficiencyBonus.base = 2;
-        XCTAssertEqual(skillToTest.value, 1, @"Skill values should be calculated properly.");
+        proficiencyBonus.base = @2;
+        XCTAssertEqualObjects(skillToTest.value, @1, @"Skill values should be calculated properly.");
         
-        skillToTest.proficiencyLevel.base = 1;
-        XCTAssertEqual(skillToTest.value, 3, @"Skill values should be calculated properly.");
+        skillToTest.proficiencyLevel.base = @1;
+        XCTAssertEqualObjects(skillToTest.value, @3, @"Skill values should be calculated properly.");
         
-        proficiencyBonus.base = 3;
-        XCTAssertEqual(skillToTest.value, 4, @"Skill values should be calculated properly.");
+        proficiencyBonus.base = @3;
+        XCTAssertEqualObjects(skillToTest.value, @4, @"Skill values should be calculated properly.");
         
-        abilityToTest.base = 18;
-        XCTAssertEqual(skillToTest.value, 7, @"Skill values should be calculated properly.");
-        abilityToTest.base = 8;
-        XCTAssertEqual(skillToTest.value, 2, @"Skill values should be calculated properly.");
+        abilityToTest.base = @18;
+        XCTAssertEqualObjects(skillToTest.value, @7, @"Skill values should be calculated properly.");
+        abilityToTest.base = @8;
+        XCTAssertEqualObjects(skillToTest.value, @2, @"Skill values should be calculated properly.");
     }
     
-    proficiencyBonus.base = 2;
-    abilities.wisdom.base = 12;
-    XCTAssertEqual(skills.passivePerception.value, 13);
+    proficiencyBonus.base = @2;
+    abilities.wisdom.base = @12;
+    XCTAssertEqualObjects(skills.passivePerception.value, @13);
 }
 
 @end

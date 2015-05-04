@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "DKModifierGroup.h"
+#import "DKModifierBuilder.h"
 
 @interface DKModifierGroupTests : XCTestCase
 

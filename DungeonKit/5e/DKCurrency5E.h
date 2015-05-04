@@ -11,10 +11,10 @@
 
 @interface DKCurrency5E : NSObject
 
-@property (nonatomic, strong) DKStatistic* copper;
-@property (nonatomic, strong) DKStatistic* silver;
-@property (nonatomic, strong) DKStatistic* electrum;
-@property (nonatomic, strong) DKStatistic* gold;
-@property (nonatomic, strong) DKStatistic* platinum;
+@property (nonatomic, strong) DKNumericStatistic* copper;
+@property (nonatomic, strong) DKNumericStatistic* silver;
+@property (nonatomic, strong) DKNumericStatistic* electrum;
+@property (nonatomic, strong) DKNumericStatistic* gold;
+@property (nonatomic, strong) DKNumericStatistic* platinum;
 
 @end

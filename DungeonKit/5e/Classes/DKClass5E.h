@@ -12,10 +12,10 @@
 
 @interface DKClass5E : NSObject
 
-@property (nonatomic, strong) DKStatistic* classLevel;
-@property (nonatomic, strong) DKStatistic* classTraits;
+@property (nonatomic, strong) DKNumericStatistic* classLevel;
+@property (nonatomic, strong) DKNumericStatistic* classTraits;
 @property (nonatomic, strong) DKModifierGroup* classModifiers;
 
-+ (DKModifierGroup*)abilityScoreImprovementForThreshold:(int)threshold level:(DKStatistic*)classLevel;
++ (DKModifierGroup*)abilityScoreImprovementForThreshold:(int)threshold level:(DKNumericStatistic*)classLevel;
 
 @end

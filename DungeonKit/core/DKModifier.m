@@ -39,12 +39,12 @@
     _owner = nil;
 }
 
-- (int) modifyStatistic:(int)input {
+- (NSNumber*) modifyStatistic:(NSNumber*)input {
     
     if (self.modifierExpression != nil && self.enabled) {
-        NSMutableDictionary* context = [@{ @"input": @(input),
+        NSMutableDictionary* context = [@{ @"input": input,
                                            @"value": @(self.value) } mutableCopy];
-        return [[_modifierExpression expressionValueWithObject:self context:context] intValue];
+        return [_modifierExpression expressionValueWithObject:self context:context];
     }
     else {
         return input;
@@ -67,77 +67,12 @@
         NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
         formatter.positivePrefix = @"+";
         formatter.zeroSymbol = @"+0";
-        modifierString = [NSString stringWithFormat:@"%@: ", [formatter stringFromNumber:@([self modifyStatistic:0])]];
+        modifierString = [NSString stringWithFormat:@"%@: ", [formatter stringFromNumber:[self modifyStatistic:@(0)]]];
     }
     
     NSString* disabled = @"";
     if (!self.enabled) { disabled = @" - disabled"; }
     return [NSString stringWithFormat:@"%@%@%@", modifierString, _explanation, disabled];
-}
-
-@end
-
-
-@implementation DKModifierBuilder
-
-+ (id)modifierWithAdditiveBonus:(int)bonus {
-    DKModifier* modifier = [[DKModifier alloc] initWithValue:bonus
-                                                    priority:kDKModifierPriority_Additive
-                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    return modifier;
-}
-
-+ (id)modifierWithAdditiveBonus:(int)bonus explanation:(NSString*)explanation {
-    
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:bonus];
-    modifier.explanation = explanation;
-    return modifier;
-}
-
-+ (id)modifierWithMinimum:(int)min {
-
-    NSExpression* maxExpression =  [NSExpression expressionWithFormat:@"max:({%i, $input})", min];
-    DKModifier* modifier = [[DKModifier alloc] initWithValue:0
-                                                    priority:kDKModifierPriority_Clamping
-                                                       expression:maxExpression];
-    return modifier;
-}
-
-+ (id)modifierWithMinimum:(int)min explanation:(NSString*)explanation {
-    
-    DKModifier* modifier = [DKModifierBuilder modifierWithMinimum:min];
-    modifier.explanation = explanation;
-    return modifier;
-}
-
-+ (id)modifierWithClampBetween:(int)min and:(int)max {
-    
-    NSExpression* clampExpression =  [NSExpression expressionWithFormat:@"min:({%i, max:({%i, $input}) })", max, min];
-    DKModifier* modifier = [[DKModifier alloc] initWithValue:0
-                                                    priority:kDKModifierPriority_Clamping
-                                                       expression:clampExpression];
-    return modifier;
-}
-
-
-+ (id)modifierWithClampBetween:(int)min and:(int)max explanation:(NSString*)explanation {
-    
-    DKModifier* modifier = [DKModifierBuilder modifierWithClampBetween:min and:max];
-    modifier.explanation = explanation;
-    return modifier;
-}
-
-+ (NSExpression*)simpleAdditionModifierExpression {
-    return [NSExpression expressionWithFormat:@"$input+$value"];
-}
-
-+ (id)modifierWithExplanation:(NSString*)explanation {
-    
-    DKModifier* modifier = [[DKModifier alloc] initWithValue:0
-                                                    priority:kDKModifierPriority_Informational
-                                                  expression:[NSExpression expressionForVariable:@"input"]];
-    modifier.explanation = explanation;
-    return modifier;
 }
 
 @end

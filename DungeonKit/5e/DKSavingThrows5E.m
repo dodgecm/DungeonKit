@@ -18,7 +18,7 @@
 @synthesize charisma = _charisma;
 @synthesize other = _other;
 
-- (id)initWithAbilities:(DKAbilities5E*)abilities proficiencyBonus:(DKStatistic*)proficiencyBonus {
+- (id)initWithAbilities:(DKAbilities5E*)abilities proficiencyBonus:(DKNumericStatistic*)proficiencyBonus {
     self = [super init];
     if (self) {
         
@@ -28,7 +28,7 @@
         self.intelligence = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
         self.wisdom = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
         self.charisma = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
-        self.other = [DKStatistic statisticWithBase:0];
+        self.other = [DKNumericStatistic statisticWithBase:0];
         
         //Apply modifiers from the abilities block to the saving throws
         [_strength applyModifier:[abilities.strength modifierFromAbilityScore]];

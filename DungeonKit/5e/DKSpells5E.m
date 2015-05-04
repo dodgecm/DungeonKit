@@ -7,6 +7,7 @@
 //
 
 #import "DKSpells5E.h"
+#import "DKModifierBuilder.h"
 
 @implementation DKSpells5E
 
@@ -37,7 +38,7 @@
 @synthesize eighthLevelSpellSlotsMax = _eighthLevelSpellSlotsMax;
 @synthesize ninthLevelSpellSlotsMax = _ninthLevelSpellSlotsMax;
 
-- (id)initWithProficiencyBonus:(DKStatistic*)proficiencyBonus {
+- (id)initWithProficiencyBonus:(DKNumericStatistic*)proficiencyBonus {
     
     self = [super init];
     if (self) {
@@ -49,32 +50,32 @@
         
         self.spellbook = [[DKSpellbook5E alloc] init];
         
-        self.spellSaveDC = [DKStatistic statisticWithBase:8];
-        self.spellAttackBonus = [DKStatistic statisticWithBase:0];
+        self.spellSaveDC = [DKNumericStatistic statisticWithBase:8];
+        self.spellAttackBonus = [DKNumericStatistic statisticWithBase:0];
         [self.spellSaveDC applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:proficiencyBonus]];
         [self.spellAttackBonus applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:proficiencyBonus]];
-        self.preparedSpells = [DKStatistic statisticWithBase:0];
-        self.preparedSpellsMax = [DKStatistic statisticWithBase:0];
+        self.preparedSpells = [DKNumericStatistic statisticWithBase:0];
+        self.preparedSpellsMax = [DKNumericStatistic statisticWithBase:0];
         
-        self.firstLevelSpellSlotsCurrent = [DKStatistic statisticWithBase:0];
-        self.secondLevelSpellSlotsCurrent = [DKStatistic statisticWithBase:0];
-        self.thirdLevelSpellSlotsCurrent = [DKStatistic statisticWithBase:0];
-        self.fourthLevelSpellSlotsCurrent = [DKStatistic statisticWithBase:0];
-        self.fifthLevelSpellSlotsCurrent = [DKStatistic statisticWithBase:0];
-        self.sixthLevelSpellSlotsCurrent = [DKStatistic statisticWithBase:0];
-        self.seventhLevelSpellSlotsCurrent = [DKStatistic statisticWithBase:0];
-        self.eighthLevelSpellSlotsCurrent = [DKStatistic statisticWithBase:0];
-        self.ninthLevelSpellSlotsCurrent = [DKStatistic statisticWithBase:0];
+        self.firstLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithBase:0];
+        self.secondLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithBase:0];
+        self.thirdLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithBase:0];
+        self.fourthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithBase:0];
+        self.fifthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithBase:0];
+        self.sixthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithBase:0];
+        self.seventhLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithBase:0];
+        self.eighthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithBase:0];
+        self.ninthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithBase:0];
         
-        self.firstLevelSpellSlotsMax = [DKStatistic statisticWithBase:0];
-        self.secondLevelSpellSlotsMax = [DKStatistic statisticWithBase:0];
-        self.thirdLevelSpellSlotsMax = [DKStatistic statisticWithBase:0];
-        self.fourthLevelSpellSlotsMax = [DKStatistic statisticWithBase:0];
-        self.fifthLevelSpellSlotsMax = [DKStatistic statisticWithBase:0];
-        self.sixthLevelSpellSlotsMax = [DKStatistic statisticWithBase:0];
-        self.seventhLevelSpellSlotsMax = [DKStatistic statisticWithBase:0];
-        self.eighthLevelSpellSlotsMax = [DKStatistic statisticWithBase:0];
-        self.ninthLevelSpellSlotsMax = [DKStatistic statisticWithBase:0];
+        self.firstLevelSpellSlotsMax = [DKNumericStatistic statisticWithBase:0];
+        self.secondLevelSpellSlotsMax = [DKNumericStatistic statisticWithBase:0];
+        self.thirdLevelSpellSlotsMax = [DKNumericStatistic statisticWithBase:0];
+        self.fourthLevelSpellSlotsMax = [DKNumericStatistic statisticWithBase:0];
+        self.fifthLevelSpellSlotsMax = [DKNumericStatistic statisticWithBase:0];
+        self.sixthLevelSpellSlotsMax = [DKNumericStatistic statisticWithBase:0];
+        self.seventhLevelSpellSlotsMax = [DKNumericStatistic statisticWithBase:0];
+        self.eighthLevelSpellSlotsMax = [DKNumericStatistic statisticWithBase:0];
+        self.ninthLevelSpellSlotsMax = [DKNumericStatistic statisticWithBase:0];
         
         [_firstLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_firstLevelSpellSlotsMax]];
         [_secondLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_secondLevelSpellSlotsMax]];

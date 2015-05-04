@@ -20,13 +20,13 @@
 
 @interface DKCharacter5E : DKCharacter
 
-@property (nonatomic, strong) DKStatistic* level;
+@property (nonatomic, strong) DKNumericStatistic* level;
 @property (nonatomic, strong) DKRace5E* race;
 @property (nonatomic, strong) DKSubrace5E* subrace;
 @property (nonatomic, strong) DKClasses5E* classes;
 
-@property (nonatomic, strong) DKStatistic* inspiration;
-@property (nonatomic, strong) DKStatistic* proficiencyBonus;
+@property (nonatomic, strong) DKNumericStatistic* inspiration;
+@property (nonatomic, strong) DKNumericStatistic* proficiencyBonus;
 
 @property (nonatomic, strong) DKAbilities5E* abilities;
 @property (nonatomic, strong) DKSavingThrows5E* savingThrows;
@@ -34,29 +34,29 @@
 @property (nonatomic, strong) DKSpells5E* spells;
 @property (nonatomic, strong) DKCurrency5E* currency;
 
-@property (nonatomic, strong) DKStatistic* hitPointsMax;
-@property (nonatomic, strong) DKStatistic* hitPointsTemporary;
-@property (nonatomic, strong) DKStatistic* hitPointsCurrent;
+@property (nonatomic, strong) DKNumericStatistic* hitPointsMax;
+@property (nonatomic, strong) DKNumericStatistic* hitPointsTemporary;
+@property (nonatomic, strong) DKNumericStatistic* hitPointsCurrent;
 @property (nonatomic, strong) DKDice* hitDiceMax;
 @property (nonatomic, strong) DKDice* hitDiceCurrent;
 
-@property (nonatomic, strong) DKStatistic* armorClass;
-@property (nonatomic, strong) DKStatistic* initiativeBonus;
-@property (nonatomic, strong) DKStatistic* movementSpeed;
-@property (nonatomic, strong) DKStatistic* darkvisionRange;
+@property (nonatomic, strong) DKNumericStatistic* armorClass;
+@property (nonatomic, strong) DKNumericStatistic* initiativeBonus;
+@property (nonatomic, strong) DKNumericStatistic* movementSpeed;
+@property (nonatomic, strong) DKNumericStatistic* darkvisionRange;
 
-@property (nonatomic, strong) DKStatistic* deathSaveSuccesses;
-@property (nonatomic, strong) DKStatistic* deathSaveFailures;
+@property (nonatomic, strong) DKNumericStatistic* deathSaveSuccesses;
+@property (nonatomic, strong) DKNumericStatistic* deathSaveFailures;
 
-@property (nonatomic, strong) DKStatistic* weaponProficiencies;
-@property (nonatomic, strong) DKStatistic* armorProficiencies;
-@property (nonatomic, strong) DKStatistic* toolProficiencies;
+@property (nonatomic, strong) DKNumericStatistic* weaponProficiencies;
+@property (nonatomic, strong) DKNumericStatistic* armorProficiencies;
+@property (nonatomic, strong) DKNumericStatistic* toolProficiencies;
 
-@property (nonatomic, strong) DKStatistic* languages;
+@property (nonatomic, strong) DKNumericStatistic* languages;
 
-@property (nonatomic, strong) DKStatistic* resistances;
-@property (nonatomic, strong) DKStatistic* immunities;
+@property (nonatomic, strong) DKNumericStatistic* resistances;
+@property (nonatomic, strong) DKNumericStatistic* immunities;
 
-@property (nonatomic, strong) DKStatistic* otherTraits;
+@property (nonatomic, strong) DKNumericStatistic* otherTraits;
 
 @end

@@ -9,6 +9,7 @@
 #import "DKRace5E.h"
 #import "DKStatisticIDs5E.h"
 #import "DKCharacter5E.h"
+#import "DKModifierBuilder.h"
 
 @implementation DKRace5EBuilder
 

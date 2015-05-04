@@ -19,9 +19,9 @@
 @property (nonatomic, strong) DKProficientStatistic* wisdom;
 @property (nonatomic, strong) DKProficientStatistic* charisma;
 /** Covers bonuses to saving throws for misc. effects, such as blindness, charm, petrification, etc */
-@property (nonatomic, strong) DKStatistic* other;
+@property (nonatomic, strong) DKNumericStatistic* other;
 
 - (id)init __unavailable;
-- (id)initWithAbilities:(DKAbilities5E*)abilities proficiencyBonus:(DKStatistic*)proficiencyBonus;
+- (id)initWithAbilities:(DKAbilities5E*)abilities proficiencyBonus:(DKNumericStatistic*)proficiencyBonus;
 
 @end

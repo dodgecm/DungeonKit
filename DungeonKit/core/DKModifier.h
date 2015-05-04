@@ -20,7 +20,7 @@ typedef enum {
 @class DKModifier;
 @protocol DKModifierOwner <NSObject>
 @required
-- (int)value;
+- (id<NSObject>)value;
 - (NSArray*)modifiers;
 - (void)removeModifier:(DKModifier*)modifier;
 @end
@@ -62,34 +62,9 @@ typedef enum {
 
 /** Performs the modification on an input number.  Only DKStatistic and similar modifier owner
  classes should call this method directly. */
-- (int)modifyStatistic:(int)input;
+- (NSNumber*) modifyStatistic:(NSNumber*)input;
 /** Callback method for when the modifier gets applied.  Only DKStatistic and similar modifier owner 
  classes should call this method directly.  */
 - (void)wasAppliedToStatistic:(id<DKModifierOwner>)owner;
-
-@end
-
-/** The DKModifierBuilder class provides convenience initialization methods for common DKModifier operations. */
-@interface DKModifierBuilder : NSObject
-
-/** Initializes a standard additive modifier, ex: +2 to a statistic. */
-+ (id)modifierWithAdditiveBonus:(int)bonus;
-/** Initializes a standard additive modifier, ex: +2 to a statistic. */
-+ (id)modifierWithAdditiveBonus:(int)bonus explanation:(NSString*)explanation;
-
-/** Initializes a modifier that keeps the statistic value above the given minimum */
-+ (id)modifierWithMinimum:(int)min;
-/** Initializes a modifier that keeps the statistic value above the given minimum */
-+ (id)modifierWithMinimum:(int)min explanation:(NSString*)explanation;
-
-/** Initializes a modifier that keeps the statistic value within the given range */
-+ (id)modifierWithClampBetween:(int)min and:(int)max;
-/** Initializes a modifier that keeps the statistic value within the given range */
-+ (id)modifierWithClampBetween:(int)min and:(int)max explanation:(NSString*)explanation;
-
-/** Initializes a modifier with no mathematical effects */
-+ (id)modifierWithExplanation:(NSString*)explanation;
-
-+ (NSExpression*)simpleAdditionModifierExpression;
 
 @end

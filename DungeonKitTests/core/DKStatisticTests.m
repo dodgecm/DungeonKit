@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "DKStatistic.h"
+#import "DKModifierBuilder.h"
 
 @interface DKStatisticTests : XCTestCase
 
@@ -28,41 +29,41 @@
 
 - (void)testConstructors {
     
-    XCTAssertNotNil([[DKStatistic alloc] initWithBase:10], @"Constructors should return non-nil object.");
-    XCTAssertNotNil([DKStatistic statisticWithBase:10], @"Constructors should return non-nil object.");
+    XCTAssertNotNil([[DKNumericStatistic alloc] initWithBase:10], @"Constructors should return non-nil object.");
+    XCTAssertNotNil([DKNumericStatistic statisticWithBase:10], @"Constructors should return non-nil object.");
 }
 
 - (void)testModifiers {
-    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
-    XCTAssertEqual(stat.base, 10, @"Unmodified statistic should start with correct score.");
-    XCTAssertEqual(stat.value, 10 , @"Unmodified statistic should start with correct score.");
+    DKNumericStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
+    XCTAssertEqualObjects(stat.base, @10, @"Unmodified statistic should start with correct score.");
+    XCTAssertEqualObjects(stat.value, @10 , @"Unmodified statistic should start with correct score.");
     
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     [stat applyModifier:modifier];
-    XCTAssertEqual(stat.base, 10, @"Modified statistic should calculate correct score.");
-    XCTAssertEqual(stat.value, 15, @"Modified statistic should calculate correct score.");
+    XCTAssertEqualObjects(stat.base, @10, @"Modified statistic should calculate correct score.");
+    XCTAssertEqualObjects(stat.value, @15, @"Modified statistic should calculate correct score.");
     XCTAssert([[stat modifiers] containsObject:modifier], @"Modified statistic should update its fields properly.");
     
     modifier.value = 3;
-    XCTAssertEqual(stat.value, 13, @"Modified statistic should update score when modifier value is changed.");
+    XCTAssertEqualObjects(stat.value, @13, @"Modified statistic should update score when modifier value is changed.");
     [modifier removeFromStatistic];
-    XCTAssertEqual(stat.value, 10, @"Modified statistic should update score when modifier is removed.");
+    XCTAssertEqualObjects(stat.value, @10, @"Modified statistic should update score when modifier is removed.");
     modifier.value = 5;
-    XCTAssertEqual(stat.value, 10, @"Modified statistic should not update score when removed modifier is changed after the fact.");
+    XCTAssertEqualObjects(stat.value, @10, @"Modified statistic should not update score when removed modifier is changed after the fact.");
 }
 
 - (void)testModifierSorting {
     
-    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     DKModifier* secondModifier = [DKModifierBuilder modifierWithMinimum:18];
     [stat applyModifier:secondModifier];
     [stat applyModifier:modifier];
-    XCTAssertEqual(stat.value, 18, @"Modifiers should be applied in the correct value.");
+    XCTAssertEqualObjects(stat.value, @18, @"Modifiers should be applied in the correct value.");
 }
 
 - (void)testModifierFiltering {
-    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
     DKModifier* firstModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     DKModifier* secondModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     DKModifier* thirdModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
@@ -89,13 +90,13 @@
 
 - (void)testModifierAdditionErrorCase {
     
-    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
     [stat applyModifier:nil];
 }
 
 - (void)testModifierRemovalErrorCase {
     
-    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     [stat removeModifier:modifier];
     [stat removeModifier:nil];

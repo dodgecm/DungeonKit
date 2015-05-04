@@ -15,10 +15,10 @@
 
 @interface DKCleric5E : DKClass5E
 
-@property (nonatomic, strong) DKStatistic* channelDivinityUsesCurrent;
-@property (nonatomic, strong) DKStatistic* channelDivinityUsesMax;
-@property (nonatomic, strong) DKStatistic* turnUndead;
-@property (nonatomic, strong) DKStatistic* divineIntervention;
+@property (nonatomic, strong) DKNumericStatistic* channelDivinityUsesCurrent;
+@property (nonatomic, strong) DKNumericStatistic* channelDivinityUsesMax;
+@property (nonatomic, strong) DKNumericStatistic* turnUndead;
+@property (nonatomic, strong) DKNumericStatistic* divineIntervention;
 @property (nonatomic, strong) DKModifierGroup* divineDomain;
 
 - (id)initWithAbilities:(DKAbilities5E*)abilities;

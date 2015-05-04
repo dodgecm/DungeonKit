@@ -7,6 +7,7 @@
 //
 
 #import "DKDice.h"
+#import "DKModifierBuilder.h"
 
 @implementation DKDice
 
@@ -23,8 +24,8 @@
     
     self = [super initWithBase:0];
     if (self) {
-        _quantity = [DKStatistic statisticWithBase:quantity];
-        _sides = [DKStatistic statisticWithBase:sides];
+        _quantity = [DKNumericStatistic statisticWithBase:quantity];
+        _sides = [DKNumericStatistic statisticWithBase:sides];
         
         [_quantity applyModifier:[DKModifierBuilder modifierWithMinimum:0]];
         [_sides applyModifier:[DKModifierBuilder modifierWithMinimum:0]];
@@ -37,21 +38,21 @@
 - (int)roll {
     
     //Shortcut exit for the edge case of a zero sided die
-    if (_quantity.value == 0 || _sides.value == 0) {
+    if (_quantity.intValue == 0 || _sides.intValue == 0) {
         self.base = 0;
         return 0;
     }
     
     int total = 0;
-    for (int i = 0; i < _quantity.value; i++) {
-        total += arc4random_uniform(_sides.value) + 1;
+    for (int i = 0; i < _quantity.value.intValue; i++) {
+        total += arc4random_uniform(_sides.value.intValue) + 1;
     }
-    self.base = total;
+    self.base = @(total);
     return total;
 }
 
 - (NSString*)description {
-    return [NSString stringWithFormat:@"%id%i", _quantity.value, _sides.value];
+    return [NSString stringWithFormat:@"%id%i", _quantity.value.intValue, _sides.value.intValue];
 }
 
 @end

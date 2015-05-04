@@ -7,18 +7,19 @@
 //
 
 #import "DKAbilities5E.h"
+#import "DKModifierBuilder.h"
 
 @implementation DKAbilityScore
 
 @synthesize abilityModifier = _abilityModifier;
 
-- (void)setBase:(int)base {
-    [super setBase:MAX(0,base)]; //ability score base cannot go below 0
+- (void)setBase:(NSNumber*)base {
+    [super setBase:@(MAX(0,base.integerValue))]; //ability score base cannot go below 0
 }
 
 - (void)recalculateValue {
     [super recalculateValue];
-    _abilityModifier = floor((self.value - 10) / 2.0);
+    _abilityModifier = floor((self.value.integerValue - 10) / 2.0);
 }
 
 - (DKDependentModifier*) modifierFromAbilityScore {
@@ -52,7 +53,7 @@
 }
 
 - (NSString*) description {
-    return [NSString stringWithFormat:@"%@(%i)", [self formattedAbilityModifier], self.value];
+    return [NSString stringWithFormat:@"%@(%i)", [self formattedAbilityModifier], self.value.intValue];
 }
 
 @end

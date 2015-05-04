@@ -8,6 +8,7 @@
 
 #import "DKClass5E.h"
 #import "DKStatisticIDs5E.h"
+#import "DKModifierBuilder.h"
 
 @implementation DKClass5E
 
@@ -17,7 +18,7 @@
 
 #pragma mark -
 
-+ (DKModifierGroup*)abilityScoreImprovementForThreshold:(int)threshold level:(DKStatistic*)classLevel {
++ (DKModifierGroup*)abilityScoreImprovementForThreshold:(int)threshold level:(DKNumericStatistic*)classLevel {
     
     DKModifierGroup* abilityScoreSubgroup = [[DKModifierGroup alloc] init];
     abilityScoreSubgroup.explanation = [NSString stringWithFormat:@"Ability score improvements for level %i", threshold];
@@ -49,8 +50,8 @@
     
     self = [super init];
     if (self) {
-        self.classLevel = [DKStatistic statisticWithBase:0];
-        self.classTraits = [DKStatistic statisticWithBase:0];
+        self.classLevel = [DKNumericStatistic statisticWithBase:0];
+        self.classTraits = [DKNumericStatistic statisticWithBase:0];
     }
     
     return self;

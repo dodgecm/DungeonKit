@@ -7,6 +7,7 @@
 //
 
 #import "DKCleric5E.h"
+#import "DKModifierBuilder.h"
 #import "DKStatisticIDs5E.h"
 #import "DKAbilities5E.h"
 
@@ -20,7 +21,7 @@
 
 #pragma mark -
 
-+ (DKModifierGroup*)clericWithLevel:(DKStatistic*)level abilities:(DKAbilities5E*)abilities {
++ (DKModifierGroup*)clericWithLevel:(DKNumericStatistic*)level abilities:(DKAbilities5E*)abilities {
     
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
     class.explanation = @"Cleric class modifiers";
@@ -97,7 +98,7 @@
     return class;
 }
 
-+ (DKModifierGroup*)cantripsWithLevel:(DKStatistic*)level {
++ (DKModifierGroup*)cantripsWithLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* cantripsGroup = [[DKModifierGroup alloc] init];
     cantripsGroup.explanation = @"Cleric cantrips";
@@ -128,7 +129,7 @@
     return cantripsGroup;
 }
 
-+ (DKModifierGroup*)spellSlotsWithLevel:(DKStatistic*)level {
++ (DKModifierGroup*)spellSlotsWithLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* spellSlotsGroup = [[DKModifierGroup alloc] init];
     spellSlotsGroup.explanation = @"Cleric spell slots";
@@ -236,7 +237,7 @@
     return spellSlotsGroup;
 }
 
-+ (DKModifierGroup*)turnUndeadWithLevel:(DKStatistic*)level {
++ (DKModifierGroup*)turnUndeadWithLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* turnUndeadGroup = [[DKModifierGroup alloc] init];
     DKDependentModifier* turnUndeadAbility = [[DKDependentModifier alloc] initWithSource:level
@@ -307,7 +308,7 @@
     return turnUndeadGroup;
 }
 
-+ (DKModifierGroup*)divineInterventionWithLevel:(DKStatistic*)level {
++ (DKModifierGroup*)divineInterventionWithLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* divineInterventionGroup = [[DKModifierGroup alloc] init];
     
@@ -334,7 +335,7 @@
     return divineInterventionGroup;
 }
 
-+ (DKModifierGroup*)domainSpellsGroupClericLevel:(DKStatistic*)level spellDictionary:(NSDictionary*)spellsDict {
++ (DKModifierGroup*)domainSpellsGroupClericLevel:(DKNumericStatistic*)level spellDictionary:(NSDictionary*)spellsDict {
 
     DKModifierGroup* domainSpellsGroup = [[DKModifierGroup alloc] init];
     DKModifier* domainInfoModifier = [DKModifierBuilder modifierWithExplanation:@"Divine Domain: Spells granted by your Divine Domain do not count against "
@@ -359,7 +360,7 @@
     return domainSpellsGroup;
 }
 
-+ (DKModifier*)domainSpellWithClericLevel:(DKStatistic*)level levelThreshold:(int)minimumLevel explanation:(NSString*)explanation {
++ (DKModifier*)domainSpellWithClericLevel:(DKNumericStatistic*)level levelThreshold:(int)minimumLevel explanation:(NSString*)explanation {
     
     return [[DKDependentModifier alloc] initWithSource:level
                                                  value:nil
@@ -372,7 +373,7 @@
 
 #pragma mark -
 
-+ (DKModifierGroup*)lifeDomainWithLevel:(DKStatistic*)level {
++ (DKModifierGroup*)lifeDomainWithLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* lifeDomainGroup = [[DKModifierGroup alloc] init];
     lifeDomainGroup.explanation = @"Divine Domain: Life";
@@ -449,12 +450,12 @@
     self = [super init];
     if (self) {
         
-        self.channelDivinityUsesMax = [DKStatistic statisticWithBase:0];
-        self.channelDivinityUsesCurrent = [DKStatistic statisticWithBase:0];
+        self.channelDivinityUsesMax = [DKNumericStatistic statisticWithBase:0];
+        self.channelDivinityUsesCurrent = [DKNumericStatistic statisticWithBase:0];
         [_channelDivinityUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_channelDivinityUsesMax]];
         
-        self.turnUndead = [DKStatistic statisticWithBase:0];
-        self.divineIntervention = [DKStatistic statisticWithBase:0];
+        self.turnUndead = [DKNumericStatistic statisticWithBase:0];
+        self.divineIntervention = [DKNumericStatistic statisticWithBase:0];
         
         self.classModifiers = [DKCleric5E clericWithLevel:self.classLevel abilities:abilities];
         self.divineDomain = [DKCleric5E lifeDomainWithLevel:self.classLevel];

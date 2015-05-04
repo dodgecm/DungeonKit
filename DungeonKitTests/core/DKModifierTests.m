@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "DKStatistic.h"
+#import "DKModifierBuilder.h"
 
 @interface DKModifierTests : XCTestCase
 
@@ -33,7 +34,7 @@
 
 - (void)testModifying {
     
-    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     XCTAssertEqual(modifier.value, 5, @"Modifier fields should reflect its state properly.");
     XCTAssertNil(modifier.owner, @"Modifier fields should reflect its state properly.");
@@ -45,46 +46,46 @@
 
 - (void)testValueChange {
     
-    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKNumericStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     [stat applyModifier:modifier];
-    XCTAssertEqual(stat.value, 15, @"Statistic should update score when modifier value is changed.");
+    XCTAssertEqualObjects(stat.value, @15, @"Statistic should update score when modifier value is changed.");
     modifier.value = 3;
-    XCTAssertEqual(stat.value, 13, @"Statistic should update score when modifier value is changed.");
+    XCTAssertEqualObjects(stat.value, @13, @"Statistic should update score when modifier value is changed.");
 }
 
 
 - (void)testModifierOnTwoStatistics {
     
     //Modifier should only be allowed on one statistic at a time
-    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
-    DKStatistic* stat2 = [[DKStatistic alloc] initWithBase:15];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
+    DKStatistic* stat2 = [[DKNumericStatistic alloc] initWithBase:15];
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     [stat applyModifier:modifier];
     [stat2 applyModifier:modifier];
-    XCTAssertEqual(stat.value, 10, @"Modifier should only belong to one statistic at a time.");
-    XCTAssertEqual(stat2.value, 20, @"Modifier should only belong to one statistic at a time.");
+    XCTAssertEqualObjects(stat.value, @10, @"Modifier should only belong to one statistic at a time.");
+    XCTAssertEqualObjects(stat2.value, @20, @"Modifier should only belong to one statistic at a time.");
 }
 
 - (void)testInformationalModifier {
     
-    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
     DKModifier* modifier = [DKModifierBuilder modifierWithExplanation:@"This is a modifier that does not change a statistic's value."];
     [stat applyModifier:modifier];
-    XCTAssertEqual(stat.value, 10, @"Informational modifier should not change statistic's value.");
+    XCTAssertEqualObjects(stat.value, @10, @"Informational modifier should not change statistic's value.");
 }
 
 - (void)testEnabledModifier {
     
-    DKStatistic* stat = [[DKStatistic alloc] initWithBase:10];
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithBase:10];
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
     [stat applyModifier:modifier];
-    XCTAssertEqual(stat.value, 15, @"Statistic should update score when modifier value is changed.");
+    XCTAssertEqualObjects(stat.value, @15, @"Statistic should update score when modifier value is changed.");
     
     modifier.enabled = NO;
-    XCTAssertEqual(stat.value, 10, @"Statistic should update score when enabled value is changed.");
+    XCTAssertEqualObjects(stat.value, @10, @"Statistic should update score when enabled value is changed.");
     modifier.enabled = YES;
-    XCTAssertEqual(stat.value, 15, @"Statistic should update score when enabled value is changed.");
+    XCTAssertEqualObjects(stat.value, @15, @"Statistic should update score when enabled value is changed.");
 }
 
 @end
