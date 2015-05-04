@@ -47,9 +47,13 @@
         forStatisticID:DKStatIDSavingThrowWisdomProficiency];
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Cleric Saving Throw Proficiency: Charisma"]
         forStatisticID:DKStatIDSavingThrowCharismaProficiency];
-    [class addModifier:[DKModifierBuilder modifierWithExplanation:@"Cleric Weapon Proficiencies: Simple weapons"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Simple Weapons" explanation:@"Cleric Weapon Proficiencies"]
         forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithExplanation:@"Cleric Armor Proficiencies: Light and medium armor, shields"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Light Armor" explanation:@"Cleric Armor Proficiencies"]
+        forStatisticID:DKStatIDArmorProficiencies];
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Medium Armor" explanation:@"Cleric Armor Proficiencies"]
+        forStatisticID:DKStatIDArmorProficiencies];
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Shields" explanation:@"Cleric Armor Proficiencies"]
         forStatisticID:DKStatIDArmorProficiencies];
     
     NSExpression* channelDivinityValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
@@ -105,26 +109,29 @@
     DKModifierGroup* cantripStartingGroup = [[DKModifierGroup alloc] init];
     cantripStartingGroup.explanation = @"Clerics are granted three cantrips at first level";
     [cantripsGroup addSubgroup:cantripStartingGroup];
-    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithExplanation:@"Light (default)"] forStatisticID:DKStatIDCantrips];
-    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithExplanation:@"Sacred Flame (default)"] forStatisticID:DKStatIDCantrips];
-    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithExplanation:@"Thaumaturgy (default)"] forStatisticID:DKStatIDCantrips];
+    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Light" explanation:@"First level Cleric cantrip (default)"] forStatisticID:DKStatIDCantrips];
+    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Sacred Flame" explanation:@"First level Cleric cantrip (default)"] forStatisticID:DKStatIDCantrips];
+    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Thaumaturgy" explanation:@"First level Cleric cantrip (default)"] forStatisticID:DKStatIDCantrips];
     
     DKModifierGroup* cantripSecondGroup = [[DKModifierGroup alloc] init];
     cantripSecondGroup.explanation = @"Clerics are granted one additional cantrip at fourth level";
     [cantripsGroup addSubgroup:cantripSecondGroup];
-    [cantripSecondGroup addModifier:[DKDependentModifierBuilder informationalModifierFromSource:level
-                                                                                      enabled:[DKDependentModifierBuilder
-                                                                                               enabledWhen:@"source" isGreaterThanOrEqualTo:4]
-                                                                                    explanation:@"Spare the Dying (default)"]
+    [cantripSecondGroup addModifier:[DKDependentModifierBuilder appendedModifierFromSource:level
+                                                     value:[DKDependentModifierBuilder expressionForConstantValue:@"Spare the Dying"]
+                                                   enabled:[DKDependentModifierBuilder
+                                                            enabledWhen:@"source" isGreaterThanOrEqualTo:4]
+                                               explanation:@"Fourth level Cleric cantrip (default)"]
                      forStatisticID:DKStatIDCantrips];
     
     DKModifierGroup* cantripThirdGroup = [[DKModifierGroup alloc] init];
     cantripThirdGroup.explanation = @"Clerics are granted one additional cantrip at tenth level";
     [cantripsGroup addSubgroup:cantripThirdGroup];
-    [cantripThirdGroup addModifier:[DKDependentModifierBuilder informationalModifierFromSource:level
-                                                                                       enabled:[DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:10]
-                                                                                   explanation:@"Guidance (default)"]
-                    forStatisticID:DKStatIDCantrips];
+    [cantripThirdGroup addModifier:[DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                     value:[DKDependentModifierBuilder expressionForConstantValue:@"Guidance"]
+                                                                                   enabled:[DKDependentModifierBuilder
+                                                                                            enabledWhen:@"source" isGreaterThanOrEqualTo:10]
+                                                                               explanation:@"Tenth level Cleric cantrip (default)"]
+                     forStatisticID:DKStatIDCantrips];
     
     return cantripsGroup;
 }
@@ -241,7 +248,7 @@
     
     DKModifierGroup* turnUndeadGroup = [[DKModifierGroup alloc] init];
     DKDependentModifier* turnUndeadAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                   value:[DKDependentModifierBuilder expressionForConstantValue:1]
+                                                                                   value:[DKDependentModifierBuilder expressionForConstantInteger:1]
                                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                                           isGreaterThanOrEqualTo:2]
                                                                                 priority:kDKModifierPriority_Additive
@@ -317,7 +324,7 @@
     "equal to or lower than your cleric level, your deity intervenes.  If your deity intervenes, you can't use this feature again for 7 days.  Otherwise, "
     "you can use it again after you finish a long rest.";
     DKDependentModifier* divineInterventionAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                           value:[DKDependentModifierBuilder expressionForConstantValue:1]
+                                                                                           value:[DKDependentModifierBuilder expressionForConstantInteger:1]
                                                                                          enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                                                   isGreaterThanOrEqualTo:10]
                                                                                         priority:kDKModifierPriority_Additive
@@ -346,29 +353,16 @@
         NSArray* spellExplanations = spellsDict[levelThreshold];
         for (NSString* spellName in spellExplanations) {
             
-            DKModifier* modifier = [[DKDependentModifier alloc] initWithSource:level
-                                                                         value:[DKDependentModifierBuilder expressionForConstantValue:0]
-                                                                       enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                isGreaterThanOrEqualTo:levelThreshold.intValue]
-                                                                      priority:kDKModifierPriority_Additive
-                                                                    expression:nil];
-            modifier.explanation = [NSString stringWithFormat:@"%@ (Divine Domain)", spellName];
+            DKModifier* modifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                    value:[DKDependentModifierBuilder expressionForConstantValue:spellName]
+                                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                           isGreaterThanOrEqualTo:levelThreshold.intValue]
+                                                                              explanation:[NSString stringWithFormat:@"Level %@ Divine Domain Spell", levelThreshold]];
             [domainSpellsGroup addModifier:modifier forStatisticID:DKStatIDPreparedSpells];
         }
     }
     
     return domainSpellsGroup;
-}
-
-+ (DKModifier*)domainSpellWithClericLevel:(DKNumericStatistic*)level levelThreshold:(int)minimumLevel explanation:(NSString*)explanation {
-    
-    return [[DKDependentModifier alloc] initWithSource:level
-                                                 value:nil
-                                               enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                        isGreaterThanOrEqualTo:minimumLevel]
-                                              priority:kDKModifierPriority_Informational
-                                            expression:nil];
-    
 }
 
 #pragma mark -
@@ -378,8 +372,8 @@
     DKModifierGroup* lifeDomainGroup = [[DKModifierGroup alloc] init];
     lifeDomainGroup.explanation = @"Divine Domain: Life";
     
-    DKModifier* armorProficiency = [DKModifierBuilder modifierWithExplanation:@"Life Domain Armor Proficiency: Heavy Armor"];
-    [lifeDomainGroup addModifier:armorProficiency forStatisticID:DKStatIDArmorProficiencies];
+    [lifeDomainGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Heavy Armor" explanation:@"Life Domain Armor Proficiencies"]
+        forStatisticID:DKStatIDArmorProficiencies];
     
     NSDictionary* spells = @{ @(1): @[ @"Bless", @"Cure Wounds" ],
                               @(3): @[ @"Lesser Restoration", @"Spiritual Weapon" ],
@@ -398,7 +392,7 @@
     "among them.  This feature can restore a creature to no more than half of its hit point maximum.  You can't use this feature on an undead or "
     "a construct.";
     DKDependentModifier* preserveLifeAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                     value:[DKDependentModifierBuilder expressionForConstantValue:1]
+                                                                                     value:[DKDependentModifierBuilder expressionForConstantInteger:1]
                                                                                    enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                                             isGreaterThanOrEqualTo:2]
                                                                                   priority:kDKModifierPriority_Additive
@@ -409,7 +403,7 @@
     NSString* blessedHealerExplanation = @"Blessed Healer: The healing spells you cast on others heal you as well.  When you cast a spell of 1st "
     "level or higher that restores hit points to a creature other than you, you regain hit points equal to 2 + the spell’s level.";
     DKDependentModifier* blessedHealerAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                      value:[DKDependentModifierBuilder expressionForConstantValue:1]
+                                                                                      value:[DKDependentModifierBuilder expressionForConstantInteger:1]
                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                                              isGreaterThanOrEqualTo:6]
                                                                                    priority:kDKModifierPriority_Additive
@@ -421,7 +415,7 @@
     "turns when you hit a creature with a weapon attack, you can cause the attack to deal an extra 1d8 radiant damage to the target. When you reach 14th "
     "level, the extra damage increases to 2d8.";
     DKDependentModifier* divineStrikeAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                     value:[DKDependentModifierBuilder expressionForConstantValue:1]
+                                                                                     value:[DKDependentModifierBuilder expressionForConstantInteger:1]
                                                                                    enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                                             isGreaterThanOrEqualTo:8]
                                                                                   priority:kDKModifierPriority_Additive
@@ -432,7 +426,7 @@
     NSString* supremeHealingExplanation = @"Supreme Healing: When you would normally roll one or more dice to restore hit points with a spell, you "
     "instead use the highest number possible for each die.";
     DKDependentModifier* supremeHealingAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                       value:[DKDependentModifierBuilder expressionForConstantValue:1]
+                                                                                       value:[DKDependentModifierBuilder expressionForConstantInteger:1]
                                                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                                               isGreaterThanOrEqualTo:17]
                                                                                     priority:kDKModifierPriority_Additive

@@ -34,6 +34,7 @@
 + (id)modifierWithExplanation:(NSString*)explanation;
 
 + (NSExpression*)simpleAdditionModifierExpression;
++ (NSExpression*)simpleAppendModifierExpression;
 
 @end
 
@@ -47,6 +48,11 @@
 + (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
                    explanation:(NSString*)explanation;
 
++ (id)appendedModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
+                           value:(NSExpression*)valueExpression
+                         enabled:(NSPredicate*)enabledPredicate
+                     explanation:(NSString*)explanation;
+
 + (id)informationalModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
                               enabled:(NSPredicate*)enabledPredicate
                           explanation:(NSString*)explanation;
@@ -54,7 +60,9 @@
 /** An expression that simply uses the specified dependency's value as the modifier value. */
 + (NSExpression*)valueFromDependency:(NSString*)dependencyKey;
 /** An expression that has a constant value instead of relying on any of the dependencies. */
-+ (NSExpression*)expressionForConstantValue:(int)value;
++ (NSExpression*)expressionForConstantInteger:(int)value;
+/** An expression that has a constant value instead of relying on any of the dependencies. */
++ (NSExpression*)expressionForConstantValue:(id<NSObject>) value;
 
 + (NSValue*)rangeValueWithMin:(NSInteger)min max:(NSInteger)max;
 + (NSExpression*)valueFromPiecewiseFunctionRanges:(NSDictionary*)ranges usingDependency:(NSString*)dependencyKey;

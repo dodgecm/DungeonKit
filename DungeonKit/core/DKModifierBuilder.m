@@ -65,12 +65,9 @@
 
 + (id)modifierWithAppendedString:(NSString*)stringToAppend explanation:(NSString*)explanation {
     
-    NSExpression* expression = [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
-                                                      selectorName:@"setByAddingObject:"
-                                                         arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
     DKModifier* modifier = [DKModifier modifierWithValue:stringToAppend
                                                 priority:kDKModifierPriority_Additive
-                                              expression:expression];
+                                              expression:[DKModifierBuilder simpleAppendModifierExpression]];
     modifier.explanation = explanation;
     return modifier;
 }
@@ -78,6 +75,12 @@
 
 + (NSExpression*)simpleAdditionModifierExpression {
     return [NSExpression expressionWithFormat:@"$input+$value"];
+}
+
++ (NSExpression*)simpleAppendModifierExpression {
+    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                  selectorName:@"setByAddingObject:"
+                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
 }
 
 + (id)modifierWithExplanation:(NSString*)explanation {
@@ -108,6 +111,20 @@
     return modifier;
 }
 
++ (id)appendedModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
+                           value:(NSExpression*)valueExpression
+                         enabled:(NSPredicate*)enabledPredicate
+                     explanation:(NSString*)explanation {
+    
+    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
+                                                                          value:valueExpression
+                                                                        enabled:enabledPredicate
+                                                                       priority:kDKModifierPriority_Additive
+                                                                     expression:[DKModifierBuilder simpleAppendModifierExpression]];
+    modifier.explanation = explanation;
+    return modifier;
+}
+
 + (id)informationalModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
                               enabled:(NSPredicate*)enabledPredicate
                           explanation:(NSString*)explanation {
@@ -125,8 +142,12 @@
     return [NSExpression expressionForVariable:dependencyKey];
 }
 
-+ (NSExpression*)expressionForConstantValue:(int)value {
++ (NSExpression*)expressionForConstantInteger:(int)value {
     return [NSExpression expressionForConstantValue:@(value)];
+}
+
++ (NSExpression*)expressionForConstantValue:(id<NSObject>) value {
+    return [NSExpression expressionForConstantValue:value];
 }
 
 + (NSValue*)rangeValueWithMin:(NSInteger)min max:(NSInteger)max {
