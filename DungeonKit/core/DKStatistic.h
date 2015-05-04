@@ -40,7 +40,9 @@
 @property (nonatomic, readonly) NSNumber* value;
 
 + (id)statisticWithInt:(int)base;
++ (id)statisticWithBase:(id<NSObject>)base __unavailable;
 - (id)initWithInt:(int)base;
+- (id)initWithBase:(id<NSObject>)base __unavailable;
 
 - (int)intValue;
 
@@ -53,7 +55,10 @@
 @property (nonatomic, copy, readwrite) NSSet* base;
 @property (nonatomic, readonly) NSSet* value;
 
++ (id)statisticWithEmptySet;
 + (id)statisticWithSet:(NSSet*)base;
++ (id)statisticWithBase:(id<NSObject>)base __unavailable;
 - (id)initWithSet:(NSSet*)base;
+- (id)initWithBase:(id<NSObject>)base __unavailable;
 
 @end

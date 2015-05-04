@@ -48,14 +48,14 @@
 @property (nonatomic, strong) DKNumericStatistic* deathSaveSuccesses;
 @property (nonatomic, strong) DKNumericStatistic* deathSaveFailures;
 
-@property (nonatomic, strong) DKNumericStatistic* weaponProficiencies;
-@property (nonatomic, strong) DKNumericStatistic* armorProficiencies;
-@property (nonatomic, strong) DKNumericStatistic* toolProficiencies;
+@property (nonatomic, strong) DKSetStatistic* weaponProficiencies;
+@property (nonatomic, strong) DKSetStatistic* armorProficiencies;
+@property (nonatomic, strong) DKSetStatistic* toolProficiencies;
 
-@property (nonatomic, strong) DKNumericStatistic* languages;
+@property (nonatomic, strong) DKSetStatistic* languages;
 
-@property (nonatomic, strong) DKNumericStatistic* resistances;
-@property (nonatomic, strong) DKNumericStatistic* immunities;
+@property (nonatomic, strong) DKSetStatistic* resistances;
+@property (nonatomic, strong) DKSetStatistic* immunities;
 
 @property (nonatomic, strong) DKNumericStatistic* otherTraits;
 

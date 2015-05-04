@@ -28,7 +28,7 @@
         self.intelligence = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
         self.wisdom = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
         self.charisma = [DKProficientStatistic statisticWithBase:0 proficiencyBonus:proficiencyBonus];
-        self.other = [DKNumericStatistic statisticWithInt:0];
+        self.other = [DKStatistic statisticWithBase:nil];
         
         //Apply modifiers from the abilities block to the saving throws
         [_strength applyModifier:[abilities.strength modifierFromAbilityScore]];

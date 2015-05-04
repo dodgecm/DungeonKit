@@ -259,13 +259,13 @@
         self.movementSpeed = [DKNumericStatistic statisticWithInt:0];
         self.darkvisionRange = [DKNumericStatistic statisticWithInt:0];
         
-        self.weaponProficiencies = [DKNumericStatistic statisticWithInt:0];
-        self.armorProficiencies = [DKNumericStatistic statisticWithInt:0];
-        self.toolProficiencies = [DKNumericStatistic statisticWithInt:0];
+        self.weaponProficiencies = [DKSetStatistic statisticWithEmptySet];
+        self.armorProficiencies = [DKSetStatistic statisticWithEmptySet];
+        self.toolProficiencies = [DKSetStatistic statisticWithEmptySet];
         
-        self.languages = [DKNumericStatistic statisticWithInt:0];
-        self.resistances = [DKNumericStatistic statisticWithInt:0];
-        self.immunities = [DKNumericStatistic statisticWithInt:0];
+        self.languages = [DKSetStatistic statisticWithEmptySet];
+        self.resistances = [DKSetStatistic statisticWithEmptySet];
+        self.immunities = [DKSetStatistic statisticWithEmptySet];
         
         self.otherTraits = [DKNumericStatistic statisticWithInt:0];
         

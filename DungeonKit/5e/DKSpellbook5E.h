@@ -11,16 +11,16 @@
 
 @interface DKSpellbook5E : NSObject
 
-@property (nonatomic, strong) DKNumericStatistic* cantrips;
-@property (nonatomic, strong) DKNumericStatistic* firstLevelSpells;
-@property (nonatomic, strong) DKNumericStatistic* secondLevelSpells;
-@property (nonatomic, strong) DKNumericStatistic* thirdLevelSpells;
-@property (nonatomic, strong) DKNumericStatistic* fourthLevelSpells;
-@property (nonatomic, strong) DKNumericStatistic* fifthLevelSpells;
-@property (nonatomic, strong) DKNumericStatistic* sixthLevelSpells;
-@property (nonatomic, strong) DKNumericStatistic* seventhLevelSpells;
-@property (nonatomic, strong) DKNumericStatistic* eighthLevelSpells;
-@property (nonatomic, strong) DKNumericStatistic* ninthLevelSpells;
+@property (nonatomic, strong) DKSetStatistic* cantrips;
+@property (nonatomic, strong) DKSetStatistic* firstLevelSpells;
+@property (nonatomic, strong) DKSetStatistic* secondLevelSpells;
+@property (nonatomic, strong) DKSetStatistic* thirdLevelSpells;
+@property (nonatomic, strong) DKSetStatistic* fourthLevelSpells;
+@property (nonatomic, strong) DKSetStatistic* fifthLevelSpells;
+@property (nonatomic, strong) DKSetStatistic* sixthLevelSpells;
+@property (nonatomic, strong) DKSetStatistic* seventhLevelSpells;
+@property (nonatomic, strong) DKSetStatistic* eighthLevelSpells;
+@property (nonatomic, strong) DKSetStatistic* ninthLevelSpells;
 
 - (id)init;
 

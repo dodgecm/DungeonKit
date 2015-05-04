@@ -58,6 +58,24 @@
     return modifier;
 }
 
++ (id)modifierWithAppendedString:(NSString*)stringToAppend {
+    
+    return [DKModifierBuilder modifierWithAppendedString:stringToAppend explanation:nil];
+}
+
++ (id)modifierWithAppendedString:(NSString*)stringToAppend explanation:(NSString*)explanation {
+    
+    NSExpression* expression = [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                                      selectorName:@"setByAddingObject:"
+                                                         arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
+    DKModifier* modifier = [DKModifier modifierWithValue:stringToAppend
+                                                priority:kDKModifierPriority_Additive
+                                              expression:expression];
+    modifier.explanation = explanation;
+    return modifier;
+}
+
+
 + (NSExpression*)simpleAdditionModifierExpression {
     return [NSExpression expressionWithFormat:@"$input+$value"];
 }

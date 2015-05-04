@@ -27,6 +27,9 @@
 /** Initializes a modifier that keeps the statistic value within the given range */
 + (id)modifierWithClampBetween:(int)min and:(int)max explanation:(NSString*)explanation;
 
++ (id)modifierWithAppendedString:(NSString*)stringToAppend;
++ (id)modifierWithAppendedString:(NSString*)stringToAppend explanation:(NSString*)explanation;
+
 /** Initializes a modifier with no mathematical effects */
 + (id)modifierWithExplanation:(NSString*)explanation;
 

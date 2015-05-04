@@ -54,7 +54,7 @@
         self.spellAttackBonus = [DKNumericStatistic statisticWithInt:0];
         [self.spellSaveDC applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:proficiencyBonus]];
         [self.spellAttackBonus applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:proficiencyBonus]];
-        self.preparedSpells = [DKNumericStatistic statisticWithInt:0];
+        self.preparedSpells = [DKSetStatistic statisticWithEmptySet];
         self.preparedSpellsMax = [DKNumericStatistic statisticWithInt:0];
         
         self.firstLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];

@@ -25,25 +25,29 @@
        forStatisticID:DKStatIDMoveSpeed];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:60 explanation:@"Dwarven darkvision range"]
        forStatisticID:DKStatIDDarkvision];
-    [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Dwarven Resilience: Resistance against poison damage"]
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Poison" explanation:@"Dwarven Resilience: Resistance against poison damage"]
        forStatisticID:DKStatIDResistances];
     [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Dwarven Resilience: Advantage on saving throws against poison"]
        forStatisticID:DKStatIDSavingThrowOther];
-    [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Dwarven Combat Training: Proficiency with battleaxe, handaxe, throwing hammer, and warhammer"]
-       forStatisticID:DKStatIDWeaponProficiencies];
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Battleaxe" explanation:@"Dwarven Combat Training"] forStatisticID:DKStatIDWeaponProficiencies];
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Handaxe" explanation:@"Dwarven Combat Training"] forStatisticID:DKStatIDWeaponProficiencies];
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Throwing Hammer" explanation:@"Dwarven Combat Training"] forStatisticID:DKStatIDWeaponProficiencies];
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Warhammer" explanation:@"Dwarven Combat Training"] forStatisticID:DKStatIDWeaponProficiencies];
     
     DKModifierGroup* toolSubgroup = [[DKModifierGroup alloc] init];
     toolSubgroup.explanation = @"Dwarven Tool Proficiency: Proficiency with one of the following: smith's tools, brewer's supplies, or mason's tools";
-    [toolSubgroup addModifier:[DKModifierBuilder modifierWithExplanation:@"Dwarven Tool Proficiency: Smith's tools (default)"]
+    [toolSubgroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Smith's Tools" explanation:@"Dwarven Tool Proficiency (default)"]
                forStatisticID:DKStatIDToolProficiencies];
     [race addSubgroup:toolSubgroup];
     
     [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Dwarven Stonecunning: When making a History check related to the origin of stonework, "
                        "you are considered proficient in the History skill and add double your proficiency bonus to the check, instead of your normal proficiency bonus"]
        forStatisticID:DKStatIDSkillHistory];
-    [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Dwarven Languages: Common, Dwarvish"]
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Common" explanation:@"Dwarven Languages"]
        forStatisticID:DKStatIDLanguages];
-
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Dwarvish" explanation:@"Dwarven Languages"]
+       forStatisticID:DKStatIDLanguages];
+    
     return race;
 }
 
@@ -59,13 +63,15 @@
        forStatisticID:DKStatIDMoveSpeed];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:60 explanation:@"Elven darkvision range"]
        forStatisticID:DKStatIDDarkvision];
-    [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Elven Fey Ancestry: Immune to magical sleep effects"]
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Sleep" explanation:@"Elven Fey Ancestry: Immune to magical sleep effects"]
        forStatisticID:DKStatIDImmunities];
     [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Elven Fey Ancestry: Advantage on saving throws against being charmed"]
        forStatisticID:DKStatIDSavingThrowOther];
     [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Elven Trance: Medidate deeply for 4 hours to gain the same benefit as 8 hours of human sleep"]
        forStatisticID:DKStatIDOtherTraits];
-    [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Elven Languages: Common, Elvish"]
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Common" explanation:@"Elven Languages"]
+       forStatisticID:DKStatIDLanguages];
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Elvish" explanation:@"Elven Languages"]
        forStatisticID:DKStatIDLanguages];
     
     return race;
@@ -87,7 +93,9 @@
        forStatisticID:DKStatIDMoveSpeed];
     [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Halfling Bravery: Advantage on saving throws against being frightened"]
        forStatisticID:DKStatIDSavingThrowOther];
-    [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Halfling Languages: Common, Halfling"]
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Common" explanation:@"Halfling Languages"]
+       forStatisticID:DKStatIDLanguages];
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Halfling" explanation:@"Halfling Languages"]
        forStatisticID:DKStatIDLanguages];
     return race;
 }
@@ -110,13 +118,13 @@
        forStatisticID:DKStatIDCharisma];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:30  explanation:@"Human base movement speed"]
        forStatisticID:DKStatIDMoveSpeed];
-    [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Human Language: Common"]
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Common" explanation:@"Human Languages"]
        forStatisticID:DKStatIDLanguages];
     
     DKModifierGroup* languageSubgroup = [[DKModifierGroup alloc] init];
     languageSubgroup.explanation = @"Human Language Proficiency: Knowledge of one chosen language";
-    [languageSubgroup addModifier:[DKModifierBuilder modifierWithExplanation:@"Human Language Proficiency: Dwarven (default)"]
-               forStatisticID:DKStatIDLanguages];
+    [languageSubgroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Dwarvish" explanation:@"Human Bonus Language (default)"]
+       forStatisticID:DKStatIDLanguages];
     [race addSubgroup:languageSubgroup];
     
     return race;
@@ -146,7 +154,9 @@
     subrace.explanation = @"Mountain Dwarf racial modifiers";
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:2 explanation:@"Mountain Dwarf racial strength bonus"]
           forStatisticID:DKStatIDStrength];
-    [subrace addModifier:[DKModifierBuilder modifierWithExplanation:@"Mountain Dwarf Armor Training: Proficiency with light and medium armor"]
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Light Armor" explanation:@"Mountain Dwarf Armor Training"]
+                   forStatisticID:DKStatIDArmorProficiencies];
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Medium Armor" explanation:@"Mountain Dwarf Armor Training"]
           forStatisticID:DKStatIDArmorProficiencies];
     return subrace;
 }
@@ -157,12 +167,14 @@
     subrace.explanation = @"High Elf racial modifiers";
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1 explanation:@"High Elf racial intelligence bonus"]
           forStatisticID:DKStatIDIntelligence];
-    [subrace addModifier:[DKModifierBuilder modifierWithExplanation:@"High Elf Weapon Training: Proficiency with longsword, shortsword, shortbow, and longbow"]
-       forStatisticID:DKStatIDWeaponProficiencies];
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Longsword" explanation:@"High Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Shortsword" explanation:@"High Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Shortbow" explanation:@"High Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Longbow" explanation:@"High Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
     
     DKModifierGroup* languageSubgroup = [[DKModifierGroup alloc] init];
     languageSubgroup.explanation = @"High Elf Language Proficiency: Knowledge of one chosen language";
-    [languageSubgroup addModifier:[DKModifierBuilder modifierWithExplanation:@"High Elf Language Proficiency: Sylvan (default)"]
+    [languageSubgroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Sylvan" explanation:@"High Elf Bonus Language (default)"]
                    forStatisticID:DKStatIDLanguages];
     [subrace addSubgroup:languageSubgroup];
     
@@ -175,8 +187,10 @@
     DKSubrace5E* subrace = [[DKSubrace5E alloc] init];
     subrace.explanation = @"Wood Elf racial modifiers";
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1 explanation:@"Wood Elf racial wisdom bonus"] forStatisticID:DKStatIDWisdom];
-    [subrace addModifier:[DKModifierBuilder modifierWithExplanation:@"Wood Elf Weapon Training: Proficiency with longsword, shortsword, shortbow, and longbow"]
-          forStatisticID:DKStatIDWeaponProficiencies];
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Longsword" explanation:@"Wood Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Shortsword" explanation:@"Wood Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Shortbow" explanation:@"Wood Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Longbow" explanation:@"Wood Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:5 explanation:@"Wood Elf racial movement speed bonus"] forStatisticID:DKStatIDMoveSpeed];
     [subrace addModifier:[DKModifierBuilder modifierWithExplanation:@"Wood Elf Mask of the Wild: Can attempt to hide even when lightly obscured by foliage, "
                           "heavy rain, falling snow, mist, and other natural phenomena"]
@@ -202,7 +216,7 @@
     subrace.explanation = @"Stout Halfling racial modifiers";
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1 explanation:@"Stout halfling racial constitution bonus"]
           forStatisticID:DKStatIDConstitution];
-    [subrace addModifier:[DKModifierBuilder modifierWithExplanation:@"Stout Halfling Resilience: Resistance against poison damage"]
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Poison" explanation:@"Stout Halfling Resilience"]
        forStatisticID:DKStatIDResistances];
     [subrace addModifier:[DKModifierBuilder modifierWithExplanation:@"Stout Halfling Resilience: Advantage on saving throws against poison"]
        forStatisticID:DKStatIDSavingThrowOther];

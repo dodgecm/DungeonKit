@@ -202,6 +202,11 @@ BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedSt
 @synthesize base;
 @dynamic value;
 
+
++ (id)statisticWithEmptySet {
+    return [[self class] statisticWithSet:[NSSet set]];
+}
+
 + (id)statisticWithSet:(NSSet*)set {
     DKSetStatistic* newStat = [[[self class] alloc] initWithSet:set];
     return newStat;

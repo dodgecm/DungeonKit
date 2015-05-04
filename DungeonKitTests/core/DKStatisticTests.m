@@ -17,16 +17,6 @@
 
 @implementation DKStatisticTests
 
-- (void)setUp {
-    [super setUp];
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-}
-
-- (void)tearDown {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-    [super tearDown];
-}
-
 - (void)testConstructors {
     
     XCTAssertNotNil([[DKNumericStatistic alloc] initWithInt:10], @"Constructors should return non-nil object.");
@@ -101,4 +91,52 @@
     [stat removeModifier:modifier];
     [stat removeModifier:nil];
 }
+@end
+
+
+@interface DKSetStatisticTests : XCTestCase
+@end
+@implementation DKSetStatisticTests
+
+- (void)testConstructors {
+    XCTAssertNotNil([[DKSetStatistic alloc] initWithSet:[NSSet set]], @"Constructors should return non-nil object.");
+    XCTAssertNotNil([DKSetStatistic statisticWithSet:[NSSet set]], @"Constructors should return non-nil object.");
+}
+
+- (void)testModifiers {
+    
+    NSExpression* expression = [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                  selectorName:@"setByAddingObject:"
+                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
+    
+    DKSetStatistic* stat = [DKSetStatistic statisticWithSet:[NSSet set]];
+    DKModifier* modifier = [[DKModifier alloc] initWithValue:@"something"
+                                                    priority:kDKModifierPriority_Additive
+                                                  expression:expression];
+    [stat applyModifier:modifier];
+    XCTAssertTrue([stat.value containsObject:@"something"], @"Object should get added to the set properly.");
+}
+
+- (void)testModifierBuilder {
+
+    DKSetStatistic* stat = [DKSetStatistic statisticWithSet:[NSSet set]];
+    DKModifier* modifier = [DKModifierBuilder modifierWithAppendedString:@"value1"];
+    DKModifier* modifier2 = [DKModifierBuilder modifierWithAppendedString:@"value2"];
+    DKModifier* modifier3 = [DKModifierBuilder modifierWithAppendedString:@"value3"];
+    
+    [stat applyModifier:modifier];
+    [stat applyModifier:modifier2];
+    [stat applyModifier:modifier3];
+    XCTAssertTrue([stat.value containsObject:@"value1"], @"Object should get added to the set properly.");
+    XCTAssertTrue([stat.value containsObject:@"value2"], @"Object should get added to the set properly.");
+    XCTAssertTrue([stat.value containsObject:@"value3"], @"Object should get added to the set properly.");
+    XCTAssertEqual(3, stat.value.count, @"There shouldn't be extra objects in the set.");
+    
+    [modifier2 removeFromStatistic];
+    XCTAssertTrue([stat.value containsObject:@"value1"], @"Object should get removed from to the set properly.");
+    XCTAssertFalse([stat.value containsObject:@"value2"], @"Object should get removed from the set properly.");
+    XCTAssertTrue([stat.value containsObject:@"value3"], @"Object should get removed from to the set properly.");
+    XCTAssertEqual(2, stat.value.count, @"There shouldn't be extra objects in the set.");
+}
+
 @end

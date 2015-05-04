@@ -54,9 +54,9 @@ typedef enum {
                       priority:(DKModifierPriority)priority
                     expression:(NSExpression*)expression;
 
-+ (id)modifierWithCollectionValue:(NSSet*)value
-                         priority:(DKModifierPriority)priority
-                       expression:(NSExpression*)expression;
++ (id)modifierWithValue:(id<NSObject>)value
+               priority:(DKModifierPriority)priority
+             expression:(NSExpression*)expression;
 
 - (id)init __unavailable;
 

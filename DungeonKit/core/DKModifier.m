@@ -30,9 +30,9 @@
     return modifier;
 }
 
-+ (id)modifierWithCollectionValue:(NSSet*)value
-                         priority:(DKModifierPriority)priority
-                       expression:(NSExpression*)expression {
++ (id)modifierWithValue:(id<NSObject>)value
+               priority:(DKModifierPriority)priority
+             expression:(NSExpression*)expression {
     
     DKModifier* modifier = [[[self class] alloc] initWithValue:value
                                                       priority:priority
@@ -59,9 +59,9 @@
     _owner = nil;
 }
 
-- (NSNumber*) modifyStatistic:(NSNumber*)input {
+- (id<NSObject>) modifyStatistic:(id<NSObject>)input {
     
-    if (self.modifierExpression != nil && self.enabled) {
+    if (self.modifierExpression != nil && self.enabled && input) {
         NSMutableDictionary* context = [@{ @"input": input,
                                            @"value": self.value } mutableCopy];
         return [_modifierExpression expressionValueWithObject:self context:context];
@@ -82,12 +82,14 @@
     }
     
     NSString* modifierString = @"";
-    if (_priority == kDKModifierPriority_Additive) {
+    if (_priority == kDKModifierPriority_Additive && [self.value isKindOfClass:[NSNumber class]]) {
         
         NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
         formatter.positivePrefix = @"+";
         formatter.zeroSymbol = @"+0";
         modifierString = [NSString stringWithFormat:@"%@: ", [formatter stringFromNumber:(NSNumber*)[self modifyStatistic:@(0)]]];
+    } else if ([self.value isKindOfClass:[NSString class]]) {
+        modifierString = [(NSString*)self.value stringByAppendingString:@" - "];
     }
     
     NSString* disabled = @"";
