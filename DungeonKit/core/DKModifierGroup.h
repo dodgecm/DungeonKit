@@ -17,7 +17,7 @@
 - (void)group:(DKModifierGroup*)modifierGroup willRemoveModifier:(DKModifier*)modifier;
 @end
 
-@interface DKModifierGroup : NSObject <DKModifierGroupOwner>
+@interface DKModifierGroup : NSObject <DKModifierGroupOwner, NSCoding>
 
 /** Array of DKModifiers that this DKModifierGroup is the owner of (including modifiers from subgroups). */
 @property (nonatomic, strong, readonly) NSArray* modifiers;

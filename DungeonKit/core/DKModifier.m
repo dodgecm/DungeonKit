@@ -97,4 +97,31 @@
     return [NSString stringWithFormat:@"%@%@%@", modifierString, _explanation, disabled];
 }
 
+#pragma mark NSCoding
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    [aCoder encodeObject:self.value forKey:@"value"];
+    [aCoder encodeBool:self.enabled forKey:@"enabled"];
+    [aCoder encodeInt:self.priority forKey:@"priority"];
+    [aCoder encodeObject:self.modifierExpression forKey:@"modifierExpression"];
+    [aCoder encodeObject:self.explanation forKey:@"explanation"];
+    [aCoder encodeConditionalObject:self.owner forKey:@"owner"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super init];
+    if (self) {
+        
+        _value = [aDecoder decodeObjectForKey:@"value"];
+        _enabled = [aDecoder decodeBoolForKey:@"enabled"];
+        _priority = [aDecoder decodeIntForKey:@"priority"];
+        _modifierExpression = [aDecoder decodeObjectForKey:@"modifierExpression"];
+        _explanation = [aDecoder decodeObjectForKey:@"explanation"];
+        _owner = [aDecoder decodeObjectForKey:@"owner"];
+    }
+    
+    return self;
+}
+
 @end

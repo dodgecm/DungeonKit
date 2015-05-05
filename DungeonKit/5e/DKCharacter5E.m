@@ -194,6 +194,8 @@
     return @{
              DKModifierGroupIDRace: @"race",
              DKModifierGroupIDSubrace: @"subrace",
+             DKModifierGroupIDClericClass: @"classes.cleric.classModifiers",
+             DKModifierGroupIDClericDivineDomain: @"classes.cleric.divineDomain",
              };
 }
 

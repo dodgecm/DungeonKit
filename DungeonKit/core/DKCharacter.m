@@ -233,4 +233,42 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     }
 }
 
+#pragma mark NSCoding
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    [aCoder encodeObject:_statistics forKey:@"statistics"];
+    [aCoder encodeObject:_modifierGroups forKey:@"modifierGroups"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super init];
+    if (self) {
+        
+        _statistics = [NSMutableDictionary dictionary];
+        _modifierGroups = [NSMutableDictionary dictionary];
+        
+        NSDictionary* decodedStatistics = [aDecoder decodeObjectForKey:@"statistics"];
+        for (NSString* statisticId in decodedStatistics.allKeys) {
+            id statisticObject = decodedStatistics[statisticId];
+            if ([statisticObject isKindOfClass:[NSString class]]) {
+                [self addKeyPath:statisticObject forStatisticID:statisticId];
+            } else if([statisticObject isKindOfClass:[DKStatistic class]]) {
+                [self setStatistic:statisticObject forStatisticID:statisticId];
+            }
+        }
+        
+        NSDictionary* decodedModifierGroups = [aDecoder decodeObjectForKey:@"modifierGroups"];
+        for (NSString* groupId in decodedModifierGroups.allKeys) {
+            id groupObject = decodedModifierGroups[groupId];
+            if ([groupObject isKindOfClass:[NSString class]]) {
+                [self addKeyPath:groupObject forModifierGroupID:groupId];
+            } else if([groupObject isKindOfClass:[DKModifierGroup class]]) {
+                [self addModifierGroup:groupObject forGroupID:groupId];
+            }
+        }
+    }
+    return self;
+}
+
 @end

@@ -182,4 +182,33 @@
     XCTAssertEqualObjects(_testCharacter.testStatistic.value, @10, @"Modifier group should be removed properly.");
 }
 
+- (void)testEncoding {
+    
+    DKTestCharacter* character = [[DKTestCharacter alloc] init];
+    character.testStatistic = [DKNumericStatistic statisticWithInt:10];
+    DKStatistic* secondStatistic = [DKNumericStatistic statisticWithInt:8];
+    [secondStatistic applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
+    
+    [character setStatistic:secondStatistic forStatisticID:@"test2"];
+    [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
+    
+    DKModifierGroup* group1 = [[DKModifierGroup alloc] init];
+    DKModifier* group1Modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    [group1 addModifier:group1Modifier forStatisticID:@"test"];
+    [character addModifierGroup:group1 forGroupID:@"group1"];
+    
+    DKModifierGroup* group2 = [[DKModifierGroup alloc] init];
+    DKModifier* group2Modifier = [DKModifierBuilder modifierWithAdditiveBonus:15];
+    [group2 addModifier:group2Modifier forStatisticID:@"test2"];
+    character.modifierGroup2 = group2;
+    [character addKeyPath:@"group2" forModifierGroupID:@"group2"];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
+    NSString* documentsDirectory = [paths objectAtIndex:0];
+    NSString* filePath = [NSString stringWithFormat:@"%@%@", documentsDirectory, @"encodeCharacterTest"];
+    [NSKeyedArchiver archiveRootObject:character toFile:filePath];
+    
+    DKCharacter* decodedCharacter = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+}
+
 @end

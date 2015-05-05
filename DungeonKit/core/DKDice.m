@@ -55,4 +55,22 @@
     return [NSString stringWithFormat:@"%id%i", _quantity.value.intValue, _sides.value.intValue];
 }
 
+#pragma mark NSCoding
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    [aCoder encodeObject:self.quantity forKey:@"quantity"];
+    [aCoder encodeObject:self.sides forKey:@"sides"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        
+        _quantity = [aDecoder decodeObjectForKey:@"quantity"];
+        _sides = [aDecoder decodeObjectForKey:@"sides"];
+    }
+    return self;
+}
+
 @end

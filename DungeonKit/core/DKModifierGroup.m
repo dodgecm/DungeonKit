@@ -157,4 +157,39 @@
     return description;
 }
 
+#pragma mark NSCoding
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    NSMutableDictionary* statIDsToModifiers = [NSMutableDictionary dictionary];
+    for (DKModifier* modifier in _modifiers) {
+        NSString* statID = [self statIDForModifier:modifier];
+        statIDsToModifiers[statID] = modifier;
+    }
+    
+    [aCoder encodeObject:statIDsToModifiers forKey:@"statIDsToModifiers"];
+    [aCoder encodeObject:_modifiers forKey:@"modifiers"];
+    [aCoder encodeObject:_subgroups forKey:@"subgroups"];
+    [aCoder encodeObject:_explanation forKey:@"explanation"];
+    [aCoder encodeConditionalObject:_owner forKey:@"owner"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super init];
+    if (self) {
+        
+        NSDictionary* statIDsToModifiers = [aDecoder decodeObjectForKey:@"statIDsToModifiers"];
+        _modifierHashesToStatIDs = [NSMutableDictionary dictionary];
+        for (NSString* statID in statIDsToModifiers.allKeys) {
+            DKModifier* modifier = statIDsToModifiers[statID];
+            [_modifierHashesToStatIDs setObject:statID forKey:@([modifier hash])];
+        }
+        _modifiers = [aDecoder decodeObjectForKey:@"modifiers"];
+        _subgroups = [aDecoder decodeObjectForKey:@"subgroups"];
+        _explanation = [aDecoder decodeObjectForKey:@"explanation"];
+        _owner = [aDecoder decodeObjectForKey:@"owner"];
+    }
+    return self;
+}
+
 @end

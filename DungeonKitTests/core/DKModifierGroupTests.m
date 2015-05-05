@@ -150,4 +150,25 @@
     XCTAssertEqual(group.subgroups.count, 0, @"Subgroup should not have been added to the group");
 }
 
+- (void)testEncoding {
+    
+    DKModifierGroup* group = [[DKModifierGroup alloc] init];
+    DKModifierGroup* secondGroup = [[DKModifierGroup alloc] init];
+    DKModifierGroup* thirdGroup = [[DKModifierGroup alloc] init];
+    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    [thirdGroup addModifier:modifier forStatisticID:@"test"];
+    [group addSubgroup:secondGroup];
+    [secondGroup addSubgroup:thirdGroup];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
+    NSString* documentsDirectory = [paths objectAtIndex:0];
+    NSString* filePath = [NSString stringWithFormat:@"%@%@", documentsDirectory, @"encodeModifierGroupTest"];
+    [NSKeyedArchiver archiveRootObject:group toFile:filePath];
+    
+    DKModifierGroup* decodedGroup = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    XCTAssertEqual(decodedGroup.modifiers.count, group.modifiers.count, @"Decoded group should be identical");
+    DKModifier* decodedModifier = decodedGroup.modifiers[0];
+    XCTAssertEqualObjects([decodedGroup statIDForModifier:decodedModifier], [group statIDForModifier:modifier], @"Modifier ownership should be restored properly");
+}
+
 @end

@@ -161,7 +161,23 @@
 
     context[@"source"] = @(6);
     XCTAssertNil([expression expressionValueWithObject:nil context:context], @"Piecewise function should return correct result.");
+}
+
+- (void)testEncoding {
     
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
+    DKDependentModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:stat];
+    [stat applyModifier:modifier];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
+    NSString* documentsDirectory = [paths objectAtIndex:0];
+    NSString* filePath = [NSString stringWithFormat:@"%@%@", documentsDirectory, @"encodeDependentModifierTest"];
+    [NSKeyedArchiver archiveRootObject:modifier toFile:filePath];
+    
+    DKDependentModifier* decodedModifier = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    DKStatistic* owner = [DKNumericStatistic statisticWithInt:5];
+    [owner applyModifier:decodedModifier];
+    XCTAssertEqualObjects(owner.value, @15, @"Statistic should update value correctly after being decoded.");
 }
 
 @end

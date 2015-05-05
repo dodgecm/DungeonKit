@@ -88,4 +88,18 @@
     XCTAssertEqualObjects(stat.value, @15, @"Statistic should update score when enabled value is changed.");
 }
 
+- (void)testEncoding {
+    
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
+    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
+    NSString* documentsDirectory = [paths objectAtIndex:0];
+    NSString* filePath = [NSString stringWithFormat:@"%@%@", documentsDirectory, @"encodeModifierTest"];
+    [NSKeyedArchiver archiveRootObject:modifier toFile:filePath];
+    
+    DKModifier* decodedModifier = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    [stat applyModifier:decodedModifier];
+    XCTAssertEqualObjects(stat.value, @15, @"Statistic should update value correctly after being decoded.");
+}
+
 @end

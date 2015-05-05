@@ -188,4 +188,32 @@
     else { return [super description]; };
 }
 
+#pragma mark NSCoding
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    [super encodeWithCoder:aCoder];
+    [aCoder encodeObject:self.dependencies forKey:@"dependencies"];
+    [aCoder encodeObject:self.valueExpression forKey:@"valueExpression"];
+    [aCoder encodeObject:self.enabledPredicate forKey:@"enabledPredicate"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        
+        _dependencies = [NSMutableDictionary dictionary];
+        NSDictionary* dependencies = [aDecoder decodeObjectForKey:@"dependencies"];
+        for (NSString* key in dependencies) {
+            [self addDependency:dependencies[key] forKey:key];
+        }
+        _valueExpression = [aDecoder decodeObjectForKey:@"valueExpression"];
+        _enabledPredicate = [aDecoder decodeObjectForKey:@"enabledPredicate"];
+        
+        [self refreshValue];
+    }
+    
+    return self;
+}
+
 @end

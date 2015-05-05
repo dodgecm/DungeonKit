@@ -10,7 +10,7 @@
 #import "DKStatistic.h"
 #import "DKModifierGroup.h"
 
-@interface DKCharacter : NSObject <DKModifierGroupOwner> {
+@interface DKCharacter : NSObject <DKModifierGroupOwner, NSCoding> {
     
 }
 

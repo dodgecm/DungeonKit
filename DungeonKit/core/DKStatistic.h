@@ -10,7 +10,7 @@
 #import "DKModifier.h"
 #import "DKDependentModifier.h"
 
-@interface DKStatistic : NSObject <DKDependentModifierOwner>
+@interface DKStatistic : NSObject <DKDependentModifierOwner, NSCoding>
 
 /** The value of the statistic without any modifiers. */
 @property (nonatomic, readonly) id<NSObject> base;

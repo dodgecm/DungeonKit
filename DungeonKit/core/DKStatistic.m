@@ -163,6 +163,32 @@ BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedSt
     return YES;
 }
 
+#pragma mark NSCoding
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    [aCoder encodeObject:self.base forKey:@"base"];
+    [aCoder encodeObject:self.value forKey:@"value"];
+    [aCoder encodeObject:self.modifiers forKey:@"modifiers"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super init];
+    if (self) {
+        
+        _base = [aDecoder decodeObjectForKey:@"base"];
+        _value = [aDecoder decodeObjectForKey:@"value"];
+        
+        _modifiers = [NSMutableArray array];
+        NSArray* decodedModifiers = [aDecoder decodeObjectForKey:@"modifiers"];
+        for (DKModifier* modifier in decodedModifiers) {
+            [self applyModifier:modifier];
+        }
+    }
+    
+    return self;
+}
+
 @end
 
 

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DKStatistic.h"
 
-@interface DKDice : DKNumericStatistic
+@interface DKDice : DKNumericStatistic <NSCoding>
 
 /** The quantity of dice.  Ex: for 3d6, the quantity would be 3 */
 @property (nonatomic, strong, readonly) DKNumericStatistic* quantity;

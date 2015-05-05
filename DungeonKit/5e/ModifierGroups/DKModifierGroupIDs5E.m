@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DKModifierGroupIDs5E.h"
 
-NSString *const DKModifierGroupIDRace = @"DKModifierGroupIDRace";
-NSString *const DKModifierGroupIDSubrace = @"DKModifierGroupIDSubrace";
-NSString *const DKModifierGroupIDClass = @"DKModifierGroupIDClass";
+NSString *const DKModifierGroupIDRace = @"DKRace";
+NSString *const DKModifierGroupIDSubrace = @"DKSubrace";
+NSString *const DKModifierGroupIDClericClass = @"DKClericClass";
+NSString *const DKModifierGroupIDClericDivineDomain = @"DKClericDivineDomain";
