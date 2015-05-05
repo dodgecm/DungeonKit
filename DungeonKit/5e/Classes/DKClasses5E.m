@@ -11,5 +11,6 @@
 @implementation DKClasses5E
 
 @synthesize cleric = _cleric;
+@synthesize fighter = _fighter;
 
 @end

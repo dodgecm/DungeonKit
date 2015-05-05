@@ -10,3 +10,5 @@ FOUNDATION_EXPORT NSString *const DKModifierGroupIDRace;
 FOUNDATION_EXPORT NSString *const DKModifierGroupIDSubrace;
 FOUNDATION_EXPORT NSString *const DKModifierGroupIDClericClass;
 FOUNDATION_EXPORT NSString *const DKModifierGroupIDClericDivineDomain;
+FOUNDATION_EXPORT NSString *const DKModifierGroupIDFighterClass;
+FOUNDATION_EXPORT NSString *const DKModifierGroupIDFighterMartialArchetype;

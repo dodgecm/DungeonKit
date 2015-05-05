@@ -153,3 +153,13 @@ NSString *const DKStatIDChannelDivinityUsesCurrent = @"DKChannelDivinityUsesCurr
 NSString *const DKStatIDChannelDivinityUsesMax = @"DKChannelDivinityUsesMax";
 NSString *const DKStatIDTurnUndead = @"DKTurnUndead";
 NSString *const DKStatIDDivineIntervention = @"DKDivineIntervention";
+
+NSString *const DKStatIDFighterLevel = @"DKFighterLevel";
+NSString *const DKStatIDFighterTraits = @"DKFighterTraits";
+NSString *const DKStatIDSecondWindUsesCurrent = @"DKSecondWindUsesCurrent";
+NSString *const DKStatIDSecondWindUsesMax = @"DKSecondWindUsesMax";
+NSString *const DKStatIDActionSurgeUsesCurrent = @"DKActionSurgeUsesCurrent";
+NSString *const DKStatIDActionSurgeUsesMax = @"DKActionSurgeUsesMax";
+NSString *const DKStatIDExtraAttacks = @"DKExtraAttacks";
+NSString *const DKStatIDIndomitableUsesCurrent = @"DKIndomitableUsesCurrent";
+NSString *const DKStatIDIndomitableUsesMax = @"DKIndomitableUsesMax";

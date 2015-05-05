@@ -153,7 +153,8 @@
             XCTAssertNotNil(modifier.owner, @"New race modifiers should get applied");
         }
     }
-    
 }
+
+
 
 @end

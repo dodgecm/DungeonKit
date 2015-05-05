@@ -150,3 +150,13 @@ FOUNDATION_EXPORT NSString *const DKStatIDChannelDivinityUsesCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDChannelDivinityUsesMax;
 FOUNDATION_EXPORT NSString *const DKStatIDTurnUndead;
 FOUNDATION_EXPORT NSString *const DKStatIDDivineIntervention;
+
+FOUNDATION_EXPORT NSString *const DKStatIDFighterLevel;
+FOUNDATION_EXPORT NSString *const DKStatIDFighterTraits;
+FOUNDATION_EXPORT NSString *const DKStatIDSecondWindUsesCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDSecondWindUsesMax;
+FOUNDATION_EXPORT NSString *const DKStatIDActionSurgeUsesCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDActionSurgeUsesMax;
+FOUNDATION_EXPORT NSString *const DKStatIDExtraAttacks;
+FOUNDATION_EXPORT NSString *const DKStatIDIndomitableUsesCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDIndomitableUsesMax;

@@ -187,6 +187,16 @@
              DKStatIDChannelDivinityUsesMax: @"classes.cleric.channelDivinityUsesMax",
              DKStatIDTurnUndead: @"classes.cleric.turnUndead",
              DKStatIDDivineIntervention: @"classes.cleric.divineIntervention",
+             
+             DKStatIDFighterLevel: @"classes.fighter.classLevel",
+             DKStatIDFighterTraits: @"classes.fighter.classTraits",
+             DKStatIDSecondWindUsesCurrent: @"classes.fighter.secondWindUsesCurrent",
+             DKStatIDSecondWindUsesMax: @"classes.fighter.secondWindUsesMax",
+             DKStatIDActionSurgeUsesCurrent: @"classes.fighter.actionSurgeUsesCurrent",
+             DKStatIDActionSurgeUsesMax: @"classes.fighter.actionSurgeUsesMax",
+             DKStatIDExtraAttacks: @"classes.fighter.extraAttacks",
+             DKStatIDIndomitableUsesCurrent: @"classes.fighter.indomitableUsesCurrent",
+             DKStatIDIndomitableUsesMax: @"classes.fighter.indomitableUsesMax",
              };
 }
 
@@ -196,6 +206,8 @@
              DKModifierGroupIDSubrace: @"subrace",
              DKModifierGroupIDClericClass: @"classes.cleric.classModifiers",
              DKModifierGroupIDClericDivineDomain: @"classes.cleric.divineDomain",
+             DKModifierGroupIDFighterClass: @"classes.fighter.classModifiers",
+             DKModifierGroupIDFighterMartialArchetype: @"classes.fighter.martialArchetype",
              };
 }
 
@@ -283,6 +295,7 @@
         
         self.classes = [[DKClasses5E alloc] init];
         _classes.cleric = [[DKCleric5E alloc] initWithAbilities:_abilities];
+        _classes.fighter = [[DKFighter5E alloc] initWithAbilities:_abilities];
     }
     return self;
 }

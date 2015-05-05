@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "DKCleric5E.h"
+#import "DKFighter5E.h"
 
 @interface DKClasses5E : NSObject
 
 @property (nonatomic, strong) DKCleric5E* cleric;
+@property (nonatomic, strong) DKFighter5E* fighter;
 
 @end
