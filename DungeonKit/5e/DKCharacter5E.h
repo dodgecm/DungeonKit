@@ -7,7 +7,7 @@
 //
 
 #import "DKCharacter.h"
-#import "DKDice.h"
+#import "DKDiceCollection.h"
 #import "DKStatisticIDs5E.h"
 #import "DKModifierGroupIDs5E.h"
 #import "DKRace5E.h"
@@ -37,8 +37,8 @@
 @property (nonatomic, strong) DKNumericStatistic* hitPointsMax;
 @property (nonatomic, strong) DKNumericStatistic* hitPointsTemporary;
 @property (nonatomic, strong) DKNumericStatistic* hitPointsCurrent;
-@property (nonatomic, strong) DKDice* hitDiceMax;
-@property (nonatomic, strong) DKDice* hitDiceCurrent;
+@property (nonatomic, strong) DKDiceStatistic* hitDiceMax;
+@property (nonatomic, strong) DKDiceStatistic* hitDiceCurrent;
 
 @property (nonatomic, strong) DKNumericStatistic* armorClass;
 @property (nonatomic, strong) DKNumericStatistic* initiativeBonus;

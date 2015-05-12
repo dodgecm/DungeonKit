@@ -15,11 +15,7 @@ FOUNDATION_EXPORT NSString *const DKStatIDHitPointsTemporary;
 FOUNDATION_EXPORT NSString *const DKStatIDHitPointsCurrent;
 
 FOUNDATION_EXPORT NSString *const DKStatIDHitDiceMax;
-FOUNDATION_EXPORT NSString *const DKStatIDHitDiceMaxQuantity;
-FOUNDATION_EXPORT NSString *const DKStatIDHitDiceMaxSides;
 FOUNDATION_EXPORT NSString *const DKStatIDHitDiceCurrent;
-FOUNDATION_EXPORT NSString *const DKStatIDHitDiceCurrentQuantity;
-FOUNDATION_EXPORT NSString *const DKStatIDHitDiceCurrentSides;
 
 FOUNDATION_EXPORT NSString *const DKStatIDArmorClass;
 FOUNDATION_EXPORT NSString *const DKStatIDInitiative;
@@ -146,6 +142,7 @@ FOUNDATION_EXPORT NSString *const DKStatIDNinthLevelSpells;
 
 FOUNDATION_EXPORT NSString *const DKStatIDClericLevel;
 FOUNDATION_EXPORT NSString *const DKStatIDClericTraits;
+FOUNDATION_EXPORT NSString *const DKStatIDClericHitDice;
 FOUNDATION_EXPORT NSString *const DKStatIDChannelDivinityUsesCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDChannelDivinityUsesMax;
 FOUNDATION_EXPORT NSString *const DKStatIDTurnUndead;
@@ -153,6 +150,7 @@ FOUNDATION_EXPORT NSString *const DKStatIDDivineIntervention;
 
 FOUNDATION_EXPORT NSString *const DKStatIDFighterLevel;
 FOUNDATION_EXPORT NSString *const DKStatIDFighterTraits;
+FOUNDATION_EXPORT NSString *const DKStatIDFighterHitDice;
 FOUNDATION_EXPORT NSString *const DKStatIDSecondWindUsesCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDSecondWindUsesMax;
 FOUNDATION_EXPORT NSString *const DKStatIDActionSurgeUsesCurrent;

@@ -22,12 +22,14 @@
 @synthesize indomitableUsesMax = _indomitableUsesMax;
 @synthesize martialArchetype = _martialArchetype;
 
+#pragma mark -
+
 + (DKModifierGroup*)fighterWithLevel:(DKNumericStatistic*)level abilities:(DKAbilities5E*)abilities {
     
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
     class.explanation = @"Fighter class modifiers";
-    [class addModifier:[DKModifierBuilder modifierWithAdditiveBonus:10 explanation:@"Fighter hit die"]
-        forStatisticID:DKStatIDHitDiceMaxSides];
+    
+    [class addModifier:[DKClass5E hitDiceModifierForSides:10 level:level] forStatisticID:DKStatIDFighterHitDice];
     
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Fighter Saving Throw Proficiency: Strength"]
         forStatisticID:DKStatIDSavingThrowStrengthProficiency];
@@ -126,7 +128,7 @@
                                                                                                              isGreaterThanOrEqualTo:2]
                                                                                    priority:kDKModifierPriority_Additive
                                                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    actionSurgeChargesModifier.explanation = @"Once you use this feature, you must finish a short or long rest before you can use it again.";
+    actionSurgeChargesModifier.explanation = @"You must finish a short or long rest before you regain your uses of this feature.";
     [actionSurgeGroup addModifier:actionSurgeChargesModifier forStatisticID:DKStatIDActionSurgeUsesMax];
     
     return actionSurgeGroup;
@@ -152,10 +154,35 @@
                                                                                                                    isGreaterThanOrEqualTo:9]
                                                                                          priority:kDKModifierPriority_Additive
                                                                                        expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    indomitableChargesModifier.explanation = @"Once you use this feature, you must finish a short or long rest before you can use it again.";
+    indomitableChargesModifier.explanation = @"You must finish a short or long rest before you regain your uses of this feature.";
     [indomitableGroup addModifier:indomitableChargesModifier forStatisticID:DKStatIDIndomitableUsesMax];
     
     return indomitableGroup;
+}
+
+#pragma mark -
+
++ (DKModifierGroup*)championArchetypeWithFighterLevel:(DKNumericStatistic*)level {
+    
+    DKModifierGroup* championGroup = [[DKModifierGroup alloc] init];
+    
+    NSString* improvedCriticalExplanation = @"Your weapon attacks score a critical hit on a roll of 19 or 20.";
+    DKDependentModifier* improvedCriticalAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                            constantValue:@"Improved Critical"
+                                                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                           isGreaterThanOrEqualTo:2]
+                                                                                              explanation:improvedCriticalExplanation];
+    [championGroup addModifier:improvedCriticalAbility forStatisticID:DKStatIDFighterTraits];
+    
+    NSString* remarkableAthleteExplanation = @"You can add half your proficiency bonus (round up) to any Strength, Dexterity, or Constitution check you make that doesn’t already use your proficiency bonus.  In addition, when you make a running long jump, the distance you can cover increases by a number of feet equal to your Strength modifier.";
+    DKDependentModifier* remarkableAthleteAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                            constantValue:@"Remarkable Athlete"
+                                                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                           isGreaterThanOrEqualTo:7]
+                                                                                              explanation:remarkableAthleteExplanation];
+    [championGroup addModifier:remarkableAthleteAbility forStatisticID:DKStatIDFighterTraits];
+    
+    return championGroup;
 }
 
 #pragma mark -
@@ -178,6 +205,8 @@
         [_indomitableUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_indomitableUsesMax]];
         
         self.classModifiers = [DKFighter5E fighterWithLevel:self.classLevel abilities:abilities];
+        [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
+                                                                                     explanation:@"Fighter hit dice"] forStatisticID:DKStatIDHitDiceMax];
         
         /*self.channelDivinityUsesMax = [DKNumericStatistic statisticWithInt:0];
         self.channelDivinityUsesCurrent = [DKNumericStatistic statisticWithInt:0];

@@ -20,16 +20,6 @@
 @synthesize explanation = _explanation;
 @synthesize owner = _owner;
 
-+ (id)modifierWithNumericValue:(int)value
-                      priority:(DKModifierPriority)priority
-                    expression:(NSExpression*)expression {
-    
-    DKModifier* modifier = [[[self class] alloc] initWithValue:@(value)
-                                                      priority:priority
-                                                    expression:expression];
-    return modifier;
-}
-
 + (id)modifierWithValue:(id<NSObject>)value
                priority:(DKModifierPriority)priority
              expression:(NSExpression*)expression {

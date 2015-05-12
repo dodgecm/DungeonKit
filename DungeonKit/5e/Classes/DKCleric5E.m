@@ -25,8 +25,9 @@
     
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
     class.explanation = @"Cleric class modifiers";
-    [class addModifier:[DKModifierBuilder modifierWithAdditiveBonus:8 explanation:@"Cleric hit die"]
-        forStatisticID:DKStatIDHitDiceMaxSides];
+    
+    [class addModifier:[DKClass5E hitDiceModifierForSides:8 level:level] forStatisticID:DKStatIDClericHitDice];
+    
     [class addModifier:[abilities.wisdom modifierFromAbilityScoreWithExplanation:@"Cleric spellcasting ability: Wisdom"]
         forStatisticID:DKStatIDSpellSaveDC];
     [class addModifier:[abilities.wisdom modifierFromAbilityScoreWithExplanation:@"Cleric spellcasting ability: Wisdom"]
@@ -383,55 +384,47 @@
     DKModifierGroup* lifeDomainSpellsGroup = [DKCleric5E domainSpellsGroupClericLevel:level spellDictionary:spells];
     [lifeDomainGroup addSubgroup:lifeDomainSpellsGroup];
     
-    DKModifier* discipleOfLife = [DKModifierBuilder modifierWithExplanation:@"Disciple of Life: Whenever you use a spell of 1st level or higher to "
-                                  "restore hit points to a creature, the creature regains additional hit points equal to 2 + the spell's level."];
+    DKModifier* discipleOfLife = [DKModifierBuilder modifierWithAppendedString:@"Disciple of Life" explanation:@"Whenever you use a spell of 1st level or higher to restore hit points to a creature, the creature regains additional hit points equal to 2 + the spell's level."];
     [lifeDomainGroup addModifier:discipleOfLife forStatisticID:DKStatIDClericTraits];
     
-    NSString* preserveLifeExplanation = @"Channel Divinity - Preserve Life: As an action, you present your holy symbol and evoke healing energy that "
+    NSString* preserveLifeExplanation = @"As an action, you present your holy symbol and evoke healing energy that "
     "can restore a number of hit points equal to five times your cleric level.  Choose any creatures within 30 feet of you, and divide those hit points "
     "among them.  This feature can restore a creature to no more than half of its hit point maximum.  You can't use this feature on an undead or "
     "a construct.";
-    DKDependentModifier* preserveLifeAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                     value:[DKDependentModifierBuilder expressionForConstantInteger:1]
-                                                                                   enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                            isGreaterThanOrEqualTo:2]
-                                                                                  priority:kDKModifierPriority_Additive
-                                                                                expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    preserveLifeAbility.explanation = preserveLifeExplanation;
+    DKDependentModifier* preserveLifeAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                            constantValue:@"Channel Divinity - Preserve Life"
+                                                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                           isGreaterThanOrEqualTo:2]
+                                                                                              explanation:preserveLifeExplanation];
     [lifeDomainGroup addModifier:preserveLifeAbility forStatisticID:DKStatIDClericTraits];
     
     NSString* blessedHealerExplanation = @"Blessed Healer: The healing spells you cast on others heal you as well.  When you cast a spell of 1st "
     "level or higher that restores hit points to a creature other than you, you regain hit points equal to 2 + the spell’s level.";
-    DKDependentModifier* blessedHealerAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                      value:[DKDependentModifierBuilder expressionForConstantInteger:1]
-                                                                                    enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                             isGreaterThanOrEqualTo:6]
-                                                                                   priority:kDKModifierPriority_Additive
-                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    blessedHealerAbility.explanation = blessedHealerExplanation;
+
+    DKDependentModifier* blessedHealerAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                        constantValue:@"Blessed Healer"
+                                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                       isGreaterThanOrEqualTo:6]
+                                                                                          explanation:blessedHealerExplanation];
     [lifeDomainGroup addModifier:blessedHealerAbility forStatisticID:DKStatIDClericTraits];
     
-    NSString* divineStrikeExplanation = @"Divine Strike: You gain the ability to infuse your weapon strikes with divine energy. Once on each of your "
+    NSString* divineStrikeExplanation = @"You gain the ability to infuse your weapon strikes with divine energy. Once on each of your "
     "turns when you hit a creature with a weapon attack, you can cause the attack to deal an extra 1d8 radiant damage to the target. When you reach 14th "
     "level, the extra damage increases to 2d8.";
-    DKDependentModifier* divineStrikeAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                     value:[DKDependentModifierBuilder expressionForConstantInteger:1]
-                                                                                   enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                            isGreaterThanOrEqualTo:8]
-                                                                                  priority:kDKModifierPriority_Additive
-                                                                                expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    divineStrikeAbility.explanation = divineStrikeExplanation;
+    DKDependentModifier* divineStrikeAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                         constantValue:@"Divine Strike"
+                                                                                               enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                        isGreaterThanOrEqualTo:8]
+                                                                                           explanation:divineStrikeExplanation];
     [lifeDomainGroup addModifier:divineStrikeAbility forStatisticID:DKStatIDClericTraits];
     
     NSString* supremeHealingExplanation = @"Supreme Healing: When you would normally roll one or more dice to restore hit points with a spell, you "
     "instead use the highest number possible for each die.";
-    DKDependentModifier* supremeHealingAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                       value:[DKDependentModifierBuilder expressionForConstantInteger:1]
-                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                              isGreaterThanOrEqualTo:17]
-                                                                                    priority:kDKModifierPriority_Additive
-                                                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    supremeHealingAbility.explanation = supremeHealingExplanation;
+    DKDependentModifier* supremeHealingAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                        constantValue:@"Supreme Healing"
+                                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                       isGreaterThanOrEqualTo:17]
+                                                                                          explanation:supremeHealingExplanation];
     [lifeDomainGroup addModifier:supremeHealingAbility forStatisticID:DKStatIDClericTraits];
     
     return lifeDomainGroup;
@@ -452,6 +445,8 @@
         self.divineIntervention = [DKNumericStatistic statisticWithInt:0];
         
         self.classModifiers = [DKCleric5E clericWithLevel:self.classLevel abilities:abilities];
+        [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
+                                                                                     explanation:@"Cleric hit dice"] forStatisticID:DKStatIDHitDiceMax];
         self.divineDomain = [DKCleric5E lifeDomainWithLevel:self.classLevel];
     }
     return self;

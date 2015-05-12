@@ -15,6 +15,7 @@
 @synthesize classLevel = _classLevel;
 @synthesize classTraits = _classTraits;
 @synthesize classModifiers = _classModifiers;
+@synthesize classHitDice = _classHitDice;
 
 #pragma mark -
 
@@ -44,6 +45,19 @@
     return abilityScoreSubgroup;
 }
 
++ (DKModifier*)hitDiceModifierForSides:(int)sides level:(DKNumericStatistic*)classLevel {
+    
+    NSExpression* value = [NSExpression expressionForFunction:[NSExpression expressionForConstantValue: [DKDiceCollection diceCollection]]
+                                                 selectorName:@"diceByAddingQuantity:sides:"
+                                                    arguments:@[ [NSExpression expressionForVariable:@"source"],
+                                                                 [NSExpression expressionForConstantValue:@(sides)] ] ];
+    
+    return [DKDependentModifierBuilder addedDiceModifierFromSource:classLevel
+                                                             value:value
+                                                           enabled:nil
+                                                       explanation:@"Class hit die"];
+}
+
 #pragma mark -
 
 - (id)init {
@@ -51,7 +65,8 @@
     self = [super init];
     if (self) {
         self.classLevel = [DKNumericStatistic statisticWithInt:0];
-        self.classTraits = [DKNumericStatistic statisticWithInt:0];
+        self.classTraits = [DKSetStatistic statisticWithEmptySet];
+        self.classHitDice = [DKDiceStatistic statisticWithNoDice];
     }
     
     return self;

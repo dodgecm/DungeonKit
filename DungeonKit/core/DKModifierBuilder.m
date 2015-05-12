@@ -7,12 +7,13 @@
 //
 
 #import "DKModifierBuilder.h"
+#import "DKDiceCollection.h"
 
 @implementation DKModifierBuilder
 
 + (id)modifierWithAdditiveBonus:(int)bonus {
     
-    DKModifier* modifier = [DKModifier modifierWithNumericValue:bonus
+    DKModifier* modifier = [DKModifier modifierWithValue:@(bonus)
                                                        priority:kDKModifierPriority_Additive
                                                      expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     return modifier;
@@ -28,9 +29,9 @@
 + (id)modifierWithMinimum:(int)min {
     
     NSExpression* maxExpression =  [NSExpression expressionWithFormat:@"max:({%i, $input})", min];
-    DKModifier* modifier = [DKModifier modifierWithNumericValue:0
-                                                       priority:kDKModifierPriority_Clamping
-                                                     expression:maxExpression];
+    DKModifier* modifier = [DKModifier modifierWithValue:@(0)
+                                                priority:kDKModifierPriority_Clamping
+                                              expression:maxExpression];
     return modifier;
 }
 
@@ -44,9 +45,9 @@
 + (id)modifierWithClampBetween:(int)min and:(int)max {
     
     NSExpression* clampExpression =  [NSExpression expressionWithFormat:@"min:({%i, max:({%i, $input}) })", max, min];
-    DKModifier* modifier = [DKModifier modifierWithNumericValue:0
-                                                       priority:kDKModifierPriority_Clamping
-                                                     expression:clampExpression];
+    DKModifier* modifier = [DKModifier modifierWithValue:@(0)
+                                                priority:kDKModifierPriority_Clamping
+                                              expression:clampExpression];
     return modifier;
 }
 
@@ -72,6 +73,18 @@
     return modifier;
 }
 
++ (id)modifierWithAddedDice:(DKDiceCollection*)collection {
+    return [DKModifierBuilder modifierWithAddedDice:collection explanation:nil];
+}
+
++ (id)modifierWithAddedDice:(DKDiceCollection*)collection explanation:(NSString*)explanation {
+    
+    DKModifier* modifier = [DKModifier modifierWithValue:collection
+                                                priority:kDKModifierPriority_Additive
+                                              expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
+    modifier.explanation = explanation;
+    return modifier;
+}
 
 + (NSExpression*)simpleAdditionModifierExpression {
     return [NSExpression expressionWithFormat:@"$input+$value"];
@@ -83,11 +96,17 @@
                                      arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
 }
 
++ (NSExpression*)simpleAddDiceModifierExpression {
+    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                  selectorName:@"diceByAddingDice:"
+                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
+}
+
 + (id)modifierWithExplanation:(NSString*)explanation {
     
-    DKModifier* modifier = [DKModifier modifierWithNumericValue:0
-                                                       priority:kDKModifierPriority_Informational
-                                                     expression:[NSExpression expressionForVariable:@"input"]];
+    DKModifier* modifier = [DKModifier modifierWithValue:@(0)
+                                                priority:kDKModifierPriority_Informational
+                                              expression:[NSExpression expressionForVariable:@"input"]];
     modifier.explanation = explanation;
     return modifier;
 }
@@ -121,6 +140,39 @@
                                                                         enabled:enabledPredicate
                                                                        priority:kDKModifierPriority_Additive
                                                                      expression:[DKModifierBuilder simpleAppendModifierExpression]];
+    modifier.explanation = explanation;
+    return modifier;
+}
+
++ (id)appendedModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
+                   constantValue:(id)constantValue
+                         enabled:(NSPredicate*)enabledPredicate
+                     explanation:(NSString*)explanation {
+    return [DKDependentModifierBuilder appendedModifierFromSource:source
+                                                            value:[NSExpression expressionForConstantValue:constantValue]
+                                                          enabled:enabledPredicate
+                                                      explanation:explanation];
+}
+
++ (id)addedDiceModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
+                      explanation:(NSString*)explanation {
+    
+    return [DKDependentModifierBuilder addedDiceModifierFromSource:source
+                                                             value:[DKDependentModifierBuilder valueFromDependency:@"source"]
+                                                           enabled:nil
+                                                       explanation:explanation];
+}
+
++ (id)addedDiceModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
+                            value:(NSExpression*)valueExpression
+                          enabled:(NSPredicate*)enabledPredicate
+                      explanation:(NSString*)explanation {
+    
+    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
+                                                                          value:valueExpression
+                                                                        enabled:enabledPredicate
+                                                                       priority:kDKModifierPriority_Additive
+                                                                     expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
     modifier.explanation = explanation;
     return modifier;
 }

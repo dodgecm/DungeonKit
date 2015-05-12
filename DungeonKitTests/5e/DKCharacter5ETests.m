@@ -90,15 +90,20 @@
 }
 
 - (void)testHitDice {
-    
     DKCharacter5E* character = [[DKCharacter5E alloc] init];
-    character.level.base = @1;
-    character.hitDiceMax.sides.base = @8;
-    XCTAssertEqualObjects(character.hitDiceMax.quantity.value, character.level.value, @"Hit dice quantity should be equal to the character's level.");
-    XCTAssertEqualObjects(character.hitDiceMax.quantity.value, character.hitDiceCurrent.quantity.value,
-                   @"Max hit dice quantity should be equal the current hit dice quantity.");
-    XCTAssertEqualObjects(character.hitDiceMax.sides.value, character.hitDiceCurrent.sides.value,
-                   @"Max hit dice sides should be equal the current hit dice sides.");
+    XCTAssertEqualObjects(character.classes.fighter.classHitDice.value.stringValue, @"", @"Class hit dice should be empty at level 0");
+    character.classes.fighter.classLevel.base = @2;
+    XCTAssertEqualObjects(character.classes.fighter.classHitDice.value.stringValue, @"2d10", @"Class hit dice should scale with level");
+    character.classes.fighter.classLevel.base = @10;
+    XCTAssertEqualObjects(character.classes.fighter.classHitDice.value.stringValue, @"10d10", @"Class hit dice should scale with level");
+    
+    character.classes.cleric.classLevel.base = @2;
+    XCTAssertEqualObjects(character.classes.cleric.classHitDice.value.stringValue, @"2d8", @"Class hit dice should scale with level");
+    character.classes.cleric.classLevel.base = @10;
+    XCTAssertEqualObjects(character.classes.cleric.classHitDice.value.stringValue, @"10d8", @"Class hit dice should scale with level");
+    
+    character.classes.cleric.classLevel.base = @5;
+    XCTAssertEqualObjects(character.hitDiceMax.value.stringValue, @"10d10+5d8", @"Multiclass hit die should get combined properly.");
 }
 
 - (void)testArmorClass {

@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "DKDependentModifier.h"
 
+@class DKDiceCollection;
+
 /** The DKModifierBuilder class provides convenience initialization methods for common DKModifier operations. */
 @interface DKModifierBuilder : NSObject
 
@@ -30,11 +32,16 @@
 + (id)modifierWithAppendedString:(NSString*)stringToAppend;
 + (id)modifierWithAppendedString:(NSString*)stringToAppend explanation:(NSString*)explanation;
 
++ (id)modifierWithAddedDice:(DKDiceCollection*)collection;
++ (id)modifierWithAddedDice:(DKDiceCollection*)collection explanation:(NSString*)explanation;
+
 /** Initializes a modifier with no mathematical effects */
 + (id)modifierWithExplanation:(NSString*)explanation;
 
 + (NSExpression*)simpleAdditionModifierExpression;
 + (NSExpression*)simpleAppendModifierExpression;
++ (NSExpression*)simpleAddDiceModifierExpression;
+
 
 @end
 
@@ -52,6 +59,19 @@
                            value:(NSExpression*)valueExpression
                          enabled:(NSPredicate*)enabledPredicate
                      explanation:(NSString*)explanation;
+
++ (id)appendedModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
+                   constantValue:(id)constantValue
+                         enabled:(NSPredicate*)enabledPredicate
+                     explanation:(NSString*)explanation;
+
++ (id)addedDiceModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
+                      explanation:(NSString*)explanation;
+
++ (id)addedDiceModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
+                            value:(NSExpression*)valueExpression
+                          enabled:(NSPredicate*)enabledPredicate
+                      explanation:(NSString*)explanation;
 
 + (id)informationalModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
                               enabled:(NSPredicate*)enabledPredicate

@@ -52,11 +52,7 @@
              DKStatIDHitPointsCurrent: @"hitPointsCurrent",
              
              DKStatIDHitDiceMax: @"hitDiceMax",
-             DKStatIDHitDiceMaxQuantity: @"hitDiceMax.quantity",
-             DKStatIDHitDiceMaxSides: @"hitDiceMax.sides",
              DKStatIDHitDiceCurrent: @"hitDiceCurrent",
-             DKStatIDHitDiceCurrentQuantity: @"hitDiceCurrent.quantity",
-             DKStatIDHitDiceCurrentSides: @"hitDiceCurrent.sides",
              
              DKStatIDArmorClass: @"armorClass",
              DKStatIDInitiative: @"initiativeBonus",
@@ -183,6 +179,7 @@
              
              DKStatIDClericLevel: @"classes.cleric.classLevel",
              DKStatIDClericTraits: @"classes.cleric.classTraits",
+             DKStatIDClericHitDice: @"classes.cleric.classHitDice",
              DKStatIDChannelDivinityUsesCurrent: @"classes.cleric.channelDivinityUsesCurrent",
              DKStatIDChannelDivinityUsesMax: @"classes.cleric.channelDivinityUsesMax",
              DKStatIDTurnUndead: @"classes.cleric.turnUndead",
@@ -190,6 +187,7 @@
              
              DKStatIDFighterLevel: @"classes.fighter.classLevel",
              DKStatIDFighterTraits: @"classes.fighter.classTraits",
+             DKStatIDFighterHitDice: @"classes.fighter.classHitDice",
              DKStatIDSecondWindUsesCurrent: @"classes.fighter.secondWindUsesCurrent",
              DKStatIDSecondWindUsesMax: @"classes.fighter.secondWindUsesMax",
              DKStatIDActionSurgeUsesCurrent: @"classes.fighter.actionSurgeUsesCurrent",
@@ -255,12 +253,8 @@
         [_hitPointsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitPointsTemporary]];
         
         //Set up hit dice similarly to HP dependencies
-        self.hitDiceMax = [DKDice diceWithQuantity:0 sides:0];
-        [_hitDiceMax.quantity applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_level]];
-        
-        self.hitDiceCurrent = [DKDice diceWithQuantity:0 sides:0];
-        [_hitDiceCurrent.quantity applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitDiceMax.quantity]];
-        [_hitDiceCurrent.sides applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitDiceMax.sides]];
+        self.hitDiceMax = [DKDiceStatistic statisticWithNoDice];
+        self.hitDiceCurrent = [DKDiceStatistic statisticWithNoDice];
         
         //Initialize armor class so that it gets a bonus from dexterity
         self.armorClass = [DKNumericStatistic statisticWithInt:10];

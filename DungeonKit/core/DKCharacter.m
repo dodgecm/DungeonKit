@@ -51,7 +51,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     return self;
 }
 
-- (DKNumericStatistic*)statisticForID:(NSString*)statID {
+- (DKStatistic*)statisticForID:(NSString*)statID {
     if (!statID) { return nil; }
     id statOrKeyPath = [_statistics objectForKey:statID];
     if ([statOrKeyPath isKindOfClass:[NSString class]]) {
@@ -82,7 +82,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
                                                                  @"new": newStat}];
 }
 
-- (void)setStatistic:(DKNumericStatistic*)statistic forStatisticID:(NSString*)statID {
+- (void)setStatistic:(DKStatistic*)statistic forStatisticID:(NSString*)statID {
     
     if (!statID) { return; }
     id oldStat = [self statisticForID:statID];
@@ -238,6 +238,26 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     
     [aCoder encodeObject:_statistics forKey:@"statistics"];
     [aCoder encodeObject:_modifierGroups forKey:@"modifierGroups"];
+    
+    NSMutableDictionary* keyPathsToStatistics = [NSMutableDictionary dictionary];
+    for (NSString* statisticId in _statistics.allKeys) {
+        id statisticObject = _statistics[statisticId];
+        if ([statisticObject isKindOfClass:[NSString class]]) {
+            DKStatistic* statistic = [self statisticForID:statisticId];
+            if (statistic) { [keyPathsToStatistics setValue:statistic forKey:statisticObject]; }
+        }
+    }
+    [aCoder encodeObject:keyPathsToStatistics forKey:@"keyPathsToStatistics"];
+    
+    NSMutableDictionary* keyPathsToModifierGroups = [NSMutableDictionary dictionary];
+    for (NSString* groupId in _modifierGroups.allKeys) {
+        id groupObject = _modifierGroups[groupId];
+        if ([groupObject isKindOfClass:[NSString class]]) {
+            DKModifierGroup* group = [self modifierGroupForID:groupId];
+            if (group) { [keyPathsToModifierGroups setValue:group forKey:groupObject]; }
+        }
+    }
+    [aCoder encodeObject:keyPathsToModifierGroups forKey:@"keyPathsToModifierGroups"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -266,6 +286,18 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
             } else if([groupObject isKindOfClass:[DKModifierGroup class]]) {
                 [self addModifierGroup:groupObject forGroupID:groupId];
             }
+        }
+        
+        NSDictionary* keyPathsToStatistics = [aDecoder decodeObjectForKey:@"keyPathsToStatistics"];
+        for (NSString* keyPath in keyPathsToStatistics.allKeys) {
+            DKStatistic* stat = keyPathsToStatistics[keyPath];
+            [self setValue:stat forKeyPath:keyPath];
+        }
+        
+        NSDictionary* keyPathsToModifierGroups = [aDecoder decodeObjectForKey:@"keyPathsToModifierGroups"];
+        for (NSString* keyPath in keyPathsToModifierGroups.allKeys) {
+            DKModifierGroup* modifierGroup = keyPathsToModifierGroups[keyPath];
+            [self setValue:modifierGroup forKeyPath:keyPath];
         }
     }
     return self;

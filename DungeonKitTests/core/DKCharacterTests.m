@@ -201,14 +201,21 @@
     DKModifier* group2Modifier = [DKModifierBuilder modifierWithAdditiveBonus:15];
     [group2 addModifier:group2Modifier forStatisticID:@"test2"];
     character.modifierGroup2 = group2;
-    [character addKeyPath:@"group2" forModifierGroupID:@"group2"];
+    [character addKeyPath:@"modifierGroup2" forModifierGroupID:@"group2"];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths objectAtIndex:0];
     NSString* filePath = [NSString stringWithFormat:@"%@%@", documentsDirectory, @"encodeCharacterTest"];
     [NSKeyedArchiver archiveRootObject:character toFile:filePath];
     
-    DKCharacter* decodedCharacter = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    DKTestCharacter* decodedCharacter = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    XCTAssertNotNil([decodedCharacter statisticForID:@"test"], @"Character should be decoded with all its statistics.");
+    XCTAssertNotNil([decodedCharacter statisticForID:@"test2"], @"Character should be decoded with all its statistics.");
+    XCTAssertNotNil(decodedCharacter.testStatistic, @"Character should be decoded with all its statistics.");
+    
+    XCTAssertNotNil([decodedCharacter modifierGroupForID:@"group1"], @"Character should be decoded with all its modifier groups.");
+    XCTAssertNotNil([decodedCharacter modifierGroupForID:@"group2"], @"Character should be decoded with all its modifier groups.");
+    XCTAssertNotNil(decodedCharacter.modifierGroup2, @"Character should be decoded with all its modifier groups.");
 }
 
 @end

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DKModifier.h"
 #import "DKDependentModifier.h"
+#import "DKDiceCollection.h"
 
 @interface DKStatistic : NSObject <DKDependentModifierOwner, NSCoding>
 
@@ -59,6 +60,21 @@
 + (id)statisticWithSet:(NSSet*)base;
 + (id)statisticWithBase:(id<NSObject>)base __unavailable;
 - (id)initWithSet:(NSSet*)base;
+- (id)initWithBase:(id<NSObject>)base __unavailable;
+
+@end
+
+#pragma mark -
+@interface DKDiceStatistic : DKStatistic
+
+/** The value of the statistic without any modifiers. */
+@property (nonatomic, strong, readwrite) DKDiceCollection* base;
+@property (nonatomic, readonly) DKDiceCollection* value;
+
++ (id)statisticWithNoDice;
++ (id)statisticWithDice:(DKDiceCollection*)base;
++ (id)statisticWithBase:(id<NSObject>)base __unavailable;
+- (id)initWithDice:(DKDiceCollection*)base;
 - (id)initWithBase:(id<NSObject>)base __unavailable;
 
 @end

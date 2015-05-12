@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "DKDice.h"
+#import "DKDiceCollection.h"
+#import "DKModifierBuilder.h"
 
 @interface DKDiceTests : XCTestCase
 
@@ -26,14 +27,9 @@
     [super tearDown];
 }
 
-- (void)testConstructors {
-    
-    XCTAssertNotNil([[DKDice alloc] initWithQuantity:2 sides:6], @"Constructors should return non-nil object.");
-    XCTAssertNotNil([DKDice diceWithQuantity:4 sides:20], @"Constructors should return non-nil object.");
-}
-
+/*
 - (void)testRolls {
-    DKDice* d6 = [[DKDice alloc] initWithQuantity:1 sides:6];
+    DKDiceCollection* d6 = [[DKDiceCollection alloc] initWithQuantity:1 sides:6];
     NSMutableDictionary* frequency = [NSMutableDictionary dictionary];
     int result;
     for (int i = 0; i < 500; i++) {
@@ -47,7 +43,7 @@
 }
 
 - (void)testMoreRolls {
-    DKDice* fiveD20 = [[DKDice alloc] initWithQuantity:5 sides:20];
+    DKDiceCollection* fiveD20 = [[DKDiceCollection alloc] initWithQuantity:5 sides:20];
     NSMutableDictionary* frequency = [NSMutableDictionary dictionary];
     int result;
     for (int i = 0; i < 2000; i++) {
@@ -60,17 +56,31 @@
     }
 }
 
+- (void)testStringValue {
+    DKDiceCollection* d6 = [[DKDiceCollection alloc] initWithQuantity:1 sides:6];
+    NSString* strValue = [d6 stringValue];
+    XCTAssertEqualObjects(strValue, @"1d6", @"Dice string value should reflect numeric value.");
+    
+    [d6 applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:-5]];
+    strValue = [d6 stringValue];
+    XCTAssertEqualObjects(strValue, @"1d6-5", @"Dice string value should reflect numeric value.");
+    
+    [d6 applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:10]];
+    strValue = [d6 stringValue];
+    XCTAssertEqualObjects(strValue, @"1d6+5", @"Dice string value should reflect numeric value.");
+}
+
 - (void)testEdgeCases {
-    DKDice* zeroD6 = [[DKDice alloc] initWithQuantity:0 sides:6];
+    DKDiceCollection* zeroD6 = [[DKDiceCollection alloc] initWithQuantity:0 sides:6];
     XCTAssertEqual([zeroD6 roll], 0, @"Zero dice should have a result of zero.");
     
     //Kind of undefined functionality, but let's be explicit with our expectations, shall we
-    DKDice* d0 = [[DKDice alloc] initWithQuantity:1 sides:0];
+    DKDiceCollection* d0 = [[DKDiceCollection alloc] initWithQuantity:1 sides:0];
     XCTAssertEqual([d0 roll], 0, @"Zero sided dice should have a result of zero.");
     
     //Modifiers solve this edge case...
-    DKDice* dNegative = [[DKDice alloc] initWithQuantity:1 sides:-5];
+    DKDiceCollection* dNegative = [[DKDiceCollection alloc] initWithQuantity:1 sides:-5];
     XCTAssertEqual([dNegative roll], 0, @"Negative sided dice should have a result of zero.");
-}
+}*/
 
 @end

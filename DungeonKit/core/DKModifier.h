@@ -50,10 +50,6 @@ typedef enum {
 /** The statistic to which this modifier is currently applied, if any. */
 @property (nonatomic, weak, readonly) id<DKModifierOwner> owner;
 
-+ (id)modifierWithNumericValue:(int)value
-                      priority:(DKModifierPriority)priority
-                    expression:(NSExpression*)expression;
-
 + (id)modifierWithValue:(id<NSObject>)value
                priority:(DKModifierPriority)priority
              expression:(NSExpression*)expression;

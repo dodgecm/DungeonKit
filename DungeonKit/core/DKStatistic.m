@@ -191,7 +191,7 @@ BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedSt
 
 @end
 
-
+#pragma mark -
 @interface DKNumericStatistic()
 @property (nonatomic, readwrite) NSNumber* value;
 @end
@@ -218,14 +218,14 @@ BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedSt
 
 @end
 
-
+#pragma mark -
 @interface DKSetStatistic()
 @property (nonatomic, readwrite) NSSet* value;
 @end
 
 @implementation DKSetStatistic
 
-@synthesize base;
+@dynamic base;
 @dynamic value;
 
 
@@ -246,3 +246,34 @@ BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedSt
 
 @end
 
+#pragma mark -
+@interface DKDiceStatistic()
+@property (nonatomic, readwrite) DKDiceCollection* value;
+@end
+
+@implementation DKDiceStatistic
+
+@dynamic base;
+@dynamic value;
+
+
++ (id)statisticWithNoDice {
+    return [[self class] statisticWithDice: [DKDiceCollection diceCollection] ];
+}
+
++ (id)statisticWithDice:(DKDiceCollection *)dice {
+    DKDiceStatistic* newStat = [[[self class] alloc] initWithDice:dice];
+    return newStat;
+}
+
+- (id)initWithDice:(DKDiceCollection *)dice {
+    
+    self = [super initWithBase:dice];
+    return self;
+}
+
+- (NSString*)description {
+    return self.value.stringValue;
+}
+
+@end

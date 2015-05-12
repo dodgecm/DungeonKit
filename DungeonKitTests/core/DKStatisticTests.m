@@ -10,6 +10,7 @@
 #import <XCTest/XCTest.h>
 #import "DKStatistic.h"
 #import "DKModifierBuilder.h"
+#import "DKDiceCollection.h"
 
 @interface DKStatisticTests : XCTestCase
 
@@ -91,8 +92,8 @@
     [stat removeModifier:modifier];
     [stat removeModifier:nil];
 }
-@end
 
+@end
 
 @interface DKSetStatisticTests : XCTestCase
 @end

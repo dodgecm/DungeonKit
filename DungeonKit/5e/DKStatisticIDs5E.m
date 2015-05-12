@@ -18,11 +18,7 @@ NSString *const DKStatIDHitPointsTemporary = @"DKHitPointsTemporary";
 NSString *const DKStatIDHitPointsCurrent = @"DKHitPointsCurrent";
 
 NSString *const DKStatIDHitDiceMax = @"DKHitDiceMax";
-NSString *const DKStatIDHitDiceMaxQuantity = @"DKHitDiceMaxQuantity";
-NSString *const DKStatIDHitDiceMaxSides = @"DKHitDiceMaxSides";
 NSString *const DKStatIDHitDiceCurrent = @"DKHitDiceCurrent";
-NSString *const DKStatIDHitDiceCurrentQuantity = @"DKHitDiceCurrentQuantity";
-NSString *const DKStatIDHitDiceCurrentSides = @"DKHitDiceCurrentSides";
 
 NSString *const DKStatIDArmorClass = @"DKArmorClass";
 NSString *const DKStatIDInitiative = @"DKInitiative";
@@ -149,6 +145,7 @@ NSString *const DKStatIDNinthLevelSpells = @"DKNinthLevelSpells";
 
 NSString *const DKStatIDClericLevel = @"DKClericLevel";
 NSString *const DKStatIDClericTraits = @"DKClericTraits";
+NSString *const DKStatIDClericHitDice = @"DKClericHitDice";
 NSString *const DKStatIDChannelDivinityUsesCurrent = @"DKChannelDivinityUsesCurrent";
 NSString *const DKStatIDChannelDivinityUsesMax = @"DKChannelDivinityUsesMax";
 NSString *const DKStatIDTurnUndead = @"DKTurnUndead";
@@ -156,6 +153,7 @@ NSString *const DKStatIDDivineIntervention = @"DKDivineIntervention";
 
 NSString *const DKStatIDFighterLevel = @"DKFighterLevel";
 NSString *const DKStatIDFighterTraits = @"DKFighterTraits";
+NSString *const DKStatIDFighterHitDice = @"DKFighterHitDice";
 NSString *const DKStatIDSecondWindUsesCurrent = @"DKSecondWindUsesCurrent";
 NSString *const DKStatIDSecondWindUsesMax = @"DKSecondWindUsesMax";
 NSString *const DKStatIDActionSurgeUsesCurrent = @"DKActionSurgeUsesCurrent";
