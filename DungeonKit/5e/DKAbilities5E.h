@@ -15,11 +15,13 @@
 /** The modifier based on the raw score.  modifier = ((score - 10) / 2) */
 @property (nonatomic, readonly) int abilityModifier;
 
-- (DKDependentModifier*) modifierFromAbilityScore;
-- (DKDependentModifier*) modifierFromAbilityScoreWithExplanation:(NSString*)explanation;
+- (DKDependentModifier*)modifierFromAbilityScore;
+- (DKDependentModifier*)modifierFromAbilityScoreWithExplanation:(NSString*)explanation;
+
+- (DKDependentModifier*)diceCollectionModifierFromAbilityScore;
 
 /** Returns the modifier with the proper prefix, ex: +4, +2, +0, -1 */
-- (NSString*) formattedAbilityModifier;
+- (NSString*)formattedAbilityModifier;
 
 @end
 

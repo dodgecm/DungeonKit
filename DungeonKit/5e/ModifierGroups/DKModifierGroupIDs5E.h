@@ -8,7 +8,14 @@
 
 FOUNDATION_EXPORT NSString *const DKModifierGroupIDRace;
 FOUNDATION_EXPORT NSString *const DKModifierGroupIDSubrace;
+
 FOUNDATION_EXPORT NSString *const DKModifierGroupIDClericClass;
 FOUNDATION_EXPORT NSString *const DKModifierGroupIDClericDivineDomain;
 FOUNDATION_EXPORT NSString *const DKModifierGroupIDFighterClass;
 FOUNDATION_EXPORT NSString *const DKModifierGroupIDFighterMartialArchetype;
+
+FOUNDATION_EXPORT NSString *const DKModifierGroupIDMainHandWeapon;
+FOUNDATION_EXPORT NSString *const DKModifierGroupIDOffHandWeapon;
+FOUNDATION_EXPORT NSString *const DKModifierGroupIDArmor;
+FOUNDATION_EXPORT NSString *const DKModifierGroupIDShield;
+FOUNDATION_EXPORT NSString *const DKModifierGroupIDOtherEquipment;

@@ -221,6 +221,13 @@
                                      arguments:@[ [NSExpression expressionForVariable:dependencyKey] ] ];
 }
 
++ (NSExpression*)valueAsDiceCollectionFromNumericDependency:(NSString*)dependencyKey {
+
+    return [NSExpression expressionForFunction:[NSExpression expressionForConstantValue:[DKDiceCollection diceCollection]]
+                                  selectorName:@"diceByAddingModifier:"
+                                     arguments:@[ [NSExpression expressionForVariable:dependencyKey] ] ];
+}
+
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(int)threshold {
     
     // $dependencyName >= threshold
@@ -247,6 +254,76 @@
                                                                               options:0];
     
     return [NSCompoundPredicate andPredicateWithSubpredicates:@[firstPredicate, secondPredicate]];
+}
+
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName containsObject:(id)object {
+
+    NSExpression* containsObjectExpression = [NSExpression expressionForFunction:[NSExpression expressionForVariable:dependencyName]
+                                                                    selectorName:@"containsObjectAsNumber:"
+                                                                       arguments:@[ [NSExpression expressionForConstantValue:object] ] ];
+    return [NSComparisonPredicate predicateWithLeftExpression:containsObjectExpression
+                                              rightExpression:[NSExpression expressionForConstantValue:@(YES)]
+                                                     modifier:NSDirectPredicateModifier
+                                                         type:NSEqualToPredicateOperatorType
+                                                      options:0];
+}
+
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName containsAnyFromObjects:(NSArray*)objects {
+    
+    NSExpression* containsObjectExpression = [NSExpression expressionForFunction:[NSExpression expressionForVariable:dependencyName]
+                                                                    selectorName:@"containsAnyObjectsAsNumber:"
+                                                                       arguments:@[ [NSExpression expressionForConstantValue:objects] ] ];
+    return [NSComparisonPredicate predicateWithLeftExpression:containsObjectExpression
+                                              rightExpression:[NSExpression expressionForConstantValue:@(YES)]
+                                                     modifier:NSDirectPredicateModifier
+                                                         type:NSEqualToPredicateOperatorType
+                                                      options:0];
+}
+
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName doesNotContainAnyFromObjects:(NSArray*)objects {
+    
+    NSExpression* containsObjectExpression = [NSExpression expressionForFunction:[NSExpression expressionForVariable:dependencyName]
+                                                                    selectorName:@"containsAnyObjectsAsNumber:"
+                                                                       arguments:@[ [NSExpression expressionForConstantValue:objects] ] ];
+    return [NSComparisonPredicate predicateWithLeftExpression:containsObjectExpression
+                                              rightExpression:[NSExpression expressionForConstantValue:@(NO)]
+                                                     modifier:NSDirectPredicateModifier
+                                                         type:NSEqualToPredicateOperatorType
+                                                      options:0];
+}
+
+@end
+
+@implementation NSArray (DungeonKit)
+
+- (NSNumber*)containsObjectAsNumber:(id)anObject {
+    return @([self containsObject:anObject]);
+}
+
+- (NSNumber*)containsAnyObjectsAsNumber:(NSArray*)objectArray {
+    for (id object in objectArray) {
+        if ([self containsObject:object]) {
+            return @(YES);
+        }
+    }
+    return @(NO);
+}
+
+@end
+
+@implementation NSSet (DungeonKit)
+
+- (NSNumber*)containsObjectAsNumber:(id)anObject {
+    return @([self containsObject:anObject]);
+}
+
+- (NSNumber*)containsAnyObjectsAsNumber:(NSArray*)objectArray {
+    for (id object in objectArray) {
+        if ([self containsObject:object]) {
+            return @(YES);
+        }
+    }
+    return @(NO);
 }
 
 @end

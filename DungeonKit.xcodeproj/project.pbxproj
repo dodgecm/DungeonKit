@@ -32,7 +32,7 @@
 		B3751BCF1AF72E110018F5D3 /* DKModifierBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = B3751BCD1AF72E110018F5D3 /* DKModifierBuilder.m */; };
 		B3751BD21AF88BCE0018F5D3 /* DKFighter5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3751BD01AF88BCE0018F5D3 /* DKFighter5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3751BD31AF88BCE0018F5D3 /* DKFighter5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3751BD11AF88BCE0018F5D3 /* DKFighter5E.m */; };
-		B3751BDA1AF9581C0018F5D3 /* DKEquipment5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3751BD81AF9581C0018F5D3 /* DKEquipment5E.h */; };
+		B3751BDA1AF9581C0018F5D3 /* DKEquipment5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3751BD81AF9581C0018F5D3 /* DKEquipment5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3751BDB1AF9581C0018F5D3 /* DKEquipment5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3751BD91AF9581C0018F5D3 /* DKEquipment5E.m */; };
 		B3BB9EE41AEF553000012A3B /* DKClass5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BB9EE01AEF553000012A3B /* DKClass5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3BB9EE51AEF553000012A3B /* DKClass5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BB9EE11AEF553000012A3B /* DKClass5E.m */; };

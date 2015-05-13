@@ -22,6 +22,7 @@
 @synthesize skills = _skills;
 @synthesize spells = _spells;
 @synthesize currency = _currency;
+@synthesize equipment = _equipment;
 @synthesize hitPointsMax = _hitPointsMax;
 @synthesize hitPointsTemporary = _hitPointsTemporary;
 @synthesize hitPointsCurrent = _hitPointsCurrent;
@@ -65,6 +66,13 @@
              DKStatIDWeaponProficiencies: @"weaponProficiencies",
              DKStatIDArmorProficiencies: @"armorProficiencies",
              DKStatIDToolProficiencies: @"toolProficiencies",
+             
+             DKStatIDMainHandWeaponAttackBonus: @"equipment.mainHandWeaponAttackBonus",
+             DKStatIDMainHandWeaponDamage: @"equipment.mainHandWeaponDamage",
+             DKStatIDMainHandWeaponRange: @"equipment.mainHandWeaponRange",
+             DKStatIDOffHandWeaponAttackBonus: @"equipment.offHandWeaponAttackBonus",
+             DKStatIDOffHandWeaponDamage: @"equipment.offHandWeaponDamage",
+             DKStatIDOffHandWeaponRange: @"equipment.offHandWeaponRange",
              
              DKStatIDLanguages: @"languages",
              
@@ -202,10 +210,17 @@
     return @{
              DKModifierGroupIDRace: @"race",
              DKModifierGroupIDSubrace: @"subrace",
+             
              DKModifierGroupIDClericClass: @"classes.cleric.classModifiers",
              DKModifierGroupIDClericDivineDomain: @"classes.cleric.divineDomain",
              DKModifierGroupIDFighterClass: @"classes.fighter.classModifiers",
              DKModifierGroupIDFighterMartialArchetype: @"classes.fighter.martialArchetype",
+             
+             DKModifierGroupIDMainHandWeapon: @"equipment.mainHandWeapon",
+             DKModifierGroupIDOffHandWeapon: @"equipment.offHandWeapon",
+             DKModifierGroupIDArmor: @"equipment.armor",
+             DKModifierGroupIDShield: @"equipment.shield",
+             DKModifierGroupIDOtherEquipment: @"equipment.otherEquipment",
              };
 }
 
@@ -270,6 +285,10 @@
         self.weaponProficiencies = [DKSetStatistic statisticWithEmptySet];
         self.armorProficiencies = [DKSetStatistic statisticWithEmptySet];
         self.toolProficiencies = [DKSetStatistic statisticWithEmptySet];
+        
+        self.equipment = [[DKEquipment5E alloc] initWithAbilities:_abilities
+                                                 proficiencyBonus:_proficiencyBonus
+                                              weaponProficiencies:_weaponProficiencies];
         
         self.languages = [DKSetStatistic statisticWithEmptySet];
         self.resistances = [DKSetStatistic statisticWithEmptySet];

@@ -130,10 +130,20 @@
     XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(15)}], @"Predicate should return correct result.");
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(5)}], @"Predicate should return correct result.");
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(20)}], @"Predicate should return correct result.");
+    
+    predicate = [DKDependentModifierBuilder enabledWhen:@"source" containsObject:@"thisvalue"];
+    NSArray* trueValues = @[@"thisvalue", @"notthisvalue"];
+    NSArray* falseValues = @[@"alsonotthisvalue", @"notthisvalue"];
+    XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": trueValues}], @"Predicate should return correct result.");
+    XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": falseValues}], @"Predicate should return correct result.");
+    
+    predicate = [DKDependentModifierBuilder enabledWhen:@"source" containsAnyFromObjects:@[@"thisvalue", @"thisonetoo"]];
+    XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": trueValues}], @"Predicate should return correct result.");
+    XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": falseValues}], @"Predicate should return correct result.");
 }
 
 - (void) testExpressionBuilders {
-    
+
     NSDictionary* piecewiseFunction = @{ [NSValue valueWithRange:NSMakeRange(0, 2)] : @(2),
                                          [NSValue valueWithRange:NSMakeRange(2, 2)] : @(4),
                                          [NSValue valueWithRange:NSMakeRange(4, 2)] : @(6) };
@@ -161,6 +171,18 @@
 
     context[@"source"] = @(6);
     XCTAssertNil([expression expressionValueWithObject:nil context:context], @"Piecewise function should return correct result.");
+}
+
+- (void)testExpressionBridgeBuilder {
+    
+    NSExpression* expression = [DKDependentModifierBuilder valueAsDiceCollectionFromNumericDependency:@"source"];
+    NSMutableDictionary* context = [NSMutableDictionary dictionary];
+    
+    DKNumericStatistic* sourceStatistic = [DKNumericStatistic statisticWithInt:5];
+    context[@"source"] = sourceStatistic.value;
+    DKDiceCollection* collection = [expression expressionValueWithObject:nil context:context];
+    XCTAssertTrue([collection isKindOfClass:[DKDiceCollection class]], @"Expression should evaluate to correct type.");
+    XCTAssertEqual(collection.modifier, 5, @"Modifier should have the correct value.");
 }
 
 - (void)testEncoding {

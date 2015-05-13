@@ -87,8 +87,16 @@
 + (NSValue*)rangeValueWithMin:(NSInteger)min max:(NSInteger)max;
 + (NSExpression*)valueFromPiecewiseFunctionRanges:(NSDictionary*)ranges usingDependency:(NSString*)dependencyKey;
 
-//+ (DKDependentModifierEnabledBlockType)enableWhenGreaterThanOrEqualTo:(int)threshold;
+/** An expression that uses a DKNumericStatistic dependency and converts it into a DKDiceCollection value. */
++ (NSExpression*)valueAsDiceCollectionFromNumericDependency:(NSString*)dependencyKey;
+
+/** DKNumericStatistic predicates */
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(int)threshold;
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToOrBetween:(int)lowThreshold and:(int)highThreshold;
+
+/** DKSetStatistic predicates */
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName containsObject:(id)object;
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName containsAnyFromObjects:(NSArray*)objects;
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName doesNotContainAnyFromObjects:(NSArray*)objects;
 
 @end

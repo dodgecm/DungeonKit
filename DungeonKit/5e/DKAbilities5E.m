@@ -44,6 +44,17 @@
     return modifier;
 }
 
+- (DKDependentModifier*)diceCollectionModifierFromAbilityScore {
+    
+    NSExpression* innerExpression = [NSExpression expressionWithFormat: @"floor:( ($source-10)/2.0 )"];
+    
+    NSExpression* valueExpression = [NSExpression expressionForFunction:[NSExpression expressionForConstantValue:[DKDiceCollection diceCollection]]
+                                                            selectorName:@"diceByAddingModifier:"
+                                                               arguments:@[ innerExpression ] ];
+    
+    return [DKDependentModifierBuilder addedDiceModifierFromSource:self value:valueExpression enabled:nil explanation:nil];
+}
+
 - (NSString*) formattedAbilityModifier {
     
     NSNumberFormatter* numberFormatter = [[NSNumberFormatter alloc] init];
@@ -108,18 +119,7 @@
 
 - (id)initWithStr:(int)str dex:(int)dex con:(int)con intel:(int)intel wis:(int)wis cha:(int)cha {
     
-    self = [super init];
-    if (self) {
-
-        self.strength = [DKAbilityScore statisticWithInt:str];
-        self.dexterity = [DKAbilityScore statisticWithInt:dex];
-        self.constitution = [DKAbilityScore statisticWithInt:con];
-        self.intelligence = [DKAbilityScore statisticWithInt:intel];
-        self.wisdom = [DKAbilityScore statisticWithInt:wis];
-        self.charisma = [DKAbilityScore statisticWithInt:cha];
-    }
-    
-    return self;
+    return [self initWithScoreArray:@[ @(str), @(dex), @(con), @(intel), @(wis), @(cha) ]];
 }
 
 - (NSString*) description {

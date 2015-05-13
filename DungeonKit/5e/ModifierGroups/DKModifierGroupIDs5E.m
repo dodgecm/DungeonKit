@@ -11,7 +11,14 @@
 
 NSString *const DKModifierGroupIDRace = @"DKRace";
 NSString *const DKModifierGroupIDSubrace = @"DKSubrace";
+
 NSString *const DKModifierGroupIDClericClass = @"DKClericClass";
 NSString *const DKModifierGroupIDClericDivineDomain = @"DKClericDivineDomain";
 NSString *const DKModifierGroupIDFighterClass = @"DKFighterClass";
 NSString *const DKModifierGroupIDFighterMartialArchetype = @"DKFighterMartialArchetype";
+
+NSString *const DKModifierGroupIDMainHandWeapon = @"DKModifierMainHandWeapon";
+NSString *const DKModifierGroupIDOffHandWeapon = @"DKModifierOffHandWeapon";
+NSString *const DKModifierGroupIDArmor = @"DKModifierArmor";
+NSString *const DKModifierGroupIDShield = @"DKModifierShield";
+NSString *const DKModifierGroupIDOtherEquipment = @"DKModifierOtherEquipment";
