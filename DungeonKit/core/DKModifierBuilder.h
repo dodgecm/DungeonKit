@@ -89,6 +89,7 @@
 
 /** An expression that uses a DKNumericStatistic dependency and converts it into a DKDiceCollection value. */
 + (NSExpression*)valueAsDiceCollectionFromNumericDependency:(NSString*)dependencyKey;
++ (NSExpression*)valueAsDiceCollectionFromExpression:(NSExpression*)numericExpression;
 
 /** DKNumericStatistic predicates */
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(int)threshold;

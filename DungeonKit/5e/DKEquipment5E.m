@@ -51,6 +51,8 @@
 
 @end
 
+#pragma mark -
+
 @implementation DKWeaponBuilder5E
 
 + (NSString*)weaponDamageStatIDForMainHand:(BOOL)isMainHand {
@@ -82,28 +84,74 @@
     return modifier;
 }
 
-+ (DKModifierGroup*)offHandDamageAbilityScoreModifierFromAbilities:(DKAbilities5E*)abilities
-                                          weaponProficiencies:(DKSetStatistic*)weaponProficiencies {
-    DKModifierGroup* offHandDamage = [[DKModifierGroup alloc] init];
++ (DKModifier*)finesseAttackBonusModifierFromAbilities:(DKAbilities5E*)abilities {
     
     NSDictionary* dependencies = @{ @"str" : abilities.strength,
-                                    @"proficiencies" : weaponProficiencies };
-    [offHandDamage addModifier:[[DKDependentModifier alloc] initWithDependencies:dependencies
-                                                                           value:[NSExpression expressionWithFormat:@"floor:( ($str-10)/2.0 )"]
-                                                                         enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies" containsObject:@"Two-Weapon Fighting"]
-                                                                        priority:kDKModifierPriority_Additive
-                                                                      expression:[DKModifierBuilder simpleAdditionModifierExpression]]
-                forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:NO]];
+                                    @"dex" : abilities.dexterity};
+    NSExpression* strExpression = [DKAbilityScore abilityScoreValueForDependency:@"str"];
+    NSExpression* dexExpression = [DKAbilityScore abilityScoreValueForDependency:@"dex"];
+    NSExpression* valueExpression = [NSExpression expressionForFunction:@"max:" arguments:@[ @[ strExpression, dexExpression ] ]];
     
-    [offHandDamage addModifier:[[DKDependentModifier alloc] initWithDependencies:dependencies
-                                                                           value:[NSExpression expressionWithFormat:@"min:( 0, floor:( ($str-10)/2.0 ) )"]
-                                                                         enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies" doesNotContainAnyFromObjects:@[ @"Two-Weapon Fighting"] ]
-                                                                        priority:kDKModifierPriority_Additive
-                                                                      expression:[DKModifierBuilder simpleAdditionModifierExpression]]
-                forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:NO]];
-    
-    return offHandDamage;
+    return [[DKDependentModifier alloc] initWithDependencies:dependencies
+                                                       value:valueExpression
+                                                     enabled:nil
+                                                    priority:kDKModifierPriority_Additive
+                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
 }
+
++ (DKModifierGroup*)damageAbilityScoreModifierFromAbilities:(DKAbilities5E*)abilities
+                                        weaponProficiencies:(DKSetStatistic*)weaponProficiencies
+                                                   mainHand:(BOOL)isMainHand
+                                                    finesse:(BOOL)isFinesse {
+    DKModifierGroup* damage = [[DKModifierGroup alloc] init];
+    
+    NSDictionary* dependencies;
+    NSExpression* valueExpression;
+    if (isFinesse) {
+        dependencies = @{ @"str" : abilities.strength,
+                          @"dex" : abilities.dexterity,
+                          @"proficiencies" : weaponProficiencies };
+        NSExpression* strExpression = [DKAbilityScore abilityScoreValueForDependency:@"str"];
+        NSExpression* dexExpression = [DKAbilityScore abilityScoreValueForDependency:@"dex"];
+        valueExpression = [NSExpression expressionForFunction:@"max:" arguments:@[ @[ strExpression, dexExpression ] ]];
+    } else {
+        dependencies = @{ @"str" : abilities.strength,
+                          @"proficiencies" : weaponProficiencies };
+        valueExpression = [DKAbilityScore abilityScoreValueForDependency:@"str"];
+    }
+    
+    NSPredicate* enabled;
+    if (isMainHand) {
+        enabled = nil;
+    } else {
+        enabled = [DKDependentModifierBuilder enabledWhen:@"proficiencies" containsObject:@"Two-Weapon Fighting"];
+    }
+    
+    [damage addModifier:[[DKDependentModifier alloc] initWithDependencies:dependencies
+                                                                    value:[DKDependentModifierBuilder valueAsDiceCollectionFromExpression:valueExpression]
+                                                                  enabled:enabled
+                                                                 priority:kDKModifierPriority_Additive
+                                                               expression:[DKModifierBuilder simpleAddDiceModifierExpression]]
+         forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
+    
+    if (!isMainHand) {
+        //For non proficient off-hand weapon, the ability score only gets applied if it is negative
+        valueExpression = [NSExpression expressionForFunction:@"min:" arguments:@[ @[ valueExpression, [NSExpression expressionForConstantValue:@(0)] ] ] ];
+        DKModifier* nonProficientModifier = [[DKDependentModifier alloc] initWithDependencies:dependencies
+                                                                                        value:[DKDependentModifierBuilder valueAsDiceCollectionFromExpression:valueExpression]
+                                                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies" doesNotContainAnyFromObjects:@[ @"Two-Weapon Fighting"] ]
+                                                                                     priority:kDKModifierPriority_Additive
+                                                                                   expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
+        nonProficientModifier.explanation = @"Off-hand weapons do not receive ability score bonuses to damage unless the ability score is negative or the character is proficient in Two-Weapon Fighting.";
+        [damage addModifier:nonProficientModifier
+             forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
+        
+    }
+    
+    return damage;
+}
+
+#pragma mark -
 
 + (DKModifierGroup*)unarmedFromAbilities:(DKAbilities5E*)abilities
                         proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
@@ -114,8 +162,10 @@
     
     [weapon addModifier:[DKModifierBuilder modifierWithAddedDice:[DKDiceCollection diceCollectionWithQuantity:0 sides:0 modifier:1]]
          forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:YES]];
-    [weapon addModifier:abilities.strength.diceCollectionModifierFromAbilityScore
-         forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:YES]];
+    [weapon addSubgroup:[DKWeaponBuilder5E damageAbilityScoreModifierFromAbilities:abilities
+                                                               weaponProficiencies:weaponProficiencies
+                                                                          mainHand:YES
+                                                                           finesse:NO]];
     [weapon addModifier:[DKModifierBuilder modifierWithExplanation:@"Bludgeoninig damage"]
          forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:YES]];
     
@@ -141,6 +191,10 @@
     
     [weapon addModifier:[DKModifierBuilder modifierWithAddedDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:4 modifier:0]]
          forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
+    [weapon addSubgroup:[DKWeaponBuilder5E damageAbilityScoreModifierFromAbilities:abilities
+                                                               weaponProficiencies:weaponProficiencies
+                                                                          mainHand:isMainHand
+                                                                           finesse:NO]];
     [weapon addModifier:[DKModifierBuilder modifierWithExplanation:@"Bludgeoninig damage"]
          forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
     
@@ -152,6 +206,37 @@
          forStatisticID:[DKWeaponBuilder5E weaponAttackBonusStatIDForMainHand:isMainHand]];
     
     [weapon addModifier:[DKModifierBuilder modifierWithAdditiveBonus:5]
+         forStatisticID:[DKWeaponBuilder5E weaponRangeStatIDForMainHand:isMainHand]];
+    return weapon;
+}
+
++ (DKModifierGroup*)daggerFromAbilities:(DKAbilities5E*)abilities
+                       proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
+                    weaponProficiencies:(DKSetStatistic*)weaponProficiencies
+                             isMainHand:(BOOL)isMainHand {
+    
+    DKModifierGroup* weapon = [[DKModifierGroup alloc] init];
+    weapon.explanation = @"Dagger";
+    
+    [weapon addModifier:[DKModifierBuilder modifierWithAddedDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:4 modifier:0]]
+         forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
+    [weapon addSubgroup:[DKWeaponBuilder5E damageAbilityScoreModifierFromAbilities:abilities
+                                                               weaponProficiencies:weaponProficiencies
+                                                                          mainHand:isMainHand
+                                                                           finesse:YES]];
+    [weapon addModifier:[DKModifierBuilder modifierWithExplanation:@"Piercing damage"]
+         forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
+    
+    [weapon addModifier:[DKWeaponBuilder5E finesseAttackBonusModifierFromAbilities:abilities]
+         forStatisticID:[DKWeaponBuilder5E weaponAttackBonusStatIDForMainHand:isMainHand]];
+    [weapon addModifier:[DKWeaponBuilder5E proficiencyModifierFromBonus:proficiencyBonus
+                                                    weaponProficiencies:weaponProficiencies
+                                                       proficiencyTypes:@[@"Simple Weapons", @"Clubs"]]
+         forStatisticID:[DKWeaponBuilder5E weaponAttackBonusStatIDForMainHand:isMainHand]];
+    
+    [weapon addModifier:[DKModifierBuilder modifierWithAdditiveBonus:20 explanation:@"Throwing dagger normal range limit"]
+         forStatisticID:[DKWeaponBuilder5E weaponRangeStatIDForMainHand:isMainHand]];
+    [weapon addModifier:[DKModifierBuilder modifierWithExplanation:@"Roll at disadvantage to throw at targets between 20 and 60 feet away"]
          forStatisticID:[DKWeaponBuilder5E weaponRangeStatIDForMainHand:isMainHand]];
     return weapon;
 }

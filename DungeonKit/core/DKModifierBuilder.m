@@ -223,9 +223,14 @@
 
 + (NSExpression*)valueAsDiceCollectionFromNumericDependency:(NSString*)dependencyKey {
 
+    return [DKDependentModifierBuilder valueAsDiceCollectionFromExpression:[NSExpression expressionForVariable:dependencyKey]];
+}
+
++ (NSExpression*)valueAsDiceCollectionFromExpression:(NSExpression*)numericExpression {
+    
     return [NSExpression expressionForFunction:[NSExpression expressionForConstantValue:[DKDiceCollection diceCollection]]
                                   selectorName:@"diceByAddingModifier:"
-                                     arguments:@[ [NSExpression expressionForVariable:dependencyKey] ] ];
+                                     arguments:@[ numericExpression ] ];
 }
 
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(int)threshold {

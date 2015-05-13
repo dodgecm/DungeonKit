@@ -13,6 +13,24 @@
 
 @synthesize abilityModifier = _abilityModifier;
 
++ (NSExpression*)abilityScoreValueForDependency:(NSString*)dependency {
+    
+    NSExpression* subtract = [NSExpression expressionForFunction:@"from:subtract:" arguments:@[[NSExpression expressionForVariable:dependency],
+                                                                                               [NSExpression expressionForConstantValue:@(10.0)]]];
+    NSExpression* divide = [NSExpression expressionForFunction:@"divide:by:" arguments:@[subtract,
+                                                                                         [NSExpression expressionForConstantValue:@(2.0)]]];
+    return [NSExpression expressionForFunction:@"floor:" arguments:@[divide]];
+}
+
++ (NSExpression*)diceCollectionValueFromAbilityScoreDependency:(NSString*)dependency {
+
+    NSExpression* abilityScoreValue = [DKAbilityScore abilityScoreValueForDependency:dependency];
+    
+    return [NSExpression expressionForFunction:[NSExpression expressionForConstantValue:[DKDiceCollection diceCollection]]
+                                  selectorName:@"diceByAddingModifier:"
+                                     arguments:@[ abilityScoreValue ] ];
+}
+
 - (void)setBase:(NSNumber*)base {
     [super setBase:@(MAX(0,base.integerValue))]; //ability score base cannot go below 0
 }
@@ -46,13 +64,10 @@
 
 - (DKDependentModifier*)diceCollectionModifierFromAbilityScore {
     
-    NSExpression* innerExpression = [NSExpression expressionWithFormat: @"floor:( ($source-10)/2.0 )"];
-    
-    NSExpression* valueExpression = [NSExpression expressionForFunction:[NSExpression expressionForConstantValue:[DKDiceCollection diceCollection]]
-                                                            selectorName:@"diceByAddingModifier:"
-                                                               arguments:@[ innerExpression ] ];
-    
-    return [DKDependentModifierBuilder addedDiceModifierFromSource:self value:valueExpression enabled:nil explanation:nil];
+    return [DKDependentModifierBuilder addedDiceModifierFromSource:self
+                                                             value:[DKAbilityScore diceCollectionValueFromAbilityScoreDependency:@"source"]
+                                                           enabled:nil
+                                                       explanation:nil];
 }
 
 - (NSString*) formattedAbilityModifier {

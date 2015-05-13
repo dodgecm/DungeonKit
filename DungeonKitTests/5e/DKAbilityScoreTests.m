@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "DKAbilities5E.h"
+#import "DKDiceCollection.h"
 
 @interface DKAbilityScoreTests : XCTestCase
 
@@ -42,6 +43,18 @@
     XCTAssertEqual(ability.abilityModifier, 0, @"Normal modifier should be calculated properly.");
     ability.base = @9;
     XCTAssertEqual(ability.abilityModifier, -1, @"Normal modifier should be calculated properly.");
+}
+
+- (void)testGeneratedModifiers {
+    
+    DKAbilityScore* ability = [[DKAbilityScore alloc] initWithInt:0];
+    DKDiceStatistic* diceStatistic = [DKDiceStatistic statisticWithNoDice];
+    [diceStatistic applyModifier:ability.diceCollectionModifierFromAbilityScore];
+    
+    ability.base = @12;
+    XCTAssertEqual(ability.abilityModifier, diceStatistic.value.modifier, @"Dependent modifier should be calculated properly.");
+    ability.base = @14;
+    XCTAssertEqual(ability.abilityModifier, diceStatistic.value.modifier, @"Dependent modifier should be calculated properly.");
 }
 
 - (void)testNegativeScores {

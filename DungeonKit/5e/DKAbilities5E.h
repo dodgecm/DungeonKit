@@ -15,6 +15,9 @@
 /** The modifier based on the raw score.  modifier = ((score - 10) / 2) */
 @property (nonatomic, readonly) int abilityModifier;
 
++ (NSExpression*)abilityScoreValueForDependency:(NSString*)dependency;
++ (NSExpression*)diceCollectionValueFromAbilityScoreDependency:(NSString*)dependency;
+
 - (DKDependentModifier*)modifierFromAbilityScore;
 - (DKDependentModifier*)modifierFromAbilityScoreWithExplanation:(NSString*)explanation;
 
