@@ -67,12 +67,16 @@
              DKStatIDArmorProficiencies: @"armorProficiencies",
              DKStatIDToolProficiencies: @"toolProficiencies",
              
+             DKStatIDMainHandOccupied: @"equipment.mainHandOccupied",
+             DKStatIDMainHandOccupied: @"equipment.offHandOccupied",
              DKStatIDMainHandWeaponAttackBonus: @"equipment.mainHandWeaponAttackBonus",
              DKStatIDMainHandWeaponDamage: @"equipment.mainHandWeaponDamage",
              DKStatIDMainHandWeaponRange: @"equipment.mainHandWeaponRange",
+             DKStatIDMainHandWeaponAttacksPerAction: @"equipment.mainHandWeaponAttacksPerAction",
              DKStatIDOffHandWeaponAttackBonus: @"equipment.offHandWeaponAttackBonus",
              DKStatIDOffHandWeaponDamage: @"equipment.offHandWeaponDamage",
              DKStatIDOffHandWeaponRange: @"equipment.offHandWeaponRange",
+             DKStatIDOffHandWeaponAttacksPerAction: @"equipment.offHandWeaponAttacksPerAction",
              
              DKStatIDLanguages: @"languages",
              

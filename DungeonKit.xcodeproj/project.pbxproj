@@ -15,6 +15,8 @@
 		B32C77381A494A2700870150 /* DungeonKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77371A494A2700870150 /* DungeonKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32C773E1A494A2700870150 /* DungeonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B32C77321A494A2700870150 /* DungeonKit.framework */; };
 		B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77441A494A2700870150 /* DungeonKitTests.m */; };
+		B3565E081B3297E600C86DC1 /* DKWeapon5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3565E061B3297E600C86DC1 /* DKWeapon5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B3565E091B3297E600C86DC1 /* DKWeapon5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3565E071B3297E600C86DC1 /* DKWeapon5E.m */; };
 		B36BF32F1A72337B00979EE9 /* DKDiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF32E1A72337B00979EE9 /* DKDiceTests.m */; };
 		B36BF3321A724EE600979EE9 /* DKCurrency5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF3301A724EE600979EE9 /* DKCurrency5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B36BF3331A724EE600979EE9 /* DKCurrency5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3311A724EE600979EE9 /* DKCurrency5E.m */; };
@@ -96,6 +98,8 @@
 		B32C773D1A494A2700870150 /* DungeonKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DungeonKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B32C77431A494A2700870150 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B32C77441A494A2700870150 /* DungeonKitTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DungeonKitTests.m; sourceTree = "<group>"; };
+		B3565E061B3297E600C86DC1 /* DKWeapon5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKWeapon5E.h; sourceTree = "<group>"; };
+		B3565E071B3297E600C86DC1 /* DKWeapon5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKWeapon5E.m; sourceTree = "<group>"; };
 		B36BF32E1A72337B00979EE9 /* DKDiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDiceTests.m; sourceTree = "<group>"; };
 		B36BF3301A724EE600979EE9 /* DKCurrency5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKCurrency5E.h; sourceTree = "<group>"; };
 		B36BF3311A724EE600979EE9 /* DKCurrency5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKCurrency5E.m; sourceTree = "<group>"; };
@@ -238,6 +242,8 @@
 				B36BF3481A762FE900979EE9 /* DKModifierGroupIDs5E.m */,
 				B36BF34F1A7630A800979EE9 /* DKRace5E.h */,
 				B36BF3501A7630A800979EE9 /* DKRace5E.m */,
+				B3565E061B3297E600C86DC1 /* DKWeapon5E.h */,
+				B3565E071B3297E600C86DC1 /* DKWeapon5E.m */,
 			);
 			path = ModifierGroups;
 			sourceTree = "<group>";
@@ -350,6 +356,7 @@
 				B3C605D41A68F90E007FADAB /* DKProficientStatistic.h in Headers */,
 				B36BF3401A737C1300979EE9 /* DKStatisticIDs5E.h in Headers */,
 				B3E40D4F1A57E369004342F3 /* DKConstants.h in Headers */,
+				B3565E081B3297E600C86DC1 /* DKWeapon5E.h in Headers */,
 				B3E40D3B1A57D20C004342F3 /* DKDependentModifier.h in Headers */,
 				B3BB9EE41AEF553000012A3B /* DKClass5E.h in Headers */,
 				B36BF3491A762FE900979EE9 /* DKModifierGroupIDs5E.h in Headers */,
@@ -480,6 +487,7 @@
 				B36BF34A1A762FE900979EE9 /* DKModifierGroupIDs5E.m in Sources */,
 				B36BF3521A7630A800979EE9 /* DKRace5E.m in Sources */,
 				B3751BCF1AF72E110018F5D3 /* DKModifierBuilder.m in Sources */,
+				B3565E091B3297E600C86DC1 /* DKWeapon5E.m in Sources */,
 				B36BF33D1A7351D700979EE9 /* DKModifierGroup.m in Sources */,
 				B3E40D511A57E430004342F3 /* DKConstants.m in Sources */,
 				B3C605EB1A722F83007FADAB /* DKDiceCollection.m in Sources */,

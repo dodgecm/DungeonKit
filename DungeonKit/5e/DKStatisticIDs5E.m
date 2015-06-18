@@ -32,12 +32,16 @@ NSString *const DKStatIDWeaponProficiencies = @"DKWeaponProficiencies";
 NSString *const DKStatIDArmorProficiencies = @"DKArmorProficiencies";
 NSString *const DKStatIDToolProficiencies = @"DKToolProficiencies";
 
+NSString *const DKStatIDMainHandOccupied = @"DKMainHandOccupied";
+NSString *const DKStatIDOffHandOccupied = @"DKOffHandOccupied";
 NSString *const DKStatIDMainHandWeaponAttackBonus = @"DKMainHandWeaponAttackBonus";
 NSString *const DKStatIDMainHandWeaponDamage = @"DKMainHandWeaponDamage";
 NSString *const DKStatIDMainHandWeaponRange = @"DKMainHandWeaponRange";
+NSString *const DKStatIDMainHandWeaponAttacksPerAction = @"DKMainHandWeaponAttacksPerAction";
 NSString *const DKStatIDOffHandWeaponAttackBonus = @"DKOffHandWeaponAttackBonus";
 NSString *const DKStatIDOffHandWeaponDamage = @"DKOffHandWeaponDamage";
 NSString *const DKStatIDOffHandWeaponRange = @"DKOffHandWeaponRange";
+NSString *const DKStatIDOffHandWeaponAttacksPerAction = @"DKOffHandWeaponAttacksPerAction";
 
 NSString *const DKStatIDLanguages = @"DKLanguages";
 

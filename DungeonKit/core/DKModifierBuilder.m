@@ -11,7 +11,7 @@
 
 @implementation DKModifierBuilder
 
-+ (id)modifierWithAdditiveBonus:(int)bonus {
++ (id)modifierWithAdditiveBonus:(NSInteger)bonus {
     
     DKModifier* modifier = [DKModifier modifierWithValue:@(bonus)
                                                        priority:kDKModifierPriority_Additive
@@ -19,14 +19,14 @@
     return modifier;
 }
 
-+ (id)modifierWithAdditiveBonus:(int)bonus explanation:(NSString*)explanation {
++ (id)modifierWithAdditiveBonus:(NSInteger)bonus explanation:(NSString*)explanation {
     
     DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:bonus];
     modifier.explanation = explanation;
     return modifier;
 }
 
-+ (id)modifierWithMinimum:(int)min {
++ (id)modifierWithMinimum:(NSInteger)min {
     
     NSExpression* maxExpression =  [NSExpression expressionWithFormat:@"max:({%i, $input})", min];
     DKModifier* modifier = [DKModifier modifierWithValue:@(0)
@@ -35,14 +35,14 @@
     return modifier;
 }
 
-+ (id)modifierWithMinimum:(int)min explanation:(NSString*)explanation {
++ (id)modifierWithMinimum:(NSInteger)min explanation:(NSString*)explanation {
     
     DKModifier* modifier = [DKModifierBuilder modifierWithMinimum:min];
     modifier.explanation = explanation;
     return modifier;
 }
 
-+ (id)modifierWithClampBetween:(int)min and:(int)max {
++ (id)modifierWithClampBetween:(NSInteger)min and:(NSInteger)max {
     
     NSExpression* clampExpression =  [NSExpression expressionWithFormat:@"min:({%i, max:({%i, $input}) })", max, min];
     DKModifier* modifier = [DKModifier modifierWithValue:@(0)
@@ -52,7 +52,7 @@
 }
 
 
-+ (id)modifierWithClampBetween:(int)min and:(int)max explanation:(NSString*)explanation {
++ (id)modifierWithClampBetween:(NSInteger)min and:(NSInteger)max explanation:(NSString*)explanation {
     
     DKModifier* modifier = [DKModifierBuilder modifierWithClampBetween:min and:max];
     modifier.explanation = explanation;

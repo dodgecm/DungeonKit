@@ -1,12 +1,12 @@
 //
-//  DKWeaponBuilder5E.m
+//  DKWeapon5E.m
 //  DungeonKit
 //
 //  Created by Christopher Dodge on 6/17/15.
 //  Copyright (c) 2015 Dodge. All rights reserved.
 //
 
-#import "DKWeaponBuilder5E.h"
+#import "DKWeapon5E.h"
 #import "DKAbilities5E.h"
 #import "DKModifierBuilder.h"
 #import "DKStatisticIDs5E.h"
@@ -115,19 +115,19 @@
     return damage;
 }
 
-+ (DKModifierGroup*)weaponWithName:(NSString*)name
-                        damageDice:(DKDiceCollection*)damageDice
-               versatileDamageDice:(DKDiceCollection*)versatileDamageDiceOrNil
-                        damageType:(NSString*)damageType
-                  proficiencyTypes:(NSArray*)proficiencyTypes
-                        isMainHand:(BOOL)isMainHand
-                        meleeReach:(NSInteger)meleeReach
-                       rangedReach:(NSValue*)rangedReachOrNil
-                   otherAttributes:(NSArray*)attributes
-                         abilities:(DKAbilities5E*)abilities
-                  proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
-               weaponProficiencies:(DKSetStatistic*)weaponProficiencies
-                   offHandOccupied:(DKNumericStatistic*)offHandOccupied {
++ (DKWeapon5E*)weaponWithName:(NSString*)name
+                   damageDice:(DKDiceCollection*)damageDice
+          versatileDamageDice:(DKDiceCollection*)versatileDamageDiceOrNil
+                   damageType:(NSString*)damageType
+             proficiencyTypes:(NSArray*)proficiencyTypes
+                   isMainHand:(BOOL)isMainHand
+                   meleeReach:(NSInteger)meleeReach
+                  rangedReach:(NSValue*)rangedReachOrNil
+              otherAttributes:(NSArray*)attributes
+                    abilities:(DKAbilities5E*)abilities
+             proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
+          weaponProficiencies:(DKSetStatistic*)weaponProficiencies
+              offHandOccupied:(DKNumericStatistic*)offHandOccupied {
     
     BOOL isFinesse = [attributes containsObject:@"Finesse"];
     BOOL isTwoHanded = [attributes containsObject:@"Two-handed"];
@@ -226,9 +226,9 @@
 
 #pragma mark -
 
-+ (DKModifierGroup*)weaponOfType:(DKWeaponType5E)type
-                    forCharacter:(DKCharacter5E*)character
-                      isMainHand:(BOOL)isMainHand {
++ (DKWeapon5E*)weaponOfType:(DKWeaponType5E)type
+               forCharacter:(DKCharacter5E*)character
+                 isMainHand:(BOOL)isMainHand {
     
     return [DKWeaponBuilder5E weaponOfType:type
                                  abilities:character.abilities
@@ -238,12 +238,12 @@
                                 isMainHand:isMainHand];
 }
 
-+ (DKModifierGroup*)weaponOfType:(DKWeaponType5E)type
-                       abilities:(DKAbilities5E*)abilities
-                proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
-             weaponProficiencies:(DKSetStatistic*)weaponProficiencies
-                 offHandOccupied:(DKNumericStatistic*)offHandOccupied
-                      isMainHand:(BOOL)isMainHand {
++ (DKWeapon5E*)weaponOfType:(DKWeaponType5E)type
+                  abilities:(DKAbilities5E*)abilities
+           proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
+        weaponProficiencies:(DKSetStatistic*)weaponProficiencies
+            offHandOccupied:(DKNumericStatistic*)offHandOccupied
+                 isMainHand:(BOOL)isMainHand {
     
     switch (type) {
             

@@ -29,12 +29,16 @@ FOUNDATION_EXPORT NSString *const DKStatIDWeaponProficiencies;
 FOUNDATION_EXPORT NSString *const DKStatIDArmorProficiencies;
 FOUNDATION_EXPORT NSString *const DKStatIDToolProficiencies;
 
+FOUNDATION_EXPORT NSString *const DKStatIDMainHandOccupied;
+FOUNDATION_EXPORT NSString *const DKStatIDOffHandOccupied;
 FOUNDATION_EXPORT NSString *const DKStatIDMainHandWeaponAttackBonus;
 FOUNDATION_EXPORT NSString *const DKStatIDMainHandWeaponDamage;
 FOUNDATION_EXPORT NSString *const DKStatIDMainHandWeaponRange;
+FOUNDATION_EXPORT NSString *const DKStatIDMainHandWeaponAttacksPerAction;
 FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponAttackBonus;
 FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponDamage;
 FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponRange;
+FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponAttacksPerAction;
 
 FOUNDATION_EXPORT NSString *const DKStatIDLanguages;
 

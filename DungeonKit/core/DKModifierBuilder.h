@@ -15,19 +15,19 @@
 @interface DKModifierBuilder : NSObject
 
 /** Initializes a standard additive modifier, ex: +2 to a statistic. */
-+ (id)modifierWithAdditiveBonus:(int)bonus;
++ (id)modifierWithAdditiveBonus:(NSInteger)bonus;
 /** Initializes a standard additive modifier, ex: +2 to a statistic. */
-+ (id)modifierWithAdditiveBonus:(int)bonus explanation:(NSString*)explanation;
++ (id)modifierWithAdditiveBonus:(NSInteger)bonus explanation:(NSString*)explanation;
 
 /** Initializes a modifier that keeps the statistic value above the given minimum */
-+ (id)modifierWithMinimum:(int)min;
++ (id)modifierWithMinimum:(NSInteger)min;
 /** Initializes a modifier that keeps the statistic value above the given minimum */
-+ (id)modifierWithMinimum:(int)min explanation:(NSString*)explanation;
++ (id)modifierWithMinimum:(NSInteger)min explanation:(NSString*)explanation;
 
 /** Initializes a modifier that keeps the statistic value within the given range */
-+ (id)modifierWithClampBetween:(int)min and:(int)max;
++ (id)modifierWithClampBetween:(NSInteger)min and:(NSInteger)max;
 /** Initializes a modifier that keeps the statistic value within the given range */
-+ (id)modifierWithClampBetween:(int)min and:(int)max explanation:(NSString*)explanation;
++ (id)modifierWithClampBetween:(NSInteger)min and:(NSInteger)max explanation:(NSString*)explanation;
 
 + (id)modifierWithAppendedString:(NSString*)stringToAppend;
 + (id)modifierWithAppendedString:(NSString*)stringToAppend explanation:(NSString*)explanation;

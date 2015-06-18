@@ -1,5 +1,5 @@
 //
-//  DKWeaponBuilder5E.h
+//  DKWeapon5E.h
 //  DungeonKit
 //
 //  Created by Christopher Dodge on 6/17/15.
@@ -27,13 +27,15 @@ typedef NS_ENUM(NSInteger, DKWeaponType5E) {
     kDKWeaponType5E_Spear,
 };
 
+@compatibility_alias DKWeapon5E DKModifierGroup;
+
 @interface DKWeaponBuilder5E : NSObject
 
-+ (DKModifierGroup*)weaponOfType:(DKWeaponType5E)type
++ (DKWeapon5E*)weaponOfType:(DKWeaponType5E)type
                     forCharacter:(DKCharacter5E*)character
                       isMainHand:(BOOL)isMainHand;
 
-+ (DKModifierGroup*)weaponOfType:(DKWeaponType5E)type
++ (DKWeapon5E*)weaponOfType:(DKWeaponType5E)type
                        abilities:(DKAbilities5E*)abilities
                 proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
              weaponProficiencies:(DKSetStatistic*)weaponProficiencies
