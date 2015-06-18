@@ -12,6 +12,7 @@
 NSString *const DKStatIDLevel = @"DKLevel";
 NSString *const DKStatIDInspiration = @"DKInspiration";
 NSString *const DKStatIDProficiencyBonus = @"DKProficiencyBonus";
+NSString *const DKStatIDSize = @"DKSize";
 
 NSString *const DKStatIDHitPointsMax = @"DKHitPointsMax";
 NSString *const DKStatIDHitPointsTemporary = @"DKHitPointsTemporary";

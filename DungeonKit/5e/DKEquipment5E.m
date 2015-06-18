@@ -34,6 +34,7 @@
 
 - (id)initWithAbilities:(DKAbilities5E*)abilities
        proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
+          characterSize:(DKStringStatistic*)characterSize
     weaponProficiencies:(DKSetStatistic*)weaponProficiencies {
     
     self = [super init];
@@ -55,6 +56,7 @@
         self.mainHandWeapon = [DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Unarmed
                                                     abilities:abilities
                                              proficiencyBonus:proficiencyBonus
+                                                characterSize:characterSize
                                           weaponProficiencies:weaponProficiencies
                                               offHandOccupied:_offHandOccupied
                                                    isMainHand:YES];

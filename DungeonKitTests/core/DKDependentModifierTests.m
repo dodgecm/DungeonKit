@@ -131,6 +131,15 @@
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(5)}], @"Predicate should return correct result.");
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(20)}], @"Predicate should return correct result.");
     
+    predicate = [DKDependentModifierBuilder enabledWhen:@"source" isEqualToString:@"thisvalue"];
+    XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @"thisvalue"}], @"Predicate should return correct result.");
+    XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @"notthisvalue"}], @"Predicate should return correct result.");
+    
+    predicate = [DKDependentModifierBuilder enabledWhen:@"source" isEqualToAnyFromStrings:@[@"thisvalue", @"thisvaluetoo"]];
+    XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @"thisvalue"}], @"Predicate should return correct result.");
+    XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @"thisvaluetoo"}], @"Predicate should return correct result.");
+    XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @"notthisvalue"}], @"Predicate should return correct result.");
+    
     predicate = [DKDependentModifierBuilder enabledWhen:@"source" containsObject:@"thisvalue"];
     NSArray* trueValues = @[@"thisvalue", @"notthisvalue"];
     NSArray* falseValues = @[@"alsonotthisvalue", @"notthisvalue"];

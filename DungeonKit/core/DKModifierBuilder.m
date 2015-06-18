@@ -59,6 +59,17 @@
     return modifier;
 }
 
++ (id)modifierWithNewString:(NSString*)string {
+
+    DKModifier* modifier = [DKModifier modifierWithValue:string
+                                                priority:kDKModifierPriority_Additive
+                                              expression:[NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                                                                selectorName:@"stringByReplacingOccurrencesOfString:withString:"
+                                                                                   arguments:@[ [NSExpression expressionForVariable:@"input"],
+                                                                                                [NSExpression expressionForVariable:@"value"] ] ] ];
+    return modifier;
+}
+
 + (id)modifierWithAppendedString:(NSString*)stringToAppend {
     
     return [DKModifierBuilder modifierWithAppendedString:stringToAppend explanation:nil];
@@ -261,6 +272,30 @@
     return [NSCompoundPredicate andPredicateWithSubpredicates:@[firstPredicate, secondPredicate]];
 }
 
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToString:(NSString*)string {
+    
+    NSExpression* equalityExpression = [NSExpression expressionForFunction:[NSExpression expressionForVariable:dependencyName]
+                                                              selectorName:@"isEqualToStringAsNumber:"
+                                                                 arguments:@[ [NSExpression expressionForConstantValue:string] ] ];
+    return [NSComparisonPredicate predicateWithLeftExpression:equalityExpression
+                                              rightExpression:[NSExpression expressionForConstantValue:@(YES)]
+                                                     modifier:NSDirectPredicateModifier
+                                                         type:NSEqualToPredicateOperatorType
+                                                      options:0];
+}
+
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToAnyFromStrings:(NSArray*)objects {
+    
+    NSExpression* equalityExpression = [NSExpression expressionForFunction:[NSExpression expressionForVariable:dependencyName]
+                                                              selectorName:@"isEqualToAnyStringsAsNumber:"
+                                                                 arguments:@[ [NSExpression expressionForConstantValue:objects] ] ];
+    return [NSComparisonPredicate predicateWithLeftExpression:equalityExpression
+                                              rightExpression:[NSExpression expressionForConstantValue:@(YES)]
+                                                     modifier:NSDirectPredicateModifier
+                                                         type:NSEqualToPredicateOperatorType
+                                                      options:0];
+}
+
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName containsObject:(id)object {
 
     NSExpression* containsObjectExpression = [NSExpression expressionForFunction:[NSExpression expressionForVariable:dependencyName]
@@ -295,6 +330,23 @@
                                                      modifier:NSDirectPredicateModifier
                                                          type:NSEqualToPredicateOperatorType
                                                       options:0];
+}
+
+@end
+
+@implementation NSString (DungeonKit)
+
+- (NSNumber*)isEqualToStringAsNumber:(NSString *)aString {
+    return @([self isEqualToString:aString]);
+}
+
+- (NSNumber*)isEqualToAnyStringsAsNumber:(NSArray*)stringArray {
+    for (id object in stringArray) {
+        if ([self isEqualToString:object]) {
+            return @(YES);
+        }
+    }
+    return @(NO);
 }
 
 @end

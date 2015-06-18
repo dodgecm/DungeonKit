@@ -19,6 +19,7 @@
     race.explanation = @"Dwarven racial modifiers";
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:2 explanation:@"Dwarven racial trait"]
        forStatisticID:DKStatIDConstitution];
+    [race addModifier:[DKModifierBuilder modifierWithNewString:@"Medium"] forStatisticID:DKStatIDSize];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:25 explanation:@"Dwarven base movement speed"]
        forStatisticID:DKStatIDMoveSpeed];
     [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Dwarven Trait: Speed is not reduced by wearing heavy armor"]
@@ -57,6 +58,7 @@
     race.explanation = @"Elven racial modifiers";
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:2 explanation:@"Elven racial dexterity bonus"]
        forStatisticID:DKStatIDDexterity];
+    [race addModifier:[DKModifierBuilder modifierWithNewString:@"Medium"] forStatisticID:DKStatIDSize];
     [race addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Elven Keen Senses: Proficiency in the Perception skill"]
        forStatisticID:DKStatIDSkillPerceptionProficiency];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:30 explanation:@"Elven base movement speed"]
@@ -83,6 +85,7 @@
     race.explanation = @"Halfling racial modifiers";
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:2 explanation:@"Halfling racial dexterity bonus"]
        forStatisticID:DKStatIDDexterity];
+    [race addModifier:[DKModifierBuilder modifierWithNewString:@"Small"] forStatisticID:DKStatIDSize];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:25 explanation:@"Halfling base movement speed"]
        forStatisticID:DKStatIDMoveSpeed];
     [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Halfling Lucky: On a roll of 1 on an attack roll, ability check, or saving throw, "
@@ -116,6 +119,7 @@
        forStatisticID:DKStatIDWisdom];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1 explanation:@"Human racial charisma bonus"]
        forStatisticID:DKStatIDCharisma];
+    [race addModifier:[DKModifierBuilder modifierWithNewString:@"Medium"] forStatisticID:DKStatIDSize];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:30  explanation:@"Human base movement speed"]
        forStatisticID:DKStatIDMoveSpeed];
     [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Common" explanation:@"Human Languages"]

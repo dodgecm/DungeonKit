@@ -15,6 +15,7 @@
 @synthesize race = _race;
 @synthesize subrace = _subrace;
 @synthesize classes = _classes;
+@synthesize size = _size;
 @synthesize inspiration = _inspiration;
 @synthesize proficiencyBonus = _proficiencyBonus;
 @synthesize abilities = _abilities;
@@ -47,6 +48,7 @@
              DKStatIDLevel: @"level",
              DKStatIDInspiration: @"inspiration",
              DKStatIDProficiencyBonus: @"proficiencyBonus",
+             DKStatIDSize: @"size",
              
              DKStatIDHitPointsMax: @"hitPointsMax",
              DKStatIDHitPointsTemporary: @"hitPointsTemporary",
@@ -243,6 +245,7 @@
         }
         
         self.level = [DKNumericStatistic statisticWithInt:0];
+        self.size = [DKStringStatistic statisticWithString:@""];
         
         //Inspiration is binary
         self.inspiration = [DKNumericStatistic statisticWithInt:0];
@@ -292,6 +295,7 @@
         
         self.equipment = [[DKEquipment5E alloc] initWithAbilities:_abilities
                                                  proficiencyBonus:_proficiencyBonus
+                                                    characterSize:_size
                                               weaponProficiencies:_weaponProficiencies];
         
         self.languages = [DKSetStatistic statisticWithEmptySet];

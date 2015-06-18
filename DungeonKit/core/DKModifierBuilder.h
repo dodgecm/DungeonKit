@@ -29,6 +29,10 @@
 /** Initializes a modifier that keeps the statistic value within the given range */
 + (id)modifierWithClampBetween:(NSInteger)min and:(NSInteger)max explanation:(NSString*)explanation;
 
+/** DKStringStatistic Modifiers */
++ (id)modifierWithNewString:(NSString*)string;
+
+/** DKSetStatistic Modifiers */
 + (id)modifierWithAppendedString:(NSString*)stringToAppend;
 + (id)modifierWithAppendedString:(NSString*)stringToAppend explanation:(NSString*)explanation;
 
@@ -94,6 +98,10 @@
 /** DKNumericStatistic predicates */
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(int)threshold;
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToOrBetween:(int)lowThreshold and:(int)highThreshold;
+
+/** DKStringStatistic predicates */
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToString:(NSString*)string;
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToAnyFromStrings:(NSArray*)objects;
 
 /** DKSetStatistic predicates */
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName containsObject:(id)object;

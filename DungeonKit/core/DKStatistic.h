@@ -50,6 +50,20 @@
 @end
 
 #pragma mark -
+@interface DKStringStatistic : DKStatistic
+
+/** The value of the statistic without any modifiers. */
+@property (nonatomic, copy, readwrite) NSString* base;
+@property (nonatomic, readonly) NSString* value;
+
++ (id)statisticWithString:(NSString*)base;
++ (id)statisticWithBase:(id<NSObject>)base __unavailable;
+- (id)initWithString:(NSString*)base;
+- (id)initWithBase:(id<NSObject>)base __unavailable;
+
+@end
+
+#pragma mark -
 @interface DKSetStatistic : DKStatistic
 
 /** The value of the statistic without any modifiers. */

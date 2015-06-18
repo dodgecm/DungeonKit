@@ -37,6 +37,7 @@
 - (id)init __unavailable;
 - (id)initWithAbilities:(DKAbilities5E*)abilities
        proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
+          characterSize:(DKStringStatistic*)characterSize
     weaponProficiencies:(DKSetStatistic*)weaponProficiencies;
 
 @end

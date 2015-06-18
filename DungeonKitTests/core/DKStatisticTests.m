@@ -95,6 +95,31 @@
 
 @end
 
+@interface DKStringStatisticTests : XCTestCase
+@end
+@implementation DKStringStatisticTests
+
+- (void)testConstructors {
+    XCTAssertNotNil([[DKStringStatistic alloc] initWithString:@"test"], @"Constructors should return non-nil object.");
+    XCTAssertNotNil([DKStringStatistic statisticWithString:@"test"], @"Constructors should return non-nil object.");
+}
+
+- (void)testModifierBuilder {
+    
+    DKStringStatistic* stat = [[DKStringStatistic alloc] initWithString:@"test"];
+    DKModifier* modifier = [DKModifierBuilder modifierWithNewString:@"test2"];
+    
+    XCTAssertEqualObjects(stat.value, @"test", @"Object should start off with the correct value.");
+    
+    [stat applyModifier:modifier];
+    XCTAssertEqualObjects(stat.value, @"test2", @"Object should replace the original value properly.");
+    
+    [modifier removeFromStatistic];
+    XCTAssertEqualObjects(stat.value, @"test", @"Object should get removed from the statistic properly.");
+}
+
+@end
+
 @interface DKSetStatisticTests : XCTestCase
 @end
 @implementation DKSetStatisticTests
@@ -134,9 +159,9 @@
     XCTAssertEqual(3, stat.value.count, @"There shouldn't be extra objects in the set.");
     
     [modifier2 removeFromStatistic];
-    XCTAssertTrue([stat.value containsObject:@"value1"], @"Object should get removed from to the set properly.");
+    XCTAssertTrue([stat.value containsObject:@"value1"], @"Object should get removed from the set properly.");
     XCTAssertFalse([stat.value containsObject:@"value2"], @"Object should get removed from the set properly.");
-    XCTAssertTrue([stat.value containsObject:@"value3"], @"Object should get removed from to the set properly.");
+    XCTAssertTrue([stat.value containsObject:@"value3"], @"Object should get removed from the set properly.");
     XCTAssertEqual(2, stat.value.count, @"There shouldn't be extra objects in the set.");
 }
 

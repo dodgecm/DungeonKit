@@ -219,6 +219,29 @@ BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedSt
 @end
 
 #pragma mark -
+@interface DKStringStatistic()
+@property (nonatomic, readwrite) NSString* value;
+@end
+
+@implementation DKStringStatistic
+
+@dynamic base;
+@dynamic value;
+
++ (id)statisticWithString:(NSString*)base {
+    DKStringStatistic* newStat = [[[self class] alloc] initWithString:base];
+    return newStat;
+}
+
+- (id)initWithString:(NSString*)base {
+    
+    self = [super initWithBase:base];
+    return self;
+}
+
+@end
+
+#pragma mark -
 @interface DKSetStatistic()
 @property (nonatomic, readwrite) NSSet* value;
 @end
