@@ -659,6 +659,10 @@
                                                     characterSize:characterSize
                                               weaponProficiencies:weaponProficiencies
                                                   offHandOccupied:offHandOccupied];
+            [lance addModifier:[DKModifierBuilder modifierWithExplanation:@"A lance requires two hands to wield when you aren't mounted."]
+                                                           forStatisticID:DKStatIDOffHandOccupied];
+            [lance addModifier:[DKModifierBuilder modifierWithExplanation:@"You have disadvantage when you use a lance to attack a target within 5 feet of you."]
+                 forStatisticID:[DKWeaponBuilder5E weaponRangeStatIDForMainHand:isMainHand]];
             
             return lance;
             break;
@@ -935,20 +939,25 @@
         }
             
         case kDKWeaponType5E_Net: {
-            return [DKWeaponBuilder5E weaponWithName:@"Net"
-                                          damageDice:[DKDiceCollection diceCollectionWithQuantity:0 sides:0 modifier:0]
-                                 versatileDamageDice:nil
-                                          damageType:@""
-                                    proficiencyTypes:@[@"Martial Weapons", @"Nets"]
-                                          isMainHand:isMainHand
-                                          meleeReach:5
-                                         rangedReach:[NSValue valueWithRange:NSMakeRange(5, 15)]
-                                     otherAttributes:nil
-                                           abilities:abilities
-                                    proficiencyBonus:proficiencyBonus
-                                       characterSize:characterSize
-                                 weaponProficiencies:weaponProficiencies
-                                     offHandOccupied:offHandOccupied];
+            DKWeapon5E* net = [DKWeaponBuilder5E weaponWithName:@"Net"
+                                                     damageDice:[DKDiceCollection diceCollectionWithQuantity:0 sides:0 modifier:0]
+                                            versatileDamageDice:nil
+                                                     damageType:@""
+                                               proficiencyTypes:@[@"Martial Weapons", @"Nets"]
+                                                     isMainHand:isMainHand
+                                                     meleeReach:5
+                                                    rangedReach:[NSValue valueWithRange:NSMakeRange(5, 15)]
+                                                otherAttributes:nil
+                                                      abilities:abilities
+                                               proficiencyBonus:proficiencyBonus
+                                                  characterSize:characterSize
+                                            weaponProficiencies:weaponProficiencies
+                                                offHandOccupied:offHandOccupied];
+            [net addModifier:[DKModifierBuilder modifierWithExplanation:@"A Large or smaller creature hit by a net is restrained until it is freed. A net has no effect on creatures that are formless, or creatures that are Huge or larger.  A creature can use its action to make a DC 10 Strength check, freeing itself or another creature within its reach on a success.  Dealing 5 slashing damage to the net (AC 10) also frees the creature without harming it, ending the effect and destroying the net."]
+              forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
+            [net addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Nets may only be used to attack once per action, bonus action, or reaction."]
+                 forStatisticID:[DKWeaponBuilder5E weaponAttacksPerActionStatIDForMainHand:isMainHand]];
+            return net;
             break;
         }
             

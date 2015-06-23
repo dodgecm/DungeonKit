@@ -41,16 +41,3 @@
     weaponProficiencies:(DKSetStatistic*)weaponProficiencies;
 
 @end
-
-#pragma mark -
-
-@interface DKArmorBuilder5E : NSObject
-
-@end
-
-//to hit
-//proficiency bonus
-//primary attribute
-
-//damage
-//primary attribute

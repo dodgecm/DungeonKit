@@ -101,6 +101,11 @@
     return [NSExpression expressionWithFormat:@"$input+$value"];
 }
 
++ (NSExpression*)simpleClampExpressionBetween:(NSInteger)min and:(NSInteger)max {
+    
+    return [NSExpression expressionWithFormat:@"min:({%i, max:({%i, $input}) })", max, min];
+}
+
 + (NSExpression*)simpleAppendModifierExpression {
     return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
                                   selectorName:@"setByAddingObject:"
@@ -205,7 +210,7 @@
     return [NSExpression expressionForVariable:dependencyKey];
 }
 
-+ (NSExpression*)expressionForConstantInteger:(int)value {
++ (NSExpression*)expressionForConstantInteger:(NSInteger)value {
     return [NSExpression expressionForConstantValue:@(value)];
 }
 
@@ -244,7 +249,7 @@
                                      arguments:@[ numericExpression ] ];
 }
 
-+ (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(int)threshold {
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(NSInteger)threshold {
     
     // $dependencyName >= threshold
     return [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForVariable:dependencyName]
@@ -254,7 +259,7 @@
                                                       options:0];
 }
 
-+ (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToOrBetween:(int)lowThreshold and:(int)highThreshold {
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToOrBetween:(NSInteger)lowThreshold and:(NSInteger)highThreshold {
     
     // ($dependencyName >= lowThreshold) && ($dependencyName <= highThreshold)
     NSPredicate* firstPredicate = [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForVariable:dependencyName]
@@ -270,6 +275,16 @@
                                                                               options:0];
     
     return [NSCompoundPredicate andPredicateWithSubpredicates:@[firstPredicate, secondPredicate]];
+}
+
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isLessThan:(NSInteger)threshold {
+    
+    // $dependencyName < threshold
+    return [NSComparisonPredicate predicateWithLeftExpression:[NSExpression expressionForVariable:dependencyName]
+                                              rightExpression:[NSExpression expressionForConstantValue:@(threshold)]
+                                                     modifier:NSDirectPredicateModifier
+                                                         type:NSLessThanPredicateOperatorType
+                                                      options:0];
 }
 
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToString:(NSString*)string {

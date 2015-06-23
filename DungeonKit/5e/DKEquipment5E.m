@@ -65,7 +65,3 @@
 }
 
 @end
-
-@implementation DKArmorBuilder5E
-
-@end

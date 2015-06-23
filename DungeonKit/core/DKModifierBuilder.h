@@ -43,6 +43,7 @@
 + (id)modifierWithExplanation:(NSString*)explanation;
 
 + (NSExpression*)simpleAdditionModifierExpression;
++ (NSExpression*)simpleClampExpressionBetween:(NSInteger)min and:(NSInteger)max;
 + (NSExpression*)simpleAppendModifierExpression;
 + (NSExpression*)simpleAddDiceModifierExpression;
 
@@ -84,7 +85,7 @@
 /** An expression that simply uses the specified dependency's value as the modifier value. */
 + (NSExpression*)valueFromDependency:(NSString*)dependencyKey;
 /** An expression that has a constant value instead of relying on any of the dependencies. */
-+ (NSExpression*)expressionForConstantInteger:(int)value;
++ (NSExpression*)expressionForConstantInteger:(NSInteger)value;
 /** An expression that has a constant value instead of relying on any of the dependencies. */
 + (NSExpression*)expressionForConstantValue:(id<NSObject>) value;
 
@@ -96,8 +97,9 @@
 + (NSExpression*)valueAsDiceCollectionFromExpression:(NSExpression*)numericExpression;
 
 /** DKNumericStatistic predicates */
-+ (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(int)threshold;
-+ (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToOrBetween:(int)lowThreshold and:(int)highThreshold;
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(NSInteger)threshold;
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToOrBetween:(NSInteger)lowThreshold and:(NSInteger)highThreshold;
++ (NSPredicate*)enabledWhen:(NSString*)dependencyName isLessThan:(NSInteger)threshold;
 
 /** DKStringStatistic predicates */
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isEqualToString:(NSString*)string;
