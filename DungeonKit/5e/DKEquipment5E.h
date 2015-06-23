@@ -10,6 +10,7 @@
 #import "DKStatistic.h"
 #import "DKModifierGroup.h"
 #import "DKWeapon5E.h"
+#import "DKArmor5E.h"
 
 @class DKAbilities5E;
 
@@ -30,7 +31,7 @@
 @property (nonatomic, strong) DKNumericStatistic* offHandWeaponRange;
 @property (nonatomic, strong) DKNumericStatistic* offHandWeaponAttacksPerAction;
 
-@property (nonatomic, strong) DKModifierGroup* armor;
+@property (nonatomic, strong) DKArmor5E* armor;
 @property (nonatomic, strong) DKModifierGroup* shield;
 @property (nonatomic, strong) DKModifierGroup* otherEquipment;
 
@@ -38,6 +39,7 @@
 - (id)initWithAbilities:(DKAbilities5E*)abilities
        proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
           characterSize:(DKStringStatistic*)characterSize
-    weaponProficiencies:(DKSetStatistic*)weaponProficiencies;
+    weaponProficiencies:(DKSetStatistic*)weaponProficiencies
+     armorProficiencies:(DKSetStatistic*)armorProficiencies;
 
 @end

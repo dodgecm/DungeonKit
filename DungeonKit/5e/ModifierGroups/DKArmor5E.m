@@ -92,9 +92,11 @@
                                                         explanation:[NSString stringWithFormat:@"%@ base AC", name]] forStatisticID:DKStatIDArmorClass];
     
     //Armor proficiency
-    [armor addSubgroup:[DKArmorBuilder5E armorProficiencyPenaltiesForArmorName:name
-                                                              proficiencyTypes:proficiencyTypes
-                                                        armorProficiencies:armorProficiencies]];
+    if (proficiencyTypes.count > 0) {
+        [armor addSubgroup:[DKArmorBuilder5E armorProficiencyPenaltiesForArmorName:name
+                                                                  proficiencyTypes:proficiencyTypes
+                                                                armorProficiencies:armorProficiencies]];
+    }
     
     //Dexterity bonus to AC
     if (addDex) {
@@ -152,7 +154,20 @@
     
     switch (type) {
             
-        case DKArmorType5E_Padded: {
+        case kDKArmorType5E_Unarmored: {
+            return [DKArmorBuilder5E armorWithName:@"Unarmored"
+                                            baseAC:@10
+                                  proficiencyTypes:@[]
+                                      addDexterity:YES
+                                 dexterityBonusCap:nil
+                                   strengthMinimum:nil
+                               stealthDisadvantage:NO
+                                         abilities:abilities
+                                armorProficiencies:armorProficiencies];
+            break;
+        }
+            
+        case kDKArmorType5E_Padded: {
             return [DKArmorBuilder5E armorWithName:@"Padded"
                                             baseAC:@11
                                   proficiencyTypes:@[@"Light Armor"]
@@ -165,7 +180,7 @@
             break;
         }
             
-        case DKArmorType5E_Leather: {
+        case kDKArmorType5E_Leather: {
             return [DKArmorBuilder5E armorWithName:@"Leather"
                                             baseAC:@11
                                   proficiencyTypes:@[@"Light Armor"]
@@ -178,7 +193,7 @@
             break;
         }
             
-        case DKArmorType5E_StuddedLeather: {
+        case kDKArmorType5E_StuddedLeather: {
             return [DKArmorBuilder5E armorWithName:@"Studded Leather"
                                             baseAC:@12
                                   proficiencyTypes:@[@"Light Armor"]
@@ -191,7 +206,7 @@
             break;
         }
             
-        case DKArmorType5E_Hide: {
+        case kDKArmorType5E_Hide: {
             return [DKArmorBuilder5E armorWithName:@"Hide"
                                             baseAC:@12
                                   proficiencyTypes:@[@"Medium Armor"]
@@ -204,7 +219,7 @@
             break;
         }
             
-        case DKArmorType5E_ChainShirt: {
+        case kDKArmorType5E_ChainShirt: {
             return [DKArmorBuilder5E armorWithName:@"Chain Shirt"
                                             baseAC:@13
                                   proficiencyTypes:@[@"Medium Armor"]
@@ -217,7 +232,7 @@
             break;
         }
             
-        case DKArmorType5E_ScaleMail: {
+        case kDKArmorType5E_ScaleMail: {
             return [DKArmorBuilder5E armorWithName:@"Scale Mail"
                                             baseAC:@14
                                   proficiencyTypes:@[@"Medium Armor"]
@@ -230,7 +245,7 @@
             break;
         }
             
-        case DKArmorType5E_Breastplate: {
+        case kDKArmorType5E_Breastplate: {
             return [DKArmorBuilder5E armorWithName:@"Breastplate"
                                             baseAC:@14
                                   proficiencyTypes:@[@"Medium Armor"]
@@ -243,7 +258,7 @@
             break;
         }
             
-        case DKArmorType5E_HalfPlate: {
+        case kDKArmorType5E_HalfPlate: {
             return [DKArmorBuilder5E armorWithName:@"Half Plate"
                                             baseAC:@15
                                   proficiencyTypes:@[@"Medium Armor"]
@@ -256,7 +271,7 @@
             break;
         }
             
-        case DKArmorType5E_RingMail: {
+        case kDKArmorType5E_RingMail: {
             return [DKArmorBuilder5E armorWithName:@"Ring Mail"
                                             baseAC:@14
                                   proficiencyTypes:@[@"Heavy Armor"]
@@ -269,7 +284,7 @@
             break;
         }
             
-        case DKArmorType5E_ChainMail: {
+        case kDKArmorType5E_ChainMail: {
             return [DKArmorBuilder5E armorWithName:@"Chain Mail"
                                             baseAC:@16
                                   proficiencyTypes:@[@"Heavy Armor"]
@@ -282,7 +297,7 @@
             break;
         }
             
-        case DKArmorType5E_Splint: {
+        case kDKArmorType5E_Splint: {
             return [DKArmorBuilder5E armorWithName:@"Splint"
                                             baseAC:@17
                                   proficiencyTypes:@[@"Heavy Armor"]
@@ -295,7 +310,7 @@
             break;
         }
             
-        case DKArmorType5E_Plate: {
+        case kDKArmorType5E_Plate: {
             return [DKArmorBuilder5E armorWithName:@"Plate"
                                             baseAC:@18
                                   proficiencyTypes:@[@"Heavy Armor"]

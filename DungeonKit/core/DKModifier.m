@@ -87,6 +87,16 @@
     return [NSString stringWithFormat:@"%@%@%@", modifierString, _explanation, disabled];
 }
 
+#pragma mark NSCopying
+- (id)copyWithZone:(NSZone *)zone {
+    DKModifier* modifier = [[[self class] allocWithZone:zone] initWithValue:self.value
+                                                                   priority:self.priority
+                                                                 expression:[self.modifierExpression copy]];
+    modifier.explanation = [self.explanation copy];
+    modifier.enabled = self.enabled;
+    return modifier;
+}
+
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     

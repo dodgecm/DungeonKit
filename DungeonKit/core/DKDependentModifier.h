@@ -20,7 +20,7 @@
  
  For most use cases, it's best to generate DKDependantModifier objects from the owner DKStatistic class directly, or from DKModifierBuilder.
  */
-@interface DKDependentModifier : DKModifier <NSCoding>
+@interface DKDependentModifier : DKModifier <NSCoding, NSCopying>
 
 - (id)initWithValue:(id<NSObject>)value
            priority:(DKModifierPriority)priority

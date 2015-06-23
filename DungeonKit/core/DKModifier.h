@@ -35,7 +35,7 @@ typedef enum {
  For most common modifier types, you should use the convenience methods in DKModifierBuilder rather than 
  trying to initialize DKModifier directly. 
  */
-@interface DKModifier : NSObject <NSCoding>
+@interface DKModifier : NSObject <NSCoding, NSCopying>
 
 /** The amount of the modification. */
 @property (nonatomic, strong) id<NSObject> value;

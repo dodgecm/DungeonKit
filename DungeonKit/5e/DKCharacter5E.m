@@ -278,9 +278,8 @@
         self.hitDiceMax = [DKDiceStatistic statisticWithNoDice];
         self.hitDiceCurrent = [DKDiceStatistic statisticWithNoDice];
         
-        //Initialize armor class so that it gets a bonus from dexterity
+        //Initialize armor class
         self.armorClass = [DKNumericStatistic statisticWithInt:10];
-        [_armorClass applyModifier:[_abilities.dexterity modifierFromAbilityScore]];
         
         //Initialize initiative so that it gets a bonus from dexterity
         self.initiativeBonus = [DKNumericStatistic statisticWithInt:0];
@@ -296,7 +295,8 @@
         self.equipment = [[DKEquipment5E alloc] initWithAbilities:_abilities
                                                  proficiencyBonus:_proficiencyBonus
                                                     characterSize:_size
-                                              weaponProficiencies:_weaponProficiencies];
+                                              weaponProficiencies:_weaponProficiencies
+                                               armorProficiencies:_armorProficiencies];
         
         self.languages = [DKSetStatistic statisticWithEmptySet];
         self.resistances = [DKSetStatistic statisticWithEmptySet];

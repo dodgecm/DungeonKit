@@ -35,7 +35,8 @@
 - (id)initWithAbilities:(DKAbilities5E*)abilities
        proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
           characterSize:(DKStringStatistic*)characterSize
-    weaponProficiencies:(DKSetStatistic*)weaponProficiencies {
+    weaponProficiencies:(DKSetStatistic*)weaponProficiencies
+     armorProficiencies:(DKSetStatistic*)armorProficiencies {
     
     self = [super init];
     if (self) {
@@ -60,6 +61,10 @@
                                           weaponProficiencies:weaponProficiencies
                                               offHandOccupied:_offHandOccupied
                                                    isMainHand:YES];
+        
+        self.armor = [DKArmorBuilder5E armorOfType:kDKArmorType5E_Unarmored
+                                         abilities:abilities
+                                armorProficiencies:armorProficiencies];
     }
     return self;
 }

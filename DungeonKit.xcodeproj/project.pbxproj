@@ -19,6 +19,7 @@
 		B3565E091B3297E600C86DC1 /* DKWeapon5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3565E071B3297E600C86DC1 /* DKWeapon5E.m */; };
 		B3565E0F1B39368900C86DC1 /* DKArmor5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3565E0D1B39368900C86DC1 /* DKArmor5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3565E101B39368900C86DC1 /* DKArmor5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3565E0E1B39368900C86DC1 /* DKArmor5E.m */; };
+		B3565E121B39584B00C86DC1 /* DKEquipmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3565E111B39584B00C86DC1 /* DKEquipmentTests.m */; };
 		B36BF32F1A72337B00979EE9 /* DKDiceTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF32E1A72337B00979EE9 /* DKDiceTests.m */; };
 		B36BF3321A724EE600979EE9 /* DKCurrency5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF3301A724EE600979EE9 /* DKCurrency5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B36BF3331A724EE600979EE9 /* DKCurrency5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3311A724EE600979EE9 /* DKCurrency5E.m */; };
@@ -104,6 +105,7 @@
 		B3565E071B3297E600C86DC1 /* DKWeapon5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKWeapon5E.m; sourceTree = "<group>"; };
 		B3565E0D1B39368900C86DC1 /* DKArmor5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKArmor5E.h; sourceTree = "<group>"; };
 		B3565E0E1B39368900C86DC1 /* DKArmor5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKArmor5E.m; sourceTree = "<group>"; };
+		B3565E111B39584B00C86DC1 /* DKEquipmentTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKEquipmentTests.m; sourceTree = "<group>"; };
 		B36BF32E1A72337B00979EE9 /* DKDiceTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDiceTests.m; sourceTree = "<group>"; };
 		B36BF3301A724EE600979EE9 /* DKCurrency5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKCurrency5E.h; sourceTree = "<group>"; };
 		B36BF3311A724EE600979EE9 /* DKCurrency5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKCurrency5E.m; sourceTree = "<group>"; };
@@ -331,6 +333,7 @@
 				B3F5883B1A5BE2D400E6A745 /* DKSavingThrowsTests.m */,
 				B3C605D61A691282007FADAB /* DKProficientStatisticTests.m */,
 				B36BF3341A7251FF00979EE9 /* DKCurrencyTests.m */,
+				B3565E111B39584B00C86DC1 /* DKEquipmentTests.m */,
 			);
 			path = 5e;
 			sourceTree = "<group>";
@@ -522,6 +525,7 @@
 				B3E40D611A5A4D66004342F3 /* DKDependentModifierTests.m in Sources */,
 				B32222661AEA144300EE0DD6 /* DKModifierGroupTests.m in Sources */,
 				B3E40D5C1A57E53B004342F3 /* DKModifierTests.m in Sources */,
+				B3565E121B39584B00C86DC1 /* DKEquipmentTests.m in Sources */,
 				B3E40D5A1A57E53B004342F3 /* DKAbilityScoreTests.m in Sources */,
 				B3E40D5F1A57E587004342F3 /* DKCharacter5ETests.m in Sources */,
 				B3C605D71A691282007FADAB /* DKProficientStatisticTests.m in Sources */,

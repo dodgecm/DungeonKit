@@ -15,23 +15,26 @@
 
 typedef NS_ENUM(NSInteger, DKArmorType5E) {
     
+    //Unarmored
+    kDKArmorType5E_Unarmored,
+    
     //Light Armor
-    DKArmorType5E_Padded,
-    DKArmorType5E_Leather,
-    DKArmorType5E_StuddedLeather,
+    kDKArmorType5E_Padded,
+    kDKArmorType5E_Leather,
+    kDKArmorType5E_StuddedLeather,
     
     //Medium Armor
-    DKArmorType5E_Hide,
-    DKArmorType5E_ChainShirt,
-    DKArmorType5E_ScaleMail,
-    DKArmorType5E_Breastplate,
-    DKArmorType5E_HalfPlate,
+    kDKArmorType5E_Hide,
+    kDKArmorType5E_ChainShirt,
+    kDKArmorType5E_ScaleMail,
+    kDKArmorType5E_Breastplate,
+    kDKArmorType5E_HalfPlate,
     
     //Heavy Armor
-    DKArmorType5E_RingMail,
-    DKArmorType5E_ChainMail,
-    DKArmorType5E_Splint,
-    DKArmorType5E_Plate,
+    kDKArmorType5E_RingMail,
+    kDKArmorType5E_ChainMail,
+    kDKArmorType5E_Splint,
+    kDKArmorType5E_Plate,
 };
 
 @compatibility_alias DKArmor5E DKModifierGroup;

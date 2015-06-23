@@ -188,6 +188,17 @@
     else { return [super description]; };
 }
 
+#pragma mark NSCopying
+- (id)copyWithZone:(NSZone *)zone {
+    DKDependentModifier* modifier = [[[self class] allocWithZone:zone] initWithDependencies:[self.dependencies copy]
+                                                                                      value:[self.valueExpression copy]
+                                                                                    enabled:[self.enabledPredicate copy]
+                                                                                   priority:self.priority
+                                                                                 expression:[self.valueExpression copy]];
+    modifier.explanation = [self.explanation copy];
+    return modifier;
+}
+
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     
