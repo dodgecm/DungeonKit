@@ -32,7 +32,7 @@
 @property (nonatomic, strong) DKNumericStatistic* offHandWeaponAttacksPerAction;
 
 @property (nonatomic, strong) DKArmor5E* armor;
-@property (nonatomic, strong) DKModifierGroup* shield;
+@property (nonatomic, strong) DKArmor5E* shield;
 @property (nonatomic, strong) DKModifierGroup* otherEquipment;
 
 - (id)init __unavailable;

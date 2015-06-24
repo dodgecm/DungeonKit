@@ -330,4 +330,29 @@
     return nil;
 }
 
++ (DKArmor5E*)shieldWithEquipment:(DKEquipment5E*)equipment
+               armorProficiencies:(DKSetStatistic*)armorProficiencies {
+    
+    DKArmor5E* shield = [[DKArmor5E alloc] init];
+    shield.explanation = @"Shield";
+    
+    //Shield is worn on the offhand
+    [shield addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1] forStatisticID:DKStatIDOffHandOccupied];
+    
+    //+2 to AC only when off hand does not have a weapon equipped
+    [shield addModifier:[[DKDependentModifier alloc] initWithSource:equipment.offHandOccupied
+                                                              value:[DKDependentModifierBuilder expressionForConstantInteger:2]
+                                                            enabled:[DKDependentModifierBuilder enabledWhen:@"source" isLessThan:2]
+                                                           priority:kDKModifierPriority_Additive
+                                                         expression:[DKModifierBuilder simpleAdditionModifierExpression]]
+         forStatisticID:DKStatIDArmorClass];
+    
+    DKModifierGroup* proficiencyPenalties = [DKArmorBuilder5E armorProficiencyPenaltiesForArmorName:@"Shield"
+                                                                                   proficiencyTypes:@[@"Shields"]
+                                                                                 armorProficiencies:armorProficiencies];
+    [shield addSubgroup:proficiencyPenalties];
+    
+    return shield;
+}
+
 @end

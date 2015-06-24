@@ -48,6 +48,11 @@
 - (void)testGeneratedModifiers {
     
     DKAbilityScore* ability = [[DKAbilityScore alloc] initWithInt:0];
+    
+    DKNumericStatistic* numericStatistic = [DKNumericStatistic statisticWithInt:0];
+    [numericStatistic applyModifier:[ability modifierFromAbilityScore]];
+    XCTAssertEqual(numericStatistic.value.integerValue, -5, @"Dependent modifier should be calculated properly.");
+    
     DKDiceStatistic* diceStatistic = [DKDiceStatistic statisticWithNoDice];
     [diceStatistic applyModifier:ability.diceCollectionModifierFromAbilityScore];
     

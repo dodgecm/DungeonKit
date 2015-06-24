@@ -45,6 +45,7 @@
                                                                               enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies"containsAnyFromObjects:proficiencyTypes]
                                                                              priority:kDKModifierPriority_Additive
                                                                            expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    modifier.explanation = @"Proficiency bonus";
     return modifier;
 }
 
@@ -68,6 +69,7 @@
                                                    mainHand:(BOOL)isMainHand
                                                     finesse:(BOOL)isFinesse {
     DKModifierGroup* damage = [[DKModifierGroup alloc] init];
+    damage.explanation = @"Weapon damage modifier from ability score";
     
     NSDictionary* dependencies;
     NSExpression* valueExpression;
@@ -149,18 +151,18 @@
     } else {
         
         //Versatile weapon damage dice
-        [weapon addModifier:[DKDependentModifierBuilder appendedModifierFromSource:offHandOccupied
-                                                                     constantValue:damageDice
-                                                                           enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                    isGreaterThanOrEqualTo:1]
-                                                                       explanation:@"Versatile damage bonus requires a free off hand"]
+        [weapon addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:offHandOccupied
+                                                                              value:[DKDependentModifierBuilder expressionForConstantValue:damageDice]
+                                                                            enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                     isGreaterThanOrEqualTo:1]
+                                                                        explanation:@"Versatile damage bonus requires a free off hand"]
              forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
         
-        [weapon addModifier:[DKDependentModifierBuilder appendedModifierFromSource:offHandOccupied
-                                                                     constantValue:versatileDamageDiceOrNil
-                                                                           enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                        isEqualToOrBetween:0 and:0]
-                                                                       explanation:@"Versatile damage bonus"]
+        [weapon addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:offHandOccupied
+                                                                              value:[DKDependentModifierBuilder expressionForConstantValue:versatileDamageDiceOrNil]
+                                                                            enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                         isEqualToOrBetween:0 and:0]
+                                                                        explanation:@"Versatile damage bonus"]
              forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
     }
     
@@ -179,7 +181,7 @@
         [weapon addModifier:[DKWeaponBuilder5E finesseAttackBonusModifierFromAbilities:abilities]
              forStatisticID:[DKWeaponBuilder5E weaponAttackBonusStatIDForMainHand:isMainHand]];
     } else {
-        [weapon addModifier:[abilities.strength modifierFromAbilityScore]
+        [weapon addModifier:[abilities.strength modifierFromAbilityScoreWithExplanation:@"Strength bonus to hit"]
              forStatisticID:[DKWeaponBuilder5E weaponAttackBonusStatIDForMainHand:isMainHand]];
     }
     

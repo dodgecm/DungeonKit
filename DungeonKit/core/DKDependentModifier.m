@@ -8,6 +8,7 @@
 
 #import "DKDependentModifier.h"
 #import "DKConstants.h"
+#import "DKDiceCollection.h"
 
 @interface DKDependentModifier()
 @end
@@ -174,10 +175,16 @@
         NSString* modifierString = @"";
         if (self.priority == kDKModifierPriority_Additive) {
             
-            NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
-            formatter.positivePrefix = @"+";
-            formatter.zeroSymbol = @"+0";
-            modifierString = [NSString stringWithFormat:@"%@", [formatter stringFromNumber:(NSNumber*)self.value]];
+            if ([self.value isKindOfClass:[NSNumber class]]) {
+                NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
+                formatter.positivePrefix = @"+";
+                formatter.zeroSymbol = @"+0";
+                modifierString = [NSString stringWithFormat:@"%@", [formatter stringFromNumber:(NSNumber*)self.value]];
+                
+            } else if ([self.value isKindOfClass:[DKDiceCollection class]]) {
+                DKDiceCollection* diceValue = (DKDiceCollection*)self.value;
+                modifierString = [diceValue stringValue];
+            }
             
             NSString* disabled = @"";
             if (!self.enabled) { disabled = @" - disabled"; }

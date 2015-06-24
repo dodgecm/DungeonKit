@@ -12,6 +12,7 @@
 
 @class DKCharacter5E;
 @class DKAbilities5E;
+@class DKEquipment5E;
 
 typedef NS_ENUM(NSInteger, DKArmorType5E) {
     
@@ -47,5 +48,8 @@ typedef NS_ENUM(NSInteger, DKArmorType5E) {
 + (DKArmor5E*)armorOfType:(DKArmorType5E)type
                 abilities:(DKAbilities5E*)abilities
        armorProficiencies:(DKSetStatistic*)armorProficiencies;
+
++ (DKArmor5E*)shieldWithEquipment:(DKEquipment5E*)equipment
+               armorProficiencies:(DKSetStatistic*)armorProficiencies;
 
 @end

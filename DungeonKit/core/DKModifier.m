@@ -7,6 +7,7 @@
 //
 
 #import "DKModifier.h"
+#import "DKDiceCollection.h"
 
 @interface DKModifier()
 @end
@@ -67,24 +68,30 @@
 
 - (NSString*)description {
     
-    if (![_explanation length]) {
-        return [super description];
-    }
-    
     NSString* modifierString = @"";
     if (_priority == kDKModifierPriority_Additive && [self.value isKindOfClass:[NSNumber class]]) {
         
         NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
         formatter.positivePrefix = @"+";
         formatter.zeroSymbol = @"+0";
-        modifierString = [NSString stringWithFormat:@"%@: ", [formatter stringFromNumber:(NSNumber*)[self modifyStatistic:@(0)]]];
+        modifierString = [NSString stringWithFormat:@"%@", [formatter stringFromNumber:(NSNumber*)[self modifyStatistic:@(0)]]];
+        
+    } else if ([self.value isKindOfClass:[DKDiceCollection class]]) {
+        DKDiceCollection* diceValue = (DKDiceCollection*)self.value;
+        modifierString = [diceValue stringValue];
     } else if ([self.value isKindOfClass:[NSString class]]) {
         modifierString = [(NSString*)self.value stringByAppendingString:@" - "];
     }
     
+    NSString* explanation = @"";
+    if (_explanation.length) {
+        if (_priority == kDKModifierPriority_Additive) { explanation = @": "; }
+        explanation = [explanation stringByAppendingString:_explanation];
+    }
+    
     NSString* disabled = @"";
     if (!self.enabled) { disabled = @" - disabled"; }
-    return [NSString stringWithFormat:@"%@%@%@", modifierString, _explanation, disabled];
+    return [NSString stringWithFormat:@"%@%@%@", modifierString, explanation, disabled];
 }
 
 #pragma mark NSCopying

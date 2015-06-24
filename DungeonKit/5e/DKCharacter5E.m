@@ -70,7 +70,7 @@
              DKStatIDToolProficiencies: @"toolProficiencies",
              
              DKStatIDMainHandOccupied: @"equipment.mainHandOccupied",
-             DKStatIDMainHandOccupied: @"equipment.offHandOccupied",
+             DKStatIDOffHandOccupied: @"equipment.offHandOccupied",
              DKStatIDMainHandWeaponAttackBonus: @"equipment.mainHandWeaponAttackBonus",
              DKStatIDMainHandWeaponDamage: @"equipment.mainHandWeaponDamage",
              DKStatIDMainHandWeaponRange: @"equipment.mainHandWeaponRange",
