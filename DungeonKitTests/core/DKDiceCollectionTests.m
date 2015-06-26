@@ -39,9 +39,9 @@
 - (void)testConstructorValues {
     
     DKDiceCollection* collection = [DKDiceCollection diceCollection];
-    XCTAssertEqualObjects(collection.stringValue, @"", @"Collection should have empty string with no dice.");
+    XCTAssertEqualObjects(collection.stringValue, @"0", @"Collection should have a 0 string with no dice.");
     collection = [[DKDiceCollection alloc] init];
-    XCTAssertEqualObjects(collection.stringValue, @"", @"Collection should have empty string with no dice.");
+    XCTAssertEqualObjects(collection.stringValue, @"0", @"Collection should have a 0 string with no dice.");
     
     collection = [DKDiceCollection diceCollectionWithQuantity:2 sides:6 modifier:3];
     XCTAssertEqualObjects(collection.stringValue, @"2d6+3", @"Collection should have values initialized properly.");

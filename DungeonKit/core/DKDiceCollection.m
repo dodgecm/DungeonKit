@@ -140,6 +140,10 @@
         }
     }
     
+    if (!string.length) {
+        [string appendString:@"0"];
+    }
+    
     return string;
 }
 

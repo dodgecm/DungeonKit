@@ -55,7 +55,7 @@
                                     @"dex" : abilities.dexterity};
     NSExpression* strExpression = [DKAbilityScore abilityScoreValueForDependency:@"str"];
     NSExpression* dexExpression = [DKAbilityScore abilityScoreValueForDependency:@"dex"];
-    NSExpression* valueExpression = [NSExpression expressionForFunction:@"max:" arguments:@[ @[ strExpression, dexExpression ] ]];
+    NSExpression* valueExpression = [NSExpression expressionForFunction:@"max:" arguments:@[ [NSExpression expressionForAggregate:@[strExpression, dexExpression]] ]];
     
     return [[DKDependentModifier alloc] initWithDependencies:dependencies
                                                        value:valueExpression
@@ -79,7 +79,7 @@
                           @"proficiencies" : weaponProficiencies };
         NSExpression* strExpression = [DKAbilityScore abilityScoreValueForDependency:@"str"];
         NSExpression* dexExpression = [DKAbilityScore abilityScoreValueForDependency:@"dex"];
-        valueExpression = [NSExpression expressionForFunction:@"max:" arguments:@[ @[ strExpression, dexExpression ] ]];
+        valueExpression = [NSExpression expressionForFunction:@"max:" arguments:@[ [NSExpression expressionForAggregate:@[strExpression, dexExpression]] ]];
     } else {
         dependencies = @{ @"str" : abilities.strength,
                           @"proficiencies" : weaponProficiencies };
@@ -102,7 +102,7 @@
     
     if (!isMainHand) {
         //For non proficient off-hand weapon, the ability score only gets applied if it is negative
-        valueExpression = [NSExpression expressionForFunction:@"min:" arguments:@[ @[ valueExpression, [NSExpression expressionForConstantValue:@(0)] ] ] ];
+        valueExpression = [NSExpression expressionForFunction:@"min:" arguments:@[ [NSExpression expressionForAggregate:@[ valueExpression, [NSExpression expressionForConstantValue:@(0)]]] ]];
         DKModifier* nonProficientModifier = [[DKDependentModifier alloc] initWithDependencies:dependencies
                                                                                         value:[DKDependentModifierBuilder valueAsDiceCollectionFromExpression:valueExpression]
                                                                                       enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies" doesNotContainAnyFromObjects:@[ @"Two-Weapon Fighting"] ]
@@ -138,6 +138,7 @@
     BOOL isLight = [attributes containsObject:@"Light"];
     BOOL isHeavy = [attributes containsObject:@"Heavy"];
     BOOL isLoading = [attributes containsObject:@"Loading"];
+    BOOL isUnarmed = [attributes containsObject:@"Unarmed"];
     
     NSAssert(isMainHand || isLight, @"Weapon cannot be off-handed unless it is a light weapon");
     
@@ -211,6 +212,11 @@
     [weapon addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1]
          forStatisticID:[DKWeaponBuilder5E weaponAttacksPerActionStatIDForMainHand:isMainHand]];
     
+    if (!isLight) {
+        [weapon addModifier:[DKModifierBuilder modifierWithClampBetween:0 and:0 explanation:@"Off hand weapons may not be used to attack unless the main hand weapon is a light weapon."]
+             forStatisticID:[DKWeaponBuilder5E weaponAttacksPerActionStatIDForMainHand:NO]];
+    }
+    
     //Ammunition weapons
     if (hasAmmunition) {
         [weapon addModifier:[DKModifierBuilder modifierWithExplanation:@"This weapon requires ammunition in order to execute a ranged attack."]
@@ -233,7 +239,7 @@
     }
     
     //Occupy hands as appropriate
-    if (isMainHand) {
+    if (isMainHand && !isUnarmed) {
         [weapon addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1] forStatisticID:DKStatIDMainHandOccupied];
     }
     if (!isMainHand || isTwoHanded) {
@@ -277,7 +283,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Unarmed"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize

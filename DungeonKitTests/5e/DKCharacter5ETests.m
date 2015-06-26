@@ -91,7 +91,7 @@
 
 - (void)testHitDice {
     DKCharacter5E* character = [[DKCharacter5E alloc] init];
-    XCTAssertEqualObjects(character.classes.fighter.classHitDice.value.stringValue, @"", @"Class hit dice should be empty at level 0");
+    XCTAssertEqualObjects(character.classes.fighter.classHitDice.value.stringValue, @"0", @"Class hit dice should be empty at level 0");
     character.classes.fighter.classLevel.base = @2;
     XCTAssertEqualObjects(character.classes.fighter.classHitDice.value.stringValue, @"2d10", @"Class hit dice should scale with level");
     character.classes.fighter.classLevel.base = @10;
