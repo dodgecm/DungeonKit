@@ -103,8 +103,12 @@
         if ([dexBonusCap integerValue] > 0) {
             
             NSExpression* valueExpression = [NSExpression expressionForFunction:@"min:"
-                                                                      arguments:@[[NSExpression expressionForConstantValue:dexBonusCap],
-                                                                                  [DKAbilityScore abilityScoreValueForDependency:@"source"]]];
+                                                                      arguments:@[
+                                                                                  [NSExpression expressionForAggregate:@[
+                                                                                                                         [NSExpression expressionForConstantValue:dexBonusCap],
+                                                                                                                          [DKAbilityScore abilityScoreValueForDependency:@"source"]
+                                                                                                                         ]]
+                                                                                  ]];
             DKModifier* dexBonusModifier = [[DKDependentModifier alloc] initWithSource:abilities.dexterity
                                                                                  value:valueExpression
                                                                               priority:kDKModifierPriority_Additive

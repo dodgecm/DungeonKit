@@ -33,6 +33,8 @@
     [super tearDown];
 }
 
+#pragma mark -
+
 - (void)testConstructors {
     
     XCTAssertNotNil([[DKEquipment5E alloc] initWithAbilities:_character.abilities
@@ -206,6 +208,73 @@
                                                              forCharacter:_character
                                                                isMainHand:YES];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttacksPerAction.value, @1, "Loading weapons can only be used to attack once per round.");
+}
+
+#pragma mark -
+
+- (void)testLightArmor {
+    
+    _character.equipment.armor = [DKArmorBuilder5E armorOfType:kDKArmorType5E_Leather
+                                                  forCharacter:_character];
+    XCTAssertEqualObjects(_character.armorClass.value, @11, "Armor class bonus from armor should be applied properly.");
+    
+    _character.abilities.dexterity.base = @14;
+    XCTAssertEqualObjects(_character.armorClass.value, @13, "Dexterity ability score gets applied for light armor.");
+}
+
+- (void)testMediumArmor {
+    
+    _character.equipment.armor = [DKArmorBuilder5E armorOfType:kDKArmorType5E_Breastplate
+                                                  forCharacter:_character];
+    XCTAssertEqualObjects(_character.armorClass.value, @14, "Armor class bonus from armor should be applied properly.");
+    
+    _character.abilities.dexterity.base = @14;
+    XCTAssertEqualObjects(_character.armorClass.value, @16, "Dexterity ability score gets applied for medium armor.");
+    
+    _character.abilities.dexterity.base = @18;
+    XCTAssertEqualObjects(_character.armorClass.value, @16, "Dexterity ability score bonus to armor class gets capped at +2 for medium armor.");
+}
+
+- (void)testHeavyArmor {
+    
+    _character.equipment.armor = [DKArmorBuilder5E armorOfType:kDKArmorType5E_Plate
+                                                  forCharacter:_character];
+    XCTAssertEqualObjects(_character.armorClass.value, @18, "Armor class bonus from armor should be applied properly.");
+    
+    _character.abilities.dexterity.base = @14;
+    XCTAssertEqualObjects(_character.armorClass.value, @18, "Dexterity ability score does not get applied for heavy armor.");
+    
+    //Remember that humans get +1 to STR!
+    _character.abilities.strength.base = @13;
+    XCTAssertEqualObjects(_character.movementSpeed.value, @20, "Movement speed is reduced by 10 for heavy armor if the strength requierment is not met.");
+    
+    _character.abilities.strength.base = @16;
+    XCTAssertEqualObjects(_character.movementSpeed.value, @30, "Movement speed is not reduced by 10 for heavy armor if the strength requierment is met.");
+}
+
+- (void)testArmorProficiency {
+    
+    [_character applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:1] toStatisticWithID:DKStatIDFirstLevelSpellSlotsCurrent];
+    XCTAssertEqualObjects(_character.spells.firstLevelSpellSlotsCurrent.value, @1, "Unarmed armor does not require any proficiency.");
+    
+    _character.equipment.armor = [DKArmorBuilder5E armorOfType:kDKArmorType5E_StuddedLeather
+                                                  forCharacter:_character];
+    XCTAssertEqualObjects(_character.spells.firstLevelSpellSlotsCurrent.value, @0, "Wearing armor without proficiency prevents casting.");
+    
+    _character.armorProficiencies.base = [NSSet setWithObject:@"Light Armor"];
+    XCTAssertEqualObjects(_character.spells.firstLevelSpellSlotsCurrent.value, @1, "Wearing armor with proficiency does not prevent casting.");
+}
+
+- (void)testShield {
+    
+    _character.equipment.shield = [DKArmorBuilder5E shieldWithEquipment:_character.equipment
+                                                     armorProficiencies:_character.armorProficiencies];
+    XCTAssertEqualObjects(_character.armorClass.value, @12, "Armor class bonus from shield should be applied properly.");
+    
+    _character.equipment.mainHandWeapon = [DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Greatclub
+                                                             forCharacter:_character
+                                                               isMainHand:YES];
+    XCTAssertEqualObjects(_character.armorClass.value, @10, "Armor class bonus from shield should not be applied when wielding a two handed weapon.");
 }
 
 @end
