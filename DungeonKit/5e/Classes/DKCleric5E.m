@@ -38,10 +38,9 @@
         forStatisticID:DKStatIDPreparedSpellsMax];
     [class addModifier:[DKModifierBuilder modifierWithMinimum:1 explanation:@"Minimum of 1 prepared spell"]
         forStatisticID:DKStatIDPreparedSpellsMax];
-    [class addModifier:[DKModifierBuilder modifierWithExplanation:@"Channel Divinity: You have the ability to channel divine energy directly from your deity, using that energy to fuel magical effects.  When you use your Channel Divinity, you choose which effect to create.  You must then finish a short or long rest to use your Channel Divinity again."]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Channel Divinity" explanation:@"You have the ability to channel divine energy directly from your deity, using that energy to fuel magical effects.  When you use your Channel Divinity, you choose which effect to create.  You must then finish a short or long rest to use your Channel Divinity again."]
         forStatisticID:DKStatIDClericTraits];
-    [class addModifier:[DKModifierBuilder modifierWithExplanation:@"Ritual Casting: You can cast a cleric spell as a ritual if that spell "
-                        "has the ritual tag and you have the spell prepared"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Ritual Casting" explanation:@"You can cast a cleric spell as a ritual if that spell has the ritual tag and you have the spell prepared"]
         forStatisticID:DKStatIDClericTraits];
     
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Cleric Saving Throw Proficiency: Wisdom"]

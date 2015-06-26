@@ -44,6 +44,8 @@ NSString *const DKStatIDOffHandWeaponDamage = @"DKOffHandWeaponDamage";
 NSString *const DKStatIDOffHandWeaponRange = @"DKOffHandWeaponRange";
 NSString *const DKStatIDOffHandWeaponAttacksPerAction = @"DKOffHandWeaponAttacksPerAction";
 
+NSString *const DKStatIDInventory = @"DKInventory";
+
 NSString *const DKStatIDLanguages = @"DKLanguages";
 
 NSString *const DKStatIDResistances = @"DKResistances";

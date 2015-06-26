@@ -41,6 +41,8 @@ FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponDamage;
 FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponRange;
 FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponAttacksPerAction;
 
+FOUNDATION_EXPORT NSString *const DKStatIDInventory;
+
 FOUNDATION_EXPORT NSString *const DKStatIDLanguages;
 
 FOUNDATION_EXPORT NSString *const DKStatIDResistances;

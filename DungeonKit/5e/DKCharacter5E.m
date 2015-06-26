@@ -80,6 +80,8 @@
              DKStatIDOffHandWeaponRange: @"equipment.offHandWeaponRange",
              DKStatIDOffHandWeaponAttacksPerAction: @"equipment.offHandWeaponAttacksPerAction",
              
+             DKStatIDInventory: @"equipment.inventory",
+             
              DKStatIDLanguages: @"languages",
              
              DKStatIDResistances: @"resistances",
@@ -302,7 +304,7 @@
         self.resistances = [DKSetStatistic statisticWithEmptySet];
         self.immunities = [DKSetStatistic statisticWithEmptySet];
         
-        self.otherTraits = [DKNumericStatistic statisticWithInt:0];
+        self.otherTraits = [DKSetStatistic statisticWithEmptySet];
         
         //Cap the value of death saves between 0 and 3
         self.deathSaveSuccesses = [DKNumericStatistic statisticWithInt:0];

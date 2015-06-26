@@ -59,7 +59,7 @@
     return modifier;
 }
 
-+ (id)modifierWithNewString:(NSString*)string {
++ (id)modifierWithOverrideString:(NSString*)string {
 
     DKModifier* modifier = [DKModifier modifierWithValue:string
                                                 priority:kDKModifierPriority_Additive

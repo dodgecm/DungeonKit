@@ -30,7 +30,7 @@
 + (id)modifierWithClampBetween:(NSInteger)min and:(NSInteger)max explanation:(NSString*)explanation;
 
 /** DKStringStatistic Modifiers */
-+ (id)modifierWithNewString:(NSString*)string;
++ (id)modifierWithOverrideString:(NSString*)string;
 
 /** DKSetStatistic Modifiers */
 + (id)modifierWithAppendedString:(NSString*)stringToAppend;

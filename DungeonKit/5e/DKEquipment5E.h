@@ -35,6 +35,9 @@
 @property (nonatomic, strong) DKArmor5E* shield;
 @property (nonatomic, strong) DKModifierGroup* otherEquipment;
 
+/** Non-combat related items */
+@property (nonatomic, strong) DKSetStatistic* inventory;
+
 - (id)init __unavailable;
 - (id)initWithAbilities:(DKAbilities5E*)abilities
        proficiencyBonus:(DKNumericStatistic*)proficiencyBonus

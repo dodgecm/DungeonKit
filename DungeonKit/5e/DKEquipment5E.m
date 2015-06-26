@@ -32,6 +32,8 @@
 @synthesize shield = _shield;
 @synthesize otherEquipment = _otherEquipment;
 
+@synthesize inventory = _inventory;
+
 - (id)initWithAbilities:(DKAbilities5E*)abilities
        proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
           characterSize:(DKStringStatistic*)characterSize
@@ -65,6 +67,8 @@
         self.armor = [DKArmorBuilder5E armorOfType:kDKArmorType5E_Unarmored
                                          abilities:abilities
                                 armorProficiencies:armorProficiencies];
+        
+        self.inventory = [DKSetStatistic statisticWithEmptySet];
     }
     return self;
 }

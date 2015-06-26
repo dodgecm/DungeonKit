@@ -60,6 +60,6 @@
 @property (nonatomic, strong) DKSetStatistic* resistances;
 @property (nonatomic, strong) DKSetStatistic* immunities;
 
-@property (nonatomic, strong) DKNumericStatistic* otherTraits;
+@property (nonatomic, strong) DKSetStatistic* otherTraits;
 
 @end

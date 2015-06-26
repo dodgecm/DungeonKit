@@ -107,7 +107,7 @@
 - (void)testModifierBuilder {
     
     DKStringStatistic* stat = [[DKStringStatistic alloc] initWithString:@"test"];
-    DKModifier* modifier = [DKModifierBuilder modifierWithNewString:@"test2"];
+    DKModifier* modifier = [DKModifierBuilder modifierWithOverrideString:@"test2"];
     
     XCTAssertEqualObjects(stat.value, @"test", @"Object should start off with the correct value.");
     
