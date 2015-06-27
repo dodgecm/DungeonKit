@@ -251,6 +251,72 @@
 
 #pragma mark -
 
++ (NSString*)proficiencyNameForWeaponCategory:(DKWeaponCategory5E)category {
+    
+    static dispatch_once_t once;
+    static NSDictionary* weaponCategoryToNameMap;
+    dispatch_once(&once, ^ {
+        
+        weaponCategoryToNameMap = @{    @(kDKWeaponCategory5E_Simple)       : @"Simple Weapons",
+                                        @(kDKWeaponCategory5E_Martial)      : @"Martial Weapons",
+                                    };
+    });
+    
+    return weaponCategoryToNameMap[@(category)];
+}
+
++ (NSString*)proficiencyNameForWeapon:(DKWeaponType5E)type {
+    
+    static dispatch_once_t once;
+    static NSDictionary* weaponTypeToNameMap;
+    dispatch_once(&once, ^ {
+        
+        weaponTypeToNameMap = @{ @(kDKWeaponType5E_Club)            : @"Clubs",
+                                 @(kDKWeaponType5E_Dagger)          : @"Daggers",
+                                 @(kDKWeaponType5E_Greatclub)       : @"Clubs",
+                                 @(kDKWeaponType5E_Handaxe)         : @"Axes",
+                                 @(kDKWeaponType5E_Javelin)         : @"Javelins",
+                                 @(kDKWeaponType5E_LightHammer)     : @"Light Hammers",
+                                 @(kDKWeaponType5E_Mace)            : @"Maces",
+                                 @(kDKWeaponType5E_Quarterstaff)    : @"Quarterstaves",
+                                 @(kDKWeaponType5E_Sickle)          : @"Sickles",
+                                 @(kDKWeaponType5E_Spear)           : @"Spears",
+                                 
+                                 @(kDKWeaponType5E_LightCrossbow)   : @"Crossbows",
+                                 @(kDKWeaponType5E_Dart)            : @"Darts",
+                                 @(kDKWeaponType5E_Shortbow)        : @"Shortbows",
+                                 @(kDKWeaponType5E_Sling)           : @"Slings",
+                                 
+                                 @(kDKWeaponType5E_Battleaxe)       : @"Axes",
+                                 @(kDKWeaponType5E_Flail)           : @"Flails",
+                                 @(kDKWeaponType5E_Glaive)          : @"Glaives",
+                                 @(kDKWeaponType5E_Greataxe)        : @"Greataxes",
+                                 @(kDKWeaponType5E_Greatsword)      : @"Greatswords",
+                                 @(kDKWeaponType5E_Halberd)         : @"Halberds",
+                                 @(kDKWeaponType5E_Lance)           : @"Lances",
+                                 @(kDKWeaponType5E_Longsword)       : @"Longswords",
+                                 @(kDKWeaponType5E_Maul)            : @"Mauls",
+                                 @(kDKWeaponType5E_Morningstar)     : @"Morningstars",
+                                 @(kDKWeaponType5E_Pike)            : @"Pikes",
+                                 @(kDKWeaponType5E_Rapier)          : @"Rapiers",
+                                 @(kDKWeaponType5E_Scimitar)        : @"Scimitars",
+                                 @(kDKWeaponType5E_Shortsword)      : @"Shortswords",
+                                 @(kDKWeaponType5E_Trident)         : @"Tridents",
+                                 @(kDKWeaponType5E_WarPick)         : @"Picks",
+                                 @(kDKWeaponType5E_Warhammer)       : @"Warhammers",
+                                 @(kDKWeaponType5E_Whip)            : @"Whips",
+                                 
+                                 @(kDKWeaponType5E_Blowgun)         : @"Blowguns",
+                                 @(kDKWeaponType5E_HandCrossbow)    : @"Crossbows",
+                                 @(kDKWeaponType5E_HeavyCrossbow)   : @"Crossbows",
+                                 @(kDKWeaponType5E_Longbow)         : @"Longbows",
+                                 @(kDKWeaponType5E_Net)             : @"Nets",
+                                };
+    });
+    
+    return weaponTypeToNameMap[@(type)];
+}
+
 + (DKWeapon5E*)weaponOfType:(DKWeaponType5E)type
                forCharacter:(DKCharacter5E*)character
                  isMainHand:(BOOL)isMainHand {
@@ -279,7 +345,7 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:0 sides:0 modifier:1]
                                  versatileDamageDice:nil
                                           damageType:@"Bludgeoning"
-                                    proficiencyTypes:@[@"Simple Weapons"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -297,7 +363,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:4 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Bludgeoning"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Clubs"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -315,7 +382,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:4 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Daggers"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
@@ -333,7 +401,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Bludgeoning"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Clubs"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -351,7 +420,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:6 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Slashing"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Axes"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
@@ -369,7 +439,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:6 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Javelins"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(30, 120)]
@@ -387,7 +458,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:4 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Bludgeoning"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Hammers"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
@@ -405,7 +477,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:6 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Bludgeoning"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Maces"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -423,7 +496,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:6 modifier:0]
                                  versatileDamageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                           damageType:@"Bludgeoning"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Quarterstaves"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -441,7 +515,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:4 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Slashing"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Sickles"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -459,7 +534,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:6 modifier:0]
                                  versatileDamageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Spears"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
@@ -477,7 +553,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Crossbows"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(80, 320)]
@@ -495,7 +572,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:4 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Darts"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
@@ -513,7 +591,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:6 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Shortbows"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(80, 320)]
@@ -531,7 +610,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:4 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Bludgeoning"
-                                    proficiencyTypes:@[@"Simple Weapons", @"Slings"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(30, 120)]
@@ -549,7 +629,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                  versatileDamageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:10 modifier:0]
                                           damageType:@"Slashing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Axes"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -567,7 +648,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Bludgeoning"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Flails"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -585,7 +667,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:10 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Slashing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Glaives"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:10
                                          rangedReach:nil
@@ -603,7 +686,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:12 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Slashing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Greataxes"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -621,7 +705,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:2 sides:6 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Slashing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Greatswords"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -639,7 +724,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:10 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Slashing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Halberds"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:10
                                          rangedReach:nil
@@ -657,7 +743,8 @@
                                                        damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:12 modifier:0]
                                               versatileDamageDice:nil
                                                        damageType:@"Piercing"
-                                                 proficiencyTypes:@[@"Martial Weapons", @"Lances"]
+                                                 proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                                    [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                                        isMainHand:isMainHand
                                                        meleeReach:10
                                                       rangedReach:nil
@@ -681,7 +768,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                  versatileDamageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:10 modifier:0]
                                           damageType:@"Slashing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Longswords"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -699,7 +787,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:2 sides:6 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Bludgeoning"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Mauls"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -717,7 +806,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Morningstars"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -735,7 +825,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:10 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Pikes"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:10
                                          rangedReach:nil
@@ -753,7 +844,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Rapiers"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -771,7 +863,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:6 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Slashing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Scimitars"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -789,7 +882,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:6 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Shortswords"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -807,7 +901,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:6 modifier:0]
                                  versatileDamageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Tridents"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
@@ -825,7 +920,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Picks"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -843,7 +939,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                  versatileDamageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:10 modifier:0]
                                           damageType:@"Bludgeoning"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Warhammers"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
@@ -861,7 +958,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:4 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Slashing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Whips"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:10
                                          rangedReach:nil
@@ -879,7 +977,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:0 sides:0 modifier:1]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Blowguns"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(25, 100)]
@@ -897,7 +996,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:6 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Crossbows"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(30, 120)]
@@ -915,7 +1015,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:10 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Crossbows"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(100, 400)]
@@ -933,7 +1034,8 @@
                                           damageDice:[DKDiceCollection diceCollectionWithQuantity:1 sides:8 modifier:0]
                                  versatileDamageDice:nil
                                           damageType:@"Piercing"
-                                    proficiencyTypes:@[@"Martial Weapons", @"Longbows"]
+                                    proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                       [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(150, 600)]
@@ -951,7 +1053,8 @@
                                                      damageDice:[DKDiceCollection diceCollectionWithQuantity:0 sides:0 modifier:0]
                                             versatileDamageDice:nil
                                                      damageType:@""
-                                               proficiencyTypes:@[@"Martial Weapons", @"Nets"]
+                                               proficiencyTypes:@[[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial],
+                                                                  [DKWeaponBuilder5E proficiencyNameForWeapon:type]]
                                                      isMainHand:isMainHand
                                                      meleeReach:5
                                                     rangedReach:[NSValue valueWithRange:NSMakeRange(5, 15)]

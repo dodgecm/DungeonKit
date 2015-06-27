@@ -14,10 +14,18 @@
 @class DKAbilities5E;
 @class DKEquipment5E;
 
+typedef NS_ENUM(NSInteger, DKArmorCategory5E) {
+    
+    kDKArmorCategory5E_Light = 1,
+    kDKArmorCategory5E_Medium,
+    kDKArmorCategory5E_Heavy,
+    kDKArmorCategory5E_Shield,
+};
+
 typedef NS_ENUM(NSInteger, DKArmorType5E) {
     
     //Unarmored
-    kDKArmorType5E_Unarmored,
+    kDKArmorType5E_Unarmored = 1,
     
     //Light Armor
     kDKArmorType5E_Padded,
@@ -41,6 +49,8 @@ typedef NS_ENUM(NSInteger, DKArmorType5E) {
 @compatibility_alias DKArmor5E DKModifierGroup;
 
 @interface DKArmorBuilder5E : NSObject
+
++ (NSString*)proficiencyNameForArmorCategory:(DKArmorCategory5E)type;
 
 + (DKArmor5E*)armorOfType:(DKArmorType5E)type
              forCharacter:(DKCharacter5E*)character;

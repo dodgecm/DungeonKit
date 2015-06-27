@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "DKStatisticIDs5E.h"
 
+NSString *const DKStatIDName = @"DKName";
 NSString *const DKStatIDLevel = @"DKLevel";
 NSString *const DKStatIDInspiration = @"DKInspiration";
 NSString *const DKStatIDProficiencyBonus = @"DKProficiencyBonus";
 NSString *const DKStatIDSize = @"DKSize";
+NSString *const DKStatIDAlignment = @"DKAlignment";
 
 NSString *const DKStatIDHitPointsMax = @"DKHitPointsMax";
 NSString *const DKStatIDHitPointsTemporary = @"DKHitPointsTemporary";

@@ -13,10 +13,16 @@
 @class DKCharacter5E;
 @class DKAbilities5E;
 
+typedef NS_ENUM(NSInteger, DKWeaponCategory5E) {
+    
+    kDKWeaponCategory5E_Simple = 1,
+    kDKWeaponCategory5E_Martial,
+};
+
 typedef NS_ENUM(NSInteger, DKWeaponType5E) {
     
     //Simple melee weapons
-    kDKWeaponType5E_Unarmed,
+    kDKWeaponType5E_Unarmed = 1,
     kDKWeaponType5E_Club,
     kDKWeaponType5E_Dagger,
     kDKWeaponType5E_Greatclub,
@@ -65,6 +71,9 @@ typedef NS_ENUM(NSInteger, DKWeaponType5E) {
 @compatibility_alias DKWeapon5E DKModifierGroup;
 
 @interface DKWeaponBuilder5E : NSObject
+
++ (NSString*)proficiencyNameForWeaponCategory:(DKWeaponCategory5E)category;
++ (NSString*)proficiencyNameForWeapon:(DKWeaponType5E)type;
 
 + (DKWeapon5E*)weaponOfType:(DKWeaponType5E)type
                forCharacter:(DKCharacter5E*)character

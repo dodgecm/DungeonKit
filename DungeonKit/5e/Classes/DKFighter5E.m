@@ -10,6 +10,8 @@
 #import "DKAbilities5E.h"
 #import "DKModifierBuilder.h"
 #import "DKStatisticIDs5E.h"
+#import "DKWeapon5E.h"
+#import "DKArmor5E.h"
 
 @implementation DKFighter5E
 
@@ -35,17 +37,23 @@
         forStatisticID:DKStatIDSavingThrowStrengthProficiency];
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Fighter Saving Throw Proficiency: Constitution"]
         forStatisticID:DKStatIDSavingThrowConstitutionProficiency];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Simple Weapons" explanation:@"Fighter Weapon Proficiencies"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple]
+                                                         explanation:@"Fighter Weapon Proficiencies"]
         forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Martial Weapons" explanation:@"Fighter Weapon Proficiencies"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial]
+                                                         explanation:@"Fighter Weapon Proficiencies"]
         forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Light Armor" explanation:@"Fighter Armor Proficiencies"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]
+                                                         explanation:@"Fighter Armor Proficiencies"]
         forStatisticID:DKStatIDArmorProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Medium Armor" explanation:@"Fighter Armor Proficiencies"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Medium]
+                                                         explanation:@"Fighter Armor Proficiencies"]
         forStatisticID:DKStatIDArmorProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Heavy Armor" explanation:@"Fighter Armor Proficiencies"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Heavy]
+                                                         explanation:@"Fighter Armor Proficiencies"]
         forStatisticID:DKStatIDArmorProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Shields" explanation:@"Fighter Armor Proficiencies"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Shield]
+                                                         explanation:@"Fighter Armor Proficiencies"]
         forStatisticID:DKStatIDArmorProficiencies];
     
     DKModifierGroup* skillSubgroup = [[DKModifierGroup alloc] init];

@@ -11,11 +11,13 @@
 
 @implementation DKCharacter5E
 
+@synthesize name = _name;
 @synthesize level = _level;
 @synthesize race = _race;
 @synthesize subrace = _subrace;
 @synthesize classes = _classes;
 @synthesize size = _size;
+@synthesize alignment = _alignment;
 @synthesize inspiration = _inspiration;
 @synthesize proficiencyBonus = _proficiencyBonus;
 @synthesize abilities = _abilities;
@@ -45,10 +47,12 @@
 
 + (NSDictionary*) statisticKeyPaths {
     return @{
+             DKStatIDName: @"name",
              DKStatIDLevel: @"level",
              DKStatIDInspiration: @"inspiration",
              DKStatIDProficiencyBonus: @"proficiencyBonus",
              DKStatIDSize: @"size",
+             DKStatIDAlignment: @"alignment",
              
              DKStatIDHitPointsMax: @"hitPointsMax",
              DKStatIDHitPointsTemporary: @"hitPointsTemporary",
@@ -246,8 +250,10 @@
             [self addKeyPath:groupKeyPaths[groupID] forModifierGroupID:groupID];
         }
         
+        self.name = [DKStringStatistic statisticWithString:@""];
         self.level = [DKNumericStatistic statisticWithInt:0];
         self.size = [DKStringStatistic statisticWithString:@""];
+        self.alignment = [DKStringStatistic statisticWithString:@""];
         
         //Inspiration is binary
         self.inspiration = [DKNumericStatistic statisticWithInt:0];

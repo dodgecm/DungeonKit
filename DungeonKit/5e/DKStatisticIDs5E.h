@@ -6,10 +6,12 @@
 //  Copyright (c) 2014 Dodge. All rights reserved.
 //
 
+FOUNDATION_EXPORT NSString *const DKStatIDName;
 FOUNDATION_EXPORT NSString *const DKStatIDLevel;
 FOUNDATION_EXPORT NSString *const DKStatIDInspiration;
 FOUNDATION_EXPORT NSString *const DKStatIDProficiencyBonus;
 FOUNDATION_EXPORT NSString *const DKStatIDSize;
+FOUNDATION_EXPORT NSString *const DKStatIDAlignment;
 
 FOUNDATION_EXPORT NSString *const DKStatIDHitPointsMax;
 FOUNDATION_EXPORT NSString *const DKStatIDHitPointsTemporary;

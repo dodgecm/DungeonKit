@@ -14,6 +14,22 @@
 
 @implementation DKArmorBuilder5E
 
++ (NSString*)proficiencyNameForArmorCategory:(DKArmorCategory5E)type {
+    
+    static dispatch_once_t once;
+    static NSDictionary* armorTypeToNameMap;
+    dispatch_once(&once, ^ {
+        
+        armorTypeToNameMap = @{ @(kDKArmorCategory5E_Light)         : @"Light Armor",
+                                @(kDKArmorCategory5E_Medium)        : @"Medium Armor",
+                                @(kDKArmorCategory5E_Heavy)         : @"Heavy Armor",
+                                @(kDKArmorCategory5E_Shield)        : @"Shields",
+                                };
+    });
+    
+    return armorTypeToNameMap[@(type)];
+}
+
 + (DKModifierGroup*)armorProficiencyPenaltiesForArmorName:(NSString*)name
                                          proficiencyTypes:(NSArray*)proficiencyTypes
                                        armorProficiencies:(DKSetStatistic*)armorProficiencies {
@@ -174,7 +190,7 @@
         case kDKArmorType5E_Padded: {
             return [DKArmorBuilder5E armorWithName:@"Padded"
                                             baseAC:@11
-                                  proficiencyTypes:@[@"Light Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]]
                                       addDexterity:YES
                                  dexterityBonusCap:nil
                                    strengthMinimum:nil
@@ -187,7 +203,7 @@
         case kDKArmorType5E_Leather: {
             return [DKArmorBuilder5E armorWithName:@"Leather"
                                             baseAC:@11
-                                  proficiencyTypes:@[@"Light Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]]
                                       addDexterity:YES
                                  dexterityBonusCap:nil
                                    strengthMinimum:nil
@@ -200,7 +216,7 @@
         case kDKArmorType5E_StuddedLeather: {
             return [DKArmorBuilder5E armorWithName:@"Studded Leather"
                                             baseAC:@12
-                                  proficiencyTypes:@[@"Light Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]]
                                       addDexterity:YES
                                  dexterityBonusCap:nil
                                    strengthMinimum:nil
@@ -213,7 +229,7 @@
         case kDKArmorType5E_Hide: {
             return [DKArmorBuilder5E armorWithName:@"Hide"
                                             baseAC:@12
-                                  proficiencyTypes:@[@"Medium Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Medium]]
                                       addDexterity:YES
                                  dexterityBonusCap:@2
                                    strengthMinimum:nil
@@ -226,7 +242,7 @@
         case kDKArmorType5E_ChainShirt: {
             return [DKArmorBuilder5E armorWithName:@"Chain Shirt"
                                             baseAC:@13
-                                  proficiencyTypes:@[@"Medium Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Medium]]
                                       addDexterity:YES
                                  dexterityBonusCap:@2
                                    strengthMinimum:nil
@@ -239,7 +255,7 @@
         case kDKArmorType5E_ScaleMail: {
             return [DKArmorBuilder5E armorWithName:@"Scale Mail"
                                             baseAC:@14
-                                  proficiencyTypes:@[@"Medium Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Medium]]
                                       addDexterity:YES
                                  dexterityBonusCap:@2
                                    strengthMinimum:nil
@@ -252,7 +268,7 @@
         case kDKArmorType5E_Breastplate: {
             return [DKArmorBuilder5E armorWithName:@"Breastplate"
                                             baseAC:@14
-                                  proficiencyTypes:@[@"Medium Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Medium]]
                                       addDexterity:YES
                                  dexterityBonusCap:@2
                                    strengthMinimum:nil
@@ -265,7 +281,7 @@
         case kDKArmorType5E_HalfPlate: {
             return [DKArmorBuilder5E armorWithName:@"Half Plate"
                                             baseAC:@15
-                                  proficiencyTypes:@[@"Medium Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Medium]]
                                       addDexterity:YES
                                  dexterityBonusCap:@2
                                    strengthMinimum:nil
@@ -278,7 +294,7 @@
         case kDKArmorType5E_RingMail: {
             return [DKArmorBuilder5E armorWithName:@"Ring Mail"
                                             baseAC:@14
-                                  proficiencyTypes:@[@"Heavy Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Heavy]]
                                       addDexterity:NO
                                  dexterityBonusCap:nil
                                    strengthMinimum:nil
@@ -291,7 +307,7 @@
         case kDKArmorType5E_ChainMail: {
             return [DKArmorBuilder5E armorWithName:@"Chain Mail"
                                             baseAC:@16
-                                  proficiencyTypes:@[@"Heavy Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Heavy]]
                                       addDexterity:NO
                                  dexterityBonusCap:nil
                                    strengthMinimum:@13
@@ -304,7 +320,7 @@
         case kDKArmorType5E_Splint: {
             return [DKArmorBuilder5E armorWithName:@"Splint"
                                             baseAC:@17
-                                  proficiencyTypes:@[@"Heavy Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Heavy]]
                                       addDexterity:NO
                                  dexterityBonusCap:nil
                                    strengthMinimum:@15
@@ -317,7 +333,7 @@
         case kDKArmorType5E_Plate: {
             return [DKArmorBuilder5E armorWithName:@"Plate"
                                             baseAC:@18
-                                  proficiencyTypes:@[@"Heavy Armor"]
+                                  proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Heavy]]
                                       addDexterity:NO
                                  dexterityBonusCap:nil
                                    strengthMinimum:@15
@@ -352,7 +368,7 @@
          forStatisticID:DKStatIDArmorClass];
     
     DKModifierGroup* proficiencyPenalties = [DKArmorBuilder5E armorProficiencyPenaltiesForArmorName:@"Shield"
-                                                                                   proficiencyTypes:@[@"Shields"]
+                                                                                   proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Shield]]
                                                                                  armorProficiencies:armorProficiencies];
     [shield addSubgroup:proficiencyPenalties];
     

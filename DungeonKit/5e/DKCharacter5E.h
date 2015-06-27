@@ -21,11 +21,13 @@
 
 @interface DKCharacter5E : DKCharacter
 
+@property (nonatomic, strong) DKStringStatistic* name;
 @property (nonatomic, strong) DKNumericStatistic* level;
 @property (nonatomic, strong) DKRace5E* race;
 @property (nonatomic, strong) DKSubrace5E* subrace;
 @property (nonatomic, strong) DKClasses5E* classes;
 @property (nonatomic, strong) DKStringStatistic* size;
+@property (nonatomic, strong) DKStringStatistic* alignment;
 
 @property (nonatomic, strong) DKNumericStatistic* inspiration;
 @property (nonatomic, strong) DKNumericStatistic* proficiencyBonus;

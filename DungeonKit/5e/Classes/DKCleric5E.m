@@ -10,6 +10,8 @@
 #import "DKModifierBuilder.h"
 #import "DKStatisticIDs5E.h"
 #import "DKAbilities5E.h"
+#import "DKWeapon5E.h"
+#import "DKArmor5E.h"
 
 @implementation DKCleric5E
 
@@ -47,13 +49,17 @@
         forStatisticID:DKStatIDSavingThrowWisdomProficiency];
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Cleric Saving Throw Proficiency: Charisma"]
         forStatisticID:DKStatIDSavingThrowCharismaProficiency];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Simple Weapons" explanation:@"Cleric Weapon Proficiencies"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple]
+                                                         explanation:@"Cleric Weapon Proficiencies"]
         forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Light Armor" explanation:@"Cleric Armor Proficiencies"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]
+                                                         explanation:@"Cleric Armor Proficiencies"]
         forStatisticID:DKStatIDArmorProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Medium Armor" explanation:@"Cleric Armor Proficiencies"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Medium]
+                                                         explanation:@"Cleric Armor Proficiencies"]
         forStatisticID:DKStatIDArmorProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Shields" explanation:@"Cleric Armor Proficiencies"]
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Shield]
+                                                         explanation:@"Cleric Armor Proficiencies"]
         forStatisticID:DKStatIDArmorProficiencies];
     
     NSExpression* channelDivinityValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
