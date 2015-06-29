@@ -378,7 +378,8 @@
     DKModifierGroup* lifeDomainGroup = [[DKModifierGroup alloc] init];
     lifeDomainGroup.explanation = @"Divine Domain: Life";
     
-    [lifeDomainGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Heavy Armor" explanation:@"Life Domain Armor Proficiencies"]
+    [lifeDomainGroup addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Heavy]
+                                                                   explanation:@"Life Domain Armor Proficiencies"]
         forStatisticID:DKStatIDArmorProficiencies];
     
     NSDictionary* spells = @{ @(1): @[ @"Bless", @"Cure Wounds" ],

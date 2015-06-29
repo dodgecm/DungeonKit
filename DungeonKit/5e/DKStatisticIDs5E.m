@@ -37,14 +37,17 @@ NSString *const DKStatIDToolProficiencies = @"DKToolProficiencies";
 
 NSString *const DKStatIDMainHandOccupied = @"DKMainHandOccupied";
 NSString *const DKStatIDOffHandOccupied = @"DKOffHandOccupied";
+NSString *const DKStatIDArmorSlotOccupied = @"DKArmorSlotOccupied";
 NSString *const DKStatIDMainHandWeaponAttackBonus = @"DKMainHandWeaponAttackBonus";
 NSString *const DKStatIDMainHandWeaponDamage = @"DKMainHandWeaponDamage";
 NSString *const DKStatIDMainHandWeaponRange = @"DKMainHandWeaponRange";
 NSString *const DKStatIDMainHandWeaponAttacksPerAction = @"DKMainHandWeaponAttacksPerAction";
+NSString *const DKStatIDMainHandWeaponAttributes = @"DKMainHandWeaponAttributes";
 NSString *const DKStatIDOffHandWeaponAttackBonus = @"DKOffHandWeaponAttackBonus";
 NSString *const DKStatIDOffHandWeaponDamage = @"DKOffHandWeaponDamage";
 NSString *const DKStatIDOffHandWeaponRange = @"DKOffHandWeaponRange";
 NSString *const DKStatIDOffHandWeaponAttacksPerAction = @"DKOffHandWeaponAttacksPerAction";
+NSString *const DKStatIDOffHandWeaponAttributes = @"DKOffHandWeaponAttributes";
 
 NSString *const DKStatIDInventory = @"DKInventory";
 
@@ -174,6 +177,5 @@ NSString *const DKStatIDSecondWindUsesCurrent = @"DKSecondWindUsesCurrent";
 NSString *const DKStatIDSecondWindUsesMax = @"DKSecondWindUsesMax";
 NSString *const DKStatIDActionSurgeUsesCurrent = @"DKActionSurgeUsesCurrent";
 NSString *const DKStatIDActionSurgeUsesMax = @"DKActionSurgeUsesMax";
-NSString *const DKStatIDExtraAttacks = @"DKExtraAttacks";
 NSString *const DKStatIDIndomitableUsesCurrent = @"DKIndomitableUsesCurrent";
 NSString *const DKStatIDIndomitableUsesMax = @"DKIndomitableUsesMax";

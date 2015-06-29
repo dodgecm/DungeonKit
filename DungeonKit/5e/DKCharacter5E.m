@@ -75,14 +75,17 @@
              
              DKStatIDMainHandOccupied: @"equipment.mainHandOccupied",
              DKStatIDOffHandOccupied: @"equipment.offHandOccupied",
+             DKStatIDArmorSlotOccupied: @"equipment.armorSlotOccupied",
              DKStatIDMainHandWeaponAttackBonus: @"equipment.mainHandWeaponAttackBonus",
              DKStatIDMainHandWeaponDamage: @"equipment.mainHandWeaponDamage",
              DKStatIDMainHandWeaponRange: @"equipment.mainHandWeaponRange",
              DKStatIDMainHandWeaponAttacksPerAction: @"equipment.mainHandWeaponAttacksPerAction",
+             DKStatIDMainHandWeaponAttributes: @"equipment.mainHandWeaponAttributes",
              DKStatIDOffHandWeaponAttackBonus: @"equipment.offHandWeaponAttackBonus",
              DKStatIDOffHandWeaponDamage: @"equipment.offHandWeaponDamage",
              DKStatIDOffHandWeaponRange: @"equipment.offHandWeaponRange",
              DKStatIDOffHandWeaponAttacksPerAction: @"equipment.offHandWeaponAttacksPerAction",
+             DKStatIDOffHandWeaponAttributes: @"equipment.offHandWeaponAttributes",
              
              DKStatIDInventory: @"equipment.inventory",
              
@@ -212,7 +215,6 @@
              DKStatIDSecondWindUsesMax: @"classes.fighter.secondWindUsesMax",
              DKStatIDActionSurgeUsesCurrent: @"classes.fighter.actionSurgeUsesCurrent",
              DKStatIDActionSurgeUsesMax: @"classes.fighter.actionSurgeUsesMax",
-             DKStatIDExtraAttacks: @"classes.fighter.extraAttacks",
              DKStatIDIndomitableUsesCurrent: @"classes.fighter.indomitableUsesCurrent",
              DKStatIDIndomitableUsesMax: @"classes.fighter.indomitableUsesMax",
              };
@@ -324,7 +326,10 @@
         
         self.classes = [[DKClasses5E alloc] init];
         _classes.cleric = [[DKCleric5E alloc] initWithAbilities:_abilities];
-        _classes.fighter = [[DKFighter5E alloc] initWithAbilities:_abilities];
+        _classes.fighter = [[DKFighter5E alloc] initWithAbilities:_abilities
+                                                           skills:_skills
+                                                        equipment:_equipment
+                                                 proficiencyBonus:_proficiencyBonus];
     }
     return self;
 }

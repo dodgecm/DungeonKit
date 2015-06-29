@@ -18,18 +18,21 @@
 
 @property (nonatomic, strong) DKNumericStatistic* mainHandOccupied;
 @property (nonatomic, strong) DKNumericStatistic* offHandOccupied;
+@property (nonatomic, strong) DKNumericStatistic* armorSlotOccupied;
 
 @property (nonatomic, strong) DKWeapon5E* mainHandWeapon;
 @property (nonatomic, strong) DKNumericStatistic* mainHandWeaponAttackBonus;
 @property (nonatomic, strong) DKDiceStatistic* mainHandWeaponDamage;
 @property (nonatomic, strong) DKNumericStatistic* mainHandWeaponRange;
 @property (nonatomic, strong) DKNumericStatistic* mainHandWeaponAttacksPerAction;
+@property (nonatomic, strong) DKSetStatistic* mainHandWeaponAttributes;
 
 @property (nonatomic, strong) DKWeapon5E* offHandWeapon;
 @property (nonatomic, strong) DKNumericStatistic* offHandWeaponAttackBonus;
 @property (nonatomic, strong) DKDiceStatistic* offHandWeaponDamage;
 @property (nonatomic, strong) DKNumericStatistic* offHandWeaponRange;
 @property (nonatomic, strong) DKNumericStatistic* offHandWeaponAttacksPerAction;
+@property (nonatomic, strong) DKSetStatistic* offHandWeaponAttributes;
 
 @property (nonatomic, strong) DKArmor5E* armor;
 @property (nonatomic, strong) DKArmor5E* shield;

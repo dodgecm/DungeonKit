@@ -34,6 +34,12 @@
     else { return DKStatIDOffHandWeaponAttacksPerAction; }
 }
 
++ (NSString*)weaponAttributesStatIDForMainHand:(BOOL)isMainHand {
+    if (isMainHand) { return DKStatIDMainHandWeaponAttributes; }
+    else { return DKStatIDOffHandWeaponAttributes; }
+}
+
+
 + (DKModifier*)proficiencyModifierFromBonus:(DKNumericStatistic*)proficiencyBonus
                         weaponProficiencies:(DKSetStatistic*)weaponProficiencies
                            proficiencyTypes:(NSArray*)proficiencyTypes {
@@ -145,6 +151,12 @@
     DKModifierGroup* weapon = [[DKModifierGroup alloc] init];
     weapon.explanation = [name copy];
     
+    //Weapon attributes
+    for (NSString* weaponAttribute in attributes) {
+        [weapon addModifier:[DKModifierBuilder modifierWithAppendedString:weaponAttribute]
+             forStatisticID:[DKWeaponBuilder5E weaponAttributesStatIDForMainHand:isMainHand]];
+    }
+    
     //Damage dice
     if (!versatileDamageDiceOrNil || !isMainHand) {
         [weapon addModifier:[DKModifierBuilder modifierWithAddedDice:damageDice]
@@ -165,6 +177,9 @@
                                                                                                          isEqualToOrBetween:0 and:0]
                                                                         explanation:@"Versatile damage bonus"]
              forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
+        
+        [weapon addModifier:[DKModifierBuilder modifierWithAppendedString:@"Versatile"]
+             forStatisticID:[DKWeaponBuilder5E weaponAttributesStatIDForMainHand:isMainHand]];
     }
     
     //Damage type
@@ -349,7 +364,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:@[@"Unarmed"]
+                                     otherAttributes:@[@"Unarmed", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -368,7 +383,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -387,7 +402,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
-                                     otherAttributes:@[@"Finesse", @"Light"]
+                                     otherAttributes:@[@"Finesse", @"Light", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -406,7 +421,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:@[@"Two-handed"]
+                                     otherAttributes:@[@"Two-handed", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -425,7 +440,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
-                                     otherAttributes:@[@"Light"]
+                                     otherAttributes:@[@"Light", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -444,7 +459,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(30, 120)]
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -463,7 +478,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
-                                     otherAttributes:@[@"Light"]
+                                     otherAttributes:@[@"Light", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -482,7 +497,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -501,7 +516,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -520,7 +535,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:@[@"Light"]
+                                     otherAttributes:@[@"Light", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -539,7 +554,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -558,7 +573,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(80, 320)]
-                                     otherAttributes:@[@"Ammunition", @"Loading", @"Two-handed"]
+                                     otherAttributes:@[@"Ammunition", @"Loading", @"Two-handed", @"Ranged"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -577,7 +592,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
-                                     otherAttributes:@[@"Finesse"]
+                                     otherAttributes:@[@"Finesse", @"Ranged"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -596,7 +611,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(80, 320)]
-                                     otherAttributes:@[@"Ammunition", @"Two-handed"]
+                                     otherAttributes:@[@"Ammunition", @"Two-handed", @"Ranged"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -615,7 +630,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(30, 120)]
-                                     otherAttributes:@[@"Ammunition"]
+                                     otherAttributes:@[@"Ammunition", @"Ranged"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -634,7 +649,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -653,7 +668,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -672,7 +687,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:10
                                          rangedReach:nil
-                                     otherAttributes:@[@"Heavy", @"Two-handed"]
+                                     otherAttributes:@[@"Heavy", @"Two-handed", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -691,7 +706,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:@[@"Heavy", @"Two-handed"]
+                                     otherAttributes:@[@"Heavy", @"Two-handed", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -710,7 +725,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:@[@"Heavy", @"Two-handed"]
+                                     otherAttributes:@[@"Heavy", @"Two-handed", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -729,7 +744,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:10
                                          rangedReach:nil
-                                     otherAttributes:@[@"Heavy", @"Two-handed"]
+                                     otherAttributes:@[@"Heavy", @"Two-handed", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -748,7 +763,7 @@
                                                        isMainHand:isMainHand
                                                        meleeReach:10
                                                       rangedReach:nil
-                                                  otherAttributes:nil
+                                                  otherAttributes:@[@"Melee"]
                                                         abilities:abilities
                                                  proficiencyBonus:proficiencyBonus
                                                     characterSize:characterSize
@@ -773,7 +788,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -792,7 +807,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:@[@"Heavy", @"Two-handed"]
+                                     otherAttributes:@[@"Heavy", @"Two-handed", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -811,7 +826,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -830,7 +845,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:10
                                          rangedReach:nil
-                                     otherAttributes:@[@"Heavy", @"Two-handed"]
+                                     otherAttributes:@[@"Heavy", @"Two-handed", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -849,7 +864,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:@[@"Finesse"]
+                                     otherAttributes:@[@"Finesse", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -868,7 +883,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:@[@"Finesse", @"Light"]
+                                     otherAttributes:@[@"Finesse", @"Light", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -887,7 +902,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:@[@"Finesse", @"Light"]
+                                     otherAttributes:@[@"Finesse", @"Light", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -906,7 +921,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(20, 60)]
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -925,7 +940,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -944,7 +959,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:nil
-                                     otherAttributes:nil
+                                     otherAttributes:@[@"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -963,7 +978,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:10
                                          rangedReach:nil
-                                     otherAttributes:@[@"Finesse"]
+                                     otherAttributes:@[@"Finesse", @"Melee"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -982,7 +997,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(25, 100)]
-                                     otherAttributes:@[@"Ammunition", @"Loading"]
+                                     otherAttributes:@[@"Ammunition", @"Loading", @"Ranged"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -1001,7 +1016,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(30, 120)]
-                                     otherAttributes:@[@"Ammunition", @"Light", @"Loading"]
+                                     otherAttributes:@[@"Ammunition", @"Light", @"Loading", @"Ranged"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -1020,7 +1035,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(100, 400)]
-                                     otherAttributes:@[@"Ammunition", @"Heavy", @"Loading", @"Two-handed"]
+                                     otherAttributes:@[@"Ammunition", @"Heavy", @"Loading", @"Two-handed", @"Ranged"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -1039,7 +1054,7 @@
                                           isMainHand:isMainHand
                                           meleeReach:5
                                          rangedReach:[NSValue valueWithRange:NSMakeRange(150, 600)]
-                                     otherAttributes:@[@"Ammunition", @"Heavy", @"Two-handed"]
+                                     otherAttributes:@[@"Ammunition", @"Heavy", @"Two-handed", @"Ranged"]
                                            abilities:abilities
                                     proficiencyBonus:proficiencyBonus
                                        characterSize:characterSize
@@ -1058,7 +1073,7 @@
                                                      isMainHand:isMainHand
                                                      meleeReach:5
                                                     rangedReach:[NSValue valueWithRange:NSMakeRange(5, 15)]
-                                                otherAttributes:nil
+                                                otherAttributes:@[@"Ranged"]
                                                       abilities:abilities
                                                proficiencyBonus:proficiencyBonus
                                                   characterSize:characterSize

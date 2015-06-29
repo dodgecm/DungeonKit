@@ -15,18 +15,21 @@
 
 @synthesize mainHandOccupied = _mainHandOccupied;
 @synthesize offHandOccupied = _offHandOccupied;
+@synthesize armorSlotOccupied = _armorSlotOccupied;
 
 @synthesize mainHandWeapon = _mainHandWeapon;
 @synthesize mainHandWeaponAttackBonus = _mainHandWeaponAttackBonus;
 @synthesize mainHandWeaponDamage = _mainHandWeaponDamage;
 @synthesize mainHandWeaponRange = _mainHandWeaponRange;
 @synthesize mainHandWeaponAttacksPerAction = _mainHandWeaponAttacksPerAction;
+@synthesize mainHandWeaponAttributes = _mainHandWeaponAttributes;
 
 @synthesize offHandWeapon = _offHandWeapon;
 @synthesize offHandWeaponAttackBonus = _offHandWeaponAttackBonus;
 @synthesize offHandWeaponDamage = _offHandWeaponDamage;
 @synthesize offHandWeaponRange = _offHandWeaponRange;
 @synthesize offHandWeaponAttacksPerAction = _offHandWeaponAttacksPerAction;
+@synthesize offHandWeaponAttributes = _offHandWeaponAttributes;
 
 @synthesize armor = _armor;
 @synthesize shield = _shield;
@@ -45,16 +48,19 @@
         
         self.mainHandOccupied = [DKNumericStatistic statisticWithInt:0];
         self.offHandOccupied = [DKNumericStatistic statisticWithInt:0];
+        self.armorSlotOccupied = [DKNumericStatistic statisticWithInt:0];
         
         self.mainHandWeaponAttackBonus = [DKNumericStatistic statisticWithInt:0];
         self.mainHandWeaponDamage = [DKDiceStatistic statisticWithNoDice];
         self.mainHandWeaponRange = [DKNumericStatistic statisticWithInt:0];
         self.mainHandWeaponAttacksPerAction = [DKNumericStatistic statisticWithInt:0];
+        self.mainHandWeaponAttributes = [DKSetStatistic statisticWithEmptySet];
         
         self.offHandWeaponAttackBonus = [DKNumericStatistic statisticWithInt:0];
         self.offHandWeaponDamage = [DKDiceStatistic statisticWithNoDice];
         self.offHandWeaponRange = [DKNumericStatistic statisticWithInt:0];
         self.offHandWeaponAttacksPerAction = [DKNumericStatistic statisticWithInt:0];
+        self.offHandWeaponAttributes = [DKSetStatistic statisticWithEmptySet];
         
         self.mainHandWeapon = [DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Unarmed
                                                     abilities:abilities

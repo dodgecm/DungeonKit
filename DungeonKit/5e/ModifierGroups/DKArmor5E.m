@@ -112,6 +112,10 @@
         [armor addSubgroup:[DKArmorBuilder5E armorProficiencyPenaltiesForArmorName:name
                                                                   proficiencyTypes:proficiencyTypes
                                                                 armorProficiencies:armorProficiencies]];
+        
+        [armor addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1
+                                                            explanation:[NSString stringWithFormat:@"Wearing %@", name]]
+            forStatisticID:DKStatIDArmorSlotOccupied];
     }
     
     //Dexterity bonus to AC
@@ -371,6 +375,9 @@
                                                                                    proficiencyTypes:@[[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Shield]]
                                                                                  armorProficiencies:armorProficiencies];
     [shield addSubgroup:proficiencyPenalties];
+    
+    [shield addModifier:[DKModifierBuilder modifierWithAppendedString:@"Shield"]
+         forStatisticID:DKStatIDOffHandWeaponAttributes];
     
     return shield;
 }

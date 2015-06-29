@@ -34,14 +34,17 @@ FOUNDATION_EXPORT NSString *const DKStatIDToolProficiencies;
 
 FOUNDATION_EXPORT NSString *const DKStatIDMainHandOccupied;
 FOUNDATION_EXPORT NSString *const DKStatIDOffHandOccupied;
+FOUNDATION_EXPORT NSString *const DKStatIDArmorSlotOccupied;
 FOUNDATION_EXPORT NSString *const DKStatIDMainHandWeaponAttackBonus;
 FOUNDATION_EXPORT NSString *const DKStatIDMainHandWeaponDamage;
 FOUNDATION_EXPORT NSString *const DKStatIDMainHandWeaponRange;
 FOUNDATION_EXPORT NSString *const DKStatIDMainHandWeaponAttacksPerAction;
+FOUNDATION_EXPORT NSString *const DKStatIDMainHandWeaponAttributes;
 FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponAttackBonus;
 FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponDamage;
 FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponRange;
 FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponAttacksPerAction;
+FOUNDATION_EXPORT NSString *const DKStatIDOffHandWeaponAttributes;
 
 FOUNDATION_EXPORT NSString *const DKStatIDInventory;
 
@@ -171,6 +174,5 @@ FOUNDATION_EXPORT NSString *const DKStatIDSecondWindUsesCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDSecondWindUsesMax;
 FOUNDATION_EXPORT NSString *const DKStatIDActionSurgeUsesCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDActionSurgeUsesMax;
-FOUNDATION_EXPORT NSString *const DKStatIDExtraAttacks;
 FOUNDATION_EXPORT NSString *const DKStatIDIndomitableUsesCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDIndomitableUsesMax;

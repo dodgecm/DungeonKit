@@ -201,7 +201,7 @@
                                                                                       value:[self.valueExpression copy]
                                                                                     enabled:[self.enabledPredicate copy]
                                                                                    priority:self.priority
-                                                                                 expression:[self.valueExpression copy]];
+                                                                                 expression:[self.modifierExpression copy]];
     modifier.explanation = [self.explanation copy];
     return modifier;
 }

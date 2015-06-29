@@ -82,6 +82,7 @@
     _character.equipment.shield = [DKArmorBuilder5E shieldWithEquipment:_character.equipment
                                                      armorProficiencies:_character.armorProficiencies];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponDamage.value.stringValue, @"1d6", "Quarterstaves deal 1d6 damage if used with one hand.");
+    XCTAssertTrue([_character.equipment.mainHandWeaponAttributes.value containsObject:@"Versatile"], @"Weapon attributes contain proper values.");
 }
 
 - (void)testWeaponProficiency {
@@ -113,6 +114,8 @@
     _character.equipment.mainHandWeapon = [DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Rapier
                                                              forCharacter:_character
                                                                isMainHand:YES];
+    
+    XCTAssertTrue([_character.equipment.mainHandWeaponAttributes.value containsObject:@"Finesse"], @"Weapon attributes contain proper values.");
     XCTAssertEqual(_character.equipment.mainHandWeaponDamage.value.modifier, 0, "+0 STR and +0 DEX character should have no damage bonus.");
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttackBonus.value, @0, "+0 STR and +0 DEX character should have no attack bonus.");
     
@@ -134,6 +137,7 @@
                                                              forCharacter:_character
                                                                isMainHand:YES];
     
+    XCTAssertTrue([_character.equipment.mainHandWeaponAttributes.value containsObject:@"Two-handed"], @"Weapon attributes contain proper values.");
     XCTAssertEqualObjects(_character.equipment.mainHandOccupied.value, @1, "Two handed weapon should occupy both hands.");
     XCTAssertEqualObjects(_character.equipment.offHandOccupied.value, @1, "Two handed weapon should occupy both hands.");
 }
@@ -144,11 +148,15 @@
                                                              forCharacter:_character
                                                                isMainHand:YES];
 
+    XCTAssertTrue([_character.equipment.mainHandWeaponAttributes.value containsObject:@"Light"], @"Weapon attributes contain proper values.");
     XCTAssertEqualObjects(_character.equipment.offHandOccupied.value, @0, "Each weapon should occupy one hand.");
     
     _character.equipment.offHandWeapon = [DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Dagger
                                                             forCharacter:_character
                                                               isMainHand:NO];
+    
+    XCTAssertTrue([_character.equipment.offHandWeaponAttributes.value containsObject:@"Light"], @"Weapon attributes contain proper values.");
+    
     //Hand occupied
     XCTAssertEqualObjects(_character.equipment.mainHandOccupied.value, @1, "Each weapon should occupy one hand.");
     XCTAssertEqualObjects(_character.equipment.offHandOccupied.value, @1, "Each weapon should occupy one hand.");
@@ -207,15 +215,30 @@
     _character.equipment.mainHandWeapon = [DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_HeavyCrossbow
                                                              forCharacter:_character
                                                                isMainHand:YES];
+    XCTAssertTrue([_character.equipment.mainHandWeaponAttributes.value containsObject:@"Loading"], @"Weapon attributes contain proper values.");
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttacksPerAction.value, @1, "Loading weapons can only be used to attack once per round.");
 }
 
 #pragma mark -
 
+- (void)testUnarmored {
+    
+    XCTAssertEqualObjects(_character.equipment.armorSlotOccupied.value, @0, "Armor starts off unequipped.");
+    _character.equipment.armor = [DKArmorBuilder5E armorOfType:kDKArmorType5E_Unarmored
+                                                  forCharacter:_character];
+    
+    XCTAssertEqualObjects(_character.equipment.armorSlotOccupied.value, @0, "Armor still does not take up the armor slot.");
+    _character.abilities.dexterity.base = @14;
+    XCTAssertEqualObjects(_character.armorClass.value, @12, "Dexterity ability score gets applied for unarmored.");
+}
+
 - (void)testLightArmor {
     
+    XCTAssertEqualObjects(_character.equipment.armorSlotOccupied.value, @0, "Armor starts off unequipped.");
     _character.equipment.armor = [DKArmorBuilder5E armorOfType:kDKArmorType5E_Leather
                                                   forCharacter:_character];
+    
+    XCTAssertEqualObjects(_character.equipment.armorSlotOccupied.value, @1, "Armor takes up the armor slot properly.");
     XCTAssertEqualObjects(_character.armorClass.value, @11, "Armor class bonus from armor should be applied properly.");
     
     _character.abilities.dexterity.base = @14;
