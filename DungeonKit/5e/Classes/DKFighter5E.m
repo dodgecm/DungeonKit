@@ -99,20 +99,11 @@
     DKModifierGroup* indomitableGroup = [DKFighter5E indomitableGroupWithFighterLevel:level];
     [class addSubgroup:indomitableGroup];
     
-    DKModifierGroup* fourthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:4 level:level];
-    [class addSubgroup:fourthLevelAbilityScore];
-    DKModifierGroup* sixthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:6 level:level];
-    [class addSubgroup:sixthLevelAbilityScore];
-    DKModifierGroup* eighthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:8 level:level];
-    [class addSubgroup:eighthLevelAbilityScore];
-    DKModifierGroup* twelfthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:12 level:level];
-    [class addSubgroup:twelfthLevelAbilityScore];
-    DKModifierGroup* fourteenthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:14 level:level];
-    [class addSubgroup:fourteenthLevelAbilityScore];
-    DKModifierGroup* sixteenthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:16 level:level];
-    [class addSubgroup:sixteenthLevelAbilityScore];
-    DKModifierGroup* nineteenthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:19 level:level];
-    [class addSubgroup:nineteenthLevelAbilityScore];
+    NSArray* abilityScoreImprovementLevels = @[ @4, @6, @8, @12, @14, @16, @19];
+    for (NSNumber* abilityScoreLevel in abilityScoreImprovementLevels) {
+        DKModifierGroup* abilityScoreGroup = [DKClass5E abilityScoreImprovementForThreshold:abilityScoreLevel.integerValue level:level];
+        [class addSubgroup:abilityScoreGroup];
+    }
     
     return class;
 }
@@ -217,10 +208,10 @@
             NSCompoundPredicate* enabledPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[shieldPredicate, levelPredicate]];
             DKDependentModifier* protectionModifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"source": equipment.offHandWeaponAttributes,
                                                                                                            @"level" : fighterLevel }
-                                                                                                  value:nil
+                                                                                                  value:[NSExpression expressionForConstantValue:@"Protection"]
                                                                                                 enabled:enabledPredicate
                                                                                                priority:kDKModifierPriority_Informational
-                                                                                             expression:nil];
+                                                                                             expression:[DKModifierBuilder simpleAppendModifierExpression]];
             protectionModifier.explanation = protectionExplanation;
             [fightingStyleGroup addModifier:protectionModifier forStatisticID:DKStatIDFighterTraits];
             break;
@@ -230,7 +221,7 @@
             fightingStyleGroup.explanation = @"Two-Weapon fighting style";
             DKModifier* twoWeaponModifier = [DKDependentModifierBuilder appendedModifierFromSource:fighterLevel
                                                                                      constantValue:@"Two-Weapon Fighting"
-                                                                                           enabled:levelPredicate
+                                                                                           enabled:[DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:minLevel.integerValue]
                                                                                        explanation:@"Two-Weapon fighting style (fighter) offhand damage bonus"];
             [fightingStyleGroup addModifier:twoWeaponModifier forStatisticID:DKStatIDWeaponProficiencies];
         }
@@ -332,7 +323,7 @@
                                                         fighterLevel:level
                                                             minLevel:@10
                                                            equipment:equipment];
-    bonusFightingStyle.explanation = @"Defense fighting style (default)";
+    bonusFightingStyle.explanation = @"Defense fighting style from Champion archetype (default)";
     [championGroup addSubgroup:bonusFightingStyle];
     
     NSString* superiorCriticalExplanation = @"Your weapon attacks score a critical hit on a roll of 18, 19, or 20.";

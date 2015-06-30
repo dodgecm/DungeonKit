@@ -176,3 +176,9 @@ FOUNDATION_EXPORT NSString *const DKStatIDActionSurgeUsesCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDActionSurgeUsesMax;
 FOUNDATION_EXPORT NSString *const DKStatIDIndomitableUsesCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDIndomitableUsesMax;
+
+FOUNDATION_EXPORT NSString *const DKStatIDRogueLevel;
+FOUNDATION_EXPORT NSString *const DKStatIDRogueTraits;
+FOUNDATION_EXPORT NSString *const DKStatIDRogueHitDice;
+FOUNDATION_EXPORT NSString *const DKStatIDStrokeOfLuckUsesCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDStrokeOfLuckUsesMax;

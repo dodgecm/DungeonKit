@@ -18,7 +18,7 @@
 @property (nonatomic, strong) DKModifierGroup* classModifiers;
 @property (nonatomic, strong) DKDiceStatistic* classHitDice;
 
-+ (DKModifierGroup*)abilityScoreImprovementForThreshold:(int)threshold level:(DKNumericStatistic*)classLevel;
-+ (DKModifier*)hitDiceModifierForSides:(int)sides level:(DKNumericStatistic*)classLevel;
++ (DKModifierGroup*)abilityScoreImprovementForThreshold:(NSInteger)threshold level:(DKNumericStatistic*)classLevel;
++ (DKModifier*)hitDiceModifierForSides:(NSInteger)sides level:(DKNumericStatistic*)classLevel;
 
 @end

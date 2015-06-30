@@ -94,16 +94,11 @@
     DKModifierGroup* spellSlotsGroup = [DKCleric5E spellSlotsWithLevel:level];
     [class addSubgroup:spellSlotsGroup];
     
-    DKModifierGroup* fourthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:4 level:level];
-    [class addSubgroup:fourthLevelAbilityScore];
-    DKModifierGroup* eighthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:8 level:level];
-    [class addSubgroup:eighthLevelAbilityScore];
-    DKModifierGroup* twelfthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:12 level:level];
-    [class addSubgroup:twelfthLevelAbilityScore];
-    DKModifierGroup* sixteenthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:16 level:level];
-    [class addSubgroup:sixteenthLevelAbilityScore];
-    DKModifierGroup* nineteenthLevelAbilityScore = [DKClass5E abilityScoreImprovementForThreshold:19 level:level];
-    [class addSubgroup:nineteenthLevelAbilityScore];
+    NSArray* abilityScoreImprovementLevels = @[ @4, @8, @12, @16, @19];
+    for (NSNumber* abilityScoreLevel in abilityScoreImprovementLevels) {
+        DKModifierGroup* abilityScoreGroup = [DKClass5E abilityScoreImprovementForThreshold:abilityScoreLevel.integerValue level:level];
+        [class addSubgroup:abilityScoreGroup];
+    }
     
     return class;
 }

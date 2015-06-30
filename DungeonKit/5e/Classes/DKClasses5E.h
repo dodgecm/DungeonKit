@@ -9,10 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "DKCleric5E.h"
 #import "DKFighter5E.h"
+#import "DKRogue5E.h"
 
 @interface DKClasses5E : NSObject
 
 @property (nonatomic, strong) DKCleric5E* cleric;
 @property (nonatomic, strong) DKFighter5E* fighter;
+@property (nonatomic, strong) DKRogue5E* rogue;
 
 @end

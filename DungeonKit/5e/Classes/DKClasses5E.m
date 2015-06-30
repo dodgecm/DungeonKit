@@ -12,5 +12,6 @@
 
 @synthesize cleric = _cleric;
 @synthesize fighter = _fighter;
+@synthesize rogue = _rogue;
 
 @end

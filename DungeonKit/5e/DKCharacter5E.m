@@ -217,6 +217,12 @@
              DKStatIDActionSurgeUsesMax: @"classes.fighter.actionSurgeUsesMax",
              DKStatIDIndomitableUsesCurrent: @"classes.fighter.indomitableUsesCurrent",
              DKStatIDIndomitableUsesMax: @"classes.fighter.indomitableUsesMax",
+             
+             DKStatIDRogueLevel: @"classes.rogue.classLevel",
+             DKStatIDRogueTraits: @"classes.rogue.classTraits",
+             DKStatIDRogueHitDice: @"classes.rogue.classHitDice",
+             DKStatIDStrokeOfLuckUsesCurrent: @"classes.rogue.strokeOfLuckUsesCurrent",
+             DKStatIDStrokeOfLuckUsesMax: @"classes.rogue.strokeOfLuckUsesMax",
              };
 }
 
@@ -229,6 +235,8 @@
              DKModifierGroupIDClericDivineDomain: @"classes.cleric.divineDomain",
              DKModifierGroupIDFighterClass: @"classes.fighter.classModifiers",
              DKModifierGroupIDFighterMartialArchetype: @"classes.fighter.martialArchetype",
+             DKModifierGroupIDRogueClass: @"classes.rogue.classModifiers",
+             DKModifierGroupIDRogueRoguishArchetype: @"classes.rogue.roguishArchetype",
              
              DKModifierGroupIDMainHandWeapon: @"equipment.mainHandWeapon",
              DKModifierGroupIDOffHandWeapon: @"equipment.offHandWeapon",
@@ -330,6 +338,9 @@
                                                            skills:_skills
                                                         equipment:_equipment
                                                  proficiencyBonus:_proficiencyBonus];
+        _classes.rogue = [[DKRogue5E alloc] initWithAbilities:_abilities
+                                                    equipment:_equipment
+                                             proficiencyBonus:_proficiencyBonus];
     }
     return self;
 }

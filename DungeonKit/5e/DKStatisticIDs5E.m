@@ -179,3 +179,9 @@ NSString *const DKStatIDActionSurgeUsesCurrent = @"DKActionSurgeUsesCurrent";
 NSString *const DKStatIDActionSurgeUsesMax = @"DKActionSurgeUsesMax";
 NSString *const DKStatIDIndomitableUsesCurrent = @"DKIndomitableUsesCurrent";
 NSString *const DKStatIDIndomitableUsesMax = @"DKIndomitableUsesMax";
+
+NSString *const DKStatIDRogueLevel = @"DKRogueLevel";
+NSString *const DKStatIDRogueTraits = @"DKRogueTraits";;
+NSString *const DKStatIDRogueHitDice = @"DKRogueHitDice";;
+NSString *const DKStatIDStrokeOfLuckUsesCurrent = @"DKStrokeOfLuckUsesCurrent";;
+NSString *const DKStatIDStrokeOfLuckUsesMax = @"DKStrokeOfLuckUsesMax";;

@@ -12,6 +12,8 @@
 		B322227C1AEB740E00EE0DD6 /* DKSpells5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B322227A1AEB740E00EE0DD6 /* DKSpells5E.m */; };
 		B322227F1AED6CCD00EE0DD6 /* DKSpellbook5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B322227D1AED6CCD00EE0DD6 /* DKSpellbook5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32222801AED6CCD00EE0DD6 /* DKSpellbook5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B322227E1AED6CCD00EE0DD6 /* DKSpellbook5E.m */; };
+		B323F4521B422FB200DA1FCA /* DKRogue5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4501B422FB200DA1FCA /* DKRogue5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B323F4531B422FB200DA1FCA /* DKRogue5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4511B422FB200DA1FCA /* DKRogue5E.m */; };
 		B32C77381A494A2700870150 /* DungeonKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77371A494A2700870150 /* DungeonKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32C773E1A494A2700870150 /* DungeonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B32C77321A494A2700870150 /* DungeonKit.framework */; };
 		B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77441A494A2700870150 /* DungeonKitTests.m */; };
@@ -95,6 +97,8 @@
 		B322227A1AEB740E00EE0DD6 /* DKSpells5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKSpells5E.m; sourceTree = "<group>"; };
 		B322227D1AED6CCD00EE0DD6 /* DKSpellbook5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKSpellbook5E.h; sourceTree = "<group>"; };
 		B322227E1AED6CCD00EE0DD6 /* DKSpellbook5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKSpellbook5E.m; sourceTree = "<group>"; };
+		B323F4501B422FB200DA1FCA /* DKRogue5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKRogue5E.h; sourceTree = "<group>"; };
+		B323F4511B422FB200DA1FCA /* DKRogue5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKRogue5E.m; sourceTree = "<group>"; };
 		B32C77321A494A2700870150 /* DungeonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DungeonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B32C77361A494A2700870150 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B32C77371A494A2700870150 /* DungeonKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DungeonKit.h; sourceTree = "<group>"; };
@@ -267,6 +271,8 @@
 				B3BB9EE31AEF553000012A3B /* DKCleric5E.m */,
 				B3751BD01AF88BCE0018F5D3 /* DKFighter5E.h */,
 				B3751BD11AF88BCE0018F5D3 /* DKFighter5E.m */,
+				B323F4501B422FB200DA1FCA /* DKRogue5E.h */,
+				B323F4511B422FB200DA1FCA /* DKRogue5E.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -363,6 +369,7 @@
 				B3E40D461A57D2BE004342F3 /* DKAbilities5E.h in Headers */,
 				B32C77381A494A2700870150 /* DungeonKit.h in Headers */,
 				B3C605D41A68F90E007FADAB /* DKProficientStatistic.h in Headers */,
+				B323F4521B422FB200DA1FCA /* DKRogue5E.h in Headers */,
 				B36BF3401A737C1300979EE9 /* DKStatisticIDs5E.h in Headers */,
 				B3E40D4F1A57E369004342F3 /* DKConstants.h in Headers */,
 				B3565E081B3297E600C86DC1 /* DKWeapon5E.h in Headers */,
@@ -490,6 +497,7 @@
 				B3E40D6B1A5BD096004342F3 /* DKSavingThrows5E.m in Sources */,
 				B3751BDB1AF9581C0018F5D3 /* DKEquipment5E.m in Sources */,
 				B36BF3331A724EE600979EE9 /* DKCurrency5E.m in Sources */,
+				B323F4531B422FB200DA1FCA /* DKRogue5E.m in Sources */,
 				B3E40D3C1A57D20C004342F3 /* DKDependentModifier.m in Sources */,
 				B3E40D4D1A57D33F004342F3 /* DKCharacter5E.m in Sources */,
 				B3E40D401A57D20C004342F3 /* DKStatistic.m in Sources */,

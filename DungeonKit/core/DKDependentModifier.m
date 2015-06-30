@@ -131,7 +131,10 @@
         for (NSString* key in keys) {
             
             if ([newSource isEqual:[NSNull null]] || !newSource) {
-                [self removeDependencyforKey:key];
+                //If we're missing a dependency, we need to clean up this modifier
+                for (NSString* dependency in _dependencies.allKeys) {
+                    [self removeDependencyforKey:dependency];
+                }
             } else {
                 [self addDependency:newSource forKey:key];
             }
