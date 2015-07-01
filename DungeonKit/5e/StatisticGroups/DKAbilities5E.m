@@ -7,6 +7,7 @@
 //
 
 #import "DKAbilities5E.h"
+#import "DKStatisticIDs5E.h"
 #import "DKModifierBuilder.h"
 
 @implementation DKAbilityScore
@@ -121,12 +122,12 @@
             NSAssert2([score isKindOfClass:[NSNumber class]],
                       @"Received ability score of type %@ (%@), expected NSNumber", NSStringFromClass([score class]), score);
         }
-        self.strength = [DKAbilityScore statisticWithInt:[scoreArray[0] intValue]];
-        self.dexterity = [DKAbilityScore statisticWithInt:[scoreArray[1] intValue]];
-        self.constitution = [DKAbilityScore statisticWithInt:[scoreArray[2] intValue]];
-        self.intelligence = [DKAbilityScore statisticWithInt:[scoreArray[3] intValue]];
-        self.wisdom = [DKAbilityScore statisticWithInt:[scoreArray[4] intValue]];
-        self.charisma = [DKAbilityScore statisticWithInt:[scoreArray[5] intValue]];
+        self.strength.base = scoreArray[0];
+        self.dexterity.base = scoreArray[1];
+        self.constitution.base = scoreArray[2];
+        self.intelligence.base = scoreArray[3];
+        self.wisdom.base = scoreArray[4];
+        self.charisma.base = scoreArray[5];
     }
     
     return self;
@@ -135,6 +136,27 @@
 - (id)initWithStr:(int)str dex:(int)dex con:(int)con intel:(int)intel wis:(int)wis cha:(int)cha {
     
     return [self initWithScoreArray:@[ @(str), @(dex), @(con), @(intel), @(wis), @(cha) ]];
+}
+
+- (NSDictionary*) statisticKeyPaths {
+    return @{
+             DKStatIDStrength: @"strength",
+             DKStatIDDexterity: @"dexterity",
+             DKStatIDConstitution: @"constitution",
+             DKStatIDIntelligence: @"intelligence",
+             DKStatIDWisdom: @"wisdom",
+             DKStatIDCharisma: @"charisma",
+             };
+}
+
+- (void)loadStatistics {
+    
+    self.strength = [DKAbilityScore statisticWithInt:10];
+    self.dexterity = [DKAbilityScore statisticWithInt:10];
+    self.constitution = [DKAbilityScore statisticWithInt:10];
+    self.intelligence = [DKAbilityScore statisticWithInt:10];
+    self.wisdom = [DKAbilityScore statisticWithInt:10];
+    self.charisma = [DKAbilityScore statisticWithInt:10];
 }
 
 - (NSString*) description {

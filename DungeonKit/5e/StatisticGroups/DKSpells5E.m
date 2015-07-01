@@ -7,6 +7,8 @@
 //
 
 #import "DKSpells5E.h"
+#import "DKStatisticGroupIDs5E.h"
+#import "DKStatisticIDs5E.h"
 #import "DKModifierBuilder.h"
 
 @implementation DKSpells5E
@@ -48,47 +50,92 @@
             return nil;
         }
         
-        self.spellbook = [[DKSpellbook5E alloc] init];
-        
-        self.spellSaveDC = [DKNumericStatistic statisticWithInt:8];
-        self.spellAttackBonus = [DKNumericStatistic statisticWithInt:0];
         [self.spellSaveDC applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:proficiencyBonus]];
         [self.spellAttackBonus applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:proficiencyBonus]];
-        self.preparedSpells = [DKSetStatistic statisticWithEmptySet];
-        self.preparedSpellsMax = [DKNumericStatistic statisticWithInt:0];
-        
-        self.firstLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.secondLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.thirdLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.fourthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.fifthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.sixthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.seventhLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.eighthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.ninthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
-        
-        self.firstLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
-        self.secondLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
-        self.thirdLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
-        self.fourthLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
-        self.fifthLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
-        self.sixthLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
-        self.seventhLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
-        self.eighthLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
-        self.ninthLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
-        
-        [_firstLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_firstLevelSpellSlotsMax]];
-        [_secondLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_secondLevelSpellSlotsMax]];
-        [_thirdLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_thirdLevelSpellSlotsMax]];
-        [_fourthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_fourthLevelSpellSlotsMax]];
-        [_fifthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_fifthLevelSpellSlotsMax]];
-        [_sixthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_sixthLevelSpellSlotsMax]];
-        [_seventhLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_seventhLevelSpellSlotsMax]];
-        [_eighthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_eighthLevelSpellSlotsMax]];
-        [_ninthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_ninthLevelSpellSlotsMax]];
     }
     
     return self;
+}
+
+- (NSDictionary*) statisticKeyPaths {
+    return @{
+             DKStatIDSpellSaveDC: @"spellSaveDC",
+             DKStatIDSpellAttackBonus: @"spellAttackBonus",
+             DKStatIDPreparedSpells: @"preparedSpells",
+             DKStatIDPreparedSpellsMax: @"preparedSpellsMax",
+             
+             DKStatIDFirstLevelSpellSlotsCurrent: @"firstLevelSpellSlotsCurrent",
+             DKStatIDSecondLevelSpellSlotsCurrent: @"secondLevelSpellSlotsCurrent",
+             DKStatIDThirdLevelSpellSlotsCurrent: @"thirdLevelSpellSlotsCurrent",
+             DKStatIDFourthLevelSpellSlotsCurrent: @"fourthLevelSpellSlotsCurrent",
+             DKStatIDFifthLevelSpellSlotsCurrent: @"fifthLevelSpellSlotsCurrent",
+             DKStatIDSixthLevelSpellSlotsCurrent: @"sixthLevelSpellSlotsCurrent",
+             DKStatIDSeventhLevelSpellSlotsCurrent: @"seventhLevelSpellSlotsCurrent",
+             DKStatIDEighthLevelSpellSlotsCurrent: @"eighthLevelSpellSlotsCurrent",
+             DKStatIDNinthLevelSpellSlotsCurrent: @"ninthLevelSpellSlotsCurrent",
+             
+             DKStatIDFirstLevelSpellSlotsMax: @"firstLevelSpellSlotsMax",
+             DKStatIDSecondLevelSpellSlotsMax: @"secondLevelSpellSlotsMax",
+             DKStatIDThirdLevelSpellSlotsMax: @"thirdLevelSpellSlotsMax",
+             DKStatIDFourthLevelSpellSlotsMax: @"fourthLevelSpellSlotsMax",
+             DKStatIDFifthLevelSpellSlotsMax: @"fifthLevelSpellSlotsMax",
+             DKStatIDSixthLevelSpellSlotsMax: @"sixthLevelSpellSlotsMax",
+             DKStatIDSeventhLevelSpellSlotsMax: @"seventhLevelSpellSlotsMax",
+             DKStatIDEighthLevelSpellSlotsMax: @"eighthLevelSpellSlotsMax",
+             DKStatIDNinthLevelSpellSlotsMax: @"ninthLevelSpellSlotsMax",
+             };
+}
+
+- (NSDictionary*) statisticGroupKeyPaths {
+    return @{
+             DKStatisticGroupIDSpellbook: @"spellbook",
+             };
+}
+
+- (void)loadStatistics {
+
+    self.spellSaveDC = [DKNumericStatistic statisticWithInt:8];
+    self.spellAttackBonus = [DKNumericStatistic statisticWithInt:0];
+    self.preparedSpells = [DKSetStatistic statisticWithEmptySet];
+    self.preparedSpellsMax = [DKNumericStatistic statisticWithInt:0];
+    
+    self.firstLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.secondLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.thirdLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.fourthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.fifthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.sixthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.seventhLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.eighthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.ninthLevelSpellSlotsCurrent = [DKNumericStatistic statisticWithInt:0];
+    
+    self.firstLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
+    self.secondLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
+    self.thirdLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
+    self.fourthLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
+    self.fifthLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
+    self.sixthLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
+    self.seventhLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
+    self.eighthLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
+    self.ninthLevelSpellSlotsMax = [DKNumericStatistic statisticWithInt:0];
+}
+
+- (void)loadStatisticGroups {
+    
+    self.spellbook = [[DKSpellbook5E alloc] init];
+}
+
+- (void)loadModifiers {
+    
+    [_firstLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_firstLevelSpellSlotsMax]];
+    [_secondLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_secondLevelSpellSlotsMax]];
+    [_thirdLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_thirdLevelSpellSlotsMax]];
+    [_fourthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_fourthLevelSpellSlotsMax]];
+    [_fifthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_fifthLevelSpellSlotsMax]];
+    [_sixthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_sixthLevelSpellSlotsMax]];
+    [_seventhLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_seventhLevelSpellSlotsMax]];
+    [_eighthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_eighthLevelSpellSlotsMax]];
+    [_ninthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_ninthLevelSpellSlotsMax]];
 }
 
 @end

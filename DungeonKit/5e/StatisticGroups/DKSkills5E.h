@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DKStatisticGroup5E.h"
 #import "DKProficientStatistic.h"
 #import "DKAbilities5E.h"
 
-@interface DKSkills5E : NSObject
+@interface DKSkills5E : DKStatisticGroup5E
 
 @property (nonatomic, strong) DKProficientStatistic* acrobatics;
 @property (nonatomic, strong) DKProficientStatistic* animalHandling;

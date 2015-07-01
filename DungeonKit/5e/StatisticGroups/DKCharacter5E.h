@@ -6,10 +6,8 @@
 //  Copyright (c) 2015 Dodge. All rights reserved.
 //
 
-#import "DKStatisticGroup.h"
+#import "DKStatisticGroup5E.h"
 #import "DKDiceCollection.h"
-#import "DKStatisticIDs5E.h"
-#import "DKModifierGroupIDs5E.h"
 #import "DKRace5E.h"
 #import "DKClasses5E.h"
 #import "DKAbilities5E.h"
@@ -19,25 +17,16 @@
 #import "DKCurrency5E.h"
 #import "DKEquipment5E.h"
 
-@interface DKCharacter5E : DKStatisticGroup
+@interface DKCharacter5E : DKStatisticGroup5E
 
+//Statistics
 @property (nonatomic, strong) DKStringStatistic* name;
 @property (nonatomic, strong) DKNumericStatistic* level;
-@property (nonatomic, strong) DKRace5E* race;
-@property (nonatomic, strong) DKSubrace5E* subrace;
-@property (nonatomic, strong) DKClasses5E* classes;
 @property (nonatomic, strong) DKStringStatistic* size;
 @property (nonatomic, strong) DKStringStatistic* alignment;
 
 @property (nonatomic, strong) DKNumericStatistic* inspiration;
 @property (nonatomic, strong) DKNumericStatistic* proficiencyBonus;
-
-@property (nonatomic, strong) DKAbilities5E* abilities;
-@property (nonatomic, strong) DKSavingThrows5E* savingThrows;
-@property (nonatomic, strong) DKSkills5E* skills;
-@property (nonatomic, strong) DKSpells5E* spells;
-@property (nonatomic, strong) DKCurrency5E* currency;
-@property (nonatomic, strong) DKEquipment5E* equipment;
 
 @property (nonatomic, strong) DKNumericStatistic* hitPointsMax;
 @property (nonatomic, strong) DKNumericStatistic* hitPointsTemporary;
@@ -63,5 +52,18 @@
 @property (nonatomic, strong) DKSetStatistic* immunities;
 
 @property (nonatomic, strong) DKSetStatistic* otherTraits;
+
+//Statistic Groups
+@property (nonatomic, strong) DKClasses5E* classes;
+@property (nonatomic, strong) DKAbilities5E* abilities;
+@property (nonatomic, strong) DKSavingThrows5E* savingThrows;
+@property (nonatomic, strong) DKSkills5E* skills;
+@property (nonatomic, strong) DKSpells5E* spells;
+@property (nonatomic, strong) DKCurrency5E* currency;
+@property (nonatomic, strong) DKEquipment5E* equipment;
+
+//Modifier Groups
+@property (nonatomic, strong) DKRace5E* race;
+@property (nonatomic, strong) DKSubrace5E* subrace;
 
 @end

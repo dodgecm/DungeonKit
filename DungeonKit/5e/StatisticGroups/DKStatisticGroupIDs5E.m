@@ -16,3 +16,8 @@ NSString *const DKStatisticGroupIDSavingThrows = @"DKSavingThrows";
 NSString *const DKStatisticGroupIDSkills = @"DKSkills";
 NSString *const DKStatisticGroupIDSpellbook = @"DKSpellbook";
 NSString *const DKStatisticGroupIDSpells = @"DKSpells";
+
+NSString *const DKStatisticGroupIDClasses = @"DKClasses";
+NSString *const DKStatisticGroupIDCleric = @"DKCleric";
+NSString *const DKStatisticGroupIDFighter = @"DKFighter";
+NSString *const DKStatisticGroupIDRogue = @"DKRogue";

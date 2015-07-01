@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DKStatisticGroup5E.h"
 #import "DKStatistic.h"
 
-@interface DKSpellbook5E : NSObject
+@interface DKSpellbook5E : DKStatisticGroup5E
 
 @property (nonatomic, strong) DKSetStatistic* cantrips;
 @property (nonatomic, strong) DKSetStatistic* firstLevelSpells;
@@ -21,7 +22,5 @@
 @property (nonatomic, strong) DKSetStatistic* seventhLevelSpells;
 @property (nonatomic, strong) DKSetStatistic* eighthLevelSpells;
 @property (nonatomic, strong) DKSetStatistic* ninthLevelSpells;
-
-- (id)init;
 
 @end

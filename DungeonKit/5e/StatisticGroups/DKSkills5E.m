@@ -7,6 +7,7 @@
 //
 
 #import "DKSkills5E.h"
+#import "DKStatisticIDs5E.h"
 #import "DKModifierBuilder.h"
 
 @implementation DKSkills5E
@@ -83,6 +84,49 @@
         [_passivePerception applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_perception]];
     }
     return self;
+}
+
+- (NSDictionary*) statisticKeyPaths {
+    return @{
+             DKStatIDSkillAcrobatics: @"acrobatics",
+             DKStatIDSkillAnimalHandling: @"animalHandling",
+             DKStatIDSkillArcana: @"arcana",
+             DKStatIDSkillAthletics: @"athletics",
+             DKStatIDSkillDeception: @"deception",
+             DKStatIDSkillHistory: @"history",
+             DKStatIDSkillInsight: @"insight",
+             DKStatIDSkillIntimidation: @"intimidation",
+             DKStatIDSkillInvestigation: @"investigation",
+             DKStatIDSkillMedicine: @"medicine",
+             DKStatIDSkillNature: @"nature",
+             DKStatIDSkillPerception: @"perception",
+             DKStatIDSkillPerformance: @"performance",
+             DKStatIDSkillPersuasion: @"persuasion",
+             DKStatIDSkillReligion: @"religion",
+             DKStatIDSkillSleightOfHand: @"sleightOfHand",
+             DKStatIDSkillStealth: @"stealth",
+             DKStatIDSkillSurvival: @"survival",
+             DKStatIDSkillPassivePerception: @"passivePerception",
+             
+             DKStatIDSkillAcrobaticsProficiency: @"acrobatics.proficiencyLevel",
+             DKStatIDSkillAnimalHandlingProficiency: @"animalHandling.proficiencyLevel",
+             DKStatIDSkillArcanaProficiency: @"arcana.proficiencyLevel",
+             DKStatIDSkillAthleticsProficiency: @"athletics.proficiencyLevel",
+             DKStatIDSkillDeceptionProficiency: @"deception.proficiencyLevel",
+             DKStatIDSkillHistoryProficiency: @"history.proficiencyLevel",
+             DKStatIDSkillInsightProficiency: @"insight.proficiencyLevel",
+             DKStatIDSkillIntimidationProficiency: @"intimidation.proficiencyLevel",
+             DKStatIDSkillInvestigationProficiency: @"investigation.proficiencyLevel",
+             DKStatIDSkillMedicineProficiency: @"medicine.proficiencyLevel",
+             DKStatIDSkillNatureProficiency: @"nature.proficiencyLevel",
+             DKStatIDSkillPerceptionProficiency: @"perception.proficiencyLevel",
+             DKStatIDSkillPerformanceProficiency: @"performance.proficiencyLevel",
+             DKStatIDSkillPersuasionProficiency: @"persuasion.proficiencyLevel",
+             DKStatIDSkillReligionProficiency: @"religion.proficiencyLevel",
+             DKStatIDSkillSleightOfHandProficiency: @"sleightOfHand.proficiencyLevel",
+             DKStatIDSkillStealthProficiency: @"stealth.proficiencyLevel",
+             DKStatIDSkillSurvivalProficiency: @"survival.proficiencyLevel",
+             };
 }
 
 @end

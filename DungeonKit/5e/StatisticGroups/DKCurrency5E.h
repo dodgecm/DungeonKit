@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DKStatisticGroup5E.h"
 #import "DKStatistic.h"
 
-@interface DKCurrency5E : NSObject
+@interface DKCurrency5E : DKStatisticGroup5E
 
 @property (nonatomic, strong) DKNumericStatistic* copper;
 @property (nonatomic, strong) DKNumericStatistic* silver;

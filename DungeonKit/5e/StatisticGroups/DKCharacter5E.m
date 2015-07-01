@@ -8,25 +8,18 @@
 
 #import "DKCharacter5E.h"
 #import "DKModifierBuilder.h"
+#import "DKStatisticIDs5E.h"
+#import "DKModifierGroupIDs5E.h"
 #import "DKStatisticGroupIDs5E.h"
 
 @implementation DKCharacter5E
 
 @synthesize name = _name;
 @synthesize level = _level;
-@synthesize race = _race;
-@synthesize subrace = _subrace;
-@synthesize classes = _classes;
 @synthesize size = _size;
 @synthesize alignment = _alignment;
 @synthesize inspiration = _inspiration;
 @synthesize proficiencyBonus = _proficiencyBonus;
-@synthesize abilities = _abilities;
-@synthesize savingThrows = _savingThrows;
-@synthesize skills = _skills;
-@synthesize spells = _spells;
-@synthesize currency = _currency;
-@synthesize equipment = _equipment;
 @synthesize hitPointsMax = _hitPointsMax;
 @synthesize hitPointsTemporary = _hitPointsTemporary;
 @synthesize hitPointsCurrent = _hitPointsCurrent;
@@ -46,7 +39,18 @@
 @synthesize immunities = _immunities;
 @synthesize otherTraits = _otherTraits;
 
-+ (NSDictionary*) statisticKeyPaths {
+@synthesize classes = _classes;
+@synthesize abilities = _abilities;
+@synthesize savingThrows = _savingThrows;
+@synthesize skills = _skills;
+@synthesize spells = _spells;
+@synthesize currency = _currency;
+@synthesize equipment = _equipment;
+
+@synthesize race = _race;
+@synthesize subrace = _subrace;
+
+- (NSDictionary*) statisticKeyPaths {
     return @{
              DKStatIDName: @"name",
              DKStatIDLevel: @"level",
@@ -73,173 +77,29 @@
              DKStatIDWeaponProficiencies: @"weaponProficiencies",
              DKStatIDArmorProficiencies: @"armorProficiencies",
              DKStatIDToolProficiencies: @"toolProficiencies",
-             
-             DKStatIDMainHandOccupied: @"equipment.mainHandOccupied",
-             DKStatIDOffHandOccupied: @"equipment.offHandOccupied",
-             DKStatIDArmorSlotOccupied: @"equipment.armorSlotOccupied",
-             DKStatIDMainHandWeaponAttackBonus: @"equipment.mainHandWeaponAttackBonus",
-             DKStatIDMainHandWeaponDamage: @"equipment.mainHandWeaponDamage",
-             DKStatIDMainHandWeaponRange: @"equipment.mainHandWeaponRange",
-             DKStatIDMainHandWeaponAttacksPerAction: @"equipment.mainHandWeaponAttacksPerAction",
-             DKStatIDMainHandWeaponAttributes: @"equipment.mainHandWeaponAttributes",
-             DKStatIDOffHandWeaponAttackBonus: @"equipment.offHandWeaponAttackBonus",
-             DKStatIDOffHandWeaponDamage: @"equipment.offHandWeaponDamage",
-             DKStatIDOffHandWeaponRange: @"equipment.offHandWeaponRange",
-             DKStatIDOffHandWeaponAttacksPerAction: @"equipment.offHandWeaponAttacksPerAction",
-             DKStatIDOffHandWeaponAttributes: @"equipment.offHandWeaponAttributes",
-             
-             DKStatIDInventory: @"equipment.inventory",
-             
+
              DKStatIDLanguages: @"languages",
              
              DKStatIDResistances: @"resistances",
              DKStatIDImmunities: @"immunities",
              
              DKStatIDOtherTraits: @"otherTraits",
-             
-             DKStatIDStrength: @"abilities.strength",
-             DKStatIDDexterity: @"abilities.dexterity",
-             DKStatIDConstitution: @"abilities.constitution",
-             DKStatIDIntelligence: @"abilities.intelligence",
-             DKStatIDWisdom: @"abilities.wisdom",
-             DKStatIDCharisma: @"abilities.charisma",
-             
-             DKStatIDSavingThrowStrength: @"savingThrows.strength",
-             DKStatIDSavingThrowDexterity: @"savingThrows.dexterity",
-             DKStatIDSavingThrowConstitution: @"savingThrows.constitution",
-             DKStatIDSavingThrowIntelligence: @"savingThrows.intelligence",
-             DKStatIDSavingThrowWisdom: @"savingThrows.wisdom",
-             DKStatIDSavingThrowCharisma: @"savingThrows.charisma",
-             DKStatIDSavingThrowOther: @"savingThrows.other",
-             
-             DKStatIDSavingThrowStrengthProficiency: @"savingThrows.strength.proficiencyLevel",
-             DKStatIDSavingThrowDexterityProficiency: @"savingThrows.dexterity.proficiencyLevel",
-             DKStatIDSavingThrowConstitutionProficiency: @"savingThrows.constitution.proficiencyLevel",
-             DKStatIDSavingThrowIntelligenceProficiency: @"savingThrows.intelligence.proficiencyLevel",
-             DKStatIDSavingThrowWisdomProficiency: @"savingThrows.wisdom.proficiencyLevel",
-             DKStatIDSavingThrowCharismaProficiency: @"savingThrows.charisma.proficiencyLevel",
-             
-             DKStatIDSkillAcrobatics: @"skills.acrobatics",
-             DKStatIDSkillAnimalHandling: @"skills.animalHandling",
-             DKStatIDSkillArcana: @"skills.arcana",
-             DKStatIDSkillAthletics: @"skills.athletics",
-             DKStatIDSkillDeception: @"skills.deception",
-             DKStatIDSkillHistory: @"skills.history",
-             DKStatIDSkillInsight: @"skills.insight",
-             DKStatIDSkillIntimidation: @"skills.intimidation",
-             DKStatIDSkillInvestigation: @"skills.investigation",
-             DKStatIDSkillMedicine: @"skills.medicine",
-             DKStatIDSkillNature: @"skills.nature",
-             DKStatIDSkillPerception: @"skills.perception",
-             DKStatIDSkillPerformance: @"skills.performance",
-             DKStatIDSkillPersuasion: @"skills.persuasion",
-             DKStatIDSkillReligion: @"skills.religion",
-             DKStatIDSkillSleightOfHand: @"skills.sleightOfHand",
-             DKStatIDSkillStealth: @"skills.stealth",
-             DKStatIDSkillSurvival: @"skills.survival",
-             
-             DKStatIDSkillAcrobaticsProficiency: @"skills.acrobatics.proficiencyLevel",
-             DKStatIDSkillAnimalHandlingProficiency: @"skills.animalHandling.proficiencyLevel",
-             DKStatIDSkillArcanaProficiency: @"skills.arcana.proficiencyLevel",
-             DKStatIDSkillAthleticsProficiency: @"skills.athletics.proficiencyLevel",
-             DKStatIDSkillDeceptionProficiency: @"skills.deception.proficiencyLevel",
-             DKStatIDSkillHistoryProficiency: @"skills.history.proficiencyLevel",
-             DKStatIDSkillInsightProficiency: @"skills.insight.proficiencyLevel",
-             DKStatIDSkillIntimidationProficiency: @"skills.intimidation.proficiencyLevel",
-             DKStatIDSkillInvestigationProficiency: @"skills.investigation.proficiencyLevel",
-             DKStatIDSkillMedicineProficiency: @"skills.medicine.proficiencyLevel",
-             DKStatIDSkillNatureProficiency: @"skills.nature.proficiencyLevel",
-             DKStatIDSkillPerceptionProficiency: @"skills.perception.proficiencyLevel",
-             DKStatIDSkillPerformanceProficiency: @"skills.performance.proficiencyLevel",
-             DKStatIDSkillPersuasionProficiency: @"skills.persuasion.proficiencyLevel",
-             DKStatIDSkillReligionProficiency: @"skills.religion.proficiencyLevel",
-             DKStatIDSkillSleightOfHandProficiency: @"skills.sleightOfHand.proficiencyLevel",
-             DKStatIDSkillStealthProficiency: @"skills.stealth.proficiencyLevel",
-             DKStatIDSkillSurvivalProficiency: @"skills.survival.proficiencyLevel",
-             
-             DKStatIDSkillPassivePerception: @"skills.passivePerception",
-             
-             DKStatIDCurrencyCopper: @"currency.copper",
-             DKStatIDCurrencySilver: @"currency.silver",
-             DKStatIDCurrencyElectrum: @"currency.electrum",
-             DKStatIDCurrencyGold: @"currency.gold",
-             DKStatIDCurrencyPlatinum: @"currency.platinum",
-             
-             DKStatIDSpellSaveDC: @"spells.spellSaveDC",
-             DKStatIDSpellAttackBonus: @"spells.spellAttackBonus",
-             DKStatIDPreparedSpells: @"spells.preparedSpells",
-             DKStatIDPreparedSpellsMax: @"spells.preparedSpellsMax",
-             
-             DKStatIDFirstLevelSpellSlotsCurrent: @"spells.firstLevelSpellSlotsCurrent",
-             DKStatIDSecondLevelSpellSlotsCurrent: @"spells.secondLevelSpellSlotsCurrent",
-             DKStatIDThirdLevelSpellSlotsCurrent: @"spells.thirdLevelSpellSlotsCurrent",
-             DKStatIDFourthLevelSpellSlotsCurrent: @"spells.fourthLevelSpellSlotsCurrent",
-             DKStatIDFifthLevelSpellSlotsCurrent: @"spells.fifthLevelSpellSlotsCurrent",
-             DKStatIDSixthLevelSpellSlotsCurrent: @"spells.sixthLevelSpellSlotsCurrent",
-             DKStatIDSeventhLevelSpellSlotsCurrent: @"spells.seventhLevelSpellSlotsCurrent",
-             DKStatIDEighthLevelSpellSlotsCurrent: @"spells.eighthLevelSpellSlotsCurrent",
-             DKStatIDNinthLevelSpellSlotsCurrent: @"spells.ninthLevelSpellSlotsCurrent",
-             
-             DKStatIDFirstLevelSpellSlotsMax: @"spells.firstLevelSpellSlotsMax",
-             DKStatIDSecondLevelSpellSlotsMax: @"spells.secondLevelSpellSlotsMax",
-             DKStatIDThirdLevelSpellSlotsMax: @"spells.thirdLevelSpellSlotsMax",
-             DKStatIDFourthLevelSpellSlotsMax: @"spells.fourthLevelSpellSlotsMax",
-             DKStatIDFifthLevelSpellSlotsMax: @"spells.fifthLevelSpellSlotsMax",
-             DKStatIDSixthLevelSpellSlotsMax: @"spells.sixthLevelSpellSlotsMax",
-             DKStatIDSeventhLevelSpellSlotsMax: @"spells.seventhLevelSpellSlotsMax",
-             DKStatIDEighthLevelSpellSlotsMax: @"spells.eighthLevelSpellSlotsMax",
-             DKStatIDNinthLevelSpellSlotsMax: @"spells.ninthLevelSpellSlotsMax",
-             
-             DKStatIDCantrips: @"spells.spellbook.cantrips",
-             DKStatIDFirstLevelSpells: @"spells.spellbook.firstLevelSpells",
-             DKStatIDSecondLevelSpells: @"spells.spellbook.secondLevelSpells",
-             DKStatIDThirdLevelSpells: @"spells.spellbook.thirdLevelSpells",
-             DKStatIDFourthLevelSpells: @"spells.spellbook.fourthLevelSpells",
-             DKStatIDFifthLevelSpells: @"spells.spellbook.fifthLevelSpells",
-             DKStatIDSixthLevelSpells: @"spells.spellbook.sixthLevelSpells",
-             DKStatIDSeventhLevelSpells: @"spells.spellbook.seventhLevelSpells",
-             DKStatIDEighthLevelSpells: @"spells.spellbook.eighthLevelSpells",
-             DKStatIDNinthLevelSpells: @"spells.spellbook.ninthLevelSpells",
-             
-             DKStatIDClericLevel: @"classes.cleric.classLevel",
-             DKStatIDClericTraits: @"classes.cleric.classTraits",
-             DKStatIDClericHitDice: @"classes.cleric.classHitDice",
-             DKStatIDChannelDivinityUsesCurrent: @"classes.cleric.channelDivinityUsesCurrent",
-             DKStatIDChannelDivinityUsesMax: @"classes.cleric.channelDivinityUsesMax",
-             DKStatIDTurnUndead: @"classes.cleric.turnUndead",
-             DKStatIDDivineIntervention: @"classes.cleric.divineIntervention",
-             
-             DKStatIDFighterLevel: @"classes.fighter.classLevel",
-             DKStatIDFighterTraits: @"classes.fighter.classTraits",
-             DKStatIDFighterHitDice: @"classes.fighter.classHitDice",
-             DKStatIDSecondWindUsesCurrent: @"classes.fighter.secondWindUsesCurrent",
-             DKStatIDSecondWindUsesMax: @"classes.fighter.secondWindUsesMax",
-             DKStatIDActionSurgeUsesCurrent: @"classes.fighter.actionSurgeUsesCurrent",
-             DKStatIDActionSurgeUsesMax: @"classes.fighter.actionSurgeUsesMax",
-             DKStatIDIndomitableUsesCurrent: @"classes.fighter.indomitableUsesCurrent",
-             DKStatIDIndomitableUsesMax: @"classes.fighter.indomitableUsesMax",
-             
-             DKStatIDRogueLevel: @"classes.rogue.classLevel",
-             DKStatIDRogueTraits: @"classes.rogue.classTraits",
-             DKStatIDRogueHitDice: @"classes.rogue.classHitDice",
-             DKStatIDStrokeOfLuckUsesCurrent: @"classes.rogue.strokeOfLuckUsesCurrent",
-             DKStatIDStrokeOfLuckUsesMax: @"classes.rogue.strokeOfLuckUsesMax",
              };
 }
 
-+ (NSDictionary*) statisticGroupKeyPaths {
+- (NSDictionary*) statisticGroupKeyPaths {
     return @{
              DKStatisticGroupIDAbilities: @"abilities",
+             DKStatisticGroupIDClasses: @"classes",
              DKStatisticGroupIDCurrency: @"currency",
              DKStatisticGroupIDEquipment: @"equipment",
              DKStatisticGroupIDSavingThrows: @"savingThrows",
              DKStatisticGroupIDSkills: @"skills",
-             DKStatisticGroupIDSpellbook: @"spells.spellbook",
              DKStatisticGroupIDSpells: @"spells",
              };
 }
 
-+ (NSDictionary*) modifierGroupKeyPaths {
+- (NSDictionary*) modifierGroupKeyPaths {
     return @{
              DKModifierGroupIDRace: @"race",
              DKModifierGroupIDSubrace: @"subrace",
@@ -257,32 +117,6 @@
              DKModifierGroupIDShield: @"equipment.shield",
              DKModifierGroupIDOtherEquipment: @"equipment.otherEquipment",
              };
-}
-
-- (id)init {
-    self = [super init];
-    if (self) {
-        
-        NSDictionary* statKeyPaths = [DKCharacter5E statisticKeyPaths];
-        for (NSString* statID in [statKeyPaths allKeys]) {
-            [self addKeyPath:statKeyPaths[statID] forStatisticID:statID];
-        }
-        
-        NSDictionary* statGroupKeyPaths = [DKCharacter5E statisticGroupKeyPaths];
-        for (NSString* statGroupID in [statGroupKeyPaths allKeys]) {
-            [self addKeyPath:statGroupKeyPaths[statGroupID] forStatisticGroupID:statGroupID];
-        }
-        
-        NSDictionary* groupKeyPaths = [DKCharacter5E modifierGroupKeyPaths];
-        for (NSString* groupID in [groupKeyPaths allKeys]) {
-            [self addKeyPath:groupKeyPaths[groupID] forModifierGroupID:groupID];
-        }
-        
-        [self loadStatistics];
-        [self loadStatisticGroups];
-        [self loadModifiers];
-    }
-    return self;
 }
 
 - (void)loadStatistics {
@@ -336,10 +170,6 @@
                                           weaponProficiencies:_weaponProficiencies
                                            armorProficiencies:_armorProficiencies];
     
-    //Now that all the statistics are set up, we can add modifier groups
-    self.race = [DKRace5EBuilder human];
-    self.subrace = nil;
-    
     self.classes = [[DKClasses5E alloc] init];
     _classes.cleric = [[DKCleric5E alloc] initWithAbilities:_abilities];
     _classes.fighter = [[DKFighter5E alloc] initWithAbilities:_abilities
@@ -373,6 +203,9 @@
     [_deathSaveSuccesses applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
     [_deathSaveFailures applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
     
+    //Modifier groups
+    self.race = [DKRace5EBuilder human];
+    self.subrace = nil;
 }
 
 @end

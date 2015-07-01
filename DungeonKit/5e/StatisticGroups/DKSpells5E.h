@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DKStatisticGroup5E.h"
 #import "DKStatistic.h"
 #import "DKSpellbook5E.h"
 
-@interface DKSpells5E : NSObject
+@interface DKSpells5E : DKStatisticGroup5E
 
 @property (nonatomic, strong) DKSpellbook5E* spellbook;
 

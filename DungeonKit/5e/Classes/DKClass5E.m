@@ -60,16 +60,11 @@
 
 #pragma mark -
 
-- (id)init {
+- (void)loadStatistics {
     
-    self = [super init];
-    if (self) {
-        self.classLevel = [DKNumericStatistic statisticWithInt:0];
-        self.classTraits = [DKSetStatistic statisticWithEmptySet];
-        self.classHitDice = [DKDiceStatistic statisticWithNoDice];
-    }
-    
-    return self;
+    self.classLevel = [DKNumericStatistic statisticWithInt:0];
+    self.classTraits = [DKSetStatistic statisticWithEmptySet];
+    self.classHitDice = [DKDiceStatistic statisticWithNoDice];
 }
 
 @end

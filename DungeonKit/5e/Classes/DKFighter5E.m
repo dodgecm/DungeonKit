@@ -397,17 +397,6 @@
     self = [super init];
     if (self) {
         
-        self.secondWindUsesCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.secondWindUsesMax = [DKNumericStatistic statisticWithInt:0];
-        self.actionSurgeUsesCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.actionSurgeUsesMax = [DKNumericStatistic statisticWithInt:0];
-        self.indomitableUsesCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.indomitableUsesMax = [DKNumericStatistic statisticWithInt:0];
-        
-        [_secondWindUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_secondWindUsesMax]];
-        [_actionSurgeUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_actionSurgeUsesMax]];
-        [_indomitableUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_indomitableUsesMax]];
-        
         self.classModifiers = [DKFighter5E fighterWithLevel:self.classLevel
                                                   abilities:abilities
                                                   equipment:equipment];
@@ -420,6 +409,39 @@
                                                               proficiencyBonus:proficiencyBonus];
     }
     return self;
+}
+
+- (NSDictionary*) statisticKeyPaths {
+    return @{
+             DKStatIDFighterLevel: @"classLevel",
+             DKStatIDFighterTraits: @"classTraits",
+             DKStatIDFighterHitDice: @"classHitDice",
+             DKStatIDSecondWindUsesCurrent: @"secondWindUsesCurrent",
+             DKStatIDSecondWindUsesMax: @"secondWindUsesMax",
+             DKStatIDActionSurgeUsesCurrent: @"actionSurgeUsesCurrent",
+             DKStatIDActionSurgeUsesMax: @"actionSurgeUsesMax",
+             DKStatIDIndomitableUsesCurrent: @"indomitableUsesCurrent",
+             DKStatIDIndomitableUsesMax: @"indomitableUsesMax",
+             };
+}
+
+- (void)loadStatistics {
+    
+    [super loadStatistics];
+    self.secondWindUsesCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.secondWindUsesMax = [DKNumericStatistic statisticWithInt:0];
+    self.actionSurgeUsesCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.actionSurgeUsesMax = [DKNumericStatistic statisticWithInt:0];
+    self.indomitableUsesCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.indomitableUsesMax = [DKNumericStatistic statisticWithInt:0];
+}
+
+- (void)loadModifiers {
+    
+    [super loadModifiers];
+    [_secondWindUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_secondWindUsesMax]];
+    [_actionSurgeUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_actionSurgeUsesMax]];
+    [_indomitableUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_indomitableUsesMax]];
 }
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DKStatisticGroup.h"
+#import "DKStatisticGroup5E.h"
 #import "DKStatistic.h"
 #import "DKDependentModifier.h"
 
@@ -29,7 +29,7 @@
 
 @end
 
-@interface DKAbilities5E : NSObject
+@interface DKAbilities5E : DKStatisticGroup5E
 
 @property (nonatomic, strong) DKAbilityScore* strength;
 @property (nonatomic, strong) DKAbilityScore* dexterity;

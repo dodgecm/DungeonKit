@@ -28,6 +28,8 @@
 		B323F47B1B43C48600DA1FCA /* DKCharacter5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4791B43C48600DA1FCA /* DKCharacter5E.m */; };
 		B323F47E1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F47C1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B323F47F1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F47D1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.m */; };
+		B323F4821B43C96C00DA1FCA /* DKStatisticGroup5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4801B43C96C00DA1FCA /* DKStatisticGroup5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B323F4831B43C96C00DA1FCA /* DKStatisticGroup5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4811B43C96C00DA1FCA /* DKStatisticGroup5E.m */; };
 		B32C77381A494A2700870150 /* DungeonKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77371A494A2700870150 /* DungeonKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32C773E1A494A2700870150 /* DungeonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B32C77321A494A2700870150 /* DungeonKit.framework */; };
 		B32C77451A494A2700870150 /* DungeonKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32C77441A494A2700870150 /* DungeonKitTests.m */; };
@@ -115,6 +117,8 @@
 		B323F4791B43C48600DA1FCA /* DKCharacter5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKCharacter5E.m; sourceTree = "<group>"; };
 		B323F47C1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKStatisticGroupIDs5E.h; sourceTree = "<group>"; };
 		B323F47D1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStatisticGroupIDs5E.m; sourceTree = "<group>"; };
+		B323F4801B43C96C00DA1FCA /* DKStatisticGroup5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKStatisticGroup5E.h; sourceTree = "<group>"; };
+		B323F4811B43C96C00DA1FCA /* DKStatisticGroup5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStatisticGroup5E.m; sourceTree = "<group>"; };
 		B32C77321A494A2700870150 /* DungeonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DungeonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B32C77361A494A2700870150 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B32C77371A494A2700870150 /* DungeonKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DungeonKit.h; sourceTree = "<group>"; };
@@ -197,6 +201,8 @@
 			children = (
 				B323F47C1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.h */,
 				B323F47D1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.m */,
+				B323F4801B43C96C00DA1FCA /* DKStatisticGroup5E.h */,
+				B323F4811B43C96C00DA1FCA /* DKStatisticGroup5E.m */,
 				B323F45C1B43C41900DA1FCA /* DKAbilities5E.h */,
 				B323F45D1B43C41900DA1FCA /* DKAbilities5E.m */,
 				B323F4781B43C48600DA1FCA /* DKCharacter5E.h */,
@@ -393,6 +399,7 @@
 				B3BB9EE41AEF553000012A3B /* DKClass5E.h in Headers */,
 				B36BF3491A762FE900979EE9 /* DKModifierGroupIDs5E.h in Headers */,
 				B3BB9EEA1AEF555600012A3B /* DKClasses5E.h in Headers */,
+				B323F4821B43C96C00DA1FCA /* DKStatisticGroup5E.h in Headers */,
 				B323F4741B43C41900DA1FCA /* DKSpellbook5E.h in Headers */,
 				B323F46C1B43C41900DA1FCA /* DKCurrency5E.h in Headers */,
 				B3565E0F1B39368900C86DC1 /* DKArmor5E.h in Headers */,
@@ -520,6 +527,7 @@
 				B36BF34A1A762FE900979EE9 /* DKModifierGroupIDs5E.m in Sources */,
 				B36BF3521A7630A800979EE9 /* DKRace5E.m in Sources */,
 				B3751BCF1AF72E110018F5D3 /* DKModifierBuilder.m in Sources */,
+				B323F4831B43C96C00DA1FCA /* DKStatisticGroup5E.m in Sources */,
 				B3565E091B3297E600C86DC1 /* DKWeapon5E.m in Sources */,
 				B323F46F1B43C41900DA1FCA /* DKEquipment5E.m in Sources */,
 				B323F47B1B43C48600DA1FCA /* DKCharacter5E.m in Sources */,

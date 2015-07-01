@@ -7,6 +7,7 @@
 //
 
 #import "DKSpellbook5E.h"
+#import "DKStatisticIDs5E.h"
 
 @implementation DKSpellbook5E
 
@@ -21,24 +22,33 @@
 @synthesize eighthLevelSpells = _eighthLevelSpells;
 @synthesize ninthLevelSpells = _ninthLevelSpells;
 
-- (id)init {
+- (NSDictionary*) statisticKeyPaths {
+    return @{
+             DKStatIDCantrips: @"cantrips",
+             DKStatIDFirstLevelSpells: @"firstLevelSpells",
+             DKStatIDSecondLevelSpells: @"secondLevelSpells",
+             DKStatIDThirdLevelSpells: @"thirdLevelSpells",
+             DKStatIDFourthLevelSpells: @"fourthLevelSpells",
+             DKStatIDFifthLevelSpells: @"fifthLevelSpells",
+             DKStatIDSixthLevelSpells: @"sixthLevelSpells",
+             DKStatIDSeventhLevelSpells: @"seventhLevelSpells",
+             DKStatIDEighthLevelSpells: @"eighthLevelSpells",
+             DKStatIDNinthLevelSpells: @"ninthLevelSpells",
+             };
+}
+
+- (void)loadStatistics {
     
-    self = [super init];
-    if (self) {
-        
-        self.cantrips = [DKSetStatistic statisticWithEmptySet];
-        self.firstLevelSpells = [DKSetStatistic statisticWithEmptySet];
-        self.secondLevelSpells = [DKSetStatistic statisticWithEmptySet];
-        self.thirdLevelSpells = [DKSetStatistic statisticWithEmptySet];
-        self.fourthLevelSpells = [DKSetStatistic statisticWithEmptySet];
-        self.fifthLevelSpells = [DKSetStatistic statisticWithEmptySet];
-        self.sixthLevelSpells = [DKSetStatistic statisticWithEmptySet];
-        self.seventhLevelSpells = [DKSetStatistic statisticWithEmptySet];
-        self.eighthLevelSpells = [DKSetStatistic statisticWithEmptySet];
-        self.ninthLevelSpells = [DKSetStatistic statisticWithEmptySet];
-    }
-    
-    return self;
+    self.cantrips = [DKSetStatistic statisticWithEmptySet];
+    self.firstLevelSpells = [DKSetStatistic statisticWithEmptySet];
+    self.secondLevelSpells = [DKSetStatistic statisticWithEmptySet];
+    self.thirdLevelSpells = [DKSetStatistic statisticWithEmptySet];
+    self.fourthLevelSpells = [DKSetStatistic statisticWithEmptySet];
+    self.fifthLevelSpells = [DKSetStatistic statisticWithEmptySet];
+    self.sixthLevelSpells = [DKSetStatistic statisticWithEmptySet];
+    self.seventhLevelSpells = [DKSetStatistic statisticWithEmptySet];
+    self.eighthLevelSpells = [DKSetStatistic statisticWithEmptySet];
+    self.ninthLevelSpells = [DKSetStatistic statisticWithEmptySet];
 }
 
 @end

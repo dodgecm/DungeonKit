@@ -11,6 +11,7 @@
 #import "DKCharacter5E.h"
 #import "DKEquipment5E.h"
 #import "DKModifierBuilder.h"
+#import "DKStatisticIDs5E.h"
 
 @interface DKEquipmentTests : XCTestCase
 @property (nonatomic, strong) DKCharacter5E* character;

@@ -36,4 +36,22 @@
     return self;
 }
 
+#pragma mark NSCoding
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    [super encodeWithCoder:aCoder];
+    [aCoder encodeObject:_proficiencyLevel forKey:@"proficiencyLevel"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        
+        _proficiencyLevel = [aDecoder decodeObjectForKey:@"proficiencyLevel"];
+    }
+    
+    return self;
+}
+
 @end

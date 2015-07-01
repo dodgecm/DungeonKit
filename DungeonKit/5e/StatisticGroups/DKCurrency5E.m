@@ -7,6 +7,7 @@
 //
 
 #import "DKCurrency5E.h"
+#import "DKStatisticIDs5E.h"
 
 @implementation DKCurrency5E
 
@@ -16,16 +17,23 @@
 @synthesize gold = _gold;
 @synthesize platinum = _platinum;
 
-- (id)init {
-    self = [super init];
-    if (self) {
-        self.copper = [DKNumericStatistic statisticWithInt:0];
-        self.silver = [DKNumericStatistic statisticWithInt:0];
-        self.electrum = [DKNumericStatistic statisticWithInt:0];
-        self.gold = [DKNumericStatistic statisticWithInt:0];
-        self.platinum = [DKNumericStatistic statisticWithInt:0];
-    }
-    return self;
+- (NSDictionary*) statisticKeyPaths {
+    return @{
+             DKStatIDCurrencyCopper: @"copper",
+             DKStatIDCurrencySilver: @"silver",
+             DKStatIDCurrencyElectrum: @"electrum",
+             DKStatIDCurrencyGold: @"gold",
+             DKStatIDCurrencyPlatinum: @"platinum",
+             };
+}
+
+- (void)loadStatistics {
+    
+    self.copper = [DKNumericStatistic statisticWithInt:0];
+    self.silver = [DKNumericStatistic statisticWithInt:0];
+    self.electrum = [DKNumericStatistic statisticWithInt:0];
+    self.gold = [DKNumericStatistic statisticWithInt:0];
+    self.platinum = [DKNumericStatistic statisticWithInt:0];
 }
 
 - (NSString*) description {
