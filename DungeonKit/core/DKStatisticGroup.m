@@ -19,6 +19,7 @@
 
 @implementation DKStatisticGroup
 
+@synthesize owner = _owner;
 @synthesize statistics = _statistics;
 @synthesize statisticGroups = _statisticGroups;
 @synthesize modifierGroups = _modifierGroups;
@@ -121,8 +122,13 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
 
 - (void)applyModifier:(DKModifier*)modifier toStatisticWithID:(NSString*)statID {
     
-    DKStatistic* stat = [self statisticForID:statID];
-    [stat applyModifier:modifier];
+    //We want modifiers to go all the way to the top of the tree, so that we can see every registered statistic
+    if (_owner) {
+        [_owner applyModifier:modifier toStatisticWithID:statID];
+    } else {
+        DKStatistic* stat = [self statisticForID:statID];
+        [stat applyModifier:modifier];
+    }
 }
 
 #pragma mark -
@@ -146,7 +152,8 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     
     [self removeStatisticGroupWithID:statGroupID];
     [_statisticGroups setObject:keyPath forKey:statGroupID];
-    [self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:DKCharacterStatisticGroupKVOContext];
+    [self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial
+              context:DKCharacterStatisticGroupKVOContext];
 }
 
 - (void)addStatisticGroup:(DKStatisticGroup*)statisticGroup forStatisticGroupID:(NSString*)statGroupID {
@@ -155,6 +162,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     
     [self removeStatisticGroupWithID:statGroupID];
     [_statisticGroups setObject:statisticGroup forKey:statGroupID];
+    [statisticGroup wasAddedToOwner:self];
 }
 
 - (void)removeStatisticGroupWithID:(NSString*)statGroupID {
@@ -163,13 +171,19 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     id groupToRemoveOrKeyPath = _statisticGroups[statGroupID];
     if (!groupToRemoveOrKeyPath) { return; }
     
+    DKStatisticGroup* groupToRemove = nil;
     if ([groupToRemoveOrKeyPath isKindOfClass:[NSString class]]) {
         //If the object is a string, then this group is registered through its key path
         NSString* keyPath = (NSString*)groupToRemoveOrKeyPath;
+        groupToRemove = [self valueForKeyPath:keyPath];
         [self removeObserver:self forKeyPath:keyPath];
+    } else if ([groupToRemoveOrKeyPath isKindOfClass:[DKStatisticGroup class]]) {
+        //Otherwise, it was just registered directly
+        groupToRemove = (DKStatisticGroup*)groupToRemoveOrKeyPath;
     }
     
     [_statisticGroups removeObjectForKey:statGroupID];
+    [groupToRemove wasAddedToOwner:nil];
 }
 
 #pragma mark -
@@ -192,7 +206,8 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     
     [self removeModifierGroupWithID:groupID];
     [_modifierGroups setObject:keyPath forKey:groupID];
-    [self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:DKCharacterModifierGroupKVOContext];
+    [self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew|NSKeyValueObservingOptionInitial
+              context:DKCharacterModifierGroupKVOContext];
 }
 
 - (void)addModifierGroup:(DKModifierGroup*)modifierGroup forGroupID:(NSString*)groupID {
@@ -237,6 +252,10 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     [groupToRemove wasAddedToOwner:nil];
 }
 
+- (void)wasAddedToOwner:(id<DKStatisticGroupOwner>)owner {
+    _owner = owner;
+}
+
 #pragma DKModifierGroupOwner
 
 - (void)removeModifierGroup:(DKModifierGroup*)modifierGroup {
@@ -279,17 +298,30 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
         for (DKModifier* modifier in oldGroup.modifiers) {
             [modifier removeFromStatistic];
         }
+        [oldGroup wasAddedToOwner:nil];
         DKModifierGroup* newGroup = change[@"new"];
         if ([newGroup isEqual:[NSNull null]]) { newGroup = nil; }
         for (DKModifier* modifier in newGroup.modifiers) {
             [self applyModifier:modifier toStatisticWithID:[newGroup statIDForModifier:modifier]];
         }
+        [newGroup wasAddedToOwner:self];
+        
+    } else if (context == DKCharacterStatisticGroupKVOContext) {
+        
+        DKStatisticGroup* oldGroup = change[@"old"];
+        if ([oldGroup isEqual:[NSNull null]]) { oldGroup = nil; }
+        [oldGroup wasAddedToOwner:nil];
+        
+        DKStatisticGroup* newGroup = change[@"new"];
+        if ([newGroup isEqual:[NSNull null]]) { newGroup = nil; }
+        [newGroup wasAddedToOwner:self];
     }
 }
 
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     
+    [aCoder encodeConditionalObject:_owner forKey:@"owner"];
     [aCoder encodeObject:_statistics forKey:@"statistics"];
     [aCoder encodeObject:_statisticGroups forKey:@"statisticGroups"];
     [aCoder encodeObject:_modifierGroups forKey:@"modifierGroups"];
@@ -330,6 +362,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     self = [super init];
     if (self) {
         
+        _owner = [aDecoder decodeObjectForKey:@"owner"];
         _statistics = [NSMutableDictionary dictionary];
         _statisticGroups = [NSMutableDictionary dictionary];
         _modifierGroups = [NSMutableDictionary dictionary];

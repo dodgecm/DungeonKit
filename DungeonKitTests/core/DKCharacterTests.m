@@ -177,8 +177,10 @@
     
     [_testCharacter addKeyPath:@"modifierGroup" forModifierGroupID:@"group1"];
     DKModifierGroup* firstGroup = [[DKModifierGroup alloc] init];
+    XCTAssertNil(firstGroup.owner, @"Owner should start off as nil");
     [firstGroup addModifier:_testModifier forStatisticID:@"test"];
     _testCharacter.modifierGroup = firstGroup;
+    XCTAssertEqual(firstGroup.owner, _testCharacter, @"Owner should be set when modifier group is set.");
     
     XCTAssertEqualObjects(_testCharacter.testStatistic.value, @12, @"Modifier group should be applied properly.");
     
@@ -188,15 +190,21 @@
     _testCharacter.modifierGroup = firstGroup;
     [_testCharacter removeModifierGroupWithID:@"group1"];
     XCTAssertEqualObjects(_testCharacter.testStatistic.value, @10, @"Modifier group should be removed properly.");
+    XCTAssertNil(firstGroup.owner, @"Owner should be nil after it's removed");
+    
+    [_testCharacter addKeyPath:@"modifierGroup" forModifierGroupID:@"group1"];
+    XCTAssertEqual(firstGroup.owner, _testCharacter, @"Owner should be set when modifier group is set.");
 }
 
 - (void)testStatisticGroupOperations {
     
     XCTAssertNil([_testCharacter statisticForID:@"subgroupStatistic"], @"Statistic group has not been added yet.");
+    XCTAssertNil(self.testStatGroup.owner, @"Owner should start off as nil.");
     
     [_testCharacter addKeyPath:@"statGroup" forStatisticGroupID:@"testGroup"];
     _testCharacter.statGroup = self.testStatGroup;
     
+    XCTAssertEqual(self.testStatGroup.owner, _testCharacter, @"Owner should be set correctly.");
     XCTAssertEqualObjects(_testCharacter.statGroup.testStatistic, [_testCharacter statisticForID:@"subgroupStatistic"], @"Parent group should be able to find the statistic.");
     XCTAssertEqualObjects([_testCharacter statisticForID:@"subgroupStatistic"].value, @12, @"Statistic should have the right value.");
     
@@ -205,6 +213,10 @@
     
     [_testCharacter removeStatisticGroupWithID:@"testGroup"];
     XCTAssertNil([_testCharacter statisticForID:@"subgroupStatistic"], @"Statistic group was removed.");
+    XCTAssertNil(self.testStatGroup.owner, @"Owner should be removed properly.");
+    
+    [_testCharacter addKeyPath:@"statGroup" forStatisticGroupID:@"testGroup"];
+    XCTAssertEqual(self.testStatGroup.owner, _testCharacter, @"Owner should be set correctly.");
 }
 
 - (void)testEncoding {
