@@ -8,6 +8,7 @@
 
 #import "DKCharacter5E.h"
 #import "DKModifierBuilder.h"
+#import "DKStatisticGroupIDs5E.h"
 
 @implementation DKCharacter5E
 
@@ -226,6 +227,18 @@
              };
 }
 
++ (NSDictionary*) statisticGroupKeyPaths {
+    return @{
+             DKStatisticGroupIDAbilities: @"abilities",
+             DKStatisticGroupIDCurrency: @"currency",
+             DKStatisticGroupIDEquipment: @"equipment",
+             DKStatisticGroupIDSavingThrows: @"savingThrows",
+             DKStatisticGroupIDSkills: @"skills",
+             DKStatisticGroupIDSpellbook: @"spells.spellbook",
+             DKStatisticGroupIDSpells: @"spells",
+             };
+}
+
 + (NSDictionary*) modifierGroupKeyPaths {
     return @{
              DKModifierGroupIDRace: @"race",
@@ -255,94 +268,111 @@
             [self addKeyPath:statKeyPaths[statID] forStatisticID:statID];
         }
         
+        NSDictionary* statGroupKeyPaths = [DKCharacter5E statisticGroupKeyPaths];
+        for (NSString* statGroupID in [statGroupKeyPaths allKeys]) {
+            [self addKeyPath:statGroupKeyPaths[statGroupID] forStatisticGroupID:statGroupID];
+        }
+        
         NSDictionary* groupKeyPaths = [DKCharacter5E modifierGroupKeyPaths];
         for (NSString* groupID in [groupKeyPaths allKeys]) {
             [self addKeyPath:groupKeyPaths[groupID] forModifierGroupID:groupID];
         }
         
-        self.name = [DKStringStatistic statisticWithString:@""];
-        self.level = [DKNumericStatistic statisticWithInt:0];
-        self.size = [DKStringStatistic statisticWithString:@""];
-        self.alignment = [DKStringStatistic statisticWithString:@""];
-        
-        //Inspiration is binary
-        self.inspiration = [DKNumericStatistic statisticWithInt:0];
-        [_inspiration applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:1]];
-        
-        //Set up proficiency bonus to increase based on the level automatically
-        self.proficiencyBonus = [DKNumericStatistic statisticWithInt:2];
-        DKDependentModifier* levelModifier = [[DKDependentModifier alloc] initWithSource:_level
-                                                                                   value:[NSExpression expressionWithFormat:
-                                                                                          @"max:({ 0, ($source - 1) / 4 })"]
-                                                                                priority:kDKModifierPriority_Additive
-                                                                              expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-        [_proficiencyBonus applyModifier:levelModifier];
-        
-        //Initialize ability score block and saving throws
-        self.abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
-        self.savingThrows = [[DKSavingThrows5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
-        self.skills = [[DKSkills5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
-        self.spells = [[DKSpells5E alloc] initWithProficiencyBonus:_proficiencyBonus];
-        self.currency = [[DKCurrency5E alloc] init];
-        
-        //Link maximum and current HP so that current HP value will update when max HP value changes
-        self.hitPointsMax = [DKNumericStatistic statisticWithInt:0];
-        self.hitPointsTemporary = [DKNumericStatistic statisticWithInt:0];
-        self.hitPointsCurrent = [DKNumericStatistic statisticWithInt:0];
-        [_hitPointsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitPointsMax]];
-        [_hitPointsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitPointsTemporary]];
-        
-        //Set up hit dice similarly to HP dependencies
-        self.hitDiceMax = [DKDiceStatistic statisticWithNoDice];
-        self.hitDiceCurrent = [DKDiceStatistic statisticWithNoDice];
-        
-        //Initialize armor class
-        self.armorClass = [DKNumericStatistic statisticWithInt:10];
-        
-        //Initialize initiative so that it gets a bonus from dexterity
-        self.initiativeBonus = [DKNumericStatistic statisticWithInt:0];
-        [_initiativeBonus applyModifier:[_abilities.dexterity modifierFromAbilityScore]];
-        
-        self.movementSpeed = [DKNumericStatistic statisticWithInt:0];
-        self.darkvisionRange = [DKNumericStatistic statisticWithInt:0];
-        
-        self.weaponProficiencies = [DKSetStatistic statisticWithEmptySet];
-        self.armorProficiencies = [DKSetStatistic statisticWithEmptySet];
-        self.toolProficiencies = [DKSetStatistic statisticWithEmptySet];
-        
-        self.equipment = [[DKEquipment5E alloc] initWithAbilities:_abilities
-                                                 proficiencyBonus:_proficiencyBonus
-                                                    characterSize:_size
-                                              weaponProficiencies:_weaponProficiencies
-                                               armorProficiencies:_armorProficiencies];
-        
-        self.languages = [DKSetStatistic statisticWithEmptySet];
-        self.resistances = [DKSetStatistic statisticWithEmptySet];
-        self.immunities = [DKSetStatistic statisticWithEmptySet];
-        
-        self.otherTraits = [DKSetStatistic statisticWithEmptySet];
-        
-        //Cap the value of death saves between 0 and 3
-        self.deathSaveSuccesses = [DKNumericStatistic statisticWithInt:0];
-        self.deathSaveFailures = [DKNumericStatistic statisticWithInt:0];
-        [_deathSaveSuccesses applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
-        [_deathSaveFailures applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
-        
-        //Now that all the statistics are set up, we can add modifier groups
-        self.race = [DKRace5EBuilder human];
-        self.subrace = nil;
-        
-        self.classes = [[DKClasses5E alloc] init];
-        _classes.cleric = [[DKCleric5E alloc] initWithAbilities:_abilities];
-        _classes.fighter = [[DKFighter5E alloc] initWithAbilities:_abilities
-                                                           skills:_skills
-                                                        equipment:_equipment
-                                                 proficiencyBonus:_proficiencyBonus];
-        _classes.rogue = [[DKRogue5E alloc] initWithAbilities:_abilities
-                                                    equipment:_equipment
-                                             proficiencyBonus:_proficiencyBonus];
+        [self loadStatistics];
+        [self loadStatisticGroups];
+        [self loadModifiers];
     }
     return self;
+}
+
+- (void)loadStatistics {
+    
+    self.name = [DKStringStatistic statisticWithString:@""];
+    self.level = [DKNumericStatistic statisticWithInt:0];
+    self.size = [DKStringStatistic statisticWithString:@""];
+    self.alignment = [DKStringStatistic statisticWithString:@""];
+    
+    self.inspiration = [DKNumericStatistic statisticWithInt:0];
+    self.proficiencyBonus = [DKNumericStatistic statisticWithInt:2];
+    
+    self.hitPointsMax = [DKNumericStatistic statisticWithInt:0];
+    self.hitPointsTemporary = [DKNumericStatistic statisticWithInt:0];
+    self.hitPointsCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.hitDiceMax = [DKDiceStatistic statisticWithNoDice];
+    self.hitDiceCurrent = [DKDiceStatistic statisticWithNoDice];
+    
+    self.armorClass = [DKNumericStatistic statisticWithInt:10];
+    self.initiativeBonus = [DKNumericStatistic statisticWithInt:0];
+    
+    self.movementSpeed = [DKNumericStatistic statisticWithInt:0];
+    self.darkvisionRange = [DKNumericStatistic statisticWithInt:0];
+    
+    self.weaponProficiencies = [DKSetStatistic statisticWithEmptySet];
+    self.armorProficiencies = [DKSetStatistic statisticWithEmptySet];
+    self.toolProficiencies = [DKSetStatistic statisticWithEmptySet];
+    
+    self.languages = [DKSetStatistic statisticWithEmptySet];
+    self.resistances = [DKSetStatistic statisticWithEmptySet];
+    self.immunities = [DKSetStatistic statisticWithEmptySet];
+    
+    self.otherTraits = [DKSetStatistic statisticWithEmptySet];
+    
+    self.deathSaveSuccesses = [DKNumericStatistic statisticWithInt:0];
+    self.deathSaveFailures = [DKNumericStatistic statisticWithInt:0];
+}
+
+- (void)loadStatisticGroups {
+    
+    //Initialize ability score block and saving throws
+    self.abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
+    self.savingThrows = [[DKSavingThrows5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
+    self.skills = [[DKSkills5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
+    self.spells = [[DKSpells5E alloc] initWithProficiencyBonus:_proficiencyBonus];
+    self.currency = [[DKCurrency5E alloc] init];
+    
+    self.equipment = [[DKEquipment5E alloc] initWithAbilities:_abilities
+                                             proficiencyBonus:_proficiencyBonus
+                                                characterSize:_size
+                                          weaponProficiencies:_weaponProficiencies
+                                           armorProficiencies:_armorProficiencies];
+    
+    //Now that all the statistics are set up, we can add modifier groups
+    self.race = [DKRace5EBuilder human];
+    self.subrace = nil;
+    
+    self.classes = [[DKClasses5E alloc] init];
+    _classes.cleric = [[DKCleric5E alloc] initWithAbilities:_abilities];
+    _classes.fighter = [[DKFighter5E alloc] initWithAbilities:_abilities
+                                                       skills:_skills
+                                                    equipment:_equipment
+                                             proficiencyBonus:_proficiencyBonus];
+    _classes.rogue = [[DKRogue5E alloc] initWithAbilities:_abilities
+                                                equipment:_equipment
+                                         proficiencyBonus:_proficiencyBonus];
+}
+
+- (void)loadModifiers {
+    
+    //Inspiration is binary
+    [_inspiration applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:1]];
+    
+    //Set up proficiency bonus to increase based on the level automatically
+    DKDependentModifier* levelModifier = [[DKDependentModifier alloc] initWithSource:_level
+                                                                               value:[NSExpression expressionWithFormat:
+                                                                                      @"max:({ 0, ($source - 1) / 4 })"]
+                                                                            priority:kDKModifierPriority_Additive
+                                                                          expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [_proficiencyBonus applyModifier:levelModifier];
+    
+    //Link maximum and current HP so that current HP value will update when max HP value changes
+    [_hitPointsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitPointsMax]];
+    [_hitPointsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitPointsTemporary]];
+    
+    [_initiativeBonus applyModifier:[_abilities.dexterity modifierFromAbilityScore]];
+    
+    [_deathSaveSuccesses applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
+    [_deathSaveFailures applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
+    
 }
 
 @end

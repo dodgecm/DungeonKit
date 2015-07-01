@@ -8,14 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
-#import "DKCharacter.h"
+#import "DKStatisticGroup.h"
 #import "DKModifierBuilder.h"
 
-@interface DKTestCharacter : DKCharacter
+@interface DKTestCharacter : DKStatisticGroup
 @property (nonatomic, strong) DKStatistic* testStatistic;
 @property (nonatomic, strong) DKStatistic* testStatistic2;
 @property (nonatomic, strong) DKModifierGroup* modifierGroup;
 @property (nonatomic, strong) DKModifierGroup* modifierGroup2;
+@property (nonatomic, strong) DKTestCharacter* statGroup;
 @end
 
 @implementation DKTestCharacter
@@ -23,11 +24,13 @@
 @synthesize testStatistic2 = _testStatistic2;
 @synthesize modifierGroup = _modifierGroup;
 @synthesize modifierGroup2 = _modifierGroup2;
+@synthesize statGroup = _statGroup;
 @end
 
 @interface DKCharacterTests : XCTestCase
 
 @property (nonatomic, strong) DKTestCharacter* testCharacter;
+@property (nonatomic, strong) DKTestCharacter* testStatGroup;
 @property (nonatomic, strong) DKStatistic* testStatistic;
 @property (nonatomic, strong) DKModifier* testModifier;
 @property (nonatomic, strong) DKModifierGroup* testGroup;
@@ -37,6 +40,7 @@
 @implementation DKCharacterTests
 
 @synthesize testCharacter = _testCharacter;
+@synthesize testStatGroup = _testStatGroup;
 @synthesize testStatistic = _testStatistic;
 @synthesize testModifier = _testModifier;
 @synthesize testGroup = _testGroup;
@@ -53,6 +57,10 @@
     self.testGroup = [[DKModifierGroup alloc] init];
     [_testGroup addModifier:groupModifierOne forStatisticID:@"test"];
     [_testGroup addModifier:groupModifierTwo forStatisticID:@"two"];
+    
+    self.testStatGroup = [[DKTestCharacter alloc] init];
+    [_testStatGroup addKeyPath:@"testStatistic" forStatisticID:@"subgroupStatistic"];
+    _testStatGroup.testStatistic = [DKNumericStatistic statisticWithInt:12];
 }
 
 - (void)tearDown {
@@ -62,7 +70,7 @@
 
 - (void)testConstructors {
     
-    XCTAssertNotNil([[DKCharacter alloc] init], @"Constructors should return non-nil object.");
+    XCTAssertNotNil([[DKStatisticGroup alloc] init], @"Constructors should return non-nil object.");
 }
 
 - (void)testDealloc {
@@ -180,6 +188,23 @@
     _testCharacter.modifierGroup = firstGroup;
     [_testCharacter removeModifierGroupWithID:@"group1"];
     XCTAssertEqualObjects(_testCharacter.testStatistic.value, @10, @"Modifier group should be removed properly.");
+}
+
+- (void)testStatisticGroupOperations {
+    
+    XCTAssertNil([_testCharacter statisticForID:@"subgroupStatistic"], @"Statistic group has not been added yet.");
+    
+    [_testCharacter addKeyPath:@"statGroup" forStatisticGroupID:@"testGroup"];
+    _testCharacter.statGroup = self.testStatGroup;
+    
+    XCTAssertEqualObjects(_testCharacter.statGroup.testStatistic, [_testCharacter statisticForID:@"subgroupStatistic"], @"Parent group should be able to find the statistic.");
+    XCTAssertEqualObjects([_testCharacter statisticForID:@"subgroupStatistic"].value, @12, @"Statistic should have the right value.");
+    
+    [_testCharacter applyModifier:self.testModifier toStatisticWithID:@"subgroupStatistic"];
+    XCTAssertEqualObjects([_testCharacter statisticForID:@"subgroupStatistic"].value, @14, @"Modifier should be applied properly.");
+    
+    [_testCharacter removeStatisticGroupWithID:@"testGroup"];
+    XCTAssertNil([_testCharacter statisticForID:@"subgroupStatistic"], @"Statistic group was removed.");
 }
 
 - (void)testEncoding {

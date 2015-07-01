@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Dodge. All rights reserved.
 //
 
-#import "DKCharacter.h"
+#import "DKStatisticGroup.h"
 #import "DKDiceCollection.h"
 #import "DKStatisticIDs5E.h"
 #import "DKModifierGroupIDs5E.h"
@@ -19,7 +19,7 @@
 #import "DKCurrency5E.h"
 #import "DKEquipment5E.h"
 
-@interface DKCharacter5E : DKCharacter
+@interface DKCharacter5E : DKStatisticGroup
 
 @property (nonatomic, strong) DKStringStatistic* name;
 @property (nonatomic, strong) DKNumericStatistic* level;

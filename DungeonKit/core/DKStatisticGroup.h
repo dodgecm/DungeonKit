@@ -10,7 +10,7 @@
 #import "DKStatistic.h"
 #import "DKModifierGroup.h"
 
-@interface DKCharacter : NSObject <DKModifierGroupOwner, NSCoding> {
+@interface DKStatisticGroup : NSObject <DKModifierGroupOwner, NSCoding> {
     
 }
 
@@ -20,6 +20,11 @@
 - (void)removeStatisticWithID:(NSString*)statID;
 
 - (void)applyModifier:(DKModifier*)modifier toStatisticWithID:(NSString*)statID;
+
+- (DKStatisticGroup*)statisticGroupForID:(NSString*)statGroupID;
+- (void)addKeyPath:(NSString*)keyPath forStatisticGroupID:(NSString*)statGroupID;
+- (void)addStatisticGroup:(DKStatisticGroup*)statisticGroup forStatisticGroupID:(NSString*)statGroupID;
+- (void)removeStatisticGroupWithID:(NSString*)statGroupID;
 
 - (DKModifierGroup*)modifierGroupForID:(NSString*)groupID;
 - (void)addKeyPath:(NSString*)keyPath forModifierGroupID:(NSString*)groupID;
