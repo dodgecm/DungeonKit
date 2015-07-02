@@ -18,6 +18,8 @@ NSString *const DKModifierGroupIDFighterClass = @"DKFighterClass";
 NSString *const DKModifierGroupIDFighterMartialArchetype = @"DKFighterMartialArchetype";
 NSString *const DKModifierGroupIDRogueClass = @"DKRogueClass";
 NSString *const DKModifierGroupIDRogueRoguishArchetype = @"DKRogueMartialArchetype";
+NSString *const DKModifierGroupIDWizardClass = @"DKWizardClass";
+NSString *const DKModifierGroupIDWizardArcaneTradition = @"DKWizardArcaneTradition";
 
 NSString *const DKModifierGroupIDMainHandWeapon = @"DKModifierMainHandWeapon";
 NSString *const DKModifierGroupIDOffHandWeapon = @"DKModifierOffHandWeapon";

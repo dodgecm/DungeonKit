@@ -190,4 +190,6 @@ FOUNDATION_EXPORT NSString *const DKStatIDArcaneRecoveryUsesCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDArcaneRecoveryUsesMax;
 FOUNDATION_EXPORT NSString *const DKStatIDArcaneRecoverySpellSlots;
 FOUNDATION_EXPORT NSString *const DKStatIDSpellMasterySpells;
+FOUNDATION_EXPORT NSString *const DKStatIDSignatureSpellUsesCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDSignatureSpellUsesMax;
 FOUNDATION_EXPORT NSString *const DKStatIDSignatureSpells;

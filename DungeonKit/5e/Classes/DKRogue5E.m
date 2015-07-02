@@ -173,6 +173,8 @@
         [class addSubgroup:abilityScoreGroup];
     }
     
+    [class addModifier:[DKModifierBuilder modifierWithAdditiveBonus:100 explanation:@"Rogue starting gold"] forStatisticID:DKStatIDCurrencyGold];
+    
     return class;
 }
 

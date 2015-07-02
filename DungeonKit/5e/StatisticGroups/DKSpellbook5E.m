@@ -22,6 +22,27 @@
 @synthesize eighthLevelSpells = _eighthLevelSpells;
 @synthesize ninthLevelSpells = _ninthLevelSpells;
 
++ (NSString*)statIDForSpellLevel:(NSInteger)spellLevel {
+    static dispatch_once_t once;
+    static NSDictionary* spellLevelToStatIDs;
+    dispatch_once(&once, ^ {
+        
+        spellLevelToStatIDs = @{ @(1) : DKStatIDFirstLevelSpells,
+                                 @(2) : DKStatIDSecondLevelSpells,
+                                 @(3) : DKStatIDThirdLevelSpells,
+                                 @(4) : DKStatIDFourthLevelSpells,
+                                 @(5) : DKStatIDFifthLevelSpells,
+                                 @(6) : DKStatIDSixthLevelSpells,
+                                 @(7) : DKStatIDSeventhLevelSpells,
+                                 @(8) : DKStatIDEighthLevelSpells,
+                                 @(9) : DKStatIDNinthLevelSpells,
+                                 };
+    });
+    
+    return spellLevelToStatIDs[@(spellLevel)];
+}
+
+
 - (NSDictionary*) statisticKeyPaths {
     return @{
              DKStatIDCantrips: @"cantrips",

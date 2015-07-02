@@ -110,6 +110,8 @@
              DKModifierGroupIDFighterMartialArchetype: @"classes.fighter.martialArchetype",
              DKModifierGroupIDRogueClass: @"classes.rogue.classModifiers",
              DKModifierGroupIDRogueRoguishArchetype: @"classes.rogue.roguishArchetype",
+             DKModifierGroupIDWizardClass: @"classes.wizard.classModifiers",
+             DKModifierGroupIDWizardArcaneTradition: @"classes.wizard.arcaneTradition",
              
              DKModifierGroupIDMainHandWeapon: @"equipment.mainHandWeapon",
              DKModifierGroupIDOffHandWeapon: @"equipment.offHandWeapon",
@@ -179,6 +181,7 @@
     _classes.rogue = [[DKRogue5E alloc] initWithAbilities:_abilities
                                                 equipment:_equipment
                                          proficiencyBonus:_proficiencyBonus];
+    _classes.wizard = [[DKWizard5E alloc] initWithAbilities:_abilities];
 }
 
 - (void)loadModifiers {

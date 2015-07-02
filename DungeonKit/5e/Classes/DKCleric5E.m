@@ -100,6 +100,8 @@
         [class addSubgroup:abilityScoreGroup];
     }
     
+    [class addModifier:[DKModifierBuilder modifierWithAdditiveBonus:125 explanation:@"Cleric starting gold"] forStatisticID:DKStatIDCurrencyGold];
+    
     return class;
 }
 

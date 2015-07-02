@@ -105,6 +105,8 @@
         [class addSubgroup:abilityScoreGroup];
     }
     
+    [class addModifier:[DKModifierBuilder modifierWithAdditiveBonus:125 explanation:@"Fighter starting gold"] forStatisticID:DKStatIDCurrencyGold];
+    
     return class;
 }
 

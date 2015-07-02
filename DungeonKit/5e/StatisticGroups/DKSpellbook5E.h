@@ -23,4 +23,6 @@
 @property (nonatomic, strong) DKSetStatistic* eighthLevelSpells;
 @property (nonatomic, strong) DKSetStatistic* ninthLevelSpells;
 
++ (NSString*)statIDForSpellLevel:(NSInteger)spellLevel;
+
 @end

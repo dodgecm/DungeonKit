@@ -193,4 +193,6 @@ NSString *const DKStatIDArcaneRecoveryUsesCurrent = @"DKArcaneRecoveryUsesCurren
 NSString *const DKStatIDArcaneRecoveryUsesMax = @"DKArcaneRecoveryUsesMax";
 NSString *const DKStatIDArcaneRecoverySpellSlots = @"DKArcaneRecoverySpellSlots";
 NSString *const DKStatIDSpellMasterySpells = @"DKSpellMasterySpells";
+NSString *const DKStatIDSignatureSpellUsesCurrent = @"DKSignatureSpellUsesCurrent";
+NSString *const DKStatIDSignatureSpellUsesMax = @"DKSignatureSpellUsesMax";
 NSString *const DKStatIDSignatureSpells = @"DKSignatureSpells";

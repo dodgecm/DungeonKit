@@ -12,6 +12,7 @@
 #import "DKAbilities5E.h"
 #import "DKModifierBuilder.h"
 #import "DKWeapon5E.h"
+#import "DKSpellbook5E.h"
 
 @implementation DKWizard5E
 
@@ -19,9 +20,12 @@
 @synthesize arcaneRecoveryUsesMax = _arcaneRecoveryUsesMax;
 @synthesize arcaneRecoverySpellSlots = _arcaneRecoverySpellSlots;
 @synthesize spellMasterySpells = _spellMasterySpells;
+@synthesize signatureSpellUsesCurrent = _signatureSpellUsesCurrent;
+@synthesize signatureSpellUsesMax = _signatureSpellUsesMax;
 @synthesize signatureSpells = _signatureSpells;
+@synthesize arcaneTradition = _arcaneTradition;
 
-+ (DKModifierGroup*)clericWithLevel:(DKNumericStatistic*)level abilities:(DKAbilities5E*)abilities {
++ (DKModifierGroup*)wizardWithLevel:(DKNumericStatistic*)level abilities:(DKAbilities5E*)abilities {
     
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
     class.explanation = @"Wizard class modifiers";
@@ -71,6 +75,12 @@
                 forStatisticID:DKStatIDSkillArcanaProficiency];
     [class addSubgroup:skillSubgroup];
     
+    DKModifierGroup* cantripsGroup = [DKWizard5E cantripsWithLevel:level];
+    [class addSubgroup:cantripsGroup];
+    
+    DKModifierGroup* spellSlotsGroup = [DKWizard5E spellSlotsWithLevel:level];
+    [class addSubgroup:spellSlotsGroup];
+    
     DKModifierGroup* arcaneRecoveryGroup = [DKWizard5E arcaneRecoveryWithWizardLevel:level];
     [class addSubgroup:arcaneRecoveryGroup];
     
@@ -86,7 +96,180 @@
         [class addSubgroup:abilityScoreGroup];
     }
     
+    [class addModifier:[DKModifierBuilder modifierWithAdditiveBonus:100 explanation:@"Wizard starting gold"] forStatisticID:DKStatIDCurrencyGold];
+    
     return class;
+}
+
++ (DKModifierGroup*)cantripsWithLevel:(DKNumericStatistic*)level {
+    
+    DKModifierGroup* cantripsGroup = [[DKModifierGroup alloc] init];
+    cantripsGroup.explanation = @"Wizard cantrips";
+    DKModifierGroup* cantripStartingGroup = [[DKModifierGroup alloc] init];
+    cantripStartingGroup.explanation = @"Wizards are granted three cantrips at first level";
+    [cantripsGroup addSubgroup:cantripStartingGroup];
+    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Light" explanation:@"First level Wizard cantrip (default)"] forStatisticID:DKStatIDCantrips];
+    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Mage Hand" explanation:@"First level Wizard cantrip (default)"] forStatisticID:DKStatIDCantrips];
+    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Ray of Frost" explanation:@"First level Wizard cantrip (default)"] forStatisticID:DKStatIDCantrips];
+    
+    DKModifierGroup* cantripSecondGroup = [[DKModifierGroup alloc] init];
+    cantripSecondGroup.explanation = @"Wizards are granted one additional cantrip at fourth level";
+    [cantripsGroup addSubgroup:cantripSecondGroup];
+    [cantripSecondGroup addModifier:[DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                     value:[DKDependentModifierBuilder expressionForConstantValue:@"Minor Illusion"]
+                                                                                   enabled:[DKDependentModifierBuilder
+                                                                                            enabledWhen:@"source" isGreaterThanOrEqualTo:4]
+                                                                               explanation:@"Fourth level Wizard cantrip (default)"]
+                     forStatisticID:DKStatIDCantrips];
+    
+    DKModifierGroup* cantripThirdGroup = [[DKModifierGroup alloc] init];
+    cantripThirdGroup.explanation = @"Wizards are granted one additional cantrip at tenth level";
+    [cantripsGroup addSubgroup:cantripThirdGroup];
+    [cantripThirdGroup addModifier:[DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                    value:[DKDependentModifierBuilder expressionForConstantValue:@"Mending"]
+                                                                                  enabled:[DKDependentModifierBuilder
+                                                                                           enabledWhen:@"source" isGreaterThanOrEqualTo:10]
+                                                                              explanation:@"Tenth level Wizard cantrip (default)"]
+                    forStatisticID:DKStatIDCantrips];
+    
+    return cantripsGroup;
+}
+
++ (DKModifierGroup*)spellSlotsWithLevel:(DKNumericStatistic*)level {
+    
+    DKModifierGroup* spellSlotsGroup = [[DKModifierGroup alloc] init];
+    spellSlotsGroup.explanation = @"Wizard spell slots";
+    
+    NSExpression* firstLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:0] : @(0),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:1 max:1] : @(2),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:2 max:2] : @(3),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:3 max:20] : @(4) }
+                                                                                          usingDependency:@"source"];
+    DKDependentModifier* firstLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
+                                                                                      value:firstLevelSpellSlotsValue
+                                                                                   priority:kDKModifierPriority_Additive
+                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [spellSlotsGroup addModifier:firstLevelSpellSlots forStatisticID:DKStatIDFirstLevelSpellSlotsMax];
+    
+    NSExpression* secondLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                               @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:2] : @(0),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:3 max:3] : @(2),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:4 max:20] : @(3) }
+                                                                                           usingDependency:@"source"];
+    DKDependentModifier* secondLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
+                                                                                       value:secondLevelSpellSlotsValue
+                                                                                    priority:kDKModifierPriority_Additive
+                                                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [spellSlotsGroup addModifier:secondLevelSpellSlots forStatisticID:DKStatIDSecondLevelSpellSlotsMax];
+    
+    NSExpression* thirdLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:4] : @(0),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:5 max:5] : @(2),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:6 max:20] : @(3) }
+                                                                                          usingDependency:@"source"];
+    DKDependentModifier* thirdLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
+                                                                                      value:thirdLevelSpellSlotsValue
+                                                                                   priority:kDKModifierPriority_Additive
+                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [spellSlotsGroup addModifier:thirdLevelSpellSlots forStatisticID:DKStatIDThirdLevelSpellSlotsMax];
+    
+    NSExpression* fourthLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                               @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:6] : @(0),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:7 max:7] : @(1),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:8 max:8] : @(2),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:9 max:20] : @(3) }
+                                                                                           usingDependency:@"source"];
+    DKDependentModifier* fourthLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
+                                                                                       value:fourthLevelSpellSlotsValue
+                                                                                    priority:kDKModifierPriority_Additive
+                                                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [spellSlotsGroup addModifier:fourthLevelSpellSlots forStatisticID:DKStatIDFourthLevelSpellSlotsMax];
+    
+    NSExpression* fifthLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:8] : @(0),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:9 max:9] : @(1),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:10 max:17] : @(2),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:18 max:20] : @(3) }
+                                                                                          usingDependency:@"source"];
+    DKDependentModifier* fifthLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
+                                                                                      value:fifthLevelSpellSlotsValue
+                                                                                   priority:kDKModifierPriority_Additive
+                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [spellSlotsGroup addModifier:fifthLevelSpellSlots forStatisticID:DKStatIDFifthLevelSpellSlotsMax];
+    
+    NSExpression* sixthLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:10] : @(0),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:11 max:18] : @(1),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:19 max:20] : @(2) }
+                                                                                          usingDependency:@"source"];
+    DKDependentModifier* sixthLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
+                                                                                      value:sixthLevelSpellSlotsValue
+                                                                                   priority:kDKModifierPriority_Additive
+                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [spellSlotsGroup addModifier:sixthLevelSpellSlots forStatisticID:DKStatIDSixthLevelSpellSlotsMax];
+    
+    NSExpression* seventhLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                                @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:12] : @(0),
+                                                   [DKDependentModifierBuilder rangeValueWithMin:13 max:19] : @(1),
+                                                   [DKDependentModifierBuilder rangeValueWithMin:20 max:20] : @(2) }
+                                                                                            usingDependency:@"source"];
+    DKDependentModifier* seventhLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
+                                                                                        value:seventhLevelSpellSlotsValue
+                                                                                     priority:kDKModifierPriority_Additive
+                                                                                   expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [spellSlotsGroup addModifier:seventhLevelSpellSlots forStatisticID:DKStatIDSeventhLevelSpellSlotsMax];
+    
+    NSExpression* eighthLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                               @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:14] : @(0),
+                                                  [DKDependentModifierBuilder rangeValueWithMin:15 max:20] : @(1) }
+                                                                                           usingDependency:@"source"];
+    DKDependentModifier* eighthLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
+                                                                                       value:eighthLevelSpellSlotsValue
+                                                                                    priority:kDKModifierPriority_Additive
+                                                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [spellSlotsGroup addModifier:eighthLevelSpellSlots forStatisticID:DKStatIDEighthLevelSpellSlotsMax];
+    
+    NSExpression* ninthLevelSpellSlotsValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:16] : @(0),
+                                                 [DKDependentModifierBuilder rangeValueWithMin:17 max:20] : @(1) }
+                                                                                          usingDependency:@"source"];
+    DKDependentModifier* ninthLevelSpellSlots = [[DKDependentModifier alloc] initWithSource:level
+                                                                                      value:ninthLevelSpellSlotsValue
+                                                                                   priority:kDKModifierPriority_Additive
+                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [spellSlotsGroup addModifier:ninthLevelSpellSlots forStatisticID:DKStatIDNinthLevelSpellSlotsMax];
+    
+    return spellSlotsGroup;
+}
+
++ (DKModifierGroup*)spellbookWithWizardLevel:(DKNumericStatistic*)level {
+    
+    DKModifierGroup* spellbookGroup = [[DKModifierGroup alloc] init];
+    spellbookGroup.explanation = @"Wizard spellbook";
+    
+    NSArray* startingSpells = @[@"Burning Hands", @"Charm Person", @"Mage Armor", @"Magic Missile", @"Shield", @"Sleep"];
+    for (NSString* spellName in startingSpells) {
+        [spellbookGroup addModifier:[DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                             constantValue:spellName
+                                                                                   enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                            isGreaterThanOrEqualTo:1]
+                                                                               explanation:@"Spell learned at Wizard level 1."]
+                     forStatisticID:DKStatIDFirstLevelSpells];
+    }
+    
+    for (NSInteger i = 2; i <= 20; i++) {
+        NSInteger highestSpellLevel = i / 2;
+        DKModifier* newSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                        constantValue:@"Placeholder"
+                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                       isGreaterThanOrEqualTo:i]
+                                                                          explanation:[NSString stringWithFormat:@"Spell learned at Wizard level %li.", (long)i]];
+        [spellbookGroup addModifier:newSpell forStatisticID:[DKSpellbook5E statIDForSpellLevel:highestSpellLevel]];
+        [spellbookGroup addModifier:[newSpell copy] forStatisticID:[DKSpellbook5E statIDForSpellLevel:highestSpellLevel]];
+    }
+    
+    return spellbookGroup;
 }
 
 + (DKModifierGroup*)arcaneRecoveryWithWizardLevel:(DKNumericStatistic*)level {
@@ -178,7 +361,82 @@
                                                                                       explanation:@"Choose a 3rd-level wizard spell in your spellbook as one of your signature spells."];
     [signatureSpellsGroup addModifier:otherThirdLevelSpell forStatisticID:DKStatIDSignatureSpells];
     
+    DKModifier* signatureSpellUsesModifier = [DKDependentModifierBuilder addedNumberFromSource:level
+                                                                               constantValue:@2
+                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                              isGreaterThanOrEqualTo:20]
+                                                                                 explanation:@"Once you cast a signature spell using this feature, you can’t use it again without a spell slot until you finish a short or long rest."];
+    [signatureSpellsGroup addModifier:signatureSpellUsesModifier forStatisticID:DKStatIDSignatureSpellUsesMax];
+    
     return signatureSpellsGroup;
+}
+
+#pragma mark -
+
++ (DKModifierGroup*)evocationArcaneTraditionWithLevel:(DKNumericStatistic*)level {
+    
+    DKModifierGroup* evocationGroup = [[DKModifierGroup alloc] init];
+    evocationGroup.explanation = @"Evocation Arcane Tradition";
+    
+    //Evocation Savant
+    NSString* evocationSavantExplanation = @"No attack roll has advantage against you while you aren’t incapacitated.";
+    DKModifier* evocationSavantModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                           constantValue:@"Evocation Savant"
+                                                                                 enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                          isGreaterThanOrEqualTo:2]
+                                                                             explanation:evocationSavantExplanation];
+    [evocationGroup addModifier:evocationSavantModifier forStatisticID:DKStatIDWizardTraits];
+    
+    //Sculpt Spells
+    NSString* sculptSpellsExplanation = @"When you cast an evocation spell that affects other creatures that you can see, you can choose a number of them equal to 1 + the spell’s level. The chosen creatures automatically succeed on their saving throws against the spell, and they take no damage if they would normally take half damage on a successful save.";
+    DKModifier* sculptSpellsModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                   constantValue:@"Sculpt Spells"
+                                                                                         enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                  isGreaterThanOrEqualTo:2]
+                                                                                     explanation:sculptSpellsExplanation];
+    [evocationGroup addModifier:sculptSpellsModifier forStatisticID:DKStatIDWizardTraits];
+    
+    //Potent Cantrip
+    NSString* potentCantripExplanation = @"When a creature succeeds on a saving throw against your cantrip, the creature takes half the cantrip’s damage (if any) but suffers no additional effect from the cantrip.";
+    DKModifier* potentCantripModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                constantValue:@"Potent Cantrip"
+                                                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                               isGreaterThanOrEqualTo:6]
+                                                                                  explanation:potentCantripExplanation];
+    [evocationGroup addModifier:potentCantripModifier forStatisticID:DKStatIDWizardTraits];
+    
+    //Empowered Evocation
+    NSString* empoweredEvocationExplanation = @"You can add your Intelligence modifier to one damage roll of any wizard evocation spell you cast.";
+    DKModifier* empoweredEvocationModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                 constantValue:@"Empowered Evocation"
+                                                                                       enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                isGreaterThanOrEqualTo:10]
+                                                                                   explanation:empoweredEvocationExplanation];
+    [evocationGroup addModifier:empoweredEvocationModifier forStatisticID:DKStatIDWizardTraits];
+    
+    //Overchannel
+    NSString* overchannelExplanation = @"When you cast a wizard spell of 1st through 5th level that deals damage, you can deal maximum damage with that spell.  The first time you do so, you suffer no adverse effect. If you use this feature again before you finish a long rest, you take 2d12 necrotic damage for each level of the spell, immediately after you cast it. Each time you use this feature again before finishing a long rest, the necrotic damage per spell level increases by 1d12. This damage ignores resistance and immunity.";
+    DKModifier* overchannelModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                      constantValue:@"Overchannel"
+                                                                                            enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                     isGreaterThanOrEqualTo:14]
+                                                                                        explanation:overchannelExplanation];
+    [evocationGroup addModifier:overchannelModifier forStatisticID:DKStatIDWizardTraits];
+    
+    return evocationGroup;
+}
+
+- (id)initWithAbilities:(DKAbilities5E*)abilities {
+    self = [super init];
+    if (self) {
+        
+        self.classModifiers = [DKWizard5E wizardWithLevel:self.classLevel abilities:abilities];
+        [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
+                                                                                     explanation:@"Wizard hit dice"] forStatisticID:DKStatIDHitDiceMax];
+        
+        self.arcaneTradition = [DKWizard5E evocationArcaneTraditionWithLevel:self.classLevel];
+    }
+    return self;
 }
 
 - (NSDictionary*) statisticKeyPaths {
@@ -190,6 +448,8 @@
              DKStatIDArcaneRecoveryUsesMax: @"arcaneRecoveryUsesMax",
              DKStatIDArcaneRecoverySpellSlots: @"arcaneRecoverySpellSlots",
              DKStatIDSpellMasterySpells: @"spellMasterySpells",
+             DKStatIDSignatureSpellUsesCurrent: @"signatureSpellUsesCurrent",
+             DKStatIDSignatureSpellUsesMax: @"signatureSpellUsesMax",
              DKStatIDSignatureSpells: @"signatureSpells",
              };
 }
@@ -201,6 +461,8 @@
     self.arcaneRecoveryUsesMax = [DKNumericStatistic statisticWithInt:0];
     self.arcaneRecoverySpellSlots = [DKNumericStatistic statisticWithInt:0];
     self.spellMasterySpells = [DKSetStatistic statisticWithEmptySet];
+    self.signatureSpellUsesCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.signatureSpellUsesMax = [DKNumericStatistic statisticWithInt:0];
     self.signatureSpells = [DKSetStatistic statisticWithEmptySet];
 }
 
@@ -208,6 +470,7 @@
     
     [super loadModifiers];
     [_arcaneRecoveryUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_arcaneRecoveryUsesMax]];
+    [_signatureSpellUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_signatureSpellUsesMax]];
 }
 
 @end
