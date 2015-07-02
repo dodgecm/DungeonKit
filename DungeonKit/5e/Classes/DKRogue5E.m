@@ -160,11 +160,11 @@
                                                                                  explanation:strokeOfLuckExplanation];
     [class addModifier:strokeOfLuckAbility forStatisticID:DKStatIDRogueTraits];
     
-    DKModifier* strokeOfLuckModifier = [DKDependentModifierBuilder addedDiceModifierFromSource:level
-                                                                                         value:[DKDependentModifierBuilder expressionForConstantInteger:1]
-                                                                                       enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                isGreaterThanOrEqualTo:20]
-                                                                                   explanation:@"20th level Rogue ability"];
+    DKModifier* strokeOfLuckModifier = [DKDependentModifierBuilder addedNumberFromSource:level
+                                                                           constantValue:@1
+                                                                                 enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                          isGreaterThanOrEqualTo:20]
+                                                                             explanation:@"Once you use this feature, you can’t use it again until you finish a short or long rest."];
     [class addModifier:strokeOfLuckModifier forStatisticID:DKStatIDStrokeOfLuckUsesMax];
 
     NSArray* abilityScoreImprovementLevels = @[ @4, @8, @10, @12, @16, @19];

@@ -181,7 +181,16 @@ NSString *const DKStatIDIndomitableUsesCurrent = @"DKIndomitableUsesCurrent";
 NSString *const DKStatIDIndomitableUsesMax = @"DKIndomitableUsesMax";
 
 NSString *const DKStatIDRogueLevel = @"DKRogueLevel";
-NSString *const DKStatIDRogueTraits = @"DKRogueTraits";;
-NSString *const DKStatIDRogueHitDice = @"DKRogueHitDice";;
-NSString *const DKStatIDStrokeOfLuckUsesCurrent = @"DKStrokeOfLuckUsesCurrent";;
-NSString *const DKStatIDStrokeOfLuckUsesMax = @"DKStrokeOfLuckUsesMax";;
+NSString *const DKStatIDRogueTraits = @"DKRogueTraits";
+NSString *const DKStatIDRogueHitDice = @"DKRogueHitDice";
+NSString *const DKStatIDStrokeOfLuckUsesCurrent = @"DKStrokeOfLuckUsesCurrent";
+NSString *const DKStatIDStrokeOfLuckUsesMax = @"DKStrokeOfLuckUsesMax";
+
+NSString *const DKStatIDWizardLevel = @"DKWizardLevel";
+NSString *const DKStatIDWizardTraits = @"DKWizardTraits";
+NSString *const DKStatIDWizardHitDice = @"DKWizardHitDice";
+NSString *const DKStatIDArcaneRecoveryUsesCurrent = @"DKArcaneRecoveryUsesCurrent";
+NSString *const DKStatIDArcaneRecoveryUsesMax = @"DKArcaneRecoveryUsesMax";
+NSString *const DKStatIDArcaneRecoverySpellSlots = @"DKArcaneRecoverySpellSlots";
+NSString *const DKStatIDSpellMasterySpells = @"DKSpellMasterySpells";
+NSString *const DKStatIDSignatureSpells = @"DKSignatureSpells";

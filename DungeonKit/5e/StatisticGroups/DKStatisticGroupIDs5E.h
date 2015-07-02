@@ -18,3 +18,4 @@ FOUNDATION_EXPORT NSString *const DKStatisticGroupIDClasses;
 FOUNDATION_EXPORT NSString *const DKStatisticGroupIDCleric;
 FOUNDATION_EXPORT NSString *const DKStatisticGroupIDFighter;
 FOUNDATION_EXPORT NSString *const DKStatisticGroupIDRogue;
+FOUNDATION_EXPORT NSString *const DKStatisticGroupIDWizard;

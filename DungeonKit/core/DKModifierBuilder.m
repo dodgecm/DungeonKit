@@ -146,6 +146,20 @@
     return modifier;
 }
 
++ (id)addedNumberFromSource:(NSObject<DKDependentModifierOwner>*)source
+              constantValue:(id)constantValue
+                    enabled:(NSPredicate*)enabledPredicate
+                explanation:(NSString*)explanation {
+    
+    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
+                                                                          value:[NSExpression expressionForConstantValue:constantValue]
+                                                                        enabled:enabledPredicate
+                                                                       priority:kDKModifierPriority_Additive
+                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    modifier.explanation = explanation;
+    return modifier;
+}
+
 + (id)appendedModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
                            value:(NSExpression*)valueExpression
                          enabled:(NSPredicate*)enabledPredicate

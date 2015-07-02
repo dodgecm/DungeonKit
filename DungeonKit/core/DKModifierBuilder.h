@@ -60,6 +60,11 @@
 + (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
                    explanation:(NSString*)explanation;
 
++ (id)addedNumberFromSource:(NSObject<DKDependentModifierOwner>*)source
+              constantValue:(id)constantValue
+                    enabled:(NSPredicate*)enabledPredicate
+                explanation:(NSString*)explanation;
+
 + (id)appendedModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
                            value:(NSExpression*)valueExpression
                          enabled:(NSPredicate*)enabledPredicate

@@ -14,12 +14,14 @@
 @synthesize cleric = _cleric;
 @synthesize fighter = _fighter;
 @synthesize rogue = _rogue;
+@synthesize wizard = _wizard;
 
 - (NSDictionary*) statisticGroupKeyPaths {
     return @{
              DKStatisticGroupIDCleric: @"cleric",
              DKStatisticGroupIDFighter: @"fighter",
              DKStatisticGroupIDRogue: @"rogue",
+             DKStatisticGroupIDWizard: @"wizard",
              };
 }
 

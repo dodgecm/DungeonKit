@@ -182,3 +182,12 @@ FOUNDATION_EXPORT NSString *const DKStatIDRogueTraits;
 FOUNDATION_EXPORT NSString *const DKStatIDRogueHitDice;
 FOUNDATION_EXPORT NSString *const DKStatIDStrokeOfLuckUsesCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDStrokeOfLuckUsesMax;
+
+FOUNDATION_EXPORT NSString *const DKStatIDWizardLevel;
+FOUNDATION_EXPORT NSString *const DKStatIDWizardTraits;
+FOUNDATION_EXPORT NSString *const DKStatIDWizardHitDice;
+FOUNDATION_EXPORT NSString *const DKStatIDArcaneRecoveryUsesCurrent;
+FOUNDATION_EXPORT NSString *const DKStatIDArcaneRecoveryUsesMax;
+FOUNDATION_EXPORT NSString *const DKStatIDArcaneRecoverySpellSlots;
+FOUNDATION_EXPORT NSString *const DKStatIDSpellMasterySpells;
+FOUNDATION_EXPORT NSString *const DKStatIDSignatureSpells;

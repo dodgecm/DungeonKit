@@ -236,11 +236,20 @@
 + (DKModifierGroup*)secondWindGroupWithFighterLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* secondWindGroup = [[DKModifierGroup alloc] init];
-    DKModifier* secondWindExplanationModifier = [DKModifierBuilder modifierWithExplanation:@"You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level."];
-    [secondWindGroup addModifier:secondWindExplanationModifier forStatisticID:DKStatIDSecondWindUsesMax];
     
-    DKModifier* secondWindChargesModifier = [DKModifierBuilder modifierWithAdditiveBonus:1
-                                                                            explanation:@"Once you use this feature, you must finish a short or long rest before you can use it again."];
+    NSString* secondWindExplanation = @"You have a limited well of stamina that you can draw on to protect yourself from harm. On your turn, you can use a bonus action to regain hit points equal to 1d10 + your fighter level.";
+    DKModifier* secondWindModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                              constantValue:@"Second Wind"
+                                                                                    enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                             isGreaterThanOrEqualTo:1]
+                                                                                explanation:secondWindExplanation];
+    [secondWindGroup addModifier:secondWindModifier forStatisticID:DKStatIDFighterTraits];
+    
+    DKModifier* secondWindChargesModifier = [DKDependentModifierBuilder addedNumberFromSource:level
+                                                                                constantValue:@1
+                                                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                               isGreaterThanOrEqualTo:1]
+                                                                                  explanation:@"Once you use this feature, you must finish a short or long rest before you can use it again."];
     [secondWindGroup addModifier:secondWindChargesModifier forStatisticID:DKStatIDSecondWindUsesMax];
 
     return secondWindGroup;
@@ -250,8 +259,13 @@
 
     DKModifierGroup* actionSurgeGroup = [[DKModifierGroup alloc] init];
     
-    DKModifier* actionSurgeExplanationModifier = [DKModifierBuilder modifierWithExplanation:@"You can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action on top of your regular action and a possible bonus action.  This feature may only be used only once per turn."];
-    [actionSurgeGroup addModifier:actionSurgeExplanationModifier forStatisticID:DKStatIDActionSurgeUsesMax];
+    NSString* actionSurgeExplanation = @"You can push yourself beyond your normal limits for a moment. On your turn, you can take one additional action on top of your regular action and a possible bonus action.  This feature may only be used only once per turn.";
+    DKModifier* actionSurgeModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                               constantValue:@"Action Surge"
+                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                              isGreaterThanOrEqualTo:2]
+                                                                                 explanation:actionSurgeExplanation];
+    [actionSurgeGroup addModifier:actionSurgeModifier forStatisticID:DKStatIDFighterTraits];
     
     NSExpression* actionSurgeChargesValue = [DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:1] : @(0),
@@ -274,9 +288,13 @@
     
     DKModifierGroup* indomitableGroup = [[DKModifierGroup alloc] init];
     
-    DKModifier* indomitableExplanationModifier = [DKModifierBuilder modifierWithExplanation:@"You can reroll a saving throw that you fail. "
-                                                  "If you do so, you must use the new roll."];
-    [indomitableGroup addModifier:indomitableExplanationModifier forStatisticID:DKStatIDIndomitableUsesMax];
+    NSString* indomitableExplanation = @"You can reroll a saving throw that you fail.  If you do so, you must use the new roll.";
+    DKModifier* indomitableModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                               constantValue:@"Indomitable"
+                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                              isGreaterThanOrEqualTo:9]
+                                                                                 explanation:indomitableExplanation];
+    [indomitableGroup addModifier:indomitableModifier forStatisticID:DKStatIDFighterTraits];
     
     NSExpression* indomitableChargesValue = [DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
                                              @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:8] : @(0),

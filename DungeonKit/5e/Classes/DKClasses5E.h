@@ -11,11 +11,13 @@
 #import "DKCleric5E.h"
 #import "DKFighter5E.h"
 #import "DKRogue5E.h"
+#import "DKWizard5E.h"
 
 @interface DKClasses5E : DKStatisticGroup5E
 
 @property (nonatomic, strong) DKCleric5E* cleric;
 @property (nonatomic, strong) DKFighter5E* fighter;
 @property (nonatomic, strong) DKRogue5E* rogue;
+@property (nonatomic, strong) DKWizard5E* wizard;
 
 @end

@@ -21,3 +21,4 @@ NSString *const DKStatisticGroupIDClasses = @"DKClasses";
 NSString *const DKStatisticGroupIDCleric = @"DKCleric";
 NSString *const DKStatisticGroupIDFighter = @"DKFighter";
 NSString *const DKStatisticGroupIDRogue = @"DKRogue";
+NSString *const DKStatisticGroupIDWizard = @"DKWizard";
