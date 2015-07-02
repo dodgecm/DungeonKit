@@ -31,11 +31,11 @@
 @synthesize offHandWeaponAttacksPerAction = _offHandWeaponAttacksPerAction;
 @synthesize offHandWeaponAttributes = _offHandWeaponAttributes;
 
+@synthesize inventory = _inventory;
+
 @synthesize armor = _armor;
 @synthesize shield = _shield;
 @synthesize otherEquipment = _otherEquipment;
-
-@synthesize inventory = _inventory;
 
 - (id)initWithAbilities:(DKAbilities5E*)abilities
        proficiencyBonus:(DKNumericStatistic*)proficiencyBonus
@@ -45,22 +45,6 @@
     
     self = [super init];
     if (self) {
-        
-        self.mainHandOccupied = [DKNumericStatistic statisticWithInt:0];
-        self.offHandOccupied = [DKNumericStatistic statisticWithInt:0];
-        self.armorSlotOccupied = [DKNumericStatistic statisticWithInt:0];
-        
-        self.mainHandWeaponAttackBonus = [DKNumericStatistic statisticWithInt:0];
-        self.mainHandWeaponDamage = [DKDiceStatistic statisticWithNoDice];
-        self.mainHandWeaponRange = [DKNumericStatistic statisticWithInt:0];
-        self.mainHandWeaponAttacksPerAction = [DKNumericStatistic statisticWithInt:0];
-        self.mainHandWeaponAttributes = [DKSetStatistic statisticWithEmptySet];
-        
-        self.offHandWeaponAttackBonus = [DKNumericStatistic statisticWithInt:0];
-        self.offHandWeaponDamage = [DKDiceStatistic statisticWithNoDice];
-        self.offHandWeaponRange = [DKNumericStatistic statisticWithInt:0];
-        self.offHandWeaponAttacksPerAction = [DKNumericStatistic statisticWithInt:0];
-        self.offHandWeaponAttributes = [DKSetStatistic statisticWithEmptySet];
         
         self.mainHandWeapon = [DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Unarmed
                                                     abilities:abilities
@@ -73,10 +57,51 @@
         self.armor = [DKArmorBuilder5E armorOfType:kDKArmorType5E_Unarmored
                                          abilities:abilities
                                 armorProficiencies:armorProficiencies];
-        
-        self.inventory = [DKSetStatistic statisticWithEmptySet];
     }
     return self;
+}
+
+- (NSDictionary*) statisticKeyPaths {
+    return @{
+             DKStatIDMainHandOccupied: @"mainHandOccupied",
+             DKStatIDOffHandOccupied: @"offHandOccupied",
+             DKStatIDArmorSlotOccupied: @"armorSlotOccupied",
+             
+             DKStatIDMainHandWeaponAttackBonus: @"mainHandWeaponAttackBonus",
+             DKStatIDMainHandWeaponDamage: @"mainHandWeaponDamage",
+             DKStatIDMainHandWeaponRange: @"mainHandWeaponRange",
+             DKStatIDMainHandWeaponAttacksPerAction: @"mainHandWeaponAttacksPerAction",
+             DKStatIDMainHandWeaponAttributes: @"mainHandWeaponAttributes",
+             
+             DKStatIDOffHandWeaponAttackBonus: @"offHandWeaponAttackBonus",
+             DKStatIDOffHandWeaponDamage: @"offHandWeaponDamage",
+             DKStatIDOffHandWeaponRange: @"offHandWeaponRange",
+             DKStatIDOffHandWeaponAttacksPerAction: @"offHandWeaponAttacksPerAction",
+             DKStatIDOffHandWeaponAttributes: @"offHandWeaponAttributes",
+             
+             DKStatIDInventory: @"inventory",
+             };
+}
+
+- (void)loadStatistics {
+    
+    self.mainHandOccupied = [DKNumericStatistic statisticWithInt:0];
+    self.offHandOccupied = [DKNumericStatistic statisticWithInt:0];
+    self.armorSlotOccupied = [DKNumericStatistic statisticWithInt:0];
+    
+    self.mainHandWeaponAttackBonus = [DKNumericStatistic statisticWithInt:0];
+    self.mainHandWeaponDamage = [DKDiceStatistic statisticWithNoDice];
+    self.mainHandWeaponRange = [DKNumericStatistic statisticWithInt:0];
+    self.mainHandWeaponAttacksPerAction = [DKNumericStatistic statisticWithInt:0];
+    self.mainHandWeaponAttributes = [DKSetStatistic statisticWithEmptySet];
+    
+    self.offHandWeaponAttackBonus = [DKNumericStatistic statisticWithInt:0];
+    self.offHandWeaponDamage = [DKDiceStatistic statisticWithNoDice];
+    self.offHandWeaponRange = [DKNumericStatistic statisticWithInt:0];
+    self.offHandWeaponAttacksPerAction = [DKNumericStatistic statisticWithInt:0];
+    self.offHandWeaponAttributes = [DKSetStatistic statisticWithEmptySet];
+    
+    self.inventory = [DKSetStatistic statisticWithEmptySet];
 }
 
 @end

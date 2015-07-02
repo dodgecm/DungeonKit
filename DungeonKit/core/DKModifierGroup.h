@@ -38,7 +38,7 @@
 /** Removes the modifier group from its owner. */
 - (void)removeFromOwner;
 
-/** Callback method for when the modifier group gets changed.  Only DKCharacter and similar owner
+/** Callback method for when the modifier group gets changed.  Only DKStatisticGroup and similar owner
  classes should call this method directly.  */
 - (void)wasAddedToOwner:(id<DKModifierGroupOwner>)owner;
 

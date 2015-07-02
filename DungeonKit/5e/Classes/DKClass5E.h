@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DKStatisticGroup5E.h"
 #import "DKStatistic.h"
 #import "DKModifierGroup.h"
 #import "DKDiceCollection.h"
 
-@interface DKClass5E : NSObject
+@interface DKClass5E : DKStatisticGroup5E
 
 @property (nonatomic, strong) DKNumericStatistic* classLevel;
 @property (nonatomic, strong) DKSetStatistic* classTraits;

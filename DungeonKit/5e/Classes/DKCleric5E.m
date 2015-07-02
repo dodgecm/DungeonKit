@@ -438,19 +438,40 @@
     self = [super init];
     if (self) {
         
-        self.channelDivinityUsesMax = [DKNumericStatistic statisticWithInt:0];
-        self.channelDivinityUsesCurrent = [DKNumericStatistic statisticWithInt:0];
-        [_channelDivinityUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_channelDivinityUsesMax]];
-        
-        self.turnUndead = [DKNumericStatistic statisticWithInt:0];
-        self.divineIntervention = [DKNumericStatistic statisticWithInt:0];
-        
         self.classModifiers = [DKCleric5E clericWithLevel:self.classLevel abilities:abilities];
         [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
                                                                                      explanation:@"Cleric hit dice"] forStatisticID:DKStatIDHitDiceMax];
+        
         self.divineDomain = [DKCleric5E lifeDomainWithLevel:self.classLevel];
     }
     return self;
+}
+
+- (NSDictionary*) statisticKeyPaths {
+    return @{
+             DKStatIDClericLevel: @"classLevel",
+             DKStatIDClericTraits: @"classTraits",
+             DKStatIDClericHitDice: @"classHitDice",
+             DKStatIDChannelDivinityUsesCurrent: @"channelDivinityUsesCurrent",
+             DKStatIDChannelDivinityUsesMax: @"channelDivinityUsesMax",
+             DKStatIDTurnUndead: @"turnUndead",
+             DKStatIDDivineIntervention: @"divineIntervention",
+             };
+}
+
+- (void)loadStatistics {
+    
+    [super loadStatistics];
+    self.channelDivinityUsesMax = [DKNumericStatistic statisticWithInt:0];
+    self.channelDivinityUsesCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.turnUndead = [DKNumericStatistic statisticWithInt:0];
+    self.divineIntervention = [DKNumericStatistic statisticWithInt:0];
+}
+
+- (void)loadModifiers {
+    
+    [super loadModifiers];
+    [_channelDivinityUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_channelDivinityUsesMax]];
 }
 
 @end

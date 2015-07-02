@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "DKStatistic.h"
+#import "DKStatisticGroup5E.h"
 #import "DKModifierGroup.h"
 #import "DKWeapon5E.h"
 #import "DKArmor5E.h"
 
 @class DKAbilities5E;
 
-@interface DKEquipment5E : NSObject
+@interface DKEquipment5E : DKStatisticGroup5E
 
 @property (nonatomic, strong) DKNumericStatistic* mainHandOccupied;
 @property (nonatomic, strong) DKNumericStatistic* offHandOccupied;
@@ -34,12 +35,12 @@
 @property (nonatomic, strong) DKNumericStatistic* offHandWeaponAttacksPerAction;
 @property (nonatomic, strong) DKSetStatistic* offHandWeaponAttributes;
 
+/** Non-combat related items */
+@property (nonatomic, strong) DKSetStatistic* inventory;
+
 @property (nonatomic, strong) DKArmor5E* armor;
 @property (nonatomic, strong) DKArmor5E* shield;
 @property (nonatomic, strong) DKModifierGroup* otherEquipment;
-
-/** Non-combat related items */
-@property (nonatomic, strong) DKSetStatistic* inventory;
 
 - (id)init __unavailable;
 - (id)initWithAbilities:(DKAbilities5E*)abilities

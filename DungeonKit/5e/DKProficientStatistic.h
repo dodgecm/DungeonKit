@@ -11,7 +11,7 @@
 
 @class DKCharacter5E;
 
-@interface DKProficientStatistic : DKNumericStatistic
+@interface DKProficientStatistic : DKNumericStatistic <NSCoding>
 
 /** The proficiency level of this statistic.  A standard proficiency level value is 1.  A value of 2 corresponds with a double proficiency. 
  The character's proficiency bonus will be added to this statistic once for each proficiency level. */

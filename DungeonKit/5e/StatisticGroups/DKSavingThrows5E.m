@@ -7,6 +7,7 @@
 //
 
 #import "DKSavingThrows5E.h"
+#import "DKStatisticIDs5E.h"
 
 @implementation DKSavingThrows5E
 
@@ -39,6 +40,25 @@
         [_charisma applyModifier:[abilities.charisma modifierFromAbilityScore]];
     }
     return self;
+}
+
+- (NSDictionary*) statisticKeyPaths {
+    return @{
+             DKStatIDSavingThrowStrength: @"strength",
+             DKStatIDSavingThrowDexterity: @"dexterity",
+             DKStatIDSavingThrowConstitution: @"constitution",
+             DKStatIDSavingThrowIntelligence: @"intelligence",
+             DKStatIDSavingThrowWisdom: @"wisdom",
+             DKStatIDSavingThrowCharisma: @"charisma",
+             DKStatIDSavingThrowOther: @"other",
+             
+             DKStatIDSavingThrowStrengthProficiency: @"strength.proficiencyLevel",
+             DKStatIDSavingThrowDexterityProficiency: @"dexterity.proficiencyLevel",
+             DKStatIDSavingThrowConstitutionProficiency: @"constitution.proficiencyLevel",
+             DKStatIDSavingThrowIntelligenceProficiency: @"intelligence.proficiencyLevel",
+             DKStatIDSavingThrowWisdomProficiency: @"wisdom.proficiencyLevel",
+             DKStatIDSavingThrowCharismaProficiency: @"charisma.proficiencyLevel",
+             };
 }
 
 - (NSString*) description {

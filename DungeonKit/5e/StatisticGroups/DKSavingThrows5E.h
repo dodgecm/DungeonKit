@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 #import "DKProficientStatistic.h"
 #import "DKAbilities5E.h"
+#import "DKStatisticGroup5E.h"
 
-@interface DKSavingThrows5E : NSObject
+@interface DKSavingThrows5E : DKStatisticGroup5E
 
 @property (nonatomic, strong) DKProficientStatistic* strength;
 @property (nonatomic, strong) DKProficientStatistic* dexterity;

@@ -7,11 +7,20 @@
 //
 
 #import "DKClasses5E.h"
+#import "DKStatisticGroupIDs5E.h"
 
 @implementation DKClasses5E
 
 @synthesize cleric = _cleric;
 @synthesize fighter = _fighter;
 @synthesize rogue = _rogue;
+
+- (NSDictionary*) statisticGroupKeyPaths {
+    return @{
+             DKStatisticGroupIDCleric: @"cleric",
+             DKStatisticGroupIDFighter: @"fighter",
+             DKStatisticGroupIDRogue: @"rogue",
+             };
+}
 
 @end

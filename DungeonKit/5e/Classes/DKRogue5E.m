@@ -292,21 +292,39 @@
     self = [super init];
     if (self) {
         
-        self.strokeOfLuckUsesCurrent = [DKNumericStatistic statisticWithInt:0];
-        self.strokeOfLuckUsesMax = [DKNumericStatistic statisticWithInt:0];
-        [_strokeOfLuckUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_strokeOfLuckUsesMax]];
-        
         self.classModifiers = [DKRogue5E rogueWithLevel:self.classLevel
                                               abilities:abilities
                                               equipment:equipment
                                        proficiencyBonus:proficiencyBonus];
-        
         [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
                                                                                      explanation:@"Rogue hit dice"] forStatisticID:DKStatIDHitDiceMax];
         
         self.roguishArchetype = [DKRogue5E thiefRoguishArchetypeWithLevel:self.classLevel];
     }
     return self;
+}
+
+- (NSDictionary*) statisticKeyPaths {
+    return @{
+             DKStatIDRogueLevel: @"classLevel",
+             DKStatIDRogueTraits: @"classTraits",
+             DKStatIDRogueHitDice: @"classHitDice",
+             DKStatIDStrokeOfLuckUsesCurrent: @"strokeOfLuckUsesCurrent",
+             DKStatIDStrokeOfLuckUsesMax: @"strokeOfLuckUsesMax",
+             };
+}
+
+- (void)loadStatistics {
+    
+    [super loadStatistics];
+    self.strokeOfLuckUsesCurrent = [DKNumericStatistic statisticWithInt:0];
+    self.strokeOfLuckUsesMax = [DKNumericStatistic statisticWithInt:0];
+}
+
+- (void)loadModifiers {
+    
+    [super loadModifiers];
+    [_strokeOfLuckUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_strokeOfLuckUsesMax]];
 }
 
 @end
