@@ -144,10 +144,14 @@
     
     if (strMinimum) {
         
-        DKModifier* moveSpeedPenaltyModifier = [[DKDependentModifier alloc] initWithSource:abilities.strength
+        NSPredicate* strPredicate = [DKDependentModifierBuilder enabledWhen:@"strength" isLessThan:strMinimum.integerValue];
+        NSPredicate* dwarfPredicate = [DKDependentModifierBuilder enabledWhen:@"armorProficiency"
+                                                 doesNotContainAnyFromObjects:@[@"Dwarven Heavy Armor Proficiency"]];
+        NSPredicate* enabledPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[ strPredicate, dwarfPredicate ]];
+        DKModifier* moveSpeedPenaltyModifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"strength": abilities.strength,
+                                                                                                    @"armorProficiency": armorProficiencies }
                                                                                      value:[DKDependentModifierBuilder expressionForConstantInteger:-10]
-                                                                                   enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                        isLessThan:strMinimum.integerValue]
+                                                                                   enabled:enabledPredicate
                                                                                   priority:kDKModifierPriority_Additive
                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
         moveSpeedPenaltyModifier.explanation = [NSString stringWithFormat:@"%@ reduces move speed by 10 if you are below %@ strength.", name, strMinimum];

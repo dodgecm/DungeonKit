@@ -64,9 +64,8 @@
     DKModifier* modifier = [DKModifier modifierWithValue:string
                                                 priority:kDKModifierPriority_Additive
                                               expression:[NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
-                                                                                selectorName:@"stringByReplacingOccurrencesOfString:withString:"
-                                                                                   arguments:@[ [NSExpression expressionForVariable:@"input"],
-                                                                                                [NSExpression expressionForVariable:@"value"] ] ] ];
+                                                                                selectorName:@"stringByReplacingWithString:"
+                                                                                   arguments:@[ [NSExpression expressionForVariable:@"value"] ] ] ];
     return modifier;
 }
 
@@ -376,6 +375,10 @@
         }
     }
     return @(NO);
+}
+
+- (NSString*)stringByReplacingWithString:(NSString*)aString {
+    return [NSString stringWithString:aString];
 }
 
 @end

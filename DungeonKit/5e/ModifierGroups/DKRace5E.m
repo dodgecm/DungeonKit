@@ -23,8 +23,9 @@
     [race addModifier:[DKModifierBuilder modifierWithOverrideString:@"Medium"] forStatisticID:DKStatIDSize];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:25 explanation:@"Dwarven base movement speed"]
        forStatisticID:DKStatIDMoveSpeed];
-    [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Dwarven Trait: Speed is not reduced by wearing heavy armor"]
-       forStatisticID:DKStatIDMoveSpeed];
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Dwarven Heavy Armor Proficiency"
+                                                        explanation:@"Movement speed is not reduced by wearing heavy armor"]
+       forStatisticID:DKStatIDArmorProficiencies];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:60 explanation:@"Dwarven darkvision range"]
        forStatisticID:DKStatIDDarkvision];
     [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Poison" explanation:@"Dwarven Resilience: Resistance against poison damage"]
@@ -74,7 +75,7 @@
        forStatisticID:DKStatIDImmunities];
     [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Elven Fey Ancestry: Advantage on saving throws against being charmed"]
        forStatisticID:DKStatIDSavingThrowOther];
-    [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Elven Trance: Medidate deeply for 4 hours to gain the same benefit as 8 hours of human sleep"]
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Elven Trance" explanation:@"Meditate deeply for 4 hours to gain the same benefit as 8 hours of human sleep"]
        forStatisticID:DKStatIDOtherTraits];
     [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Common" explanation:@"Elven Languages"]
        forStatisticID:DKStatIDLanguages];
@@ -93,12 +94,10 @@
     [race addModifier:[DKModifierBuilder modifierWithOverrideString:@"Small"] forStatisticID:DKStatIDSize];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:25 explanation:@"Halfling base movement speed"]
        forStatisticID:DKStatIDMoveSpeed];
-    [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Halfling Lucky: On a roll of 1 on an attack roll, ability check, or saving throw, "
-                       "reroll the die and use the new roll"]
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Lucky" explanation:@"On a roll of 1 on an attack roll, ability check, or saving throw, reroll the die and use the new roll"]
        forStatisticID:DKStatIDOtherTraits];
-    [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Halfling Nimbleness: Able to move through the space of any creature"
-                       "that is of a size larger than yours"]
-       forStatisticID:DKStatIDMoveSpeed];
+    [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Halfling Nimbleness" explanation:@"Able to move through the space of any creature that is of a size larger than yours"]
+       forStatisticID:DKStatIDOtherTraits];
     [race addModifier:[DKModifierBuilder modifierWithExplanation:@"Halfling Bravery: Advantage on saving throws against being frightened"]
        forStatisticID:DKStatIDSavingThrowOther];
     [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Common" explanation:@"Halfling Languages"]
@@ -187,6 +186,8 @@
     [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Longbow]
                                                            explanation:@"High Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
     
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Mending" explanation:@"High Elf racial cantrip (default)"] forStatisticID:DKStatIDCantrips];
+    
     DKModifierGroup* languageSubgroup = [[DKModifierGroup alloc] init];
     languageSubgroup.explanation = @"High Elf Language Proficiency: Knowledge of one chosen language";
     [languageSubgroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Sylvan" explanation:@"High Elf Bonus Language (default)"]
@@ -223,9 +224,8 @@
     subrace.explanation = @"Lightfoot Halfling racial modifiers";
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1 explanation:@"Lightfoot Halfling racial charisma bonus"]
           forStatisticID:DKStatIDCharisma];
-    [subrace addModifier:[DKModifierBuilder modifierWithExplanation:@"Lightfoot Halfling Natural Stealth: Able to attempt to hide even when obscured "
-                          "by a creature that is at least one size larger than you"]
-          forStatisticID:DKStatIDSkillStealth];
+    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Naturally Stealthy" explanation:@"Able to attempt to hide when obscured by a creature that is at least one size larger than you"]
+       forStatisticID:DKStatIDOtherTraits];
     return subrace;
 }
 
