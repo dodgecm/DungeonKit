@@ -21,6 +21,7 @@
 @synthesize modifierHashesToStatIDs = _modifierHashesToStatIDs;
 @synthesize modifiers = _modifiers;
 @synthesize subgroups = _subgroups;
+@synthesize tag = _tag;
 @synthesize explanation = _explanation;
 @synthesize owner = _owner;
 
@@ -107,6 +108,43 @@
     _owner = owner;
 }
 
+- (DKModifierGroup*)firstSubgroupWithTag:(NSString*)tag {
+    
+    if (![tag length]) {
+        return nil;
+    }
+    
+    for (DKModifierGroup* subgroup in _subgroups) {
+        if ([tag isEqualToString:subgroup.tag]) {
+            return subgroup;
+        }
+        
+        DKModifierGroup* matchingSubgroup = [subgroup firstSubgroupWithTag:tag];
+        if (matchingSubgroup) {
+            return matchingSubgroup;
+        }
+    }
+    
+    return nil;
+}
+
+- (NSArray*)allSubgroupsWithTag:(NSString*)tag {
+    
+    if (![tag length]) {
+        return @[];
+    }
+    
+    NSMutableArray* matchingSubgroups = [NSMutableArray array];
+    for (DKModifierGroup* subgroup in _subgroups) {
+        if ([tag isEqualToString:subgroup.tag]) {
+            [matchingSubgroups addObject:subgroup];
+        }
+        [matchingSubgroups addObjectsFromArray:[subgroup allSubgroupsWithTag:tag]];
+    }
+    
+    return matchingSubgroups;
+}
+
 #pragma DKModifierGroupOwner
 
 - (void)removeModifierGroup:(DKModifierGroup*)modifierGroup {
@@ -169,6 +207,7 @@
     [aCoder encodeObject:statIDsToModifiers forKey:@"statIDsToModifiers"];
     [aCoder encodeObject:_modifiers forKey:@"modifiers"];
     [aCoder encodeObject:_subgroups forKey:@"subgroups"];
+    [aCoder encodeObject:_tag forKey:@"tag"];
     [aCoder encodeObject:_explanation forKey:@"explanation"];
     [aCoder encodeConditionalObject:_owner forKey:@"owner"];
 }
@@ -186,6 +225,7 @@
         }
         _modifiers = [aDecoder decodeObjectForKey:@"modifiers"];
         _subgroups = [aDecoder decodeObjectForKey:@"subgroups"];
+        _tag = [aDecoder decodeObjectForKey:@"tag"];
         _explanation = [aDecoder decodeObjectForKey:@"explanation"];
         _owner = [aDecoder decodeObjectForKey:@"owner"];
     }

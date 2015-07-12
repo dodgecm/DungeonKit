@@ -8,9 +8,12 @@
 
 #import "DKRace5E.h"
 #import "DKStatisticIDs5E.h"
+#import "DKModifierGroupTags5E.h"
 #import "DKCharacter5E.h"
 #import "DKWeapon5E.h"
+#import "DKLanguage5E.h"
 #import "DKModifierBuilder.h"
+#import "DKWizard5E.h"
 
 @implementation DKRace5EBuilder
 
@@ -41,9 +44,13 @@
     [race addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Warhammer]
                                                         explanation:@"Dwarven Combat Training"] forStatisticID:DKStatIDWeaponProficiencies];
     
-    DKModifierGroup* toolSubgroup = [[DKModifierGroup alloc] init];
+    DKChoiceModifierGroup* toolSubgroup = [[DKChoiceModifierGroup alloc] initWithTag:DKChoiceDwarfToolProficiency];
     toolSubgroup.explanation = @"Dwarven Tool Proficiency: Proficiency with one of the following: smith's tools, brewer's supplies, or mason's tools";
-    [toolSubgroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Smith's Tools" explanation:@"Dwarven Tool Proficiency (default)"]
+    [toolSubgroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Smith's Tools" explanation:@"Dwarven Tool Proficiency"]
+               forStatisticID:DKStatIDToolProficiencies];
+    [toolSubgroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Brewer's Supplies" explanation:@"Dwarven Tool Proficiency"]
+               forStatisticID:DKStatIDToolProficiencies];
+    [toolSubgroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Mason's Tools" explanation:@"Dwarven Tool Proficiency"]
                forStatisticID:DKStatIDToolProficiencies];
     [race addSubgroup:toolSubgroup];
     
@@ -129,10 +136,9 @@
     [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Common" explanation:@"Human Languages"]
        forStatisticID:DKStatIDLanguages];
     
-    DKModifierGroup* languageSubgroup = [[DKModifierGroup alloc] init];
+    DKChoiceModifierGroup* languageSubgroup = [DKLanguageBuilder5E languageChoiceWithExplanation:@"Human bonus language"];
+    languageSubgroup.tag = DKChoiceHumanBonusLanguage;
     languageSubgroup.explanation = @"Human Language Proficiency: Knowledge of one chosen language";
-    [languageSubgroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Dwarvish" explanation:@"Human Bonus Language (default)"]
-       forStatisticID:DKStatIDLanguages];
     [race addSubgroup:languageSubgroup];
     
     return race;
@@ -186,15 +192,19 @@
     [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Longbow]
                                                            explanation:@"High Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
     
+    
     [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Mending" explanation:@"High Elf racial cantrip (default)"] forStatisticID:DKStatIDCantrips];
     
-    DKModifierGroup* languageSubgroup = [[DKModifierGroup alloc] init];
-    languageSubgroup.explanation = @"High Elf Language Proficiency: Knowledge of one chosen language";
-    [languageSubgroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Sylvan" explanation:@"High Elf Bonus Language (default)"]
-                   forStatisticID:DKStatIDLanguages];
-    [subrace addSubgroup:languageSubgroup];
+    DKChoiceModifierGroup* cantripSubgroup = [DKWizardSpellBuilder5E cantripChoiceWithExplanation:@"High Elf bonus cantrip"];
+    cantripSubgroup.tag = DKChoiceHighElfCantrip;
+    cantripSubgroup.explanation = @"You know one cantrip of your choice from the wizard spell list.  Intelligence is your spellcasting ability for it.";
+    [subrace addSubgroup:cantripSubgroup];
     
-    //TODO: Cantrip
+    DKChoiceModifierGroup* languageSubgroup = [DKLanguageBuilder5E languageChoiceWithExplanation:@"High Elf bonus language"];
+    languageSubgroup.tag = DKChoiceHighElfBonusLanguage;
+    languageSubgroup.explanation = @"High Elf Language Proficiency: Knowledge of one chosen language";
+    [subrace addSubgroup:languageSubgroup];
+
     return subrace;
 }
 

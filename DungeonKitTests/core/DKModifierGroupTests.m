@@ -150,6 +150,34 @@
     XCTAssertEqual(group.subgroups.count, 0, @"Subgroup should not have been added to the group");
 }
 
+- (void)testSubgroupTags {
+    
+    DKModifierGroup* group = [[DKModifierGroup alloc] init];
+    DKModifierGroup* groupTwo = [[DKModifierGroup alloc] init];
+    DKModifierGroup* groupThree = [[DKModifierGroup alloc] init];
+    DKModifierGroup* groupFour = [[DKModifierGroup alloc] init];
+    [groupThree addSubgroup:groupFour];
+    [group addSubgroup:groupTwo];
+    [group addSubgroup:groupThree];
+    
+    groupTwo.tag = @"two";
+    groupThree.tag = @"three";
+    groupFour.tag = @"four";
+    XCTAssertEqualObjects([groupThree allSubgroupsWithTag:@"four"], @[ groupFour ], @"Subgroup tags should be searched correctly.");
+    XCTAssertEqualObjects([groupThree firstSubgroupWithTag:@"four"], groupFour, @"Subgroup tags should be searched correctly.");
+    XCTAssertEqualObjects([group allSubgroupsWithTag:@"four"], @[ groupFour ], @"Subgroup tags should be searched correctly.");
+    XCTAssertEqualObjects([group firstSubgroupWithTag:@"four"], groupFour, @"Subgroup tags should be searched correctly.");
+    
+    groupThree.tag = @"same";
+    groupFour.tag = @"same";
+    NSArray* sameGroups = @[ groupThree, groupFour ];
+    XCTAssertEqualObjects([group allSubgroupsWithTag:@"same"], sameGroups, @"Subgroup tags should be searched correctly.");
+    XCTAssertEqualObjects([group firstSubgroupWithTag:@"same"], groupThree, @"Subgroup tags should be searched correctly.");
+    
+    XCTAssertEqualObjects([group allSubgroupsWithTag:@"none"], @[], @"Subgroup tags should be searched correctly.");
+    XCTAssertNil([group firstSubgroupWithTag:@"none"], @"Subgroup tags should be searched correctly.");
+}
+
 - (void)testEncoding {
     
     DKModifierGroup* group = [[DKModifierGroup alloc] init];

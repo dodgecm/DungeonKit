@@ -474,3 +474,31 @@
 }
 
 @end
+
+
+@implementation DKWizardSpellBuilder5E
+
++ (DKChoiceModifierGroup*)cantripChoiceWithExplanation:(NSString*)explanation {
+    
+    DKChoiceModifierGroup* cantripGroup = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceWizardCantrip"];
+    
+    NSArray* spellNames = @[ @"Acid Splash",
+                             @"Dancing Lights",
+                             @"Fire Bolt",
+                             @"Light",
+                             @"Mage Hand",
+                             @"Minor Illusion",
+                             @"Poison Spray",
+                             @"Prestidigitation",
+                             @"Ray of Frost",
+                             @"Shocking Grasp" ];
+    for (NSString* spell in spellNames) {
+        [cantripGroup addModifier:[DKModifierBuilder modifierWithAppendedString:spell explanation:explanation]
+                   forStatisticID:DKStatIDCantrips];
+    }
+    
+    return cantripGroup;
+}
+
+@end
+

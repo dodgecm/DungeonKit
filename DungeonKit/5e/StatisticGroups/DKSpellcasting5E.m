@@ -1,17 +1,17 @@
 //
-//  DKSpells5E.m
+//  DKSpellcasting5E.m
 //  DungeonKit
 //
 //  Created by Christopher Dodge on 4/25/15.
 //  Copyright (c) 2015 Dodge. All rights reserved.
 //
 
-#import "DKSpells5E.h"
+#import "DKSpellcasting5E.h"
 #import "DKStatisticGroupIDs5E.h"
 #import "DKStatisticIDs5E.h"
 #import "DKModifierBuilder.h"
 
-@implementation DKSpells5E
+@implementation DKSpellcasting5E
 
 @synthesize spellbook = _spellbook;
 

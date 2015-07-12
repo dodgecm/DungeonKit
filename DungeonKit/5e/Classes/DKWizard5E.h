@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DKClass5E.h"
+#import "DKChoiceModifierGroup.h"
 
 @class DKAbilities5E;
 
@@ -24,4 +25,8 @@
 
 - (id)initWithAbilities:(DKAbilities5E*)abilities;
 
+@end
+
+@interface DKWizardSpellBuilder5E : NSObject
++ (DKChoiceModifierGroup*)cantripChoiceWithExplanation:(NSString*)explanation;
 @end

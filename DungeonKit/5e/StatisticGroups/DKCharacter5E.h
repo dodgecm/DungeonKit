@@ -13,7 +13,7 @@
 #import "DKAbilities5E.h"
 #import "DKSavingThrows5E.h"
 #import "DKSkills5E.h"
-#import "DKSpells5E.h"
+#import "DKSpellcasting5E.h"
 #import "DKCurrency5E.h"
 #import "DKEquipment5E.h"
 
@@ -58,7 +58,7 @@
 @property (nonatomic, strong) DKAbilities5E* abilities;
 @property (nonatomic, strong) DKSavingThrows5E* savingThrows;
 @property (nonatomic, strong) DKSkills5E* skills;
-@property (nonatomic, strong) DKSpells5E* spells;
+@property (nonatomic, strong) DKSpellcasting5E* spells;
 @property (nonatomic, strong) DKCurrency5E* currency;
 @property (nonatomic, strong) DKEquipment5E* equipment;
 

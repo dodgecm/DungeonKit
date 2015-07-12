@@ -36,6 +36,9 @@
 - (void)addModifierGroup:(DKModifierGroup*)modifierGroup forGroupID:(NSString*)groupID;
 - (void)removeModifierGroupWithID:(NSString*)groupID;
 
+- (DKModifierGroup*)firstModifierGroupWithTag:(NSString*)tag;
+- (NSArray*)allModifierGroupsWithTag:(NSString*)tag;
+
 /** Callback method for when the statistic group's owner gets changed.  Only DKStatisticGroup and similar owner
  classes should call this method directly.  */
 - (void)wasAddedToOwner:(id<DKStatisticGroupOwner>)owner;

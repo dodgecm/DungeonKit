@@ -163,7 +163,7 @@
     self.abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
     self.savingThrows = [[DKSavingThrows5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
     self.skills = [[DKSkills5E alloc] initWithAbilities:_abilities proficiencyBonus:_proficiencyBonus];
-    self.spells = [[DKSpells5E alloc] initWithProficiencyBonus:_proficiencyBonus];
+    self.spells = [[DKSpellcasting5E alloc] initWithProficiencyBonus:_proficiencyBonus];
     self.currency = [[DKCurrency5E alloc] init];
     
     self.equipment = [[DKEquipment5E alloc] initWithAbilities:_abilities

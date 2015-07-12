@@ -1,5 +1,5 @@
 //
-//  DKSpells5E.h
+//  DKSpellcasting5E.h
 //  DungeonKit
 //
 //  Created by Christopher Dodge on 4/25/15.
@@ -11,7 +11,7 @@
 #import "DKStatistic.h"
 #import "DKSpellbook5E.h"
 
-@interface DKSpells5E : DKStatisticGroup5E
+@interface DKSpellcasting5E : DKStatisticGroup5E
 
 @property (nonatomic, strong) DKSpellbook5E* spellbook;
 

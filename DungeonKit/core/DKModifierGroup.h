@@ -23,6 +23,8 @@
 @property (nonatomic, strong, readonly) NSArray* modifiers;
 /** Array of DKModifierGroups that this DKModifierGroup is the owner of. */
 @property (nonatomic, strong, readonly) NSSet* subgroups;
+/** An optional tag for looking up this modifier group */
+@property (nonatomic, copy) NSString* tag;
 /** An optional explanation of the nature or source of this modifier group */
 @property (nonatomic, copy) NSString* explanation;
 @property (nonatomic, weak, readonly) id<DKModifierGroupOwner> owner;
@@ -34,6 +36,9 @@
 
 - (void)addSubgroup:(DKModifierGroup*)subgroup;
 - (void)removeSubgroup:(DKModifierGroup*)subgroup;
+
+- (DKModifierGroup*)firstSubgroupWithTag:(NSString*)tag;
+- (NSArray*)allSubgroupsWithTag:(NSString*)tag;
 
 /** Removes the modifier group from its owner. */
 - (void)removeFromOwner;

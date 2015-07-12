@@ -256,6 +256,47 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     _owner = owner;
 }
 
+- (DKModifierGroup*)firstModifierGroupWithTag:(NSString*)tag {
+    
+    if (![tag length]) {
+        return nil;
+    }
+    
+    for (NSString* groupId in _modifierGroups.allKeys) {
+
+        DKModifierGroup* group = [self modifierGroupForID:groupId];
+        if ([tag isEqualToString:group.tag]) {
+            return group;
+        }
+
+        DKModifierGroup* matchingGroup = [group firstSubgroupWithTag:tag];
+        if (matchingGroup) {
+            return matchingGroup;
+        }
+    }
+    
+    return nil;
+}
+
+- (NSArray*)allModifierGroupsWithTag:(NSString*)tag {
+    
+    if (![tag length]) {
+        return @[];
+    }
+    
+    NSMutableArray* matchingGroups = [NSMutableArray array];
+    for (NSString* groupId in _modifierGroups.allKeys) {
+        
+        DKModifierGroup* group = [self modifierGroupForID:groupId];
+        if ([tag isEqualToString:group.tag]) {
+            [matchingGroups addObject:group];
+        }
+        [matchingGroups addObjectsFromArray:[group allSubgroupsWithTag:tag]];
+    }
+    
+    return matchingGroups;
+}
+
 #pragma DKModifierGroupOwner
 
 - (void)removeModifierGroup:(DKModifierGroup*)modifierGroup {

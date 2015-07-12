@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "DKCharacter5E.h"
+#import "DKModifierGroupTags5E.h"
 
 @interface DKRace5ETests : XCTestCase
 @property (nonatomic, strong) DKCharacter5E* character;
@@ -57,6 +58,9 @@
         XCTAssertTrue([_character.weaponProficiencies.value containsObject:weaponProficiency],
                       @"Dwarves have axe and hammer weapon proficiencies.");
     }
+    
+    DKChoiceModifierGroup* toolChoice = (DKChoiceModifierGroup*) [_character firstModifierGroupWithTag:DKChoiceDwarfToolProficiency];
+    [toolChoice chooseModifier:toolChoice.modifiers[0]];
     XCTAssertGreaterThan(_character.toolProficiencies.value.count, 0, @"Dwarves have one tool proficiency of their choice.");
     XCTAssertTrue([_character.languages.value containsObject:@"Common"], @"Dwarves can speak Common.");
     XCTAssertTrue([_character.languages.value containsObject:@"Dwarvish"], @"Dwarves can speak Dwarvish.");
@@ -110,7 +114,12 @@
                       @"High Elves have sword and bow weapon proficiencies.");
     }
     
+    DKChoiceModifierGroup* cantripChoice = (DKChoiceModifierGroup*) [_character firstModifierGroupWithTag:DKChoiceHighElfCantrip];
+    [cantripChoice chooseModifier:cantripChoice.modifiers[0]];
     XCTAssertGreaterThan(_character.spells.spellbook.cantrips.value.count, 0, @"High Elves know one cantrip from the Wizard spell list.");
+    
+    DKChoiceModifierGroup* languageChoice = (DKChoiceModifierGroup*) [_character firstModifierGroupWithTag:DKChoiceHighElfBonusLanguage];
+    [languageChoice chooseModifier:languageChoice.modifiers[0]];
     XCTAssertGreaterThan(_character.languages.value.count, 0, @"High Elves know one extra language of their choice.");
 }
 
@@ -168,8 +177,14 @@
     XCTAssertEqualObjects(_character.abilities.charisma.value, @11, @"Humans get +1 bonus to Charisma.");
     XCTAssertEqualObjects(_character.size.value, @"Medium", @"Humans are size Medium creatures.");
     XCTAssertEqualObjects(_character.movementSpeed.value, @30, @"Humans have a base movement speed of 30 feet.");
+    
+    DKChoiceModifierGroup* languageChoice = (DKChoiceModifierGroup*) [_character firstModifierGroupWithTag:DKChoiceHumanBonusLanguage];
+    [languageChoice chooseModifier:languageChoice.modifiers[1]];
+    XCTAssertGreaterThan(_character.languages.value.count, 0, @"Humans know one extra language of their choice.");
     XCTAssertTrue([_character.languages.value containsObject:@"Common"], @"Humans can speak Common.");
+    
     XCTAssertGreaterThanOrEqual(_character.languages.value.count, 2, @"Humans can speak an extra language of their choice.");
+    
 }
 
 @end
