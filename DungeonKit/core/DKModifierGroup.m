@@ -35,6 +35,14 @@
     return self;
 }
 
+- (id)initWithTag:(NSString*)tag {
+    self = [self init];
+    if (self) {
+        self.tag = tag;
+    }
+    return self;
+}
+
 - (NSString*)statIDForModifier:(DKModifier*)modifier {
     return [_modifierHashesToStatIDs objectForKey: @([modifier hash]) ];
 }

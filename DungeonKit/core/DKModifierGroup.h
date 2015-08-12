@@ -29,6 +29,9 @@
 @property (nonatomic, copy) NSString* explanation;
 @property (nonatomic, weak, readonly) id<DKModifierGroupOwner> owner;
 
+- (id)init;
+- (id)initWithTag:(NSString*)tag;
+
 - (NSString*)statIDForModifier:(DKModifier*)modifier;
 
 - (void)addModifier:(DKModifier*)modifier forStatisticID:(NSString*)statID;

@@ -12,14 +12,6 @@
 
 @synthesize chosenModifier = _chosenModifier;
 
-- (id)initWithTag:(NSString*)tag {
-    self = [super init];
-    if (self) {
-        self.tag = tag;
-    }
-    return self;
-}
-
 - (void)chooseModifier:(DKModifier*)chosenModifier {
     
     if (!chosenModifier) {
@@ -29,7 +21,7 @@
     }
     
     if (![self.modifiers containsObject:chosenModifier]) {
-        NSLog(@"DKBranchingModifierGroup: Attempted to choose a modifier (%@) that does not belong to the modifier group: %@.", chosenModifier, self);
+        NSLog(@"DKChoiceModifierGroup: Attempted to choose a modifier (%@) that does not belong to the modifier group: %@.", chosenModifier, self);
         return;
     }
     
@@ -62,6 +54,69 @@
     if (self) {
         
         _chosenModifier = [aDecoder decodeObjectForKey:@"chosenModifier"];
+    }
+    return self;
+}
+
+@end
+
+#pragma mark -
+
+@implementation DKMultipleChoiceModifierGroup
+
+@synthesize chosenGroup = _chosenGroup;
+
+- (void)setSubgroup:(DKModifierGroup*)subgroup
+          toEnabled:(BOOL)enabled {
+    for (DKModifier* modifier in subgroup.modifiers) {
+        modifier.enabled = enabled;
+    }
+}
+
+- (void)chooseModifierGroup:(DKModifierGroup*)chosenModifierGroup {
+    
+    if (!chosenModifierGroup) {
+        [self setSubgroup:_chosenGroup toEnabled:NO];
+        _chosenGroup = nil;
+        return;
+    }
+    
+    if (![self.subgroups containsObject:chosenModifierGroup]) {
+        NSLog(@"DKMultipleChoiceModifierGroup: Attempted to choose a modifier group (%@) that is not a subgroup of the modifier group: %@.", chosenModifierGroup, self);
+        return;
+    }
+    
+    for (DKModifierGroup* subgroup in self.subgroups) {
+        if (subgroup != chosenModifierGroup) {
+            [self setSubgroup:subgroup toEnabled:NO];
+        }
+    }
+    _chosenGroup = chosenModifierGroup;
+    [self setSubgroup:_chosenGroup toEnabled:YES];
+}
+
+#pragma DKModifierGroupOwner
+
+- (void)group:(DKModifierGroup*)modifierGroup willAddModifier:(DKModifier*)modifier forStatID:(NSString*)statID {
+    if (modifierGroup != _chosenGroup) {
+        modifier.enabled = NO;
+    }
+    [super group:modifierGroup willAddModifier:modifier forStatID:statID];
+}
+
+#pragma mark NSCoding
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    [super encodeWithCoder:aCoder];
+    [aCoder encodeObject:_chosenGroup forKey:@"chosenGroup"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        
+        _chosenGroup = [aDecoder decodeObjectForKey:@"chosenGroup"];
     }
     return self;
 }

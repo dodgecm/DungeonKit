@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DKStatisticGroup5E.h"
+#import "DKChoiceModifierGroup.h"
 #import "DKProficientStatistic.h"
 #import "DKAbilities5E.h"
 
@@ -33,6 +34,8 @@
 @property (nonatomic, strong) DKProficientStatistic* survival;
 
 @property (nonatomic, strong) DKNumericStatistic* passivePerception;
+
++ (NSArray*)skillProficiencyStatIDs;
 
 - (id)init __unavailable;
 - (id)initWithAbilities:(DKAbilities5E*)abilities proficiencyBonus:(DKNumericStatistic*)proficiencyBonus;

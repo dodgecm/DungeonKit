@@ -8,7 +8,14 @@
 
 #import "DKModifierGroupTags5E.h"
 
+NSString *const DKChoiceAbilityScoreImprovement = @"DKChoiceAbilityScoreImprovement";
+
 NSString *const DKChoiceDwarfToolProficiency = @"DKChoiceDwarfToolProficiency";
 NSString *const DKChoiceHumanBonusLanguage = @"DKChoiceHumanBonusLanguage";
 NSString *const DKChoiceHighElfBonusLanguage = @"DKChoiceHighElfBonusLanguage";
 NSString *const DKChoiceHighElfCantrip = @"DKChoiceHighElfCantrip";
+
+NSString *const DKChoiceClericSkillProficiency = @"DKChoiceClericSkillProficiency";
+NSString *const DKChoiceFighterSkillProficiency = @"DKChoiceFighterSkillProficiency";
+NSString *const DKChoiceRogueSkillProficiency = @"DKChoiceRogueSkillProficiency";
+NSString *const DKChoiceWizardSkillProficiency = @"DKChoiceWizardSkillProficiency";

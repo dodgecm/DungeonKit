@@ -8,10 +8,14 @@
 
 #import "DKCleric5E.h"
 #import "DKModifierBuilder.h"
+#import "DKChoiceModifierGroup.h"
+#import "DKModifierGroupTags5E.h"
 #import "DKStatisticIDs5E.h"
+#import "DKSkills5E.h"
 #import "DKAbilities5E.h"
 #import "DKWeapon5E.h"
 #import "DKArmor5E.h"
+#import "DKSpellbook5E.h"
 
 @implementation DKCleric5E
 
@@ -52,17 +56,17 @@
     [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple]
                                                          explanation:@"Cleric Weapon Proficiencies"]
         forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]
-                                                         explanation:@"Cleric Armor Proficiencies"]
-        forStatisticID:DKStatIDArmorProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Medium]
-                                                         explanation:@"Cleric Armor Proficiencies"]
-        forStatisticID:DKStatIDArmorProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Shield]
-                                                         explanation:@"Cleric Armor Proficiencies"]
-        forStatisticID:DKStatIDArmorProficiencies];
     
-    NSExpression* channelDivinityValue =[DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+    NSArray* armorProficiencies = @[ @(kDKArmorCategory5E_Light),
+                                     @(kDKArmorCategory5E_Medium),
+                                     @(kDKArmorCategory5E_Shield) ];
+    for (NSNumber* armorProficiency in armorProficiencies) {
+        [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:armorProficiency.integerValue]
+                                                             explanation:@"Cleric Armor Proficiencies"]
+            forStatisticID:DKStatIDArmorProficiencies];
+    }
+    
+    NSExpression* channelDivinityValue = [DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
                                          @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:1] : @(0),
                                             [DKDependentModifierBuilder rangeValueWithMin:2 max:5] : @(1),
                                             [DKDependentModifierBuilder rangeValueWithMin:6 max:17] : @(2),
@@ -80,19 +84,27 @@
     DKModifierGroup* divineInterventionGroup = [DKCleric5E divineInterventionWithLevel:level];
     [class addSubgroup:divineInterventionGroup];
     
-    DKModifierGroup* skillSubgroup = [[DKModifierGroup alloc] init];
-    skillSubgroup.explanation = @"Cleric Skill Proficiencies: Choose two from History, Insight, Medicine, Persuasion, and Religion";
-    [skillSubgroup addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Cleric Skill Proficiency: History (default)"]
-                forStatisticID:DKStatIDSkillHistoryProficiency];
-    [skillSubgroup addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Cleric Skill Proficiency: Religion (default)"]
-                forStatisticID:DKStatIDSkillReligionProficiency];
-    [class addSubgroup:skillSubgroup];
+    NSArray* skillProficiencyStatIDs = @[ DKStatIDSkillHistoryProficiency,
+                                          DKStatIDSkillInsightProficiency,
+                                          DKStatIDSkillMedicineProficiency,
+                                          DKStatIDSkillPersuasionProficiency,
+                                          DKStatIDSkillReligionProficiency ];
+    DKModifierGroup* skillProficiencyGroup = [DKClass5E skillProficienciesWithStatIDs:skillProficiencyStatIDs
+                                                                       choiceGroupTag:DKChoiceClericSkillProficiency];
+    skillProficiencyGroup.explanation = @"Cleric Skill Proficiencies: Choose two from History, Insight, Medicine, Persuasion, and Religion";
+    [class addSubgroup:skillProficiencyGroup];
     
     DKModifierGroup* cantripsGroup = [DKCleric5E cantripsWithLevel:level];
     [class addSubgroup:cantripsGroup];
     
     DKModifierGroup* spellSlotsGroup = [DKCleric5E spellSlotsWithLevel:level];
     [class addSubgroup:spellSlotsGroup];
+    
+    for (int i = 1; i <= 9; i++) {
+        DKModifierGroup* clericSpells = [DKClericSpellBuilder5E spellListForSpellLevel:i
+                                                                           clericLevel:level];
+        [class addSubgroup:clericSpells];
+    }
     
     NSArray* abilityScoreImprovementLevels = @[ @4, @8, @12, @16, @19];
     for (NSNumber* abilityScoreLevel in abilityScoreImprovementLevels) {
@@ -109,32 +121,20 @@
     
     DKModifierGroup* cantripsGroup = [[DKModifierGroup alloc] init];
     cantripsGroup.explanation = @"Cleric cantrips";
-    DKModifierGroup* cantripStartingGroup = [[DKModifierGroup alloc] init];
-    cantripStartingGroup.explanation = @"Clerics are granted three cantrips at first level";
-    [cantripsGroup addSubgroup:cantripStartingGroup];
-    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Light" explanation:@"First level Cleric cantrip (default)"] forStatisticID:DKStatIDCantrips];
-    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Sacred Flame" explanation:@"First level Cleric cantrip (default)"] forStatisticID:DKStatIDCantrips];
-    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Thaumaturgy" explanation:@"First level Cleric cantrip (default)"] forStatisticID:DKStatIDCantrips];
     
-    DKModifierGroup* cantripSecondGroup = [[DKModifierGroup alloc] init];
-    cantripSecondGroup.explanation = @"Clerics are granted one additional cantrip at fourth level";
-    [cantripsGroup addSubgroup:cantripSecondGroup];
-    [cantripSecondGroup addModifier:[DKDependentModifierBuilder appendedModifierFromSource:level
-                                                     value:[DKDependentModifierBuilder expressionForConstantValue:@"Spare the Dying"]
-                                                   enabled:[DKDependentModifierBuilder
-                                                            enabledWhen:@"source" isGreaterThanOrEqualTo:4]
-                                               explanation:@"Fourth level Cleric cantrip (default)"]
-                     forStatisticID:DKStatIDCantrips];
+    for (int i = 0; i < 3; i++) {
+        [cantripsGroup addSubgroup:[DKClericSpellBuilder5E cantripChoiceWithLevel:level
+                                                                               threshold:1
+                                                                             explanation:@"First level Cleric cantrip"]];
+    }
     
-    DKModifierGroup* cantripThirdGroup = [[DKModifierGroup alloc] init];
-    cantripThirdGroup.explanation = @"Clerics are granted one additional cantrip at tenth level";
-    [cantripsGroup addSubgroup:cantripThirdGroup];
-    [cantripThirdGroup addModifier:[DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                     value:[DKDependentModifierBuilder expressionForConstantValue:@"Guidance"]
-                                                                                   enabled:[DKDependentModifierBuilder
-                                                                                            enabledWhen:@"source" isGreaterThanOrEqualTo:10]
-                                                                               explanation:@"Tenth level Cleric cantrip (default)"]
-                     forStatisticID:DKStatIDCantrips];
+    [cantripsGroup addSubgroup:[DKClericSpellBuilder5E cantripChoiceWithLevel:level
+                                                                    threshold:4
+                                                                  explanation:@"Fourth level Cleric cantrip"]];
+    
+    [cantripsGroup addSubgroup:[DKClericSpellBuilder5E cantripChoiceWithLevel:level
+                                                                    threshold:10
+                                                                  explanation:@"Tenth level Cleric cantrip"]];
     
     return cantripsGroup;
 }
@@ -474,6 +474,147 @@
     
     [super loadModifiers];
     [_channelDivinityUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_channelDivinityUsesMax]];
+}
+
+@end
+
+@implementation DKClericSpellBuilder5E
+
++ (DKChoiceModifierGroup*)cantripChoiceWithLevel:(DKNumericStatistic*)level
+                                       threshold:(NSInteger)threshold
+                                     explanation:(NSString*)explanation {
+    
+    DKChoiceModifierGroup* cantripGroup = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceClericCantrip"];
+    
+    NSArray* spellNames = @[ @"Guidance",
+                             @"Light",
+                             @"Resistance",
+                             @"Sacred Flame",
+                             @"Spare the Dying",
+                             @"Thaumaturgy" ];
+    for (NSString* spell in spellNames) {
+        DKModifier* modifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                        constantValue:spell
+                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                       isGreaterThanOrEqualTo:threshold]
+                                                                          explanation:explanation];
+        [cantripGroup addModifier:modifier forStatisticID:DKStatIDCantrips];
+    }
+    
+    return cantripGroup;
+}
+
++ (DKModifierGroup*)spellListForSpellLevel:(NSInteger)spellLevel
+                               clericLevel:(DKNumericStatistic*)level {
+    
+    DKModifierGroup* spellGroup = [[DKModifierGroup alloc] init];
+    spellGroup.explanation = [NSString stringWithFormat:@"Cleric level %li spells", (long)spellLevel];
+    
+    NSArray* spellNames = nil;
+    switch (spellLevel) {
+        case 1: {
+            spellNames = @[ @"Bless",
+                            @"Command",
+                            @"Cure Wounds",
+                            @"Detect Magic",
+                            @"Guiding Bolt",
+                            @"Healing Word",
+                            @"Inflict Wounds",
+                            @"Sanctuary",
+                            @"Shield of Faith" ];
+            break;
+        }
+            
+        case 2: {
+            spellNames = @[ @"Aid",
+                            @"Augury",
+                            @"Hold Person",
+                            @"Lesser Restoration",
+                            @"Prayer of Healing",
+                            @"Silence",
+                            @"Spiritual Weapon",
+                            @"Warding Bond" ];
+            break;
+        }
+            
+        case 3: {
+            spellNames = @[ @"Beacon of Hope",
+                            @"Dispel Magic",
+                            @"Cure Wounds",
+                            @"Mass Healing Word",
+                            @"Protection from Energy",
+                            @"Remove Curse",
+                            @"Revivify",
+                            @"Speak with Dead",
+                            @"Spirit Guardians" ];
+            break;
+        }
+            
+        case 4: {
+            spellNames = @[ @"Death Ward",
+                            @"Divination",
+                            @"Freedom of Movement",
+                            @"Guardian of Faith",
+                            @"Locate Creature" ];
+            break;
+        }
+            
+        case 5: {
+            spellNames = @[ @"Commune",
+                            @"Flame Strike",
+                            @"Greater Restoration",
+                            @"Mass Cure Wounds",
+                            @"Raise Dead" ];
+            break;
+        }
+            
+        case 6: {
+            spellNames = @[ @"Blade Barrier",
+                            @"Find the Path",
+                            @"Harm",
+                            @"Heal",
+                            @"Heroes’ Feast",
+                            @"True Seeing" ];
+            break;
+        }
+            
+        case 7: {
+            spellNames = @[ @"Etherealness",
+                            @"Fire Storm",
+                            @"Regenerate",
+                            @"Resurrection" ];
+            break;
+        }
+            
+        case 8: {
+            spellNames = @[ @"Antimagic Field",
+                            @"Earthquake",
+                            @"Holy Aura" ];
+            break;
+        }
+            
+        case 9: {
+            spellNames = @[ @"Astral Projection",
+                            @"Gate",
+                            @"Mass Heal",
+                            @"True Resurrection" ];
+            break;
+        }
+            
+        default:
+            break;
+    }
+    
+    for (NSString* spell in spellNames) {
+        DKModifier* modifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                        constantValue:spell
+                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                       isGreaterThanOrEqualTo:spellLevel*2 - 1]
+                                                                          explanation:[NSString stringWithFormat:@"Cleric level %li spell", (long)spellLevel]];
+        [spellGroup addModifier:modifier forStatisticID:[DKSpellbook5E statIDForSpellLevel:spellLevel]];
+    }
+    
+    return spellGroup;
 }
 
 @end

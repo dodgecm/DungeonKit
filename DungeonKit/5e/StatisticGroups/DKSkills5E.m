@@ -32,6 +32,27 @@
 @synthesize survival = _survival;
 @synthesize passivePerception = _passivePerception;
 
++ (NSArray*)skillProficiencyStatIDs {
+    return @[ DKStatIDSkillAcrobaticsProficiency,
+              DKStatIDSkillAnimalHandlingProficiency,
+              DKStatIDSkillArcanaProficiency,
+              DKStatIDSkillAthleticsProficiency,
+              DKStatIDSkillDeceptionProficiency,
+              DKStatIDSkillHistoryProficiency,
+              DKStatIDSkillInsightProficiency,
+              DKStatIDSkillIntimidationProficiency,
+              DKStatIDSkillInvestigationProficiency,
+              DKStatIDSkillMedicineProficiency,
+              DKStatIDSkillNatureProficiency,
+              DKStatIDSkillPerceptionProficiency,
+              DKStatIDSkillPerformanceProficiency,
+              DKStatIDSkillPersuasionProficiency,
+              DKStatIDSkillReligionProficiency,
+              DKStatIDSkillSleightOfHandProficiency,
+              DKStatIDSkillStealthProficiency,
+              DKStatIDSkillSurvivalProficiency ];
+}
+
 - (id)initWithAbilities:(DKAbilities5E*)abilities proficiencyBonus:(DKNumericStatistic*)proficiencyBonus {
     
     self = [super init];

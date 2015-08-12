@@ -14,7 +14,15 @@
 @property (nonatomic, strong, readonly) DKModifier* chosenModifier;
 
 - (id)init __unavailable;
-- (id)initWithTag:(NSString*)tag;
 - (void)chooseModifier:(DKModifier*)chosenModifier;
+
+@end
+
+@interface DKMultipleChoiceModifierGroup : DKModifierGroup <DKModifierGroupOwner, NSCoding>
+
+@property (nonatomic, strong, readonly) DKModifierGroup* chosenGroup;
+
+- (id)init __unavailable;
+- (void)chooseModifierGroup:(DKModifierGroup*)chosenModifierGroup;
 
 @end

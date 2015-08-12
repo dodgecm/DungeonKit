@@ -17,7 +17,7 @@
 
 @property (nonatomic, strong) DKNumericStatistic* spellSaveDC;
 @property (nonatomic, strong) DKNumericStatistic* spellAttackBonus;
-@property (nonatomic, strong) DKNumericStatistic* preparedSpells;
+@property (nonatomic, strong) DKSetStatistic* preparedSpells;
 @property (nonatomic, strong) DKNumericStatistic* preparedSpellsMax;
 
 @property (nonatomic, strong) DKNumericStatistic* firstLevelSpellSlotsCurrent;

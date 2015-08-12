@@ -9,6 +9,7 @@
 #import "DKWizard5E.h"
 #import "DKStatisticIDs5E.h"
 #import "DKModifierGroup.h"
+#import "DKModifierGroupTags5E.h"
 #import "DKAbilities5E.h"
 #import "DKModifierBuilder.h"
 #import "DKWeapon5E.h"
@@ -42,38 +43,35 @@
         forStatisticID:DKStatIDPreparedSpellsMax];
     [class addModifier:[DKModifierBuilder modifierWithMinimum:1 explanation:@"Minimum of 1 prepared spell"]
         forStatisticID:DKStatIDPreparedSpellsMax];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Channel Divinity" explanation:@"You have the ability to channel divine energy directly from your deity, using that energy to fuel magical effects.  When you use your Channel Divinity, you choose which effect to create.  You must then finish a short or long rest to use your Channel Divinity again."]
-        forStatisticID:DKStatIDClericTraits];
     [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Ritual Casting" explanation:@"You can cast a wizard spell as a ritual if that spell has the ritual tag and you have the spell prepared"]
-        forStatisticID:DKStatIDClericTraits];
+        forStatisticID:DKStatIDWizardTraits];
     
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Wizard Saving Throw Proficiency: Wisdom"]
         forStatisticID:DKStatIDSavingThrowWisdomProficiency];
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Wizard Saving Throw Proficiency: Intelligence"]
         forStatisticID:DKStatIDSavingThrowIntelligenceProficiency];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Dagger]
-                                                         explanation:@"Wizard Weapon Proficiencies"]
-        forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Dart]
-                                                         explanation:@"Wizard Weapon Proficiencies"]
-        forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Sling]
-                                                         explanation:@"Wizard Weapon Proficiencies"]
-        forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Quarterstaff]
-                                                         explanation:@"Wizard Weapon Proficiencies"]
-        forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_LightCrossbow]
-                                                         explanation:@"Wizard Weapon Proficiencies"]
-        forStatisticID:DKStatIDWeaponProficiencies];
     
-    DKModifierGroup* skillSubgroup = [[DKModifierGroup alloc] init];
-    skillSubgroup.explanation = @"Wizard Skill Proficiencies: Choose two from Arcana, History, Insight, Investigation, Medicine, and Religion";
-    [skillSubgroup addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Wizard Skill Proficiency: History (default)"]
-                forStatisticID:DKStatIDSkillHistoryProficiency];
-    [skillSubgroup addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Wizard Skill Proficiency: Arcana (default)"]
-                forStatisticID:DKStatIDSkillArcanaProficiency];
-    [class addSubgroup:skillSubgroup];
+    NSArray* weaponProficiencies = @[ @(kDKWeaponType5E_Dagger),
+                                      @(kDKWeaponType5E_Dart),
+                                      @(kDKWeaponType5E_Sling),
+                                      @(kDKWeaponType5E_Quarterstaff),
+                                      @(kDKWeaponType5E_LightCrossbow) ];
+    for (NSNumber* weaponProficiency in weaponProficiencies) {
+        [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:weaponProficiency.integerValue]
+                                                             explanation:@"Wizard Weapon Proficiencies"]
+            forStatisticID:DKStatIDWeaponProficiencies];
+    }
+    
+    NSArray* skillProficiencyStatIDs = @[ DKStatIDSkillArcanaProficiency,
+                                          DKStatIDSkillHistoryProficiency,
+                                          DKStatIDSkillInsightProficiency,
+                                          DKStatIDSkillInvestigationProficiency,
+                                          DKStatIDSkillMedicineProficiency,
+                                          DKStatIDSkillReligionProficiency ];
+    DKModifierGroup* skillProficiencyGroup = [DKClass5E skillProficienciesWithStatIDs:skillProficiencyStatIDs
+                                                                       choiceGroupTag:DKChoiceWizardSkillProficiency];
+    skillProficiencyGroup.explanation = @"Wizard Skill Proficiencies: Choose two from Arcana, History, Insight, Investigation, Medicine, and Religion";
+    [class addSubgroup:skillProficiencyGroup];
     
     DKModifierGroup* cantripsGroup = [DKWizard5E cantripsWithLevel:level];
     [class addSubgroup:cantripsGroup];
@@ -105,32 +103,20 @@
     
     DKModifierGroup* cantripsGroup = [[DKModifierGroup alloc] init];
     cantripsGroup.explanation = @"Wizard cantrips";
-    DKModifierGroup* cantripStartingGroup = [[DKModifierGroup alloc] init];
-    cantripStartingGroup.explanation = @"Wizards are granted three cantrips at first level";
-    [cantripsGroup addSubgroup:cantripStartingGroup];
-    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Light" explanation:@"First level Wizard cantrip (default)"] forStatisticID:DKStatIDCantrips];
-    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Mage Hand" explanation:@"First level Wizard cantrip (default)"] forStatisticID:DKStatIDCantrips];
-    [cantripStartingGroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Ray of Frost" explanation:@"First level Wizard cantrip (default)"] forStatisticID:DKStatIDCantrips];
     
-    DKModifierGroup* cantripSecondGroup = [[DKModifierGroup alloc] init];
-    cantripSecondGroup.explanation = @"Wizards are granted one additional cantrip at fourth level";
-    [cantripsGroup addSubgroup:cantripSecondGroup];
-    [cantripSecondGroup addModifier:[DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                     value:[DKDependentModifierBuilder expressionForConstantValue:@"Minor Illusion"]
-                                                                                   enabled:[DKDependentModifierBuilder
-                                                                                            enabledWhen:@"source" isGreaterThanOrEqualTo:4]
-                                                                               explanation:@"Fourth level Wizard cantrip (default)"]
-                     forStatisticID:DKStatIDCantrips];
+    for (int i = 0; i < 3; i++) {
+        [cantripsGroup addSubgroup:[DKWizardSpellBuilder5E cantripChoiceWithLevel:level
+                                                                        threshold:1
+                                                                      explanation:@"First level Wizard cantrip"]];
+    }
     
-    DKModifierGroup* cantripThirdGroup = [[DKModifierGroup alloc] init];
-    cantripThirdGroup.explanation = @"Wizards are granted one additional cantrip at tenth level";
-    [cantripsGroup addSubgroup:cantripThirdGroup];
-    [cantripThirdGroup addModifier:[DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                    value:[DKDependentModifierBuilder expressionForConstantValue:@"Mending"]
-                                                                                  enabled:[DKDependentModifierBuilder
-                                                                                           enabledWhen:@"source" isGreaterThanOrEqualTo:10]
-                                                                              explanation:@"Tenth level Wizard cantrip (default)"]
-                    forStatisticID:DKStatIDCantrips];
+    [cantripsGroup addSubgroup:[DKWizardSpellBuilder5E cantripChoiceWithLevel:level
+                                                                    threshold:4
+                                                                  explanation:@"Fourth level Wizard cantrip"]];
+    
+    [cantripsGroup addSubgroup:[DKWizardSpellBuilder5E cantripChoiceWithLevel:level
+                                                                    threshold:10
+                                                                  explanation:@"Tenth level Wizard cantrip"]];
     
     return cantripsGroup;
 }
@@ -480,6 +466,13 @@
 
 + (DKChoiceModifierGroup*)cantripChoiceWithExplanation:(NSString*)explanation {
     
+    return [DKWizardSpellBuilder5E cantripChoiceWithLevel:nil threshold:0 explanation:explanation];
+}
+
++ (DKChoiceModifierGroup*)cantripChoiceWithLevel:(DKNumericStatistic*)level
+                                       threshold:(NSInteger)threshold
+                                     explanation:(NSString*)explanation {
+    
     DKChoiceModifierGroup* cantripGroup = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceWizardCantrip"];
     
     NSArray* spellNames = @[ @"Acid Splash",
@@ -493,8 +486,21 @@
                              @"Ray of Frost",
                              @"Shocking Grasp" ];
     for (NSString* spell in spellNames) {
-        [cantripGroup addModifier:[DKModifierBuilder modifierWithAppendedString:spell explanation:explanation]
-                   forStatisticID:DKStatIDCantrips];
+        
+        DKModifier* modifier;
+        if (level && threshold > 0) {
+            
+            modifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                constantValue:spell
+                                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                               isGreaterThanOrEqualTo:threshold]
+                                                                  explanation:explanation];
+        } else {
+            
+            modifier = [DKModifierBuilder modifierWithAppendedString:spell explanation:explanation];
+        }
+        
+        [cantripGroup addModifier:modifier forStatisticID:DKStatIDCantrips];
     }
     
     return cantripGroup;

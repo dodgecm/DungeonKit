@@ -9,6 +9,8 @@
 #import "DKFighter5E.h"
 #import "DKAbilities5E.h"
 #import "DKModifierBuilder.h"
+#import "DKChoiceModifierGroup.h"
+#import "DKModifierGroupTags5E.h"
 #import "DKStatisticIDs5E.h"
 #import "DKEquipment5E.h"
 #import "DKWeapon5E.h"
@@ -40,39 +42,43 @@
         forStatisticID:DKStatIDSavingThrowStrengthProficiency];
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Fighter Saving Throw Proficiency: Constitution"]
         forStatisticID:DKStatIDSavingThrowConstitutionProficiency];
+    
     [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple]
                                                          explanation:@"Fighter Weapon Proficiencies"]
         forStatisticID:DKStatIDWeaponProficiencies];
     [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Martial]
                                                          explanation:@"Fighter Weapon Proficiencies"]
         forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]
-                                                         explanation:@"Fighter Armor Proficiencies"]
-        forStatisticID:DKStatIDArmorProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Medium]
-                                                         explanation:@"Fighter Armor Proficiencies"]
-        forStatisticID:DKStatIDArmorProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Heavy]
-                                                         explanation:@"Fighter Armor Proficiencies"]
-        forStatisticID:DKStatIDArmorProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Shield]
-                                                         explanation:@"Fighter Armor Proficiencies"]
-        forStatisticID:DKStatIDArmorProficiencies];
     
-    DKModifierGroup* skillSubgroup = [[DKModifierGroup alloc] init];
-    skillSubgroup.explanation = @"Fighter Skill Proficiencies: Choose two from Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Perception, and Survival";
-    [skillSubgroup addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Fighter Skill Proficiency: Athletics (default)"]
-                forStatisticID:DKStatIDSkillAthleticsProficiency];
-    [skillSubgroup addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Fighter Skill Proficiency: Survival (default)"]
-                forStatisticID:DKStatIDSkillSurvivalProficiency];
-    [class addSubgroup:skillSubgroup];
+    NSArray* armorProficiencies = @[ @(kDKArmorCategory5E_Light),
+                                     @(kDKArmorCategory5E_Medium),
+                                     @(kDKArmorCategory5E_Heavy),
+                                     @(kDKArmorCategory5E_Shield) ];
+    for (NSNumber* armorProficiency in armorProficiencies) {
+        [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:armorProficiency.integerValue]
+                                                             explanation:@"Fighter Armor Proficiencies"]
+            forStatisticID:DKStatIDArmorProficiencies];
+    }
     
-    DKModifierGroup* fightingStyle = [DKFighter5E fightingStyle:kDKFightingStyle5E_Archery
-                                                   fighterLevel:level
-                                                       minLevel:@1
-                                                      equipment:equipment];
-    fightingStyle.explanation = @"Archery fighting style (default)";
-    [class addSubgroup:fightingStyle];
+    NSArray* skillProficiencyStatIDs = @[ DKStatIDSkillAcrobaticsProficiency,
+                                          DKStatIDSkillAnimalHandlingProficiency,
+                                          DKStatIDSkillAthleticsProficiency,
+                                          DKStatIDSkillHistoryProficiency,
+                                          DKStatIDSkillInsightProficiency,
+                                          DKStatIDSkillIntimidationProficiency,
+                                          DKStatIDSkillPerceptionProficiency,
+                                          DKStatIDSkillSurvivalProficiency,
+                                          ];
+    DKModifierGroup* skillProficiencyGroup = [DKClass5E skillProficienciesWithStatIDs:skillProficiencyStatIDs
+                                                                       choiceGroupTag:DKChoiceFighterSkillProficiency];
+    skillProficiencyGroup.explanation = @"Fighter Skill Proficiencies: Choose two from Acrobatics, Animal Handling, Athletics, History, Insight, Intimidation, Perception, and Survival";
+    [class addSubgroup:skillProficiencyGroup];
+    
+    DKModifierGroup* fightingStyleChoice = [DKFighter5E fightingStyleChoiceWithLevel:level
+                                                                            minLevel:@1
+                                                                           equipment:equipment];
+    fightingStyleChoice.explanation = @"Fighting style";
+    [class addSubgroup:fightingStyleChoice];
     
     DKModifierGroup* secondWindGroup = [DKFighter5E secondWindGroupWithFighterLevel:level];
     [class addSubgroup:secondWindGroup];
@@ -108,6 +114,28 @@
     [class addModifier:[DKModifierBuilder modifierWithAdditiveBonus:125 explanation:@"Fighter starting gold"] forStatisticID:DKStatIDCurrencyGold];
     
     return class;
+}
+
++ (DKMultipleChoiceModifierGroup*)fightingStyleChoiceWithLevel:(DKNumericStatistic*)level
+                                                      minLevel:(NSNumber*)minLevel
+                                                     equipment:(DKEquipment5E*)equipment {
+    
+    DKMultipleChoiceModifierGroup* fightingStyleChoice = [[DKMultipleChoiceModifierGroup alloc] initWithTag:@"DKChoiceFightingStyle"];
+    
+    NSArray* fightingStyles = @[ @(kDKFightingStyle5E_Archery),
+                                 @(kDKFightingStyle5E_Defense),
+                                 @(kDKFightingStyle5E_Dueling),
+                                 @(kDKFightingStyle5E_GreatWeapon),
+                                 @(kDKFightingStyle5E_Protection),
+                                 @(kDKFightingStyle5E_TwoWeapon) ];
+    for (NSNumber* fightingStyle in fightingStyles) {
+        [fightingStyleChoice addSubgroup:[DKFighter5E fightingStyle:fightingStyle.integerValue
+                                                       fighterLevel:level
+                                                           minLevel:minLevel
+                                                          equipment:equipment]];
+    }
+    
+    return fightingStyleChoice;
 }
 
 + (DKModifierGroup*)fightingStyle:(DKFightingStyle5E)fightingStyle
@@ -176,7 +204,7 @@
                                                                                             value:damageBonusExpression
                                                                                           enabled:enabledPredicate
                                                                                          priority:kDKModifierPriority_Additive
-                                                                                       expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                                                       expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
             damageModifier.explanation = @"Dueling fighting style (fighter) damage bonus";
             [fightingStyleGroup addModifier:damageModifier forStatisticID:DKStatIDMainHandWeaponDamage];
             break;
@@ -339,11 +367,10 @@
                                                                               proficiencyBonus:proficiencyBonus];
     [championGroup addSubgroup:remarkableAthleteAbility];
     
-    DKModifierGroup* bonusFightingStyle = [DKFighter5E fightingStyle:kDKFightingStyle5E_Defense
-                                                        fighterLevel:level
-                                                            minLevel:@10
-                                                           equipment:equipment];
-    bonusFightingStyle.explanation = @"Defense fighting style from Champion archetype (default)";
+    DKModifierGroup* bonusFightingStyle = [DKFighter5E fightingStyleChoiceWithLevel:level
+                                                                           minLevel:@10
+                                                                          equipment:equipment];
+    bonusFightingStyle.explanation = @"Fighting style from Champion archetype";
     [championGroup addSubgroup:bonusFightingStyle];
     
     NSString* superiorCriticalExplanation = @"Your weapon attacks score a critical hit on a roll of 18, 19, or 20.";

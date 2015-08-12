@@ -7,7 +7,10 @@
 //
 
 #import "DKRogue5E.h"
+#import "DKChoiceModifierGroup.h"
+#import "DKModifierGroupTags5E.h"
 #import "DKAbilities5E.h"
+#import "DKSkills5E.h"
 #import "DKEquipment5E.h"
 #import "DKModifierBuilder.h"
 #import "DKStatisticIDs5E.h"
@@ -35,18 +38,17 @@
     [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple]
                                                          explanation:@"Rogue Weapon Proficiencies"]
         forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_HandCrossbow]
-                                                         explanation:@"Rogue Weapon Proficiencies"]
-        forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Longsword]
-                                                         explanation:@"Rogue Weapon Proficiencies"]
-        forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Rapier]
-                                                         explanation:@"Rogue Weapon Proficiencies"]
-        forStatisticID:DKStatIDWeaponProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Shortsword]
-                                                         explanation:@"Rogue Weapon Proficiencies"]
-        forStatisticID:DKStatIDWeaponProficiencies];
+    
+    NSArray* weaponProficiencies = @[ @(kDKWeaponType5E_HandCrossbow),
+                                      @(kDKWeaponType5E_Longsword),
+                                      @(kDKWeaponType5E_Shortsword),
+                                      @(kDKWeaponType5E_Rapier) ];
+    for (NSNumber* weaponProficiency in weaponProficiencies) {
+        [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:weaponProficiency.integerValue]
+                                                             explanation:@"Rogue Weapon Proficiencies"]
+            forStatisticID:DKStatIDWeaponProficiencies];
+    }
+    
     [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]
                                                          explanation:@"Rogue Armor Proficiencies"]
         forStatisticID:DKStatIDArmorProficiencies];
@@ -54,24 +56,30 @@
                                                          explanation:@"Rogue Tool Proficiencies"]
         forStatisticID:DKStatIDToolProficiencies];
     
-    DKModifierGroup* skillSubgroup = [[DKModifierGroup alloc] init];
-    skillSubgroup.explanation = @"Rogue Skill Proficiencies: Choose two from Acrobatics, Athletics, Deception, Insight, Intimidation, Investigation, Perception, Performance, Persuasion, Sleight of Hand, and Stealth";
-    [skillSubgroup addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Rogue Skill Proficiency: Deception (default)"]
-                forStatisticID:DKStatIDSkillDeceptionProficiency];
-    [skillSubgroup addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Rogue Skill Proficiency: Perception (default)"]
-                forStatisticID:DKStatIDSkillPerceptionProficiency];
-    [class addSubgroup:skillSubgroup];
+    NSArray* skillProficiencyStatIDs = @[ DKStatIDSkillAcrobaticsProficiency,
+                                          DKStatIDSkillAthleticsProficiency,
+                                          DKStatIDSkillDeceptionProficiency,
+                                          DKStatIDSkillInsightProficiency,
+                                          DKStatIDSkillIntimidationProficiency,
+                                          DKStatIDSkillInvestigationProficiency,
+                                          DKStatIDSkillPerceptionProficiency,
+                                          DKStatIDSkillPerformanceProficiency,
+                                          DKStatIDSkillPersuasionProficiency,
+                                          DKStatIDSkillSleightOfHandProficiency,
+                                          DKStatIDSkillSurvivalProficiency ];
+    DKModifierGroup* skillProficiencyGroup = [DKClass5E skillProficienciesWithStatIDs:skillProficiencyStatIDs
+                                                                       choiceGroupTag:DKChoiceRogueSkillProficiency];
+    skillProficiencyGroup.explanation = @"Rogue Skill Proficiencies: Choose two from Acrobatics, Athletics, Deception, Insight, Intimidation, Investigation, Perception, Performance, Persuasion, Sleight of Hand, and Stealth";
+    [class addSubgroup:skillProficiencyGroup];
     
     //Expertise
     DKModifierGroup* expertiseSubgroup = [[DKModifierGroup alloc] init];
-    NSArray* statIDs = @[ DKStatIDSkillDeceptionProficiency, DKStatIDSkillPerceptionProficiency,
-                          DKStatIDSkillSleightOfHandProficiency, DKStatIDSkillStealthProficiency];
-    NSArray* statNames = @[ @"Deception", @"Perception", @"Sleight of Hand", @"Stealth"];
     NSArray* levelRequirements = @[ @1, @1, @6, @6];
-    for (int i = 0; i < statIDs.count; i++) {
-        DKModifier* expertiseSkill = [DKRogue5E expertiseModifierWithLevel:level levelRequirement:levelRequirements[i]];
-        expertiseSkill.explanation = [NSString stringWithFormat:@"Rogue expertise in %@ (default)", statNames[i]];
-        [expertiseSubgroup addModifier:expertiseSkill forStatisticID:statIDs[i]];
+    for (int i = 0; i < levelRequirements.count; i++) {
+        DKModifierGroup* expertiseChoice = [DKRogue5E expertiseChoiceWithLevel:level
+                                                              levelRequirement:levelRequirements[i]];
+        expertiseChoice.explanation = @"Rogue expertise";
+        [expertiseSubgroup addSubgroup:expertiseChoice];
     }
     [class addSubgroup:expertiseSubgroup];
     
@@ -178,14 +186,21 @@
     return class;
 }
 
-+ (DKModifier*)expertiseModifierWithLevel:(DKNumericStatistic*)level
-                         levelRequirement:(NSNumber*)enabledLevel {
-    return [[DKDependentModifier alloc] initWithDependencies:@{ @"level" : level }
-                                                       value:nil
-                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"level"
-                                                                              isGreaterThanOrEqualTo:enabledLevel.integerValue]
-                                                    priority:kDKModifierPriority_Clamping
-                                                  expression:[DKModifierBuilder simpleClampExpressionBetween:2 and:2]];
++ (DKChoiceModifierGroup*)expertiseChoiceWithLevel:(DKNumericStatistic*)level
+                                  levelRequirement:(NSNumber*)enabledLevel {
+    
+    DKChoiceModifierGroup* expertiseChoiceGroup = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceRogueExpertise"];
+    for (NSString* statID in [DKSkills5E skillProficiencyStatIDs]) {
+        DKModifier* modifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"level" : level }
+                                                                           value:nil
+                                                                         enabled:[DKDependentModifierBuilder enabledWhen:@"level"
+                                                                                                  isGreaterThanOrEqualTo:enabledLevel.integerValue]
+                                                                        priority:kDKModifierPriority_Clamping
+                                                                      expression:[DKModifierBuilder simpleClampExpressionBetween:2 and:2]];
+        [expertiseChoiceGroup addModifier:modifier forStatisticID:statID];
+    }
+    
+    return expertiseChoiceGroup;
 }
 
 + (DKModifierGroup*)sneakAttackModifierWithLevel:(DKNumericStatistic*)level

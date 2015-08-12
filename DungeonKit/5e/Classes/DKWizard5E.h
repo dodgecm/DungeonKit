@@ -28,5 +28,10 @@
 @end
 
 @interface DKWizardSpellBuilder5E : NSObject
+
 + (DKChoiceModifierGroup*)cantripChoiceWithExplanation:(NSString*)explanation;
+
++ (DKChoiceModifierGroup*)cantripChoiceWithLevel:(DKNumericStatistic*)level
+                                       threshold:(NSInteger)threshold
+                                     explanation:(NSString*)explanation;
 @end

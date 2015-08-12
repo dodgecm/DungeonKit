@@ -20,6 +20,7 @@
 @property (nonatomic, strong) DKDiceStatistic* classHitDice;
 
 + (DKModifierGroup*)abilityScoreImprovementForThreshold:(NSInteger)threshold level:(DKNumericStatistic*)classLevel;
++ (DKModifierGroup*)skillProficienciesWithStatIDs:(NSArray*)statIDs choiceGroupTag:(NSString*)tag;
 + (DKModifier*)hitDiceModifierForSides:(NSInteger)sides level:(DKNumericStatistic*)classLevel;
 
 @end

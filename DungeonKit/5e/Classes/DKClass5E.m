@@ -8,7 +8,9 @@
 
 #import "DKClass5E.h"
 #import "DKStatisticIDs5E.h"
+#import "DKModifierGroupTags5E.h"
 #import "DKModifierBuilder.h"
+#import "DKChoiceModifierGroup.h"
 
 @implementation DKClass5E
 
@@ -21,28 +23,39 @@
 
 + (DKModifierGroup*)abilityScoreImprovementForThreshold:(NSInteger)threshold level:(DKNumericStatistic*)classLevel {
     
-    DKModifierGroup* abilityScoreSubgroup = [[DKModifierGroup alloc] init];
-    abilityScoreSubgroup.explanation = [NSString stringWithFormat:@"Ability score improvements for level %li", (long)threshold];
+    DKChoiceModifierGroup* firstAbilityScoreChoice = [[DKChoiceModifierGroup alloc] initWithTag:DKChoiceAbilityScoreImprovement];
+    firstAbilityScoreChoice.explanation = [NSString stringWithFormat:@"Ability score improvement choice for level %li", (long)threshold];
     
-    DKDependentModifier* strModifier = [[DKDependentModifier alloc] initWithSource:classLevel
-                                                                          value:[NSExpression expressionForConstantValue:@(1)]
-                                                                           enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                    isGreaterThanOrEqualTo:threshold]
-                                                                       priority:kDKModifierPriority_Additive
-                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    strModifier.explanation = [NSString stringWithFormat:@"Ability score improvement for level %li (default)", (long)threshold];
-    [abilityScoreSubgroup addModifier:strModifier forStatisticID:DKStatIDStrength];
+    DKChoiceModifierGroup* secondAbilityScoreChoice = [[DKChoiceModifierGroup alloc] initWithTag:DKChoiceAbilityScoreImprovement];
+    secondAbilityScoreChoice.explanation = [NSString stringWithFormat:@"Ability score improvement choice for level %li", (long)threshold];
     
-    DKDependentModifier* dexModifier = [[DKDependentModifier alloc] initWithSource:classLevel
-                                                                             value:[NSExpression expressionForConstantValue:@(1)]
-                                                                           enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                    isGreaterThanOrEqualTo:threshold]
-                                                                          priority:kDKModifierPriority_Additive
-                                                                        expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    dexModifier.explanation = [NSString stringWithFormat:@"Ability score improvement for level %li (default)", (long)threshold];
-    [abilityScoreSubgroup addModifier:dexModifier forStatisticID:DKStatIDDexterity];
+    DKModifierGroup* abilityScoreGroup = [[DKModifierGroup alloc] init];
+    abilityScoreGroup.explanation = [NSString stringWithFormat:@"Ability score improvements for level %li", (long)threshold];
     
-    return abilityScoreSubgroup;
+    [abilityScoreGroup addSubgroup:firstAbilityScoreChoice];
+    [abilityScoreGroup addSubgroup:secondAbilityScoreChoice];
+    
+    return abilityScoreGroup;
+}
+
++ (DKModifierGroup*)skillProficienciesWithStatIDs:(NSArray*)statIDs
+                                   choiceGroupTag:(NSString*)tag {
+    
+    DKChoiceModifierGroup* firstSkillProficiencyChoice = [[DKChoiceModifierGroup alloc] initWithTag:tag];
+    firstSkillProficiencyChoice.explanation = @"Class skill proficiency choice";
+    DKChoiceModifierGroup* secondSkillProficiencyChoice = [[DKChoiceModifierGroup alloc] initWithTag:tag];
+    secondSkillProficiencyChoice.explanation = @"Class skill proficiency choice";
+    for (NSString* statID in statIDs) {
+        DKModifier* modifier = [DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Class skill proficiency"];
+        [firstSkillProficiencyChoice addModifier:modifier forStatisticID:statID];
+        [secondSkillProficiencyChoice addModifier:[modifier copy] forStatisticID:statID];
+    }
+    
+    DKModifierGroup* skillProficiencyGroup = [[DKModifierGroup alloc] init];
+    [skillProficiencyGroup addSubgroup:firstSkillProficiencyChoice];
+    [skillProficiencyGroup addSubgroup:secondSkillProficiencyChoice];
+    
+    return skillProficiencyGroup;
 }
 
 + (DKModifier*)hitDiceModifierForSides:(NSInteger)sides level:(DKNumericStatistic*)classLevel {

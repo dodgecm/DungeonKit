@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DKStatistic.h"
-#import "DKModifierGroup.h"
+#import "DKChoiceModifierGroup.h"
 #import "DKClass5E.h"
 
 @class DKAbilities5E;
@@ -22,5 +22,14 @@
 @property (nonatomic, strong) DKModifierGroup* divineDomain;
 
 - (id)initWithAbilities:(DKAbilities5E*)abilities;
+
+@end
+
+@interface DKClericSpellBuilder5E : NSObject
++ (DKChoiceModifierGroup*)cantripChoiceWithLevel:(DKNumericStatistic*)level
+                                       threshold:(NSInteger)threshold
+                                     explanation:(NSString*)explanation;
++ (DKModifierGroup*)spellListForSpellLevel:(NSInteger)spellLevel
+                               clericLevel:(DKNumericStatistic*)level;
 
 @end
