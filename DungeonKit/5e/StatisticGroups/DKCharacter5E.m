@@ -173,15 +173,6 @@
                                            armorProficiencies:_armorProficiencies];
     
     self.classes = [[DKClasses5E alloc] init];
-    _classes.cleric = [[DKCleric5E alloc] initWithAbilities:_abilities];
-    _classes.fighter = [[DKFighter5E alloc] initWithAbilities:_abilities
-                                                       skills:_skills
-                                                    equipment:_equipment
-                                             proficiencyBonus:_proficiencyBonus];
-    _classes.rogue = [[DKRogue5E alloc] initWithAbilities:_abilities
-                                                equipment:_equipment
-                                         proficiencyBonus:_proficiencyBonus];
-    _classes.wizard = [[DKWizard5E alloc] initWithAbilities:_abilities];
 }
 
 - (void)loadModifiers {

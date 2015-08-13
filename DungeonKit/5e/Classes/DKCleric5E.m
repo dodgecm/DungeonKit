@@ -32,6 +32,8 @@
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
     class.explanation = @"Cleric class modifiers";
     
+    [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:level explanation:@"Cleric level"]
+        forStatisticID:DKStatIDLevel];
     [class addModifier:[DKClass5E hitDiceModifierForSides:8 level:level] forStatisticID:DKStatIDClericHitDice];
     
     [class addModifier:[abilities.wisdom modifierFromAbilityScoreWithExplanation:@"Cleric spellcasting ability: Wisdom"]

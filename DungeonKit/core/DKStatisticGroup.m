@@ -52,6 +52,10 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     return self;
 }
 
+- (NSArray*)allStatisticIDs {
+    return _statistics.allKeys;
+}
+
 - (DKStatistic*)statisticForID:(NSString*)statID {
     if (!statID) { return nil; }
     id statOrKeyPath = [_statistics objectForKey:statID];
@@ -325,7 +329,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     
     if (context == DKCharacterStatisticKVOContext) {
         
-        DKNumericStatistic* oldStat = change[@"old"];
+        DKStatistic* oldStat = change[@"old"];
         //Send out a notification so all the DKDependantModifiers can update their parent objects
         [[NSNotificationCenter defaultCenter] postNotificationName:DKStatObjectChangedNotification
                                                             object:oldStat
@@ -356,6 +360,17 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
         DKStatisticGroup* newGroup = change[@"new"];
         if ([newGroup isEqual:[NSNull null]]) { newGroup = nil; }
         [newGroup wasAddedToOwner:self];
+        
+        for (NSString* statID in oldGroup.allStatisticIDs) {
+            NSMutableDictionary* changeDict = [NSMutableDictionary dictionary];
+            DKStatistic* oldStat = [oldGroup statisticForID:statID];
+            DKStatistic* newStat = [newGroup statisticForID:statID];
+            if (oldStat) { changeDict[@"old"] = oldStat; }
+            if (newStat) { changeDict[@"new"] = newStat; }
+            [[NSNotificationCenter defaultCenter] postNotificationName:DKStatObjectChangedNotification
+                                                                object:oldStat
+                                                              userInfo:changeDict];
+        }
     }
 }
 

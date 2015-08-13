@@ -18,6 +18,7 @@
 @property (nonatomic, strong) DKNumericStatistic* strokeOfLuckUsesMax;
 @property (nonatomic, strong) DKModifierGroup* roguishArchetype;
 
+- (id)init __unavailable;
 - (id)initWithAbilities:(DKAbilities5E*)abilities
               equipment:(DKEquipment5E*)equipment
        proficiencyBonus:(DKNumericStatistic*)proficiencyBonus;

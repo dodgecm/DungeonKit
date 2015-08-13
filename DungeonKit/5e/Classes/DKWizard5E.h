@@ -23,6 +23,7 @@
 @property (nonatomic, strong) DKSetStatistic* signatureSpells;
 @property (nonatomic, strong) DKModifierGroup* arcaneTradition;
 
+- (id)init __unavailable;
 - (id)initWithAbilities:(DKAbilities5E*)abilities;
 
 @end

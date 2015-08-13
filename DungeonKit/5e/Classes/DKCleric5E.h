@@ -21,6 +21,7 @@
 @property (nonatomic, strong) DKNumericStatistic* divineIntervention;
 @property (nonatomic, strong) DKModifierGroup* divineDomain;
 
+- (id)init __unavailable;
 - (id)initWithAbilities:(DKAbilities5E*)abilities;
 
 @end

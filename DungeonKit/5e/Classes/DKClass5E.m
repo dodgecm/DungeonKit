@@ -75,7 +75,7 @@
 
 - (void)loadStatistics {
     
-    self.classLevel = [DKNumericStatistic statisticWithInt:0];
+    self.classLevel = [DKNumericStatistic statisticWithInt:1];
     self.classTraits = [DKSetStatistic statisticWithEmptySet];
     self.classHitDice = [DKDiceStatistic statisticWithNoDice];
 }

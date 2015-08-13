@@ -38,6 +38,7 @@ typedef NS_ENUM(NSInteger, DKFightingStyle5E) {
                          minLevel:(NSNumber*)minLevel
                         equipment:(DKEquipment5E*)equipment;
 
+- (id)init __unavailable;
 - (id)initWithAbilities:(DKAbilities5E*)abilities
                  skills:(DKSkills5E*)skills
               equipment:(DKEquipment5E*)equipment

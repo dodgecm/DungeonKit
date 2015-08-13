@@ -29,6 +29,8 @@
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
     class.explanation = @"Rogue class modifiers";
     
+    [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:level explanation:@"Rogue level"]
+        forStatisticID:DKStatIDLevel];
     [class addModifier:[DKClass5E hitDiceModifierForSides:8 level:level] forStatisticID:DKStatIDRogueHitDice];
     
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Rogue Saving Throw Proficiency: Dexterity"]

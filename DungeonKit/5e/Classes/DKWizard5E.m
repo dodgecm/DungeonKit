@@ -31,6 +31,8 @@
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
     class.explanation = @"Wizard class modifiers";
     
+    [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:level explanation:@"Wizard level"]
+        forStatisticID:DKStatIDLevel];
     [class addModifier:[DKClass5E hitDiceModifierForSides:6 level:level] forStatisticID:DKStatIDWizardHitDice];
     
     [class addModifier:[abilities.intelligence modifierFromAbilityScoreWithExplanation:@"Wizard spellcasting ability: Intelligence"]
@@ -234,25 +236,14 @@
     DKModifierGroup* spellbookGroup = [[DKModifierGroup alloc] init];
     spellbookGroup.explanation = @"Wizard spellbook";
     
-    NSArray* startingSpells = @[@"Burning Hands", @"Charm Person", @"Mage Armor", @"Magic Missile", @"Shield", @"Sleep"];
-    for (NSString* spellName in startingSpells) {
-        [spellbookGroup addModifier:[DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                             constantValue:spellName
-                                                                                   enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                            isGreaterThanOrEqualTo:1]
-                                                                               explanation:@"Spell learned at Wizard level 1."]
-                     forStatisticID:DKStatIDFirstLevelSpells];
-    }
+    DKMultipleChoiceModifierGroup* initialSpells = [[DKMultipleChoiceModifierGroup alloc] initWithTag:@"DKChoiceInitialWizardSpells"];
+    initialSpells.explanation = @"Starting Wizard spells.";
+    [spellbookGroup addSubgroup:initialSpells];
     
     for (NSInteger i = 2; i <= 20; i++) {
-        NSInteger highestSpellLevel = i / 2;
-        DKModifier* newSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                        constantValue:@"Placeholder"
-                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                       isGreaterThanOrEqualTo:i]
-                                                                          explanation:[NSString stringWithFormat:@"Spell learned at Wizard level %li.", (long)i]];
-        [spellbookGroup addModifier:newSpell forStatisticID:[DKSpellbook5E statIDForSpellLevel:highestSpellLevel]];
-        [spellbookGroup addModifier:[newSpell copy] forStatisticID:[DKSpellbook5E statIDForSpellLevel:highestSpellLevel]];
+        DKChoiceModifierGroup* spellChoice = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceWizardSpell"];
+        spellChoice.explanation = [NSString stringWithFormat:@"Spell learned at Wizard level %li.", (long)i];
+        [spellbookGroup addSubgroup:spellChoice];
     }
     
     return spellbookGroup;
@@ -303,19 +294,57 @@
                                                                                             explanation:spellMasteryExplanation];
     [spellMasteryGroup addModifier:spellMasteryAbility forStatisticID:DKStatIDWizardTraits];
     
-    DKDependentModifier* firstLevelSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                       constantValue:@"1st-level spell Placeholder"
-                                                                                             enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                      isGreaterThanOrEqualTo:18]
-                                                                                         explanation:@"Choose a 1st-level wizard spell that is in your spellbook."];
-    [spellMasteryGroup addModifier:firstLevelSpell forStatisticID:DKStatIDSpellMasterySpells];
+    DKChoiceModifierGroup* firstLevelSpellChoice = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceSpellMastery"];
+    firstLevelSpellChoice.tag = @"Choose a 1st-level wizard spell that is in your spellbook.";
+    NSArray* firstLevelSpells = @[ @"Burning Hands",
+                                   @"Charm Person",
+                                   @"Comprehend Languages",
+                                   @"Disguise Self",
+                                   @"Identify",
+                                   @"Mage Armor",
+                                   @"Magic Missile",
+                                   @"Shield",
+                                   @"Silent Image",
+                                   @"Sleep",
+                                   @"Thunderwave" ];
+    for (NSString* spellName in firstLevelSpells) {
+        
+        DKDependentModifier* firstLevelSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                        constantValue:spellName
+                                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                       isGreaterThanOrEqualTo:18]
+                                                                                          explanation:@"Wizard Spell Mastery"];
+        [firstLevelSpellChoice addModifier:firstLevelSpell forStatisticID:DKStatIDSpellMasterySpells];
+    }
     
-    DKDependentModifier* secondLevelSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                     constantValue:@"2nd-level spell Placeholder"
-                                                                                           enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                    isGreaterThanOrEqualTo:18]
-                                                                                       explanation:@"Choose a 2nd-level wizard spell that is in your spellbook."];
-    [spellMasteryGroup addModifier:secondLevelSpell forStatisticID:DKStatIDSpellMasterySpells];
+    [spellMasteryGroup addSubgroup:firstLevelSpellChoice];
+    
+    DKChoiceModifierGroup* secondLevelSpellChoice = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceSpellMastery"];
+    secondLevelSpellChoice.tag = @"Choose a 2nd-level wizard spell that is in your spellbook.";
+    NSArray* secondLevelSpells = @[ @"Arcane Lock",
+                                    @"Blur",
+                                    @"Darkness",
+                                    @"Flaming Sphere",
+                                    @"Hold Person",
+                                    @"Invisibility",
+                                    @"Knock",
+                                    @"Levitate",
+                                    @"Magic Weapon",
+                                    @"Misty Step",
+                                    @"Shatter",
+                                    @"Spider Climb",
+                                    @"Suggestion",
+                                    @"Web" ];
+    for (NSString* spellName in secondLevelSpells) {
+        
+        DKDependentModifier* secondLevelSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                        constantValue:spellName
+                                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                       isGreaterThanOrEqualTo:18]
+                                                                                          explanation:@"Wizard Spell Mastery"];
+        [secondLevelSpellChoice addModifier:secondLevelSpell forStatisticID:DKStatIDSpellMasterySpells];
+    }
+    [spellMasteryGroup addSubgroup:secondLevelSpellChoice];
     
     return spellMasteryGroup;
 }
@@ -333,19 +362,33 @@
                                                                                           explanation:signatureSpellsExplanation];
     [signatureSpellsGroup addModifier:signatureSpellsAbility forStatisticID:DKStatIDWizardTraits];
     
-    DKDependentModifier* thirdLevelSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                    constantValue:@"3rd-level spell Placeholder"
-                                                                                          enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                   isGreaterThanOrEqualTo:20]
-                                                                                      explanation:@"Choose a 3rd-level wizard spell in your spellbook as one of your signature spells."];
-    [signatureSpellsGroup addModifier:thirdLevelSpell forStatisticID:DKStatIDSignatureSpells];
+    DKChoiceModifierGroup* thirdLevelSpellChoice = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceSignatureSpell"];
+    thirdLevelSpellChoice.tag = @"Choose a 3rd-level wizard spell in your spellbook as one of your signature spells.";
     
-    DKDependentModifier* otherThirdLevelSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                    constantValue:@"Other 3rd-level spell Placeholder"
-                                                                                          enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                   isGreaterThanOrEqualTo:20]
-                                                                                      explanation:@"Choose a 3rd-level wizard spell in your spellbook as one of your signature spells."];
-    [signatureSpellsGroup addModifier:otherThirdLevelSpell forStatisticID:DKStatIDSignatureSpells];
+    DKChoiceModifierGroup* otherThirdLevelSpellChoice = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceSignatureSpell"];
+    otherThirdLevelSpellChoice.tag = @"Choose a 3rd-level wizard spell in your spellbook as one of your signature spells.";
+    
+    NSArray* thirdLevelSpells = @[ @"Counterspell",
+                                   @"Dispel Magic",
+                                   @"Fireball",
+                                   @"Fly",
+                                   @"Haste",
+                                   @"Lightning Bolt",
+                                   @"Major Image",
+                                   @"Protection from Energy" ];
+    for (NSString* spellName in thirdLevelSpells) {
+        
+        DKDependentModifier* thirdLevelSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                        constantValue:spellName
+                                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                       isGreaterThanOrEqualTo:20]
+                                                                                          explanation:@"Wizard Signature Spell"];
+        [thirdLevelSpellChoice addModifier:thirdLevelSpell forStatisticID:DKStatIDSignatureSpells];
+        [otherThirdLevelSpellChoice addModifier:[thirdLevelSpell copy] forStatisticID:DKStatIDSignatureSpells];
+    }
+    
+    [signatureSpellsGroup addSubgroup:thirdLevelSpellChoice];
+    [signatureSpellsGroup addSubgroup:otherThirdLevelSpellChoice];
     
     DKModifier* signatureSpellUsesModifier = [DKDependentModifierBuilder addedNumberFromSource:level
                                                                                constantValue:@2

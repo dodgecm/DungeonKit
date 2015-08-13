@@ -36,6 +36,8 @@
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
     class.explanation = @"Fighter class modifiers";
     
+    [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:level explanation:@"Fighter level"]
+        forStatisticID:DKStatIDLevel];
     [class addModifier:[DKClass5E hitDiceModifierForSides:10 level:level] forStatisticID:DKStatIDFighterHitDice];
     
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Fighter Saving Throw Proficiency: Strength"]

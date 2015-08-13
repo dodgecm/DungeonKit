@@ -12,14 +12,17 @@
 #import "DKModifierBuilder.h"
 
 @interface DKCharacter5ETests : XCTestCase
-
+@property (nonatomic, strong) DKCharacter5E* character;
 @end
 
 @implementation DKCharacter5ETests
 
+@synthesize character = _character;
+
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
+    _character = [[DKCharacter5E alloc] init];
 }
 
 - (void)tearDown {
@@ -34,100 +37,99 @@
 
 - (void)testMultipleModifiers {
     
-    DKCharacter5E* character = [[DKCharacter5E alloc] init];
-    character.abilities.dexterity.base = @14;
-    character.armorClass = [[DKNumericStatistic alloc] initWithInt:10];
-    [character.armorClass applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
-    XCTAssertEqualObjects(character.armorClass.value, @12, @"Character should start off with the correct armor class value.");
+    _character.abilities.dexterity.base = @14;
+    _character.armorClass = [[DKNumericStatistic alloc] initWithInt:10];
+    [_character.armorClass applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
+    XCTAssertEqualObjects(_character.armorClass.value, @12, @"Character should start off with the correct armor class value.");
     
-    DKDependentModifier* dependentModifier = [character.abilities.dexterity modifierFromAbilityScore];
-    [character.armorClass applyModifier:dependentModifier];
-    XCTAssertEqualObjects(character.armorClass.value, @14, @"Modifier should still be applied properly.");
+    DKDependentModifier* dependentModifier = [_character.abilities.dexterity modifierFromAbilityScore];
+    [_character.armorClass applyModifier:dependentModifier];
+    XCTAssertEqualObjects(_character.armorClass.value, @14, @"Modifier should still be applied properly.");
 }
 
 - (void)testDependentModifier {
     
-    DKCharacter5E* character = [[DKCharacter5E alloc] init];
-    character.abilities.dexterity = [[DKAbilityScore alloc] initWithInt:14];
-    character.armorClass = [[DKNumericStatistic alloc] initWithInt:10];
+    _character.abilities.dexterity = [[DKAbilityScore alloc] initWithInt:14];
+    _character.armorClass = [[DKNumericStatistic alloc] initWithInt:10];
     
-    DKDependentModifier* dependentModifier = [character.abilities.dexterity modifierFromAbilityScore];
-    [character.armorClass applyModifier:dependentModifier];
-    XCTAssertEqualObjects(character.armorClass.value, @12, @"Dependant modifier should be applied correctly.");
+    DKDependentModifier* dependentModifier = [_character.abilities.dexterity modifierFromAbilityScore];
+    [_character.armorClass applyModifier:dependentModifier];
+    XCTAssertEqualObjects(_character.armorClass.value, @12, @"Dependant modifier should be applied correctly.");
     
-    character.abilities.dexterity.base = @12;
-    XCTAssertEqualObjects(character.armorClass.value, @11, @"Dependant modifier should be applied correctly after changing the owner's base value.");
+    _character.abilities.dexterity.base = @12;
+    XCTAssertEqualObjects(_character.armorClass.value, @11, @"Dependant modifier should be applied correctly after changing the owner's base value.");
     
-    character.abilities.dexterity = [[DKAbilityScore alloc] initWithInt:16];
-    XCTAssertEqualObjects(character.armorClass.value, @13, @"Dependant modifier should be applied correctly after changing the owner object.");
+    _character.abilities.dexterity = [[DKAbilityScore alloc] initWithInt:16];
+    XCTAssertEqualObjects(_character.armorClass.value, @13, @"Dependant modifier should be applied correctly after changing the owner object.");
     
-    character.abilities.dexterity = nil;
-    XCTAssertEqualObjects(character.armorClass.value, @10, @"Dependant modifiers should be removed if the owner statistic is removed.");
+    _character.abilities.dexterity = nil;
+    XCTAssertEqualObjects(_character.armorClass.value, @10, @"Dependant modifiers should be removed if the owner statistic is removed.");
 }
 
 - (void)testProficiencyBonus {
-    DKCharacter5E* character = [[DKCharacter5E alloc] init];
     for (int i = 1; i < 5; i++) {
-        character.level.base = @(i);
-        XCTAssertEqualObjects(character.proficiencyBonus.value, @2, @"Proficiency bonus should start at +2 for a level 1-4 character.");
+        _character.level.base = @(i);
+        XCTAssertEqualObjects(_character.proficiencyBonus.value, @2, @"Proficiency bonus should start at +2 for a level 1-4 character.");
     }
     
-    character.level.base = @5;
-    XCTAssertEqualObjects(character.proficiencyBonus.value, @3, @"Proficiency bonus should go to +3 for a level 5 character.");
+    _character.level.base = @5;
+    XCTAssertEqualObjects(_character.proficiencyBonus.value, @3, @"Proficiency bonus should go to +3 for a level 5 character.");
     
-    character.level.base = @9;
-    XCTAssertEqualObjects(character.proficiencyBonus.value, @4, @"Proficiency bonus should go to +4 for a level 9 character.");
+    _character.level.base = @9;
+    XCTAssertEqualObjects(_character.proficiencyBonus.value, @4, @"Proficiency bonus should go to +4 for a level 9 character.");
 }
 
 - (void)testHitPoints {
     
-    DKCharacter5E* character = [[DKCharacter5E alloc] init];
-    character.hitPointsMax.base = @10;
-    XCTAssertEqualObjects(character.hitPointsCurrent.value, @10, @"Current hit points should reflect changes in maximum HP.");
+    _character.hitPointsMax.base = @10;
+    XCTAssertEqualObjects(_character.hitPointsCurrent.value, @10, @"Current hit points should reflect changes in maximum HP.");
     
-    character.hitPointsTemporary.base = @5;
-    XCTAssertEqualObjects(character.hitPointsCurrent.value, @15, @"Current hit points should reflect changes in temporary HP.");
+    _character.hitPointsTemporary.base = @5;
+    XCTAssertEqualObjects(_character.hitPointsCurrent.value, @15, @"Current hit points should reflect changes in temporary HP.");
 }
 
 - (void)testHitDice {
-    DKCharacter5E* character = [[DKCharacter5E alloc] init];
-    XCTAssertEqualObjects(character.classes.fighter.classHitDice.value.stringValue, @"0", @"Class hit dice should be empty at level 0");
-    character.classes.fighter.classLevel.base = @2;
-    XCTAssertEqualObjects(character.classes.fighter.classHitDice.value.stringValue, @"2d10", @"Class hit dice should scale with level");
-    character.classes.fighter.classLevel.base = @10;
-    XCTAssertEqualObjects(character.classes.fighter.classHitDice.value.stringValue, @"10d10", @"Class hit dice should scale with level");
     
-    character.classes.cleric.classLevel.base = @2;
-    XCTAssertEqualObjects(character.classes.cleric.classHitDice.value.stringValue, @"2d8", @"Class hit dice should scale with level");
-    character.classes.cleric.classLevel.base = @10;
-    XCTAssertEqualObjects(character.classes.cleric.classHitDice.value.stringValue, @"10d8", @"Class hit dice should scale with level");
+    _character.classes.fighter = [[DKFighter5E alloc] initWithAbilities:_character.abilities
+                                                                 skills:_character.skills
+                                                              equipment:_character.equipment
+                                                       proficiencyBonus:_character.proficiencyBonus];
+    _character.classes.fighter.classLevel.base = @0;
+    XCTAssertEqualObjects(_character.classes.fighter.classHitDice.value.stringValue, @"0", @"Class hit dice should be empty at level 0");
+    _character.classes.fighter.classLevel.base = @2;
+    XCTAssertEqualObjects(_character.classes.fighter.classHitDice.value.stringValue, @"2d10", @"Class hit dice should scale with level");
+    _character.classes.fighter.classLevel.base = @10;
+    XCTAssertEqualObjects(_character.classes.fighter.classHitDice.value.stringValue, @"10d10", @"Class hit dice should scale with level");
     
-    character.classes.cleric.classLevel.base = @5;
-    XCTAssertEqualObjects(character.hitDiceMax.value.stringValue, @"10d10+5d8", @"Multiclass hit die should get combined properly.");
+    _character.classes.cleric = [[DKCleric5E alloc] initWithAbilities:_character.abilities];
+    _character.classes.cleric.classLevel.base = @2;
+    XCTAssertEqualObjects(_character.classes.cleric.classHitDice.value.stringValue, @"2d8", @"Class hit dice should scale with level");
+    _character.classes.cleric.classLevel.base = @10;
+    XCTAssertEqualObjects(_character.classes.cleric.classHitDice.value.stringValue, @"10d8", @"Class hit dice should scale with level");
+    
+    _character.classes.cleric.classLevel.base = @5;
+    XCTAssertEqualObjects(_character.hitDiceMax.value.stringValue, @"10d10+5d8", @"Multiclass hit die should get combined properly.");
 }
 
 - (void)testArmorClass {
-    DKCharacter5E* character = [[DKCharacter5E alloc] init];
-    character.abilities.dexterity.base = @10;
-    XCTAssertEqualObjects(character.armorClass.value, @10, @"Armor class should default to 10.");
+    _character.abilities.dexterity.base = @10;
+    XCTAssertEqualObjects(_character.armorClass.value, @10, @"Armor class should default to 10.");
     
-    character.abilities.dexterity.base = @14;
-    XCTAssertEqualObjects(character.armorClass.value, @12, @"Armor class should get bonuses from dexterity.");
+    _character.abilities.dexterity.base = @14;
+    XCTAssertEqualObjects(_character.armorClass.value, @12, @"Armor class should get bonuses from dexterity.");
 }
 
 - (void)testInitiative {
-    DKCharacter5E* character = [[DKCharacter5E alloc] init];
-    character.abilities.dexterity.base = @10;
-    XCTAssertEqualObjects(character.initiativeBonus.value, @0, @"Initiative should default to +0.");
+    _character.abilities.dexterity.base = @10;
+    XCTAssertEqualObjects(_character.initiativeBonus.value, @0, @"Initiative should default to +0.");
     
-    character.abilities.dexterity.base = @14;
-    XCTAssertEqualObjects(character.initiativeBonus.value, @2, @"Initiative should get bonuses from dexterity.");
+    _character.abilities.dexterity.base = @14;
+    XCTAssertEqualObjects(_character.initiativeBonus.value, @2, @"Initiative should get bonuses from dexterity.");
 }
 
 - (void)testDeathSaves {
     
-    DKCharacter5E* character = [[DKCharacter5E alloc] init];
-    NSArray* statsToTest = @[character.deathSaveSuccesses, character.deathSaveFailures];
+    NSArray* statsToTest = @[_character.deathSaveSuccesses, _character.deathSaveFailures];
     for (DKNumericStatistic* statToTest in statsToTest) {
         statToTest.base = @0;
         XCTAssertEqualObjects(statToTest.value, @0, @"Death saves modifiers should not alter valid values.");
@@ -142,24 +144,5 @@
         XCTAssertEqualObjects(statToTest.value, @3, @"Death saves modifiers should clamp invalid values.");
     }
 }
-
-- (void)testRaces {
-    
-    DKCharacter5E* character = [[DKCharacter5E alloc] init];
-    NSArray* racesToTest = @[[DKRace5EBuilder human], [DKRace5EBuilder elf], [DKRace5EBuilder dwarf], [DKRace5EBuilder halfling]];
-    for (DKRace5E* newRace in racesToTest) {
-        DKRace5E* oldRace = character.race;
-        character.race = newRace;
-        
-        for (DKModifier* modifier in oldRace.modifiers) {
-            XCTAssertNil(modifier.owner, @"Old race modifiers should get removed");
-        }
-        for (DKModifier* modifier in newRace.modifiers) {
-            XCTAssertNotNil(modifier.owner, @"New race modifiers should get applied");
-        }
-    }
-}
-
-
 
 @end

@@ -19,6 +19,7 @@
 @interface DKStatisticGroup : NSObject <DKStatisticGroupOwner, DKModifierGroupOwner, NSCoding>
 @property (nonatomic, weak, readonly) id<DKStatisticGroupOwner> owner;
 
+- (NSArray*)allStatisticIDs;
 - (DKStatistic*)statisticForID:(NSString*)statID;
 - (void)addKeyPath:(NSString*)keyPath forStatisticID:(NSString*)statID;
 - (void)setStatistic:(DKStatistic*)statistic forStatisticID:(NSString*)statID;
