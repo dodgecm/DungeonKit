@@ -107,6 +107,7 @@
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     
+    [super encodeWithCoder:aCoder];
     [aCoder encodeObject:self.value forKey:@"value"];
     [aCoder encodeBool:self.enabled forKey:@"enabled"];
     [aCoder encodeInt:self.priority forKey:@"priority"];
@@ -117,7 +118,7 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
     if (self) {
         
         _value = [aDecoder decodeObjectForKey:@"value"];

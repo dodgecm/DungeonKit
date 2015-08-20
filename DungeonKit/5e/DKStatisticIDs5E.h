@@ -165,7 +165,6 @@ FOUNDATION_EXPORT NSString *const DKStatIDClericHitDice;
 FOUNDATION_EXPORT NSString *const DKStatIDChannelDivinityUsesCurrent;
 FOUNDATION_EXPORT NSString *const DKStatIDChannelDivinityUsesMax;
 FOUNDATION_EXPORT NSString *const DKStatIDTurnUndead;
-FOUNDATION_EXPORT NSString *const DKStatIDDivineIntervention;
 
 FOUNDATION_EXPORT NSString *const DKStatIDFighterLevel;
 FOUNDATION_EXPORT NSString *const DKStatIDFighterTraits;

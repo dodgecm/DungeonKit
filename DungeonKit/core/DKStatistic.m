@@ -105,7 +105,7 @@
     [self recalculateValue];
 }
 
-- (void)willBecomeSourceForModifier:(DKDependentModifier*)modifier {
+- (void)willBecomeSourceForOwner:(DKDependencyOwner*)owner {
     
     if ([self modifierCycleExists]) {
         

@@ -22,7 +22,6 @@
 @synthesize channelDivinityUsesCurrent = _channelDivinityUsesCurrent;
 @synthesize channelDivinityUsesMax = _channelDivinityUsesMax;
 @synthesize turnUndead = _turnUndead;
-@synthesize divineIntervention = _divineIntervention;
 @synthesize divineDomain = _divineDomain;
 
 #pragma mark -
@@ -46,8 +45,7 @@
         forStatisticID:DKStatIDPreparedSpellsMax];
     [class addModifier:[DKModifierBuilder modifierWithMinimum:1 explanation:@"Minimum of 1 prepared spell"]
         forStatisticID:DKStatIDPreparedSpellsMax];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Channel Divinity" explanation:@"You have the ability to channel divine energy directly from your deity, using that energy to fuel magical effects.  When you use your Channel Divinity, you choose which effect to create.  You must then finish a short or long rest to use your Channel Divinity again."]
-        forStatisticID:DKStatIDClericTraits];
+
     [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Ritual Casting" explanation:@"You can cast a cleric spell as a ritual if that spell has the ritual tag and you have the spell prepared"]
         forStatisticID:DKStatIDClericTraits];
     
@@ -67,6 +65,9 @@
                                                              explanation:@"Cleric Armor Proficiencies"]
             forStatisticID:DKStatIDArmorProficiencies];
     }
+    
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Channel Divinity" explanation:@"You have the ability to channel divine energy directly from your deity, using that energy to fuel magical effects.  When you use your Channel Divinity, you choose which effect to create.  You must then finish a short or long rest to use your Channel Divinity again."]
+        forStatisticID:DKStatIDClericTraits];
     
     NSExpression* channelDivinityValue = [DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
                                          @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:1] : @(0),
@@ -253,14 +254,14 @@
     
     DKModifierGroup* turnUndeadGroup = [[DKModifierGroup alloc] init];
     DKDependentModifier* turnUndeadAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                   value:[DKDependentModifierBuilder expressionForConstantInteger:1]
+                                                                                   value:[DKDependentModifierBuilder expressionForConstantValue:@"Channel Divinity - Turn Undead"]
                                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                                           isGreaterThanOrEqualTo:2]
                                                                                 priority:kDKModifierPriority_Additive
-                                                                              expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                                              expression:[DKModifierBuilder simpleAppendModifierExpression]];
     turnUndeadAbility.explanation = @"Channel Divinity - Turn Undead: As an action, you present your holy symbol and speak a prayer censuring the undead.  "  "Each undead that can see or hear you within 30 feet of you must make a Wisdom saving throw.  If the creature fails its saving throw, "
         "it is turned for 1 minute or until it takes any damage.";
-    [turnUndeadGroup addModifier:turnUndeadAbility forStatisticID:DKStatIDTurnUndead];
+    [turnUndeadGroup addModifier:turnUndeadAbility forStatisticID:DKStatIDClericTraits];
     
     NSString* destroyUndeadExplanation = @"Destroy Undead: When an undead fails its saving throw against your Turn Undead feature, "
     "the creature is instantly destroyed if its challenge rating is at or below a certain threshold.";
@@ -329,20 +330,23 @@
     "equal to or lower than your cleric level, your deity intervenes.  If your deity intervenes, you can't use this feature again for 7 days.  Otherwise, "
     "you can use it again after you finish a long rest.";
     DKDependentModifier* divineInterventionAbility = [[DKDependentModifier alloc] initWithSource:level
-                                                                                           value:[DKDependentModifierBuilder expressionForConstantInteger:1]
+                                                                                           value:[DKDependentModifierBuilder expressionForConstantValue:@"Divine Intervention"]
                                                                                          enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                  isGreaterThanOrEqualTo:10]
+                                                                                                                  isEqualToOrBetween:10 and:19]
                                                                                         priority:kDKModifierPriority_Additive
-                                                                                      expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                                                      expression:[DKModifierBuilder simpleAppendModifierExpression]];
     divineInterventionAbility.explanation = divineInterventionExplanation;
-    [divineInterventionGroup addModifier:divineInterventionAbility forStatisticID:DKStatIDDivineIntervention];
+    [divineInterventionGroup addModifier:divineInterventionAbility forStatisticID:DKStatIDClericTraits];
     
-    NSString* autoInterveneExplanation = @"Your call for intervention succeeds automatically, no roll required.";
-    DKDependentModifier* autoInterveneAbility = [DKDependentModifierBuilder informationalModifierFromSource:level
-                                                                                                    enabled:[DKDependentModifierBuilder
-                                                                                                             enabledWhen:@"source" isGreaterThanOrEqualTo:20]
-                                                                                                explanation:autoInterveneExplanation];
-    [divineInterventionGroup addModifier:autoInterveneAbility forStatisticID:DKStatIDDivineIntervention];
+    NSString* autoInterveneExplanation = @"Divine Intervention: You can call on your deity to intervene on your behalf when your need is great.  Imploring your deity's aid requires you to use your action.  Describe the assistance you seek.  Your call for intervention succeeds automatically, no roll required.  You can't use this feature again for 7 days.";
+    DKDependentModifier* autoInterveneAbility = [[DKDependentModifier alloc] initWithSource:level
+                                                                                      value:[DKDependentModifierBuilder expressionForConstantValue:@"Divine Intervention"]
+                                                                                    enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                 isGreaterThanOrEqualTo:20]
+                                                                                   priority:kDKModifierPriority_Additive
+                                                                                 expression:[DKModifierBuilder simpleAppendModifierExpression]];
+    autoInterveneAbility.explanation = autoInterveneExplanation;
+    [divineInterventionGroup addModifier:autoInterveneAbility forStatisticID:DKStatIDClericTraits];
     
     return divineInterventionGroup;
 }
@@ -459,7 +463,6 @@
              DKStatIDChannelDivinityUsesCurrent: @"channelDivinityUsesCurrent",
              DKStatIDChannelDivinityUsesMax: @"channelDivinityUsesMax",
              DKStatIDTurnUndead: @"turnUndead",
-             DKStatIDDivineIntervention: @"divineIntervention",
              };
 }
 
@@ -469,7 +472,6 @@
     self.channelDivinityUsesMax = [DKNumericStatistic statisticWithInt:0];
     self.channelDivinityUsesCurrent = [DKNumericStatistic statisticWithInt:0];
     self.turnUndead = [DKNumericStatistic statisticWithInt:0];
-    self.divineIntervention = [DKNumericStatistic statisticWithInt:0];
 }
 
 - (void)loadModifiers {
@@ -486,7 +488,7 @@
                                        threshold:(NSInteger)threshold
                                      explanation:(NSString*)explanation {
     
-    DKChoiceModifierGroup* cantripGroup = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceClericCantrip"];
+    DKChoiceModifierGroup* cantripGroup = [[DKChoiceModifierGroup alloc] initWithTag:DKChoiceClericCantrip];
     
     NSArray* spellNames = @[ @"Guidance",
                              @"Light",

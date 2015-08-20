@@ -8,7 +8,6 @@
 
 #import "DKStatisticGroup.h"
 #import "DKStatisticIDs5E.h"
-#import "DKConstants.h"
 
 
 @interface DKStatisticGroup()
@@ -86,7 +85,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     id newStat = [self statisticForID:statID];
     if (!newStat) { newStat = [NSNull null]; }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:DKStatObjectChangedNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:DKDependencyChangedNotification
                                                         object:oldStat
                                                       userInfo:@{@"old": oldStat,
                                                                  @"new": newStat}];
@@ -101,7 +100,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     
     [_statistics setObject:statistic forKey:statID];
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:DKStatObjectChangedNotification
+    [[NSNotificationCenter defaultCenter] postNotificationName:DKDependencyChangedNotification
                                                         object:oldStat
                                                       userInfo:@{@"old": oldStat,
                                                                  @"new": statistic}];
@@ -331,7 +330,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
         
         DKStatistic* oldStat = change[@"old"];
         //Send out a notification so all the DKDependantModifiers can update their parent objects
-        [[NSNotificationCenter defaultCenter] postNotificationName:DKStatObjectChangedNotification
+        [[NSNotificationCenter defaultCenter] postNotificationName:DKDependencyChangedNotification
                                                             object:oldStat
                                                           userInfo:change];
         
@@ -367,7 +366,7 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
             DKStatistic* newStat = [newGroup statisticForID:statID];
             if (oldStat) { changeDict[@"old"] = oldStat; }
             if (newStat) { changeDict[@"new"] = newStat; }
-            [[NSNotificationCenter defaultCenter] postNotificationName:DKStatObjectChangedNotification
+            [[NSNotificationCenter defaultCenter] postNotificationName:DKDependencyChangedNotification
                                                                 object:oldStat
                                                               userInfo:changeDict];
         }

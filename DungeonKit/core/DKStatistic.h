@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "DKDependencyOwner.h"
 #import "DKModifier.h"
 #import "DKDependentModifier.h"
 #import "DKDiceCollection.h"
 
-@interface DKStatistic : NSObject <DKDependentModifierOwner, NSCoding>
+@interface DKStatistic : NSObject <DKDependency, DKModifierOwner, NSCoding>
 
 /** The value of the statistic without any modifiers. */
 @property (nonatomic, readonly) id<NSObject> base;

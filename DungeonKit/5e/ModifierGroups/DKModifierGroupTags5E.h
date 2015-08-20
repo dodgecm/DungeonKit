@@ -19,6 +19,8 @@ FOUNDATION_EXPORT NSString *const DKChoiceHighElfCantrip;
 
 //Class specific
 FOUNDATION_EXPORT NSString *const DKChoiceClericSkillProficiency;
+FOUNDATION_EXPORT NSString *const DKChoiceClericCantrip;
+
 FOUNDATION_EXPORT NSString *const DKChoiceFighterSkillProficiency;
 FOUNDATION_EXPORT NSString *const DKChoiceRogueSkillProficiency;
 FOUNDATION_EXPORT NSString *const DKChoiceWizardSkillProficiency;

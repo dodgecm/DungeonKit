@@ -55,35 +55,35 @@
 @interface DKDependentModifierBuilder : NSObject
 
 /** Initializes a modifier from the source object that simply adds the source's value to the modifier's owner. */
-+ (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source;
++ (id)simpleModifierFromSource:(NSObject<DKDependency>*)source;
 
-+ (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)simpleModifierFromSource:(NSObject<DKDependency>*)source
                    explanation:(NSString*)explanation;
 
-+ (id)addedNumberFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)addedNumberFromSource:(NSObject<DKDependency>*)source
               constantValue:(id)constantValue
                     enabled:(NSPredicate*)enabledPredicate
                 explanation:(NSString*)explanation;
 
-+ (id)appendedModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)appendedModifierFromSource:(NSObject<DKDependency>*)source
                            value:(NSExpression*)valueExpression
                          enabled:(NSPredicate*)enabledPredicate
                      explanation:(NSString*)explanation;
 
-+ (id)appendedModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)appendedModifierFromSource:(NSObject<DKDependency>*)source
                    constantValue:(id)constantValue
                          enabled:(NSPredicate*)enabledPredicate
                      explanation:(NSString*)explanation;
 
-+ (id)addedDiceModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)addedDiceModifierFromSource:(NSObject<DKDependency>*)source
                       explanation:(NSString*)explanation;
 
-+ (id)addedDiceModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)addedDiceModifierFromSource:(NSObject<DKDependency>*)source
                             value:(NSExpression*)valueExpression
                           enabled:(NSPredicate*)enabledPredicate
                       explanation:(NSString*)explanation;
 
-+ (id)informationalModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)informationalModifierFromSource:(NSObject<DKDependency>*)source
                               enabled:(NSPredicate*)enabledPredicate
                           explanation:(NSString*)explanation;
 

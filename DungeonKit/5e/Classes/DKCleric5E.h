@@ -18,7 +18,6 @@
 @property (nonatomic, strong) DKNumericStatistic* channelDivinityUsesCurrent;
 @property (nonatomic, strong) DKNumericStatistic* channelDivinityUsesMax;
 @property (nonatomic, strong) DKNumericStatistic* turnUndead;
-@property (nonatomic, strong) DKNumericStatistic* divineIntervention;
 @property (nonatomic, strong) DKModifierGroup* divineDomain;
 
 - (id)init __unavailable;

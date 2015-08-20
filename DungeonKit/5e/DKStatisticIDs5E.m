@@ -168,7 +168,6 @@ NSString *const DKStatIDClericHitDice = @"DKClericHitDice";
 NSString *const DKStatIDChannelDivinityUsesCurrent = @"DKChannelDivinityUsesCurrent";
 NSString *const DKStatIDChannelDivinityUsesMax = @"DKChannelDivinityUsesMax";
 NSString *const DKStatIDTurnUndead = @"DKTurnUndead";
-NSString *const DKStatIDDivineIntervention = @"DKDivineIntervention";
 
 NSString *const DKStatIDFighterLevel = @"DKFighterLevel";
 NSString *const DKStatIDFighterTraits = @"DKFighterTraits";

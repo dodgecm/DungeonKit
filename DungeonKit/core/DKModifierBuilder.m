@@ -131,7 +131,7 @@
 
 @implementation DKDependentModifierBuilder
 
-+ (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source {
++ (id)simpleModifierFromSource:(NSObject<DKDependency>*)source {
     DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
                                                                           value:[DKDependentModifierBuilder valueFromDependency:@"source"]
                                                                        priority:kDKModifierPriority_Additive
@@ -139,13 +139,13 @@
     return modifier;
 }
 
-+ (id)simpleModifierFromSource:(NSObject<DKDependentModifierOwner>*)source explanation:(NSString*)explanation {
++ (id)simpleModifierFromSource:(NSObject<DKDependency>*)source explanation:(NSString*)explanation {
     DKDependentModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:source];
     modifier.explanation = explanation;
     return modifier;
 }
 
-+ (id)addedNumberFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)addedNumberFromSource:(NSObject<DKDependency>*)source
               constantValue:(id)constantValue
                     enabled:(NSPredicate*)enabledPredicate
                 explanation:(NSString*)explanation {
@@ -159,7 +159,7 @@
     return modifier;
 }
 
-+ (id)appendedModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)appendedModifierFromSource:(NSObject<DKDependency>*)source
                            value:(NSExpression*)valueExpression
                          enabled:(NSPredicate*)enabledPredicate
                      explanation:(NSString*)explanation {
@@ -173,7 +173,7 @@
     return modifier;
 }
 
-+ (id)appendedModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)appendedModifierFromSource:(NSObject<DKDependency>*)source
                    constantValue:(id)constantValue
                          enabled:(NSPredicate*)enabledPredicate
                      explanation:(NSString*)explanation {
@@ -183,7 +183,7 @@
                                                       explanation:explanation];
 }
 
-+ (id)addedDiceModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)addedDiceModifierFromSource:(NSObject<DKDependency>*)source
                       explanation:(NSString*)explanation {
     
     return [DKDependentModifierBuilder addedDiceModifierFromSource:source
@@ -192,7 +192,7 @@
                                                        explanation:explanation];
 }
 
-+ (id)addedDiceModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)addedDiceModifierFromSource:(NSObject<DKDependency>*)source
                             value:(NSExpression*)valueExpression
                           enabled:(NSPredicate*)enabledPredicate
                       explanation:(NSString*)explanation {
@@ -206,7 +206,7 @@
     return modifier;
 }
 
-+ (id)informationalModifierFromSource:(NSObject<DKDependentModifierOwner>*)source
++ (id)informationalModifierFromSource:(NSObject<DKDependency>*)source
                               enabled:(NSPredicate*)enabledPredicate
                           explanation:(NSString*)explanation {
     
