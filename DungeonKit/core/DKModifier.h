@@ -45,8 +45,10 @@ typedef enum {
 @property (nonatomic, copy, readonly) NSExpression* valueExpression;
 /** A method that enables or disables the modifier from the value of the source. */
 @property (nonatomic, copy, readonly) NSPredicate* enabledPredicate;
-/** A flag for whether this modifier should be applied to its owner */
-@property (nonatomic, assign) BOOL enabled;
+/** A flag for whether the modifier is currently modifying its owner statistic; equal to (enabledPredicate && active) */
+@property (nonatomic, readonly) BOOL enabled;
+/** A flag for whether this modifier should be applied to its owner, independent of enabledPredicate  */
+@property (nonatomic, assign) BOOL active;
 /** An expression to perform the modification. */
 @property (nonatomic, copy, readonly) NSExpression* modifierExpression;
 /** An optional explanation of the nature or source of this modifier */

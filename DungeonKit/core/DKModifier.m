@@ -10,6 +10,8 @@
 #import "DKDiceCollection.h"
 
 @interface DKModifier()
+@property (nonatomic, assign) BOOL enabled;
+@property (nonatomic) BOOL cachedPredicateResult;
 @end
 
 @implementation DKModifier
@@ -19,9 +21,12 @@
 @synthesize valueExpression = _valueExpression;
 @synthesize enabledPredicate = _enabledPredicate;
 @synthesize enabled = _enabled;
+@synthesize active = _active;
 @synthesize modifierExpression = _modifierExpression;
 @synthesize explanation = _explanation;
 @synthesize owner = _owner;
+
+@synthesize cachedPredicateResult = _cachedPredicateResult;
 
 + (id)modifierWithValue:(id<NSObject>)value
                priority:(DKModifierPriority)priority
@@ -41,6 +46,8 @@
     if (self) {
         _value = value;
         _enabled = YES;
+        _active = YES;
+        _cachedPredicateResult = YES;
         _priority = priority;
         _modifierExpression = expression;
     }
@@ -96,6 +103,11 @@
     return self;
 }
 
+- (void)setActive:(BOOL)active {
+    _active = active;
+    self.enabled = (_cachedPredicateResult && _active);
+}
+
 - (void)removeFromStatistic {
     [_owner removeModifier:self];
     _owner = nil;
@@ -116,6 +128,78 @@
 - (void)wasAppliedToStatistic:(id<DKModifierOwner>)owner {
     _owner = owner;
 }
+
+#pragma mark DKDependencyOwner override
+- (void)refresh {
+    
+    NSMutableDictionary* context = [NSMutableDictionary dictionary];
+    for (NSString* key in self.dependencies) {
+        NSObject<DKDependency>* dependency = self.dependencies[key];
+        context[key] = dependency.value;
+    }
+    
+    if (self.enabledPredicate != nil) {
+        self.cachedPredicateResult = [_enabledPredicate evaluateWithObject:self substitutionVariables:context];
+    }
+    self.enabled = (_cachedPredicateResult && _active);
+    
+    if (self.valueExpression != nil) {
+        self.value = [_valueExpression expressionValueWithObject:self context:context];
+    }
+}
+
+- (void)remove {
+    [self removeFromStatistic];
+}
+
+#pragma mark NSCopying
+- (id)copyWithZone:(NSZone *)zone {
+    DKModifier* modifier = [[[self class] allocWithZone:zone] initWithDependencies:[self.dependencies copy]
+                                                                             value:[self.valueExpression copy]
+                                                                           enabled:[self.enabledPredicate copy]
+                                                                          priority:self.priority
+                                                                        expression:[self.modifierExpression copy]];
+    modifier.value = self.value;
+    modifier.explanation = [self.explanation copy];
+    return modifier;
+}
+
+#pragma mark NSCoding
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    
+    [super encodeWithCoder:aCoder];
+    [aCoder encodeObject:self.value forKey:@"value"];
+    [aCoder encodeObject:self.valueExpression forKey:@"valueExpression"];
+    [aCoder encodeBool:self.active forKey:@"active"];
+    [aCoder encodeObject:self.enabledPredicate forKey:@"enabledPredicate"];
+    [aCoder encodeInt:self.priority forKey:@"priority"];
+    [aCoder encodeObject:self.modifierExpression forKey:@"modifierExpression"];
+    [aCoder encodeObject:self.explanation forKey:@"explanation"];
+    [aCoder encodeConditionalObject:self.owner forKey:@"owner"];
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        
+        _cachedPredicateResult = YES;
+        _value = [aDecoder decodeObjectForKey:@"value"];
+        _priority = [aDecoder decodeIntForKey:@"priority"];
+        _valueExpression = [aDecoder decodeObjectForKey:@"valueExpression"];
+        _active = [aDecoder decodeBoolForKey:@"active"];
+        _enabledPredicate = [aDecoder decodeObjectForKey:@"enabledPredicate"];
+        _modifierExpression = [aDecoder decodeObjectForKey:@"modifierExpression"];
+        _explanation = [aDecoder decodeObjectForKey:@"explanation"];
+        _owner = [aDecoder decodeObjectForKey:@"owner"];
+        
+        [self refresh];
+    }
+    
+    return self;
+}
+
+#pragma mark NSObject override
 
 - (NSString*)description {
     
@@ -165,74 +249,6 @@
     NSString* disabled = @"";
     if (!self.enabled) { disabled = @" - disabled"; }
     return [NSString stringWithFormat:@"%@%@%@", modifierString, explanation, disabled];
-}
-
-#pragma mark DKDependencyOwner override
-- (void)refresh {
-    
-    NSMutableDictionary* context = [NSMutableDictionary dictionary];
-    for (NSString* key in self.dependencies) {
-        NSObject<DKDependency>* dependency = self.dependencies[key];
-        context[key] = dependency.value;
-    }
-    
-    if (self.enabledPredicate != nil) {
-        self.enabled = [_enabledPredicate evaluateWithObject:self substitutionVariables:context];
-    }
-    
-    if (self.valueExpression != nil) {
-        self.value = [_valueExpression expressionValueWithObject:self context:context];
-    }
-}
-
-- (void)remove {
-    [self removeFromStatistic];
-}
-
-#pragma mark NSCopying
-- (id)copyWithZone:(NSZone *)zone {
-    DKModifier* modifier = [[[self class] allocWithZone:zone] initWithDependencies:[self.dependencies copy]
-                                                                             value:[self.valueExpression copy]
-                                                                           enabled:[self.enabledPredicate copy]
-                                                                          priority:self.priority
-                                                                        expression:[self.modifierExpression copy]];
-    modifier.value = self.value;
-    modifier.explanation = [self.explanation copy];
-    return modifier;
-}
-
-#pragma mark NSCoding
-- (void)encodeWithCoder:(NSCoder *)aCoder {
-    
-    [super encodeWithCoder:aCoder];
-    [aCoder encodeObject:self.value forKey:@"value"];
-    [aCoder encodeObject:self.valueExpression forKey:@"valueExpression"];
-    [aCoder encodeBool:self.enabled forKey:@"enabled"];
-    [aCoder encodeObject:self.enabledPredicate forKey:@"enabledPredicate"];
-    [aCoder encodeInt:self.priority forKey:@"priority"];
-    [aCoder encodeObject:self.modifierExpression forKey:@"modifierExpression"];
-    [aCoder encodeObject:self.explanation forKey:@"explanation"];
-    [aCoder encodeConditionalObject:self.owner forKey:@"owner"];
-}
-
-- (id)initWithCoder:(NSCoder *)aDecoder {
-    
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-        
-        _value = [aDecoder decodeObjectForKey:@"value"];
-        _priority = [aDecoder decodeIntForKey:@"priority"];
-        _valueExpression = [aDecoder decodeObjectForKey:@"valueExpression"];
-        _enabled = [aDecoder decodeBoolForKey:@"enabled"];
-        _enabledPredicate = [aDecoder decodeObjectForKey:@"enabledPredicate"];
-        _modifierExpression = [aDecoder decodeObjectForKey:@"modifierExpression"];
-        _explanation = [aDecoder decodeObjectForKey:@"explanation"];
-        _owner = [aDecoder decodeObjectForKey:@"owner"];
-        
-        [self refresh];
-    }
-    
-    return self;
 }
 
 @end

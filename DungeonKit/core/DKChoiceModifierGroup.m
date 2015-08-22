@@ -15,7 +15,7 @@
 - (void)chooseModifier:(DKModifier*)chosenModifier {
     
     if (!chosenModifier) {
-        _chosenModifier.enabled = NO;
+        _chosenModifier.active = NO;
         _chosenModifier = nil;
         return;
     }
@@ -27,17 +27,17 @@
     
     for (DKModifier* modifier in self.modifiers) {
         if (modifier != chosenModifier) {
-            modifier.enabled = NO;
+            modifier.active = NO;
         }
     }
     _chosenModifier = chosenModifier;
-    _chosenModifier.enabled = YES;
+    _chosenModifier.active = YES;
 }
 
 #pragma DKModifierGroup Override
 - (void)addModifier:(DKModifier*)modifier forStatisticID:(NSString*)statID {
     
-    modifier.enabled = NO;
+    modifier.active = NO;
     [super addModifier:modifier forStatisticID:statID];
 }
 
@@ -69,7 +69,7 @@
 - (void)setSubgroup:(DKModifierGroup*)subgroup
           toEnabled:(BOOL)enabled {
     for (DKModifier* modifier in subgroup.modifiers) {
-        modifier.enabled = enabled;
+        modifier.active = enabled;
     }
 }
 
@@ -99,7 +99,7 @@
 
 - (void)group:(DKModifierGroup*)modifierGroup willAddModifier:(DKModifier*)modifier forStatID:(NSString*)statID {
     if (modifierGroup != _chosenGroup) {
-        modifier.enabled = NO;
+        modifier.active = NO;
     }
     [super group:modifierGroup willAddModifier:modifier forStatID:statID];
 }

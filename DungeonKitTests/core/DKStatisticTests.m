@@ -63,8 +63,8 @@
     [stat applyModifier:secondModifier];
     [stat applyModifier:thirdModifier];
     [stat applyModifier:fourthModifier];
-    firstModifier.enabled = NO;
-    thirdModifier.enabled = NO;
+    firstModifier.active = NO;
+    thirdModifier.active = NO;
     
     NSArray* enabledModifiers = [stat enabledModifiers];
     XCTAssertFalse([enabledModifiers containsObject:firstModifier], @"Modifiers should get filtered correctly.");
