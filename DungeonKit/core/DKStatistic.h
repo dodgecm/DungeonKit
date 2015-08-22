@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "DKDependencyOwner.h"
 #import "DKModifier.h"
-#import "DKDependentModifier.h"
 #import "DKDiceCollection.h"
 
 @interface DKStatistic : NSObject <DKDependency, DKModifierOwner, NSCoding>
@@ -31,6 +30,8 @@
 - (NSArray*)disabledModifiers;
 
 - (void)recalculateValue;
+
+- (NSString*)modifiersDescription;
 
 @end
 

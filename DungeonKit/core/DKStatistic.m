@@ -1,3 +1,4 @@
+
 //
 //  DKStatistic.m
 //  DungeonKit
@@ -76,15 +77,11 @@
     [modifier addObserver:self forKeyPath:@"value" options:NSKeyValueObservingOptionNew context:nil];
     [modifier addObserver:self forKeyPath:@"enabled" options:NSKeyValueObservingOptionNew context:nil];
     
-    if ([modifier isKindOfClass:[DKDependentModifier class]]) {
-        //If this is a dependent modifier, we need to do some special checks to make sure we don't have a modifier infinite cycle going on.
-        DKDependentModifier* dependentModifier = (DKDependentModifier*) modifier;
-        if ([dependentModifier.dependencies.allValues containsObject:self] || [self modifierCycleExists]) {
-            
-            [modifier removeFromStatistic];
-            NSLog(@"DKStatistic: WARNING!  Attempted to apply dependent modifier %@ that will create a cycle to that modifier's source statistic %@.  The modifier will not be applied.", modifier, self);
-            return;
-        }
+    if ([modifier.dependencies.allValues containsObject:self] || [self modifierCycleExists]) {
+        
+        [modifier removeFromStatistic];
+        NSLog(@"DKStatistic: WARNING!  Attempted to apply dependent modifier %@ that will create a cycle to that modifier's source statistic %@.  The modifier will not be applied.", modifier, self);
+        return;
     }
     
     //Sort modifiers since array has changed
@@ -138,15 +135,29 @@
     return !isNodeAcyclic(self, [NSMutableSet set]);
 }
 
+- (NSString*)modifiersDescription {
+    
+    NSString* modifierString = @"";
+    for (DKModifier* modifier in self.modifiers) {
+        
+        if (!modifier.valueExpression) continue;
+        modifierString = [modifierString stringByAppendingString:modifier.valueExpression.description];
+        if (modifier.enabledPredicate) {
+            modifierString = [modifierString stringByAppendingString:@" if "];
+            modifierString = [modifierString stringByAppendingString:modifier.enabledPredicate.description];
+        }
+        modifierString = [modifierString stringByAppendingString:@"\n"];
+    }
+    return modifierString;
+}
+
 BOOL isNodeAcyclic(NSObject<DKModifierOwner>* statistic, NSMutableSet* visitedStats) {
     
     //Basically we're checking for a cycle in a directed graph, where nodes are statistics and modifiers are edges
     NSMutableSet* childStats = [NSMutableSet set];
     for (DKModifier* modifier in [statistic modifiers]) {
-        if (![modifier isKindOfClass:[DKDependentModifier class]]) { continue; }
         
-        DKDependentModifier* dependentModifier = (DKDependentModifier*) modifier;
-        for (NSObject<DKModifierOwner>* statistic in dependentModifier.dependencies.allValues) {
+        for (NSObject<DKModifierOwner>* statistic in modifier.dependencies.allValues) {
             [childStats addObject:statistic];
         }
     }

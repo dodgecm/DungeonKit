@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DKStatisticGroup5E.h"
 #import "DKStatistic.h"
-#import "DKDependentModifier.h"
+#import "DKModifier.h"
 
 @interface DKAbilityScore : DKNumericStatistic
 
@@ -19,10 +19,10 @@
 + (NSExpression*)abilityScoreValueForDependency:(NSString*)dependency;
 + (NSExpression*)diceCollectionValueFromAbilityScoreDependency:(NSString*)dependency;
 
-- (DKDependentModifier*)modifierFromAbilityScore;
-- (DKDependentModifier*)modifierFromAbilityScoreWithExplanation:(NSString*)explanation;
+- (DKModifier*)modifierFromAbilityScore;
+- (DKModifier*)modifierFromAbilityScoreWithExplanation:(NSString*)explanation;
 
-- (DKDependentModifier*)diceCollectionModifierFromAbilityScore;
+- (DKModifier*)diceCollectionModifierFromAbilityScore;
 
 /** Returns the modifier with the proper prefix, ex: +4, +2, +0, -1 */
 - (NSString*)formattedAbilityModifier;

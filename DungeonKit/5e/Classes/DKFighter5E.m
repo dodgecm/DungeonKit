@@ -94,13 +94,13 @@
                                                 [DKDependentModifierBuilder rangeValueWithMin:11 max:19] : @(2),
                                                 [DKDependentModifierBuilder rangeValueWithMin:20 max:20] : @(3) }
                                                                                          usingDependency:@"source"];
-    DKDependentModifier* extraAttacksModifier = [[DKDependentModifier alloc] initWithSource:level
-                                                                                            value:extraAttacksValue
-                                                                                          enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                   isGreaterThanOrEqualTo:5]
-                                                                                         priority:kDKModifierPriority_Additive
-                                                                                       expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    DKDependentModifier* offHandAttacksModifier = [extraAttacksModifier copy];
+    DKModifier* extraAttacksModifier = [[DKModifier alloc] initWithSource:level
+                                                                    value:extraAttacksValue
+                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                           isGreaterThanOrEqualTo:5]
+                                                                 priority:kDKModifierPriority_Additive
+                                                               expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    DKModifier* offHandAttacksModifier = [extraAttacksModifier copy];
     [class addModifier:extraAttacksModifier forStatisticID:DKStatIDMainHandWeaponAttacksPerAction];
     [class addModifier:offHandAttacksModifier forStatisticID:DKStatIDOffHandWeaponAttacksPerAction];
     
@@ -154,21 +154,21 @@
             
             NSPredicate* rangedPredicate = [DKDependentModifierBuilder enabledWhen:@"source" containsObject:@"Ranged"];
             NSPredicate* enabledPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[rangedPredicate, levelPredicate]];
-            DKDependentModifier* mainHandModifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"source" : equipment.mainHandWeaponAttributes,
-                                                                                                         @"level" : fighterLevel }
-                                                                                          value:[DKDependentModifierBuilder expressionForConstantInteger:2]
-                                                                                        enabled:enabledPredicate
-                                                                                       priority:kDKModifierPriority_Additive
-                                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+            DKModifier* mainHandModifier = [[DKModifier alloc] initWithDependencies:@{ @"source" : equipment.mainHandWeaponAttributes,
+                                                                                       @"level" : fighterLevel }
+                                                                              value:[DKDependentModifierBuilder expressionForConstantInteger:2]
+                                                                            enabled:enabledPredicate
+                                                                           priority:kDKModifierPriority_Additive
+                                                                         expression:[DKModifierBuilder simpleAdditionModifierExpression]];
             mainHandModifier.explanation = @"Archery fighting style (fighter) attack bonus";
             [fightingStyleGroup addModifier:mainHandModifier forStatisticID:DKStatIDMainHandWeaponAttackBonus];
             
-            DKDependentModifier* offHandModifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"source" : equipment.offHandWeaponAttributes,
-                                                                                                        @"level" : fighterLevel }
-                                                                                         value:[DKDependentModifierBuilder expressionForConstantInteger:2]
-                                                                                       enabled:[enabledPredicate copy]
-                                                                                      priority:kDKModifierPriority_Additive
-                                                                                    expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+            DKModifier* offHandModifier = [[DKModifier alloc] initWithDependencies:@{ @"source" : equipment.offHandWeaponAttributes,
+                                                                                      @"level" : fighterLevel }
+                                                                             value:[DKDependentModifierBuilder expressionForConstantInteger:2]
+                                                                           enabled:[enabledPredicate copy]
+                                                                          priority:kDKModifierPriority_Additive
+                                                                        expression:[DKModifierBuilder simpleAdditionModifierExpression]];
             offHandModifier.explanation = @"Archery fighting style (fighter) attack bonus";
             [fightingStyleGroup addModifier:offHandModifier forStatisticID:DKStatIDOffHandWeaponAttackBonus];
             break;
@@ -179,12 +179,12 @@
             fightingStyleGroup.explanation = @"Defense fighting style";
             NSPredicate* defensePredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:1];
             NSPredicate* enabledPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[defensePredicate, levelPredicate]];
-            DKDependentModifier* armorClassModifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"source" : equipment.armorSlotOccupied,
-                                                                                                           @"level" : fighterLevel }
-                                                                                            value:[DKDependentModifierBuilder expressionForConstantInteger:1]
-                                                                                          enabled:enabledPredicate
-                                                                                         priority:kDKModifierPriority_Additive
-                                                                                       expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+            DKModifier* armorClassModifier = [[DKModifier alloc] initWithDependencies:@{ @"source" : equipment.armorSlotOccupied,
+                                                                                         @"level" : fighterLevel }
+                                                                                value:[DKDependentModifierBuilder expressionForConstantInteger:1]
+                                                                              enabled:enabledPredicate
+                                                                             priority:kDKModifierPriority_Additive
+                                                                           expression:[DKModifierBuilder simpleAdditionModifierExpression]];
             armorClassModifier.explanation = @"Defense fighting style (fighter) armor class bonus";
             [fightingStyleGroup addModifier:armorClassModifier forStatisticID:DKStatIDArmorClass];
             break;
@@ -199,14 +199,14 @@
             NSPredicate* offHandIsEmptyPredicate = [DKDependentModifierBuilder enabledWhen:@"offHandOccupied" isEqualToOrBetween:0 and:0];
             NSCompoundPredicate* offHandPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[offHandIsEmptyPredicate, offHandIsShieldPredicate]];
             NSCompoundPredicate* enabledPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[meleeWeaponPredicate, offHandPredicate, levelPredicate]];
-            DKDependentModifier* damageModifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"mainHand": equipment.mainHandWeaponAttributes,
-                                                                                                       @"offHand": equipment.offHandWeaponAttributes,
-                                                                                                       @"offHandOccupied": equipment.offHandOccupied,
-                                                                                                       @"level" : fighterLevel }
-                                                                                            value:damageBonusExpression
-                                                                                          enabled:enabledPredicate
-                                                                                         priority:kDKModifierPriority_Additive
-                                                                                       expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
+            DKModifier* damageModifier = [[DKModifier alloc] initWithDependencies:@{ @"mainHand": equipment.mainHandWeaponAttributes,
+                                                                                     @"offHand": equipment.offHandWeaponAttributes,
+                                                                                     @"offHandOccupied": equipment.offHandOccupied,
+                                                                                     @"level" : fighterLevel }
+                                                                            value:damageBonusExpression
+                                                                          enabled:enabledPredicate
+                                                                         priority:kDKModifierPriority_Additive
+                                                                       expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
             damageModifier.explanation = @"Dueling fighting style (fighter) damage bonus";
             [fightingStyleGroup addModifier:damageModifier forStatisticID:DKStatIDMainHandWeaponDamage];
             break;
@@ -220,13 +220,13 @@
             NSCompoundPredicate* versatileActivePredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[versatilePredicate, offHandIsEmptyPredicate]];
             NSCompoundPredicate* usingTwoHandsPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[twoHandedPredicate, versatileActivePredicate]];
             NSCompoundPredicate* enabledPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[usingTwoHandsPredicate, levelPredicate]];
-            DKDependentModifier* damageModifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"mainHand": equipment.mainHandWeaponAttributes,
-                                                                                                       @"offHandOccupied": equipment.offHandOccupied,
-                                                                                                       @"level" : fighterLevel }
-                                                                                              value:nil
-                                                                                            enabled:enabledPredicate
-                                                                                           priority:kDKModifierPriority_Informational
-                                                                                         expression:nil];
+            DKModifier* damageModifier = [[DKModifier alloc] initWithDependencies:@{ @"mainHand": equipment.mainHandWeaponAttributes,
+                                                                                     @"offHandOccupied": equipment.offHandOccupied,
+                                                                                     @"level" : fighterLevel }
+                                                                            value:nil
+                                                                          enabled:enabledPredicate
+                                                                         priority:kDKModifierPriority_Informational
+                                                                       expression:nil];
             damageModifier.explanation = @"Great Weapon Fighting: When you roll a 1 or 2 on a damage die for an attack you make with a melee weapon that you are wielding with two hands, you can reroll the die and must use the new roll, even if the new roll is a 1 or a 2.";
             [fightingStyleGroup addModifier:damageModifier forStatisticID:DKStatIDMainHandWeaponDamage];
             break;
@@ -238,12 +238,12 @@
             NSString* protectionExplanation = @"When a creature you can see attacks a target other than you that is within 5 feet of you, you can use your reaction to impose disadvantage on the attack roll.";
             NSPredicate* shieldPredicate = [DKDependentModifierBuilder enabledWhen:@"source" containsObject:@"Shield"];
             NSCompoundPredicate* enabledPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[shieldPredicate, levelPredicate]];
-            DKDependentModifier* protectionModifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"source": equipment.offHandWeaponAttributes,
-                                                                                                           @"level" : fighterLevel }
-                                                                                                  value:[NSExpression expressionForConstantValue:@"Protection"]
-                                                                                                enabled:enabledPredicate
-                                                                                               priority:kDKModifierPriority_Informational
-                                                                                             expression:[DKModifierBuilder simpleAppendModifierExpression]];
+            DKModifier* protectionModifier = [[DKModifier alloc] initWithDependencies:@{ @"source": equipment.offHandWeaponAttributes,
+                                                                                         @"level" : fighterLevel }
+                                                                                value:[NSExpression expressionForConstantValue:@"Protection"]
+                                                                              enabled:enabledPredicate
+                                                                             priority:kDKModifierPriority_Informational
+                                                                           expression:[DKModifierBuilder simpleAppendModifierExpression]];
             protectionModifier.explanation = protectionExplanation;
             [fightingStyleGroup addModifier:protectionModifier forStatisticID:DKStatIDFighterTraits];
             break;
@@ -304,12 +304,12 @@
                                                 [DKDependentModifierBuilder rangeValueWithMin:2 max:16] : @(1),
                                                 [DKDependentModifierBuilder rangeValueWithMin:17 max:20] : @(2) }
                                                                                           usingDependency:@"source"];
-    DKDependentModifier* actionSurgeChargesModifier = [[DKDependentModifier alloc] initWithSource:level
-                                                                                      value:actionSurgeChargesValue
-                                                                                    enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                             isGreaterThanOrEqualTo:2]
-                                                                                   priority:kDKModifierPriority_Additive
-                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    DKModifier* actionSurgeChargesModifier = [[DKModifier alloc] initWithSource:level
+                                                                          value:actionSurgeChargesValue
+                                                                        enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                 isGreaterThanOrEqualTo:2]
+                                                                       priority:kDKModifierPriority_Additive
+                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     actionSurgeChargesModifier.explanation = @"You must finish a short or long rest before you regain your uses of this feature.";
     [actionSurgeGroup addModifier:actionSurgeChargesModifier forStatisticID:DKStatIDActionSurgeUsesMax];
     
@@ -334,12 +334,12 @@
                                                 [DKDependentModifierBuilder rangeValueWithMin:13 max:16] : @(2),
                                                 [DKDependentModifierBuilder rangeValueWithMin:17 max:20] : @(3) }
                                                                                          usingDependency:@"source"];
-    DKDependentModifier* indomitableChargesModifier = [[DKDependentModifier alloc] initWithSource:level
-                                                                                            value:indomitableChargesValue
-                                                                                          enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                   isGreaterThanOrEqualTo:9]
-                                                                                         priority:kDKModifierPriority_Additive
-                                                                                       expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    DKModifier* indomitableChargesModifier = [[DKModifier alloc] initWithSource:level
+                                                                          value:indomitableChargesValue
+                                                                        enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                 isGreaterThanOrEqualTo:9]
+                                                                       priority:kDKModifierPriority_Additive
+                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     indomitableChargesModifier.explanation = @"You must finish a short or long rest before you regain your uses of this feature.";
     [indomitableGroup addModifier:indomitableChargesModifier forStatisticID:DKStatIDIndomitableUsesMax];
     
@@ -357,11 +357,11 @@
     championGroup.explanation = @"Champion martial archetype";
     
     NSString* improvedCriticalExplanation = @"Your weapon attacks score a critical hit on a roll of 19 or 20.";
-    DKDependentModifier* improvedCriticalAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                            constantValue:@"Improved Critical"
-                                                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                           isEqualToOrBetween:3 and:14]
-                                                                                              explanation:improvedCriticalExplanation];
+    DKModifier* improvedCriticalAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                   constantValue:@"Improved Critical"
+                                                                                         enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                      isEqualToOrBetween:3 and:14]
+                                                                                     explanation:improvedCriticalExplanation];
     [championGroup addModifier:improvedCriticalAbility forStatisticID:DKStatIDFighterTraits];
     
     DKModifierGroup* remarkableAthleteAbility = [DKFighter5E remarkableAthleteWithFighterLevel:level
@@ -376,19 +376,19 @@
     [championGroup addSubgroup:bonusFightingStyle];
     
     NSString* superiorCriticalExplanation = @"Your weapon attacks score a critical hit on a roll of 18, 19, or 20.";
-    DKDependentModifier* superiorCriticalAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                            constantValue:@"Superior Critical"
-                                                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                           isGreaterThanOrEqualTo:15]
-                                                                                              explanation:superiorCriticalExplanation];
+    DKModifier* superiorCriticalAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                   constantValue:@"Superior Critical"
+                                                                                         enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                  isGreaterThanOrEqualTo:15]
+                                                                                     explanation:superiorCriticalExplanation];
     [championGroup addModifier:superiorCriticalAbility forStatisticID:DKStatIDFighterTraits];
     
     NSString* survivorExplanation = @"At the start of each of your turns, you regain hit points equal to 5 + your Constitution modifier if you have no more than half of your hit points left. You don’t gain this benefit if you have 0 hit points.";
-    DKDependentModifier* survivorAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                    constantValue:@"Survivor"
-                                                                                          enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                   isGreaterThanOrEqualTo:18]
-                                                                                      explanation:survivorExplanation];
+    DKModifier* survivorAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                           constantValue:@"Survivor"
+                                                                                 enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                          isGreaterThanOrEqualTo:18]
+                                                                             explanation:survivorExplanation];
     [championGroup addModifier:survivorAbility forStatisticID:DKStatIDFighterTraits];
     
     return championGroup;
@@ -414,23 +414,23 @@
     for (int i = 0; i < skillsForBonus.count; i++) {
         DKProficientStatistic* skill = skillsForBonus[i];
         NSString* statID = skillStatIDs[i];
-        DKDependentModifier* skillBonus = [[DKDependentModifier alloc] initWithDependencies:@{ @"level": level,
-                                                                                               @"proficiencyBonus": proficiencyBonus,
-                                                                                               @"proficiencyLevel": skill.proficiencyLevel }
-                                                                                      value:[valueExpression copy]
-                                                                                    enabled:[enabled copy]
-                                                                                   priority:kDKModifierPriority_Additive
-                                                                                 expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+        DKModifier* skillBonus = [[DKModifier alloc] initWithDependencies:@{ @"level": level,
+                                                                             @"proficiencyBonus": proficiencyBonus,
+                                                                             @"proficiencyLevel": skill.proficiencyLevel }
+                                                                    value:[valueExpression copy]
+                                                                  enabled:[enabled copy]
+                                                                 priority:kDKModifierPriority_Additive
+                                                               expression:[DKModifierBuilder simpleAdditionModifierExpression]];
         skillBonus.explanation = @"Remarkable Athlete bonus";
         [remarkableAthleteGroup addModifier:skillBonus forStatisticID:statID];
     }
     
     NSString* remarkableAthleteExplanation = @"When you make a running long jump, the distance you can cover increases by a number of feet equal to your Strength modifier.";
-    DKDependentModifier* remarkableAthleteAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                             constantValue:@"Remarkable Athlete"
-                                                                                                   enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                            isGreaterThanOrEqualTo:7]
-                                                                                               explanation:remarkableAthleteExplanation];
+    DKModifier* remarkableAthleteAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                    constantValue:@"Remarkable Athlete"
+                                                                                          enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                                   isGreaterThanOrEqualTo:7]
+                                                                                      explanation:remarkableAthleteExplanation];
     [remarkableAthleteGroup addModifier:remarkableAthleteAbility forStatisticID:DKStatIDFighterTraits];
     
     return remarkableAthleteGroup;

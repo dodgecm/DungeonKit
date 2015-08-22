@@ -15,8 +15,10 @@
 @implementation DKModifier
 
 @synthesize value = _value;
-@synthesize enabled = _enabled;
 @synthesize priority = _priority;
+@synthesize valueExpression = _valueExpression;
+@synthesize enabledPredicate = _enabledPredicate;
+@synthesize enabled = _enabled;
 @synthesize modifierExpression = _modifierExpression;
 @synthesize explanation = _explanation;
 @synthesize owner = _owner;
@@ -45,6 +47,55 @@
     return self;
 }
 
+- (id)initWithSource:(NSObject<DKDependency>*)source
+               value:(NSExpression*)valueExpression
+            priority:(DKModifierPriority)priority
+          expression:(NSExpression*)expression {
+    
+    NSPredicate* enabledPredicate = [NSPredicate predicateWithValue:YES];
+    return [self initWithSource:source
+                          value:valueExpression
+                        enabled:enabledPredicate
+                       priority:priority
+                     expression:expression];
+}
+
+- (id)initWithSource:(NSObject<DKDependency>*)source
+               value:(NSExpression*)valueExpression
+             enabled:(NSPredicate*)enabledPredicate
+            priority:(DKModifierPriority)priority
+          expression:(NSExpression*)expression {
+    
+    return [self initWithDependencies:@{ @"source":source }
+                                value:valueExpression
+                              enabled:enabledPredicate
+                             priority:priority
+                           expression:expression];
+}
+
+- (id)initWithDependencies:(NSDictionary*)dependencies
+                     value:(NSExpression*)valueExpression
+                   enabled:(NSPredicate*)enabledPredicate
+                  priority:(DKModifierPriority)priority
+                expression:(NSExpression*)expression {
+    
+    self = [self initWithValue:nil
+                      priority:priority
+                    expression:expression];
+    if (self) {
+        
+        for (NSString* key in dependencies) {
+            [self addDependency:dependencies[key] forKey:key];
+        }
+        _valueExpression = valueExpression;
+        _enabledPredicate = enabledPredicate;
+        
+        [self refresh];
+        
+    }
+    return self;
+}
+
 - (void)removeFromStatistic {
     [_owner removeModifier:self];
     _owner = nil;
@@ -67,6 +118,28 @@
 }
 
 - (NSString*)description {
+    
+    if (![self.explanation length]) {
+        
+        NSString* modifierString = @"";
+        if (self.priority == kDKModifierPriority_Additive) {
+            
+            if ([self.value isKindOfClass:[NSNumber class]]) {
+                NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
+                formatter.positivePrefix = @"+";
+                formatter.zeroSymbol = @"+0";
+                modifierString = [NSString stringWithFormat:@"%@", [formatter stringFromNumber:(NSNumber*)self.value]];
+                
+            } else if ([self.value isKindOfClass:[DKDiceCollection class]]) {
+                DKDiceCollection* diceValue = (DKDiceCollection*)self.value;
+                modifierString = [diceValue stringValue];
+            }
+            
+            NSString* disabled = @"";
+            if (!self.enabled) { disabled = @" - disabled"; }
+            return [modifierString stringByAppendingString:disabled];
+        }
+    }
     
     NSString* modifierString = @"";
     if (_priority == kDKModifierPriority_Additive && [self.value isKindOfClass:[NSNumber class]]) {
@@ -94,13 +167,37 @@
     return [NSString stringWithFormat:@"%@%@%@", modifierString, explanation, disabled];
 }
 
+#pragma mark DKDependencyOwner override
+- (void)refresh {
+    
+    NSMutableDictionary* context = [NSMutableDictionary dictionary];
+    for (NSString* key in self.dependencies) {
+        NSObject<DKDependency>* dependency = self.dependencies[key];
+        context[key] = dependency.value;
+    }
+    
+    if (self.enabledPredicate != nil) {
+        self.enabled = [_enabledPredicate evaluateWithObject:self substitutionVariables:context];
+    }
+    
+    if (self.valueExpression != nil) {
+        self.value = [_valueExpression expressionValueWithObject:self context:context];
+    }
+}
+
+- (void)remove {
+    [self removeFromStatistic];
+}
+
 #pragma mark NSCopying
 - (id)copyWithZone:(NSZone *)zone {
-    DKModifier* modifier = [[[self class] allocWithZone:zone] initWithValue:self.value
-                                                                   priority:self.priority
-                                                                 expression:[self.modifierExpression copy]];
+    DKModifier* modifier = [[[self class] allocWithZone:zone] initWithDependencies:[self.dependencies copy]
+                                                                             value:[self.valueExpression copy]
+                                                                           enabled:[self.enabledPredicate copy]
+                                                                          priority:self.priority
+                                                                        expression:[self.modifierExpression copy]];
+    modifier.value = self.value;
     modifier.explanation = [self.explanation copy];
-    modifier.enabled = self.enabled;
     return modifier;
 }
 
@@ -109,7 +206,9 @@
     
     [super encodeWithCoder:aCoder];
     [aCoder encodeObject:self.value forKey:@"value"];
+    [aCoder encodeObject:self.valueExpression forKey:@"valueExpression"];
     [aCoder encodeBool:self.enabled forKey:@"enabled"];
+    [aCoder encodeObject:self.enabledPredicate forKey:@"enabledPredicate"];
     [aCoder encodeInt:self.priority forKey:@"priority"];
     [aCoder encodeObject:self.modifierExpression forKey:@"modifierExpression"];
     [aCoder encodeObject:self.explanation forKey:@"explanation"];
@@ -122,11 +221,15 @@
     if (self) {
         
         _value = [aDecoder decodeObjectForKey:@"value"];
-        _enabled = [aDecoder decodeBoolForKey:@"enabled"];
         _priority = [aDecoder decodeIntForKey:@"priority"];
+        _valueExpression = [aDecoder decodeObjectForKey:@"valueExpression"];
+        _enabled = [aDecoder decodeBoolForKey:@"enabled"];
+        _enabledPredicate = [aDecoder decodeObjectForKey:@"enabledPredicate"];
         _modifierExpression = [aDecoder decodeObjectForKey:@"modifierExpression"];
         _explanation = [aDecoder decodeObjectForKey:@"explanation"];
         _owner = [aDecoder decodeObjectForKey:@"owner"];
+        
+        [self refresh];
     }
     
     return self;

@@ -46,11 +46,11 @@
     
     NSDictionary* dependencies = @{ @"bonus" : proficiencyBonus,
                                     @"proficiencies" : weaponProficiencies };
-    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithDependencies:dependencies
-                                                                                value:[DKDependentModifierBuilder valueFromDependency:@"bonus"]
-                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies"containsAnyFromObjects:proficiencyTypes]
-                                                                             priority:kDKModifierPriority_Additive
-                                                                           expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    DKModifier* modifier = [[DKModifier alloc] initWithDependencies:dependencies
+                                                              value:[DKDependentModifierBuilder valueFromDependency:@"bonus"]
+                                                            enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies"containsAnyFromObjects:proficiencyTypes]
+                                                           priority:kDKModifierPriority_Additive
+                                                         expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     modifier.explanation = @"Proficiency bonus";
     return modifier;
 }
@@ -63,11 +63,11 @@
     NSExpression* dexExpression = [DKAbilityScore abilityScoreValueForDependency:@"dex"];
     NSExpression* valueExpression = [NSExpression expressionForFunction:@"max:" arguments:@[ [NSExpression expressionForAggregate:@[strExpression, dexExpression]] ]];
     
-    return [[DKDependentModifier alloc] initWithDependencies:dependencies
-                                                       value:valueExpression
-                                                     enabled:nil
-                                                    priority:kDKModifierPriority_Additive
-                                                  expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    return [[DKModifier alloc] initWithDependencies:dependencies
+                                              value:valueExpression
+                                            enabled:nil
+                                           priority:kDKModifierPriority_Additive
+                                         expression:[DKModifierBuilder simpleAdditionModifierExpression]];
 }
 
 + (DKModifierGroup*)damageAbilityScoreModifierFromAbilities:(DKAbilities5E*)abilities
@@ -99,21 +99,21 @@
         enabled = [DKDependentModifierBuilder enabledWhen:@"proficiencies" containsObject:@"Two-Weapon Fighting"];
     }
     
-    [damage addModifier:[[DKDependentModifier alloc] initWithDependencies:dependencies
-                                                                    value:[DKDependentModifierBuilder valueAsDiceCollectionFromExpression:valueExpression]
-                                                                  enabled:enabled
-                                                                 priority:kDKModifierPriority_Additive
-                                                               expression:[DKModifierBuilder simpleAddDiceModifierExpression]]
+    [damage addModifier:[[DKModifier alloc] initWithDependencies:dependencies
+                                                           value:[DKDependentModifierBuilder valueAsDiceCollectionFromExpression:valueExpression]
+                                                         enabled:enabled
+                                                        priority:kDKModifierPriority_Additive
+                                                      expression:[DKModifierBuilder simpleAddDiceModifierExpression]]
          forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
     
     if (!isMainHand) {
         //For non proficient off-hand weapon, the ability score only gets applied if it is negative
         valueExpression = [NSExpression expressionForFunction:@"min:" arguments:@[ [NSExpression expressionForAggregate:@[ valueExpression, [NSExpression expressionForConstantValue:@(0)]]] ]];
-        DKModifier* nonProficientModifier = [[DKDependentModifier alloc] initWithDependencies:dependencies
-                                                                                        value:[DKDependentModifierBuilder valueAsDiceCollectionFromExpression:valueExpression]
-                                                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies" doesNotContainAnyFromObjects:@[ @"Two-Weapon Fighting"] ]
-                                                                                     priority:kDKModifierPriority_Additive
-                                                                                   expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
+        DKModifier* nonProficientModifier = [[DKModifier alloc] initWithDependencies:dependencies
+                                                                               value:[DKDependentModifierBuilder valueAsDiceCollectionFromExpression:valueExpression]
+                                                                             enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies" doesNotContainAnyFromObjects:@[ @"Two-Weapon Fighting"] ]
+                                                                            priority:kDKModifierPriority_Additive
+                                                                          expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
         nonProficientModifier.explanation = @"Off-hand weapons do not receive ability score bonuses to damage unless the ability score is negative or the character is proficient in Two-Weapon Fighting.";
         [damage addModifier:nonProficientModifier
              forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];

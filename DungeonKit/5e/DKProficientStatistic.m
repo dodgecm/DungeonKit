@@ -25,12 +25,12 @@
     self = [super initWithInt:base];
     if (self) {
         _proficiencyLevel = [DKNumericStatistic statisticWithInt:0];
-        DKDependentModifier* proficiencyModifier = [[DKDependentModifier alloc] initWithDependencies: @{ @"bonus": proficiencyBonus,
-                                                                                                         @"level": _proficiencyLevel }
-                                                                                               value:[NSExpression expressionWithFormat:@"$bonus*$level"]
-                                                                                             enabled:nil
-                                                                                            priority:kDKModifierPriority_Additive
-                                                                                          expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+        DKModifier* proficiencyModifier = [[DKModifier alloc] initWithDependencies: @{ @"bonus": proficiencyBonus,
+                                                                                       @"level": _proficiencyLevel }
+                                                                             value:[NSExpression expressionWithFormat:@"$bonus*$level"]
+                                                                           enabled:nil
+                                                                          priority:kDKModifierPriority_Additive
+                                                                        expression:[DKModifierBuilder simpleAdditionModifierExpression]];
         [self applyModifier:proficiencyModifier];
     }
     return self;

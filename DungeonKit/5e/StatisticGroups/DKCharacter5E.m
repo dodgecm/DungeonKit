@@ -181,11 +181,11 @@
     [_inspiration applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:1]];
     
     //Set up proficiency bonus to increase based on the level automatically
-    DKDependentModifier* levelModifier = [[DKDependentModifier alloc] initWithSource:_level
-                                                                               value:[NSExpression expressionWithFormat:
-                                                                                      @"max:({ 0, ($source - 1) / 4 })"]
-                                                                            priority:kDKModifierPriority_Additive
-                                                                          expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    DKModifier* levelModifier = [[DKModifier alloc] initWithSource:_level
+                                                             value:[NSExpression expressionWithFormat:
+                                                                    @"max:({ 0, ($source - 1) / 4 })"]
+                                                          priority:kDKModifierPriority_Additive
+                                                        expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [_proficiencyBonus applyModifier:levelModifier];
     
     //Link maximum and current HP so that current HP value will update when max HP value changes

@@ -41,7 +41,7 @@
     _abilityModifier = floor((self.value.integerValue - 10) / 2.0);
 }
 
-- (DKDependentModifier*) modifierFromAbilityScore {
+- (DKModifier*) modifierFromAbilityScore {
     
     static NSExpression* abilityExpression;
     static dispatch_once_t once;
@@ -50,20 +50,20 @@
     });
     
     //Use the copy of abilityExpression so that we only have to do the expensive string parsing once
-    DKDependentModifier* dependentModifier = [[DKDependentModifier alloc] initWithSource:self
-                                                                                   value:[DKDependentModifierBuilder valueFromDependency:@"source"]
-                                                                                priority:kDKModifierPriority_Additive
-                                                                              expression:[abilityExpression copy]];
+    DKModifier* dependentModifier = [[DKModifier alloc] initWithSource:self
+                                                                 value:[DKDependentModifierBuilder valueFromDependency:@"source"]
+                                                              priority:kDKModifierPriority_Additive
+                                                            expression:[abilityExpression copy]];
     return dependentModifier;
 }
 
-- (DKDependentModifier*) modifierFromAbilityScoreWithExplanation:(NSString*)explanation {
-    DKDependentModifier* modifier = [self modifierFromAbilityScore];
+- (DKModifier*) modifierFromAbilityScoreWithExplanation:(NSString*)explanation {
+    DKModifier* modifier = [self modifierFromAbilityScore];
     modifier.explanation = explanation;
     return modifier;
 }
 
-- (DKDependentModifier*)diceCollectionModifierFromAbilityScore {
+- (DKModifier*)diceCollectionModifierFromAbilityScore {
     
     return [DKDependentModifierBuilder addedDiceModifierFromSource:self
                                                              value:[DKAbilityScore diceCollectionValueFromAbilityScoreDependency:@"source"]

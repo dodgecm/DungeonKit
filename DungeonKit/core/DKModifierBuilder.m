@@ -132,15 +132,15 @@
 @implementation DKDependentModifierBuilder
 
 + (id)simpleModifierFromSource:(NSObject<DKDependency>*)source {
-    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
-                                                                          value:[DKDependentModifierBuilder valueFromDependency:@"source"]
-                                                                       priority:kDKModifierPriority_Additive
-                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
+                                                        value:[DKDependentModifierBuilder valueFromDependency:@"source"]
+                                                     priority:kDKModifierPriority_Additive
+                                                   expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     return modifier;
 }
 
 + (id)simpleModifierFromSource:(NSObject<DKDependency>*)source explanation:(NSString*)explanation {
-    DKDependentModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:source];
+    DKModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:source];
     modifier.explanation = explanation;
     return modifier;
 }
@@ -150,11 +150,11 @@
                     enabled:(NSPredicate*)enabledPredicate
                 explanation:(NSString*)explanation {
     
-    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
-                                                                          value:[NSExpression expressionForConstantValue:constantValue]
-                                                                        enabled:enabledPredicate
-                                                                       priority:kDKModifierPriority_Additive
-                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
+                                                        value:[NSExpression expressionForConstantValue:constantValue]
+                                                      enabled:enabledPredicate
+                                                     priority:kDKModifierPriority_Additive
+                                                   expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     modifier.explanation = explanation;
     return modifier;
 }
@@ -164,11 +164,11 @@
                          enabled:(NSPredicate*)enabledPredicate
                      explanation:(NSString*)explanation {
     
-    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
-                                                                          value:valueExpression
-                                                                        enabled:enabledPredicate
-                                                                       priority:kDKModifierPriority_Additive
-                                                                     expression:[DKModifierBuilder simpleAppendModifierExpression]];
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
+                                                        value:valueExpression
+                                                      enabled:enabledPredicate
+                                                     priority:kDKModifierPriority_Additive
+                                                   expression:[DKModifierBuilder simpleAppendModifierExpression]];
     modifier.explanation = explanation;
     return modifier;
 }
@@ -197,11 +197,11 @@
                           enabled:(NSPredicate*)enabledPredicate
                       explanation:(NSString*)explanation {
     
-    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
-                                                                          value:valueExpression
-                                                                        enabled:enabledPredicate
-                                                                       priority:kDKModifierPriority_Additive
-                                                                     expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
+                                                        value:valueExpression
+                                                      enabled:enabledPredicate
+                                                     priority:kDKModifierPriority_Additive
+                                                   expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
     modifier.explanation = explanation;
     return modifier;
 }
@@ -210,11 +210,11 @@
                               enabled:(NSPredicate*)enabledPredicate
                           explanation:(NSString*)explanation {
     
-    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:source
-                                                                          value:nil
-                                                                        enabled:enabledPredicate
-                                                                       priority:kDKModifierPriority_Informational
-                                                                     expression:nil];
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
+                                                        value:nil
+                                                      enabled:enabledPredicate
+                                                     priority:kDKModifierPriority_Informational
+                                                   expression:nil];
     modifier.explanation = explanation;
     return modifier;
 }

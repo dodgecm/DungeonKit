@@ -19,8 +19,11 @@
 }
 
 @synthesize modifierHashesToStatIDs = _modifierHashesToStatIDs;
+
 @synthesize modifiers = _modifiers;
 @synthesize subgroups = _subgroups;
+@synthesize enabledPredicate = _enabledPredicate;
+@synthesize enabled = _enabled;
 @synthesize tag = _tag;
 @synthesize explanation = _explanation;
 @synthesize owner = _owner;
@@ -31,6 +34,7 @@
         _modifierHashesToStatIDs = [NSMutableDictionary dictionary];
         _modifiers = [NSMutableArray array];
         _subgroups = [NSMutableSet set];
+        _enabled = YES;
     }
     return self;
 }
@@ -41,6 +45,11 @@
         self.tag = tag;
     }
     return self;
+}
+
+- (void)setEnabledPredicate:(NSPredicate*)enabledPredicate {
+    _enabledPredicate = [enabledPredicate copy];
+    [self refresh];
 }
 
 - (NSString*)statIDForModifier:(DKModifier*)modifier {
@@ -153,6 +162,25 @@
     return matchingSubgroups;
 }
 
+#pragma DKDependencyOwner override
+
+- (void)refresh {
+    
+    NSMutableDictionary* context = [NSMutableDictionary dictionary];
+    for (NSString* key in self.dependencies) {
+        NSObject<DKDependency>* dependency = self.dependencies[key];
+        context[key] = dependency.value;
+    }
+    
+    if (self.enabledPredicate != nil) {
+        _enabled = [_enabledPredicate evaluateWithObject:self substitutionVariables:context];
+    }
+}
+
+- (void)remove {
+    [self removeFromOwner];
+}
+
 #pragma DKModifierGroupOwner
 
 - (void)removeModifierGroup:(DKModifierGroup*)modifierGroup {
@@ -206,6 +234,7 @@
 #pragma mark NSCoding
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     
+    [super encodeWithCoder:aCoder];
     NSMutableDictionary* statIDsToModifiers = [NSMutableDictionary dictionary];
     for (DKModifier* modifier in _modifiers) {
         NSString* statID = [self statIDForModifier:modifier];
@@ -215,6 +244,7 @@
     [aCoder encodeObject:statIDsToModifiers forKey:@"statIDsToModifiers"];
     [aCoder encodeObject:_modifiers forKey:@"modifiers"];
     [aCoder encodeObject:_subgroups forKey:@"subgroups"];
+    [aCoder encodeObject:_enabledPredicate forKey:@"enabledPredicate"];
     [aCoder encodeObject:_tag forKey:@"tag"];
     [aCoder encodeObject:_explanation forKey:@"explanation"];
     [aCoder encodeConditionalObject:_owner forKey:@"owner"];
@@ -222,7 +252,7 @@
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     
-    self = [super init];
+    self = [super initWithCoder:aDecoder];
     if (self) {
         
         NSDictionary* statIDsToModifiers = [aDecoder decodeObjectForKey:@"statIDsToModifiers"];
@@ -233,9 +263,12 @@
         }
         _modifiers = [aDecoder decodeObjectForKey:@"modifiers"];
         _subgroups = [aDecoder decodeObjectForKey:@"subgroups"];
+        _enabledPredicate = [aDecoder decodeObjectForKey:@"enabledPredicate"];
         _tag = [aDecoder decodeObjectForKey:@"tag"];
         _explanation = [aDecoder decodeObjectForKey:@"explanation"];
         _owner = [aDecoder decodeObjectForKey:@"owner"];
+        
+        [self refresh];
     }
     return self;
 }

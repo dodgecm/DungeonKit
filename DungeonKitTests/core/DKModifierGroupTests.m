@@ -10,6 +10,8 @@
 #import <XCTest/XCTest.h>
 #import "DKModifierGroup.h"
 #import "DKModifierBuilder.h"
+#import "DKStatisticGroup.h"
+#import "DKStatistic.h"
 
 @interface DKModifierGroupTests : XCTestCase
 
@@ -176,6 +178,28 @@
     
     XCTAssertEqualObjects([group allSubgroupsWithTag:@"none"], @[], @"Subgroup tags should be searched correctly.");
     XCTAssertNil([group firstSubgroupWithTag:@"none"], @"Subgroup tags should be searched correctly.");
+}
+
+- (void)testDependencies {
+    
+    DKStatisticGroup* statGroup = [[DKStatisticGroup alloc] init];
+    DKNumericStatistic* stat = [[DKNumericStatistic alloc] initWithInt:0];
+    [statGroup setStatistic:stat forStatisticID:@"stat"];
+    
+    DKModifierGroup* group = [[DKModifierGroup alloc] init];
+    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    
+    [group addDependency:stat forKey:@"source"];
+    group.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:3];
+    [statGroup addModifierGroup:group forGroupID:@"group"];
+    
+    XCTAssertFalse(group.enabled, @"Group should not be enabled, since modifier is not added to the group yet.");
+    
+    [group addModifier:modifier forStatisticID:@"stat"];
+    XCTAssertTrue(group.enabled, @"Group should be enabled, since source statistic is over the threshold.");
+    
+    stat.base = @(-5);
+    XCTAssertFalse(group.enabled, @"Group should not be enabled, since source statistic is under the threshold.");
 }
 
 - (void)testEncoding {

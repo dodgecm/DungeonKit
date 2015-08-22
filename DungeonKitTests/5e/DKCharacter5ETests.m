@@ -42,7 +42,7 @@
     [_character.armorClass applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
     XCTAssertEqualObjects(_character.armorClass.value, @12, @"Character should start off with the correct armor class value.");
     
-    DKDependentModifier* dependentModifier = [_character.abilities.dexterity modifierFromAbilityScore];
+    DKModifier* dependentModifier = [_character.abilities.dexterity modifierFromAbilityScore];
     [_character.armorClass applyModifier:dependentModifier];
     XCTAssertEqualObjects(_character.armorClass.value, @14, @"Modifier should still be applied properly.");
 }
@@ -52,7 +52,7 @@
     _character.abilities.dexterity = [[DKAbilityScore alloc] initWithInt:14];
     _character.armorClass = [[DKNumericStatistic alloc] initWithInt:10];
     
-    DKDependentModifier* dependentModifier = [_character.abilities.dexterity modifierFromAbilityScore];
+    DKModifier* dependentModifier = [_character.abilities.dexterity modifierFromAbilityScore];
     [_character.armorClass applyModifier:dependentModifier];
     XCTAssertEqualObjects(_character.armorClass.value, @12, @"Dependant modifier should be applied correctly.");
     

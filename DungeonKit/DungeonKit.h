@@ -19,7 +19,6 @@ FOUNDATION_EXPORT const unsigned char DungeonKitVersionString[];
 #import <DungeonKit/DKStatisticGroup.h>
 #import <DungeonKit/DKStatistic.h>
 #import <DungeonKit/DKModifier.h>
-#import <DungeonKit/DKDependentModifier.h>
 #import <DungeonKit/DKModifierBuilder.h>
 #import <DungeonKit/DKDiceCollection.h>
 #import <DungeonKit/DKModifierGroup.h>
@@ -49,4 +48,3 @@ FOUNDATION_EXPORT const unsigned char DungeonKitVersionString[];
 #import <DungeonKit/DKWeapon5E.h>
 #import <DungeonKit/DKArmor5E.h>
 #import <DungeonKit/DKLanguage5E.h>
-#import <DungeonKit/DKSpell5E.h>

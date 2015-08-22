@@ -80,8 +80,6 @@
 		B3C605EB1A722F83007FADAB /* DKDiceCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605E91A722F83007FADAB /* DKDiceCollection.m */; };
 		B3E40D391A57D20C004342F3 /* DKStatisticGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E40D311A57D20C004342F3 /* DKStatisticGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3E40D3A1A57D20C004342F3 /* DKStatisticGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D321A57D20C004342F3 /* DKStatisticGroup.m */; };
-		B3E40D3B1A57D20C004342F3 /* DKDependentModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E40D331A57D20C004342F3 /* DKDependentModifier.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3E40D3C1A57D20C004342F3 /* DKDependentModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D341A57D20C004342F3 /* DKDependentModifier.m */; };
 		B3E40D3D1A57D20C004342F3 /* DKModifier.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E40D351A57D20C004342F3 /* DKModifier.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3E40D3E1A57D20C004342F3 /* DKModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D361A57D20C004342F3 /* DKModifier.m */; };
 		B3E40D3F1A57D20C004342F3 /* DKStatistic.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E40D371A57D20C004342F3 /* DKStatistic.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -183,8 +181,6 @@
 		B3C605E91A722F83007FADAB /* DKDiceCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDiceCollection.m; sourceTree = "<group>"; };
 		B3E40D311A57D20C004342F3 /* DKStatisticGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKStatisticGroup.h; sourceTree = "<group>"; };
 		B3E40D321A57D20C004342F3 /* DKStatisticGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStatisticGroup.m; sourceTree = "<group>"; };
-		B3E40D331A57D20C004342F3 /* DKDependentModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDependentModifier.h; sourceTree = "<group>"; };
-		B3E40D341A57D20C004342F3 /* DKDependentModifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDependentModifier.m; sourceTree = "<group>"; };
 		B3E40D351A57D20C004342F3 /* DKModifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKModifier.h; sourceTree = "<group>"; };
 		B3E40D361A57D20C004342F3 /* DKModifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKModifier.m; sourceTree = "<group>"; };
 		B3E40D371A57D20C004342F3 /* DKStatistic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKStatistic.h; sourceTree = "<group>"; };
@@ -355,8 +351,6 @@
 				B3A8BD211B859E37004161BA /* DKDependencyOwner.m */,
 				B3E40D351A57D20C004342F3 /* DKModifier.h */,
 				B3E40D361A57D20C004342F3 /* DKModifier.m */,
-				B3E40D331A57D20C004342F3 /* DKDependentModifier.h */,
-				B3E40D341A57D20C004342F3 /* DKDependentModifier.m */,
 				B3751BCC1AF72E110018F5D3 /* DKModifierBuilder.h */,
 				B3751BCD1AF72E110018F5D3 /* DKModifierBuilder.m */,
 				B3C605E81A722F83007FADAB /* DKDiceCollection.h */,
@@ -428,7 +422,6 @@
 				B3B565A41B4BC7A0004DB93B /* DKChoiceModifierGroup.h in Headers */,
 				B36BF3401A737C1300979EE9 /* DKStatisticIDs5E.h in Headers */,
 				B3565E081B3297E600C86DC1 /* DKWeapon5E.h in Headers */,
-				B3E40D3B1A57D20C004342F3 /* DKDependentModifier.h in Headers */,
 				B3BB9EE41AEF553000012A3B /* DKClass5E.h in Headers */,
 				B36BF3491A762FE900979EE9 /* DKModifierGroupIDs5E.h in Headers */,
 				B3BB9EEA1AEF555600012A3B /* DKClasses5E.h in Headers */,
@@ -556,7 +549,6 @@
 				B323F4731B43C41900DA1FCA /* DKSkills5E.m in Sources */,
 				B3BB9EEB1AEF555600012A3B /* DKClasses5E.m in Sources */,
 				B323F4531B422FB200DA1FCA /* DKRogue5E.m in Sources */,
-				B3E40D3C1A57D20C004342F3 /* DKDependentModifier.m in Sources */,
 				B323F4711B43C41900DA1FCA /* DKSavingThrows5E.m in Sources */,
 				B323F4771B43C41900DA1FCA /* DKSpellcasting5E.m in Sources */,
 				B3E40D401A57D20C004342F3 /* DKStatistic.m in Sources */,

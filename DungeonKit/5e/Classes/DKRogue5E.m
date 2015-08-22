@@ -144,12 +144,12 @@
     [class addModifier:blindsenseModifier forStatisticID:DKStatIDRogueTraits];
     
     //Slippery Mind
-    DKModifier* slipperyMindModifier = [[DKDependentModifier alloc] initWithSource:level
-                                                                             value:nil
-                                                                           enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                    isGreaterThanOrEqualTo:15]
-                                                                          priority:kDKModifierPriority_Clamping
-                                                                        expression:[DKModifierBuilder simpleClampExpressionBetween:1 and:1]];
+    DKModifier* slipperyMindModifier = [[DKModifier alloc] initWithSource:level
+                                                                    value:nil
+                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                           isGreaterThanOrEqualTo:15]
+                                                                 priority:kDKModifierPriority_Clamping
+                                                               expression:[DKModifierBuilder simpleClampExpressionBetween:1 and:1]];
     slipperyMindModifier.explanation = @"Slippery Mind (Rogue)";
     [class addModifier:slipperyMindModifier forStatisticID:DKStatIDSavingThrowWisdomProficiency];
     
@@ -193,12 +193,12 @@
     
     DKChoiceModifierGroup* expertiseChoiceGroup = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceRogueExpertise"];
     for (NSString* statID in [DKSkills5E skillProficiencyStatIDs]) {
-        DKModifier* modifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"level" : level }
-                                                                           value:nil
-                                                                         enabled:[DKDependentModifierBuilder enabledWhen:@"level"
-                                                                                                  isGreaterThanOrEqualTo:enabledLevel.integerValue]
-                                                                        priority:kDKModifierPriority_Clamping
-                                                                      expression:[DKModifierBuilder simpleClampExpressionBetween:2 and:2]];
+        DKModifier* modifier = [[DKModifier alloc] initWithDependencies:@{ @"level" : level }
+                                                                  value:nil
+                                                                enabled:[DKDependentModifierBuilder enabledWhen:@"level"
+                                                                                         isGreaterThanOrEqualTo:enabledLevel.integerValue]
+                                                               priority:kDKModifierPriority_Clamping
+                                                             expression:[DKModifierBuilder simpleClampExpressionBetween:2 and:2]];
         [expertiseChoiceGroup addModifier:modifier forStatisticID:statID];
     }
     
@@ -225,21 +225,21 @@
     NSPredicate* weaponPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[finesseWeaponPredicate, rangedWeaponPredicate]];
     NSPredicate* enabledPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[levelPredicate, weaponPredicate]];
     
-    DKModifier* mainHandModifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"source" : level,
-                                                                                        @"weapon" : equipment.mainHandWeaponAttributes }
-                                                                               value:sneakAttackValue
-                                                                             enabled:enabledPredicate
-                                                                            priority:kDKModifierPriority_Additive
-                                                                          expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
+    DKModifier* mainHandModifier = [[DKModifier alloc] initWithDependencies:@{ @"source" : level,
+                                                                               @"weapon" : equipment.mainHandWeaponAttributes }
+                                                                      value:sneakAttackValue
+                                                                    enabled:enabledPredicate
+                                                                   priority:kDKModifierPriority_Additive
+                                                                 expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
     mainHandModifier.explanation = @"In order to deal Sneak Attack damage, you must have advantage on the attack roll.  You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.  Sneak attack damage can only be dealt once per turn.";
     [sneakAttackGroup addModifier:mainHandModifier forStatisticID:DKStatIDMainHandWeaponDamage];
     
-    DKModifier* offHandModifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"source" : level,
-                                                                                       @"weapon" : equipment.offHandWeaponAttributes }
-                                                                              value:[sneakAttackValue copy]
-                                                                            enabled:[enabledPredicate copy]
-                                                                           priority:kDKModifierPriority_Additive
-                                                                         expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
+    DKModifier* offHandModifier = [[DKModifier alloc] initWithDependencies:@{ @"source" : level,
+                                                                              @"weapon" : equipment.offHandWeaponAttributes }
+                                                                     value:[sneakAttackValue copy]
+                                                                   enabled:[enabledPredicate copy]
+                                                                  priority:kDKModifierPriority_Additive
+                                                                expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
     [sneakAttackGroup addModifier:offHandModifier forStatisticID:DKStatIDOffHandWeaponDamage];
     offHandModifier.explanation = @"In order to deal Sneak Attack damage, you must have advantage on the attack roll.  You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.  Sneak attack damage can only be dealt once per turn.";
     

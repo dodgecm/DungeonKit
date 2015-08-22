@@ -38,11 +38,11 @@
     penalties.explanation = @"Non-proficient armor penalties";
     
     NSDictionary* dependencies = @{ @"proficiencies" : armorProficiencies };
-    DKDependentModifier* defaultPenalty = [[DKDependentModifier alloc] initWithDependencies:dependencies
-                                                                                      value:nil
-                                                                                    enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies"doesNotContainAnyFromObjects:proficiencyTypes]
-                                                                                   priority:kDKModifierPriority_Informational
-                                                                                 expression:nil];
+    DKModifier* defaultPenalty = [[DKModifier alloc] initWithDependencies:dependencies
+                                                                    value:nil
+                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies"doesNotContainAnyFromObjects:proficiencyTypes]
+                                                                 priority:kDKModifierPriority_Informational
+                                                               expression:nil];
     
     NSArray* descriptions = @[@"strength saving throws",
                               @"dexterity saving throws",
@@ -66,11 +66,11 @@
         [penalties addModifier:penaltyModifier forStatisticID:statID];
     }
     
-    DKDependentModifier* clampPenalty = [[DKDependentModifier alloc] initWithDependencies:dependencies
-                                                                                      value:[DKDependentModifierBuilder expressionForConstantInteger:0]
-                                                                                    enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies"doesNotContainAnyFromObjects:proficiencyTypes]
-                                                                                   priority:kDKModifierPriority_Clamping
-                                                                                 expression:[DKModifierBuilder simpleClampExpressionBetween:0 and:0]];
+    DKModifier* clampPenalty = [[DKModifier alloc] initWithDependencies:dependencies
+                                                                  value:[DKDependentModifierBuilder expressionForConstantInteger:0]
+                                                                enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies" doesNotContainAnyFromObjects:proficiencyTypes]
+                                                               priority:kDKModifierPriority_Clamping
+                                                             expression:[DKModifierBuilder simpleClampExpressionBetween:0 and:0]];
     statIDs = @[DKStatIDFirstLevelSpellSlotsCurrent,
                 DKStatIDSecondLevelSpellSlotsCurrent,
                 DKStatIDThirdLevelSpellSlotsCurrent,
@@ -129,10 +129,10 @@
                                                                                                                           [DKAbilityScore abilityScoreValueForDependency:@"source"]
                                                                                                                          ]]
                                                                                   ]];
-            DKModifier* dexBonusModifier = [[DKDependentModifier alloc] initWithSource:abilities.dexterity
-                                                                                 value:valueExpression
-                                                                              priority:kDKModifierPriority_Additive
-                                                                            expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+            DKModifier* dexBonusModifier = [[DKModifier alloc] initWithSource:abilities.dexterity
+                                                                        value:valueExpression
+                                                                     priority:kDKModifierPriority_Additive
+                                                                   expression:[DKModifierBuilder simpleAdditionModifierExpression]];
             dexBonusModifier.explanation = [NSString stringWithFormat:@"%@ dexterity bonus", name];
             [armor addModifier:dexBonusModifier forStatisticID:DKStatIDArmorClass];
             
@@ -148,12 +148,12 @@
         NSPredicate* dwarfPredicate = [DKDependentModifierBuilder enabledWhen:@"armorProficiency"
                                                  doesNotContainAnyFromObjects:@[@"Dwarven Heavy Armor Proficiency"]];
         NSPredicate* enabledPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[ strPredicate, dwarfPredicate ]];
-        DKModifier* moveSpeedPenaltyModifier = [[DKDependentModifier alloc] initWithDependencies:@{ @"strength": abilities.strength,
-                                                                                                    @"armorProficiency": armorProficiencies }
-                                                                                     value:[DKDependentModifierBuilder expressionForConstantInteger:-10]
-                                                                                   enabled:enabledPredicate
-                                                                                  priority:kDKModifierPriority_Additive
-                                                                                expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+        DKModifier* moveSpeedPenaltyModifier = [[DKModifier alloc] initWithDependencies:@{ @"strength": abilities.strength,
+                                                                                           @"armorProficiency": armorProficiencies }
+                                                                                  value:[DKDependentModifierBuilder expressionForConstantInteger:-10]
+                                                                                enabled:enabledPredicate
+                                                                               priority:kDKModifierPriority_Additive
+                                                                             expression:[DKModifierBuilder simpleAdditionModifierExpression]];
         moveSpeedPenaltyModifier.explanation = [NSString stringWithFormat:@"%@ reduces move speed by 10 if you are below %@ strength.", name, strMinimum];
         [armor addModifier:moveSpeedPenaltyModifier forStatisticID:DKStatIDMoveSpeed];
     }
@@ -368,11 +368,11 @@
     [shield addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1] forStatisticID:DKStatIDOffHandOccupied];
     
     //+2 to AC only when off hand does not have a weapon equipped
-    [shield addModifier:[[DKDependentModifier alloc] initWithSource:equipment.offHandOccupied
-                                                              value:[DKDependentModifierBuilder expressionForConstantInteger:2]
-                                                            enabled:[DKDependentModifierBuilder enabledWhen:@"source" isLessThan:2]
-                                                           priority:kDKModifierPriority_Additive
-                                                         expression:[DKModifierBuilder simpleAdditionModifierExpression]]
+    [shield addModifier:[[DKModifier alloc] initWithSource:equipment.offHandOccupied
+                                                     value:[DKDependentModifierBuilder expressionForConstantInteger:2]
+                                                   enabled:[DKDependentModifierBuilder enabledWhen:@"source" isLessThan:2]
+                                                  priority:kDKModifierPriority_Additive
+                                                expression:[DKModifierBuilder simpleAdditionModifierExpression]]
          forStatisticID:DKStatIDArmorClass];
     
     DKModifierGroup* proficiencyPenalties = [DKArmorBuilder5E armorProficiencyPenaltiesForArmorName:@"Shield"

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DKDependentModifier.h"
+#import "DKModifier.h"
 
 @class DKDiceCollection;
 

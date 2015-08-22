@@ -37,7 +37,7 @@
     
     DKNumericStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:2];
     DKNumericStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:14];
-    DKDependentModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
+    DKModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
     [secondStatistic applyModifier:modifier];
     XCTAssertEqualObjects(secondStatistic.value, @16, @"Dependant modifier should be applied correctly.");
     firstStatistic.base = @4;
@@ -46,10 +46,19 @@
     XCTAssertEqualObjects(secondStatistic.value, @14, @"Dependant modifier should be removed correctly.");
 }
 
+- (void)testEnabled {
+    
+    DKNumericStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:2];
+    DKNumericStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:14];
+    DKModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
+    [secondStatistic applyModifier:modifier];
+    
+}
+
 - (void)testSimpleCycle {
     
     DKStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:1];
-    DKDependentModifier* firstModifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
+    DKModifier* firstModifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
     [firstStatistic applyModifier:firstModifier];
     XCTAssert(![[firstStatistic modifiers] containsObject:firstModifier], @"Dependent modifier should not successfully add itself to its source statistic.");
 }
@@ -58,8 +67,8 @@
     
     DKStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:1];
     DKStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:2];
-    DKDependentModifier* firstModifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
-    DKDependentModifier* secondModifier = [DKDependentModifierBuilder simpleModifierFromSource:secondStatistic];
+    DKModifier* firstModifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
+    DKModifier* secondModifier = [DKDependentModifierBuilder simpleModifierFromSource:secondStatistic];
     [secondStatistic applyModifier:firstModifier];
     [firstStatistic applyModifier:secondModifier];
     XCTAssert([[secondStatistic modifiers] containsObject:firstModifier], @"Dependent modifier should add itself as long as it doesn't create a cycle.");
@@ -70,12 +79,12 @@
     
     DKNumericStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:0];
     DKNumericStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:5];
-    DKDependentModifier* modifier = [[DKDependentModifier alloc] initWithSource:firstStatistic
-                                                                          value:[NSExpression expressionForConstantValue:@(5)]
-                                                                        enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                 isGreaterThanOrEqualTo:10]
-                                                                       priority:kDKModifierPriority_Additive
-                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:firstStatistic
+                                                        value:[NSExpression expressionForConstantValue:@(5)]
+                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                               isGreaterThanOrEqualTo:10]
+                                                     priority:kDKModifierPriority_Additive
+                                                   expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     
     [secondStatistic applyModifier:modifier];
     XCTAssertFalse(modifier.enabled, @"Modifier should be disabled since first statistic is below the threshold.");
@@ -96,12 +105,12 @@
     DKStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:2];
     DKStatistic* thirdStatistic = [[DKNumericStatistic alloc] initWithInt:3];
     
-    DKDependentModifier* dependenciesModifier = [[DKDependentModifier alloc] initWithDependencies: @{ @"abc": firstStatistic,
-                                                                                                      @"dfe": secondStatistic }
-                                                                                           value:[NSExpression expressionWithFormat:@"$abc+$dfe"]
-                                                                                         enabled:nil
-                                                                                        priority:kDKModifierPriority_Additive
-                                                                                      expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    DKModifier* dependenciesModifier = [[DKModifier alloc] initWithDependencies: @{ @"abc": firstStatistic,
+                                                                                    @"dfe": secondStatistic }
+                                                                          value:[NSExpression expressionWithFormat:@"$abc+$dfe"]
+                                                                        enabled:nil
+                                                                       priority:kDKModifierPriority_Additive
+                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [thirdStatistic applyModifier:dependenciesModifier];
     XCTAssertEqualObjects(thirdStatistic.value, @6, @"Multiple dependency modifier should add proper value to its statistic.");
 }
@@ -110,11 +119,11 @@
     
     DKStatistic* statistic = [[DKNumericStatistic alloc] initWithInt:1];
     DKStatistic* badStatistic = [[DKNumericStatistic alloc] initWithInt:1];
-    DKDependentModifier* dependenciesModifier = [[DKDependentModifier alloc] initWithDependencies: @{ @"abc": statistic }
-                                                                                            value:[NSExpression expressionWithFormat:@"$abc"]
-                                                                                          enabled:nil
-                                                                                         priority:kDKModifierPriority_Additive
-                                                                                       expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    DKModifier* dependenciesModifier = [[DKModifier alloc] initWithDependencies: @{ @"abc": statistic }
+                                                                          value:[NSExpression expressionWithFormat:@"$abc"]
+                                                                        enabled:nil
+                                                                       priority:kDKModifierPriority_Additive
+                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     XCTAssertThrows([dependenciesModifier addDependency:badStatistic forKey:@"first"], @"Should not be able to use the reserved key name.");
 }
 
@@ -152,7 +161,7 @@
 }
 
 - (void) testExpressionBuilders {
-
+    
     NSDictionary* piecewiseFunction = @{ [NSValue valueWithRange:NSMakeRange(0, 2)] : @(2),
                                          [NSValue valueWithRange:NSMakeRange(2, 2)] : @(4),
                                          [NSValue valueWithRange:NSMakeRange(4, 2)] : @(6) };
@@ -177,7 +186,7 @@
     XCTAssertEqualObjects([expression expressionValueWithObject:nil context:context], @(6), @"Piecewise function should return correct result.");
     context[@"source"] = @(5);
     XCTAssertEqualObjects([expression expressionValueWithObject:nil context:context], @(6), @"Piecewise function should return correct result.");
-
+    
     context[@"source"] = @(6);
     XCTAssertNil([expression expressionValueWithObject:nil context:context], @"Piecewise function should return correct result.");
 }
@@ -197,7 +206,7 @@
 - (void)testEncoding {
     
     DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
-    DKDependentModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:stat];
+    DKModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:stat];
     [stat applyModifier:modifier];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
@@ -205,7 +214,7 @@
     NSString* filePath = [NSString stringWithFormat:@"%@%@", documentsDirectory, @"encodeDependentModifierTest"];
     [NSKeyedArchiver archiveRootObject:modifier toFile:filePath];
     
-    DKDependentModifier* decodedModifier = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
+    DKModifier* decodedModifier = [NSKeyedUnarchiver unarchiveObjectWithFile:filePath];
     DKStatistic* owner = [DKNumericStatistic statisticWithInt:5];
     [owner applyModifier:decodedModifier];
     XCTAssertEqualObjects(owner.value, @15, @"Statistic should update value correctly after being decoded.");
