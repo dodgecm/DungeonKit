@@ -8,7 +8,7 @@
 
 #import "DKStatisticGroup.h"
 #import "DKStatisticIDs5E.h"
-
+#import "DKChoiceModifierGroup.h"
 
 @interface DKStatisticGroup()
 @property (nonatomic, strong) NSMutableDictionary* statistics;
@@ -297,6 +297,41 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
         [matchingGroups addObjectsFromArray:[group allSubgroupsWithTag:tag]];
     }
     
+    return matchingGroups;
+}
+
+- (DKChoiceModifierGroup*)firstUnallocatedChoiceWithTag:(NSString*)tag {
+    
+    NSArray* unallocatedChoices = [self allUnallocatedChoicesWithTag:tag];
+    if (unallocatedChoices.count) {
+        return unallocatedChoices[0];
+    }
+    return nil;
+}
+
+- (NSArray*)allUnallocatedChoicesWithTag:(NSString*)tag {
+    
+    NSArray* allUnallocatedChoices = [self allUnallocatedChoices];
+    return [allUnallocatedChoices filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        return [[evaluatedObject tag] isEqualToString:tag];
+    }]];
+}
+
+- (NSArray*)allUnallocatedChoices {
+    
+    NSMutableArray* matchingGroups = [NSMutableArray array];
+    for (NSString* groupId in _modifierGroups.allKeys) {
+        
+        DKModifierGroup* group = [self modifierGroupForID:groupId];
+        if ([group isKindOfClass:[DKChoiceModifierGroup class]]) {
+            [matchingGroups addObject:group];
+        }
+        [matchingGroups addObjectsFromArray:[group allSubgroupsOfType:[DKChoiceModifierGroup class]]];
+    }
+    
+    [matchingGroups filterUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
+        return [evaluatedObject enabled] && ![evaluatedObject choice];
+    }]];
     return matchingGroups;
 }
 

@@ -29,6 +29,8 @@
 + (DKModifierGroup*)wizardWithLevel:(DKNumericStatistic*)level abilities:(DKAbilities5E*)abilities {
     
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
+    [class addDependency:level forKey:@"level"];
+    class.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:1];
     class.explanation = @"Wizard class modifiers";
     
     [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:level explanation:@"Wizard level"]
@@ -236,12 +238,12 @@
     DKModifierGroup* spellbookGroup = [[DKModifierGroup alloc] init];
     spellbookGroup.explanation = @"Wizard spellbook";
     
-    DKMultipleChoiceModifierGroup* initialSpells = [[DKMultipleChoiceModifierGroup alloc] initWithTag:@"DKChoiceInitialWizardSpells"];
+    DKSubgroupChoiceModifierGroup* initialSpells = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:@"DKChoiceInitialWizardSpells"];
     initialSpells.explanation = @"Starting Wizard spells.";
     [spellbookGroup addSubgroup:initialSpells];
     
     for (NSInteger i = 2; i <= 20; i++) {
-        DKChoiceModifierGroup* spellChoice = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceWizardSpell"];
+        DKChoiceModifierGroup* spellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceWizardSpell"];
         spellChoice.explanation = [NSString stringWithFormat:@"Spell learned at Wizard level %li.", (long)i];
         [spellbookGroup addSubgroup:spellChoice];
     }
@@ -294,7 +296,7 @@
                                                                                  explanation:spellMasteryExplanation];
     [spellMasteryGroup addModifier:spellMasteryAbility forStatisticID:DKStatIDWizardTraits];
     
-    DKChoiceModifierGroup* firstLevelSpellChoice = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceSpellMastery"];
+    DKChoiceModifierGroup* firstLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceSpellMastery"];
     firstLevelSpellChoice.tag = @"Choose a 1st-level wizard spell that is in your spellbook.";
     NSArray* firstLevelSpells = @[ @"Burning Hands",
                                    @"Charm Person",
@@ -319,7 +321,7 @@
     
     [spellMasteryGroup addSubgroup:firstLevelSpellChoice];
     
-    DKChoiceModifierGroup* secondLevelSpellChoice = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceSpellMastery"];
+    DKChoiceModifierGroup* secondLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceSpellMastery"];
     secondLevelSpellChoice.tag = @"Choose a 2nd-level wizard spell that is in your spellbook.";
     NSArray* secondLevelSpells = @[ @"Arcane Lock",
                                     @"Blur",
@@ -362,10 +364,10 @@
                                                                                     explanation:signatureSpellsExplanation];
     [signatureSpellsGroup addModifier:signatureSpellsAbility forStatisticID:DKStatIDWizardTraits];
     
-    DKChoiceModifierGroup* thirdLevelSpellChoice = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceSignatureSpell"];
+    DKChoiceModifierGroup* thirdLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceSignatureSpell"];
     thirdLevelSpellChoice.tag = @"Choose a 3rd-level wizard spell in your spellbook as one of your signature spells.";
     
-    DKChoiceModifierGroup* otherThirdLevelSpellChoice = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceSignatureSpell"];
+    DKChoiceModifierGroup* otherThirdLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceSignatureSpell"];
     otherThirdLevelSpellChoice.tag = @"Choose a 3rd-level wizard spell in your spellbook as one of your signature spells.";
     
     NSArray* thirdLevelSpells = @[ @"Counterspell",
@@ -516,7 +518,7 @@
                                        threshold:(NSInteger)threshold
                                      explanation:(NSString*)explanation {
     
-    DKChoiceModifierGroup* cantripGroup = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceWizardCantrip"];
+    DKChoiceModifierGroup* cantripGroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceWizardCantrip"];
     
     NSArray* spellNames = @[ @"Acid Splash",
                              @"Dancing Lights",

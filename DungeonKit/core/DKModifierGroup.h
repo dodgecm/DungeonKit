@@ -46,6 +46,7 @@
 
 - (DKModifierGroup*)firstSubgroupWithTag:(NSString*)tag;
 - (NSArray*)allSubgroupsWithTag:(NSString*)tag;
+- (NSArray*)allSubgroupsOfType:(Class)type;
 
 /** Removes the modifier group from its owner. */
 - (void)removeFromOwner;

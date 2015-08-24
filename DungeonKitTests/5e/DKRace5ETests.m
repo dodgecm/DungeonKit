@@ -60,7 +60,7 @@
     }
     
     DKChoiceModifierGroup* toolChoice = (DKChoiceModifierGroup*) [_character firstModifierGroupWithTag:DKChoiceDwarfToolProficiency];
-    [toolChoice chooseModifier:toolChoice.modifiers[0]];
+    [toolChoice choose:toolChoice.modifiers[0]];
     XCTAssertGreaterThan(_character.toolProficiencies.value.count, 0, @"Dwarves have one tool proficiency of their choice.");
     XCTAssertTrue([_character.languages.value containsObject:@"Common"], @"Dwarves can speak Common.");
     XCTAssertTrue([_character.languages.value containsObject:@"Dwarvish"], @"Dwarves can speak Dwarvish.");
@@ -115,11 +115,11 @@
     }
     
     DKChoiceModifierGroup* cantripChoice = (DKChoiceModifierGroup*) [_character firstModifierGroupWithTag:DKChoiceHighElfCantrip];
-    [cantripChoice chooseModifier:cantripChoice.modifiers[0]];
+    [cantripChoice choose:cantripChoice.modifiers[0]];
     XCTAssertGreaterThan(_character.spells.spellbook.cantrips.value.count, 0, @"High Elves know one cantrip from the Wizard spell list.");
     
     DKChoiceModifierGroup* languageChoice = (DKChoiceModifierGroup*) [_character firstModifierGroupWithTag:DKChoiceHighElfBonusLanguage];
-    [languageChoice chooseModifier:languageChoice.modifiers[0]];
+    [languageChoice choose:languageChoice.modifiers[0]];
     XCTAssertGreaterThan(_character.languages.value.count, 0, @"High Elves know one extra language of their choice.");
 }
 
@@ -179,7 +179,7 @@
     XCTAssertEqualObjects(_character.movementSpeed.value, @30, @"Humans have a base movement speed of 30 feet.");
     
     DKChoiceModifierGroup* languageChoice = (DKChoiceModifierGroup*) [_character firstModifierGroupWithTag:DKChoiceHumanBonusLanguage];
-    [languageChoice chooseModifier:languageChoice.modifiers[1]];
+    [languageChoice choose:languageChoice.choices[1]];
     XCTAssertGreaterThan(_character.languages.value.count, 0, @"Humans know one extra language of their choice.");
     XCTAssertTrue([_character.languages.value containsObject:@"Common"], @"Humans can speak Common.");
     

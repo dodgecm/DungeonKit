@@ -22,7 +22,7 @@
 - (void)setUp {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    _group = [[DKChoiceModifierGroup alloc] initWithTag:@"ExampleChoiceGroup"];
+    _group = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"ExampleChoiceGroup"];
 }
 
 - (void)tearDown {
@@ -47,20 +47,20 @@
         XCTAssertFalse(modifier.enabled, @"Modifiers added to the group should be disabled unless they are chosen.");
     }
     
-    [_group chooseModifier:modifierToChoose];
+    [_group choose:modifierToChoose];
     XCTAssertTrue(modifierToChoose.enabled, @"Modifier that is chosen should be enabled.");
-    XCTAssertEqual(modifierToChoose, _group.chosenModifier);
+    XCTAssertEqual(modifierToChoose, _group.choice);
     
-    [_group chooseModifier:nil];
+    [_group choose:nil];
     XCTAssertFalse(modifierToChoose.enabled, @"Chosen modifier should be cleared.");
 }
 
 - (void)testChoosingModifierNotInGroup {
     
     DKModifier* modifierToChoose = [DKModifierBuilder modifierWithAdditiveBonus:4];
-    [_group chooseModifier:modifierToChoose];
+    [_group choose:modifierToChoose];
     XCTAssertTrue(modifierToChoose.enabled, @"Modifier that is not in the group should be ignored.");
-    XCTAssertNil(_group.chosenModifier, @"Modifier that is not in the group should be ignored.");
+    XCTAssertNil(_group.choice, @"Modifier that is not in the group should be ignored.");
 }
 
 @end

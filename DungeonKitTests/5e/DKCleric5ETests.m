@@ -104,12 +104,12 @@
     
     XCTAssertEqualObjects(_character.skills.history.proficiencyLevel.value, @0, @"Clerics do not start out with history proficiency.");
     DKChoiceModifierGroup* skillChoice = (DKChoiceModifierGroup*) skillChoices[0];
-    [skillChoice chooseModifier:skillChoice.modifiers[0]];
+    [skillChoice choose:skillChoice.choices[0]];
     XCTAssertEqualObjects(_character.skills.history.proficiencyLevel.value, @1, @"History proficiency should be granted.");
     
     XCTAssertEqualObjects(_character.skills.insight.proficiencyLevel.value, @0, @"Clerics do not start out with insight proficiency.");
     skillChoice = (DKChoiceModifierGroup*) skillChoices[1];
-    [skillChoice chooseModifier:skillChoice.modifiers[1]];
+    [skillChoice choose:skillChoice.choices[1]];
     XCTAssertEqualObjects(_character.skills.insight.proficiencyLevel.value, @1, @"Insight proficiency should be granted.");
 }
 
@@ -141,13 +141,13 @@
 
 - (void)testCantrips {
     
-    /*NSArray* cantripChoices = [_character allModifierGroupsWithTag:DKChoiceClericCantrip];
+    NSArray* cantripChoices = [_character allUnallocatedChoicesWithTag:DKChoiceClericCantrip];
     XCTAssertEqual(cantripChoices.count, 3, @"Clerics get three cantrip choices.");
     
     XCTAssertEqual(_character.spells.spellbook.cantrips.value.count, 0, @"Clerics do not have cantrips until they are chosen.");
-    DKChoiceModifierGroup* cantripChoice = (DKChoiceModifierGroup*) cantripChoices[0];
-    [cantripChoice chooseModifier:cantripChoice.modifiers[0]];
-    XCTAssertTrue([_character.spells.spellbook.cantrips.value containsObject:@"Guidance"], @"Cleric should be granted the cantrip.");*/
+    DKChoiceModifierGroup* cantripChoice = cantripChoices[0];
+    [cantripChoice choose:cantripChoice.choices[0]];
+    XCTAssertTrue([_character.spells.spellbook.cantrips.value containsObject:@"Guidance"], @"Cleric should be granted the cantrip.");
 }
 
 @end

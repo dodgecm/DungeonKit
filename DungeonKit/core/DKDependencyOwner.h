@@ -24,5 +24,6 @@ FOUNDATION_EXPORT NSString *const DKDependencyChangedNotification;
 
 - (void)addDependency:(NSObject<DKDependency>*)dependency forKey:(NSString*)key;
 - (void)removeDependencyforKey:(NSString*)key;
+- (void)refresh;
 
 @end

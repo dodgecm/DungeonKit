@@ -27,6 +27,8 @@
                   proficiencyBonus:(DKNumericStatistic*)proficiencyBonus {
     
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
+    [class addDependency:level forKey:@"level"];
+    class.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:1];
     class.explanation = @"Rogue class modifiers";
     
     [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:level explanation:@"Rogue level"]
@@ -191,7 +193,7 @@
 + (DKChoiceModifierGroup*)expertiseChoiceWithLevel:(DKNumericStatistic*)level
                                   levelRequirement:(NSNumber*)enabledLevel {
     
-    DKChoiceModifierGroup* expertiseChoiceGroup = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceRogueExpertise"];
+    DKChoiceModifierGroup* expertiseChoiceGroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceRogueExpertise"];
     for (NSString* statID in [DKSkills5E skillProficiencyStatIDs]) {
         DKModifier* modifier = [[DKModifier alloc] initWithDependencies:@{ @"level" : level }
                                                                   value:nil

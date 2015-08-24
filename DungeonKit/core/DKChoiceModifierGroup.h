@@ -9,7 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "DKModifierGroup.h"
 
-@interface DKChoiceModifierGroup : DKModifierGroup <DKModifierGroupOwner, NSCoding>
+@interface DKChoiceModifierGroup : DKModifierGroup
+
+@property (nonatomic, strong, readonly) id<NSObject> choice;
+@property (nonatomic, strong, readonly) NSArray* choices;
+- (void)choose:(id)choice;
+
+@end
+
+@interface DKSingleChoiceModifierGroup : DKChoiceModifierGroup <DKModifierGroupOwner, NSCoding>
 
 @property (nonatomic, strong, readonly) DKModifier* chosenModifier;
 
@@ -18,7 +26,7 @@
 
 @end
 
-@interface DKMultipleChoiceModifierGroup : DKModifierGroup <DKModifierGroupOwner, NSCoding>
+@interface DKSubgroupChoiceModifierGroup : DKChoiceModifierGroup <DKModifierGroupOwner, NSCoding>
 
 @property (nonatomic, strong, readonly) DKModifierGroup* chosenGroup;
 

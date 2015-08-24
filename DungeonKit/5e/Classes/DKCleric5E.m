@@ -29,6 +29,8 @@
 + (DKModifierGroup*)clericWithLevel:(DKNumericStatistic*)level abilities:(DKAbilities5E*)abilities {
     
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
+    [class addDependency:level forKey:@"level"];
+    class.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:1];
     class.explanation = @"Cleric class modifiers";
     
     [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:level explanation:@"Cleric level"]
@@ -488,7 +490,9 @@
                                        threshold:(NSInteger)threshold
                                      explanation:(NSString*)explanation {
     
-    DKChoiceModifierGroup* cantripGroup = [[DKChoiceModifierGroup alloc] initWithTag:DKChoiceClericCantrip];
+    DKChoiceModifierGroup* cantripGroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceClericCantrip];
+    [cantripGroup addDependency:level forKey:@"level"];
+    cantripGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:threshold];
     
     NSArray* spellNames = @[ @"Guidance",
                              @"Light",
@@ -499,8 +503,7 @@
     for (NSString* spell in spellNames) {
         DKModifier* modifier = [DKDependentModifierBuilder appendedModifierFromSource:level
                                                                         constantValue:spell
-                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                       isGreaterThanOrEqualTo:threshold]
+                                                                              enabled:nil
                                                                           explanation:explanation];
         [cantripGroup addModifier:modifier forStatisticID:DKStatIDCantrips];
     }
@@ -512,6 +515,8 @@
                                clericLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* spellGroup = [[DKModifierGroup alloc] init];
+    [spellGroup addDependency:level forKey:@"level"];
+    spellGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:spellLevel*2 - 1];
     spellGroup.explanation = [NSString stringWithFormat:@"Cleric level %li spells", (long)spellLevel];
     
     NSArray* spellNames = nil;
@@ -612,8 +617,7 @@
     for (NSString* spell in spellNames) {
         DKModifier* modifier = [DKDependentModifierBuilder appendedModifierFromSource:level
                                                                         constantValue:spell
-                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                       isGreaterThanOrEqualTo:spellLevel*2 - 1]
+                                                                              enabled:nil
                                                                           explanation:[NSString stringWithFormat:@"Cleric level %li spell", (long)spellLevel]];
         [spellGroup addModifier:modifier forStatisticID:[DKSpellbook5E statIDForSpellLevel:spellLevel]];
     }

@@ -13,7 +13,7 @@
 @implementation DKLanguageBuilder5E
 
 + (DKChoiceModifierGroup*)languageChoiceWithExplanation:(NSString*)explanation {
-    DKChoiceModifierGroup* languageGroup = [[DKChoiceModifierGroup alloc] initWithTag:@"DKChoiceLanguage"];
+    DKChoiceModifierGroup* languageGroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceLanguage"];
     
     NSArray* languageNames = @[ @"Common",
                                 @"Dwarvish",

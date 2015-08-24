@@ -62,10 +62,11 @@
         NSLog(@"DKModifierGroup: Attempted to add modifier: %@ for statistic ID: %@ cannot be nil.", modifier, statID);
         return;
     }
-    
+
     [_owner group:self willAddModifier:modifier forStatID:statID];
     [_modifiers addObject:modifier];
     [_modifierHashesToStatIDs setObject:statID forKey:@([modifier hash])];
+    [self refresh];
 }
 
 - (void)removeModifier:(DKModifier*)modifier {
@@ -78,6 +79,7 @@
     [_owner group:self willRemoveModifier:modifier];
     [_modifiers removeObject:modifier];
     [_modifierHashesToStatIDs removeObjectForKey:@([modifier hash])];
+    [self refresh];
 }
 
 - (void)addSubgroup:(DKModifierGroup*)subgroup {
@@ -162,6 +164,24 @@
     return matchingSubgroups;
 }
 
+- (NSArray*)allSubgroupsOfType:(Class)type {
+    
+    NSMutableArray* matchingSubgroups = [NSMutableArray array];
+    for (DKModifierGroup* subgroup in _subgroups) {
+        if ([subgroup isKindOfClass:type]) {
+            [matchingSubgroups addObject:subgroup];
+        }
+        [matchingSubgroups addObjectsFromArray:[subgroup allSubgroupsOfType:type]];
+    }
+    
+    return matchingSubgroups;
+}
+
+/* Will be overridden in subclasses */
+- (BOOL)shouldModifierBeActive:(DKModifier*)modifier {
+    return _enabled;
+}
+
 #pragma DKDependencyOwner override
 
 - (void)refresh {
@@ -173,7 +193,26 @@
     }
     
     if (self.enabledPredicate != nil) {
-        _enabled = [_enabledPredicate evaluateWithObject:self substitutionVariables:context];
+        _enabled = [self.enabledPredicate evaluateWithObject:self substitutionVariables:context];
+    } else {
+        _enabled = YES;
+    }
+    
+    for (DKModifier* modifier in self.modifiers) {
+        BOOL modifierActive = [self shouldModifierBeActive:modifier];
+        if (!modifierActive) {
+            modifier.active = modifierActive;
+        } else {
+            BOOL isPrimaryOwner = YES;
+            for (DKModifierGroup* subgroup in self.subgroups) {
+                if ([subgroup.modifiers containsObject:modifier]) {
+                    isPrimaryOwner = NO;
+                }
+            }
+            if (isPrimaryOwner) {
+                modifier.active = modifierActive;
+            }
+        }
     }
 }
 

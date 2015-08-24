@@ -221,6 +221,7 @@
             
             NSString* disabled = @"";
             if (!self.enabled) { disabled = @" - disabled"; }
+            if (!self.active) { disabled = @" - inactive"; }
             return [modifierString stringByAppendingString:disabled];
         }
     }
@@ -248,6 +249,7 @@
     
     NSString* disabled = @"";
     if (!self.enabled) { disabled = @" - disabled"; }
+    if (!self.active) { disabled = @" - inactive"; }
     return [NSString stringWithFormat:@"%@%@%@", modifierString, explanation, disabled];
 }
 

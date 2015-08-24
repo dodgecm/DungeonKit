@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DKStatistic.h"
-#import "DKModifierGroup.h"
+#import "DKChoiceModifierGroup.h"
 
 @protocol DKStatisticGroupOwner <NSObject>
 @required
@@ -39,6 +39,10 @@
 
 - (DKModifierGroup*)firstModifierGroupWithTag:(NSString*)tag;
 - (NSArray*)allModifierGroupsWithTag:(NSString*)tag;
+
+- (DKChoiceModifierGroup*)firstUnallocatedChoiceWithTag:(NSString*)tag;
+- (NSArray*)allUnallocatedChoicesWithTag:(NSString*)tag;
+- (NSArray*)allUnallocatedChoices;
 
 /** Callback method for when the statistic group's owner gets changed.  Only DKStatisticGroup and similar owner
  classes should call this method directly.  */

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "DKModifierGroup.h"
+#import "DKChoiceModifierGroup.h"
 #import "DKModifierBuilder.h"
 #import "DKStatisticGroup.h"
 #import "DKStatistic.h"
@@ -180,6 +181,20 @@
     XCTAssertNil([group firstSubgroupWithTag:@"none"], @"Subgroup tags should be searched correctly.");
 }
 
+- (void)testSubgroupTypes {
+    DKModifierGroup* group = [[DKModifierGroup alloc] init];
+    DKModifierGroup* groupTwo = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"single"];
+    DKModifierGroup* groupThree = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:@"subgroup"];
+    DKModifierGroup* groupFour = [[DKModifierGroup alloc] init];
+    [groupThree addSubgroup:groupFour];
+    [group addSubgroup:groupTwo];
+    [group addSubgroup:groupThree];
+    
+    NSArray* allChoices = [group allSubgroupsOfType:[DKChoiceModifierGroup class]];
+    XCTAssertTrue([allChoices containsObject:groupTwo] && [allChoices containsObject:groupThree], @"Subgroup type should be searched correctly.");
+    XCTAssertEqual(allChoices.count, 2, @"Subgroup type should be searched correctly.");
+}
+
 - (void)testDependencies {
     
     DKStatisticGroup* statGroup = [[DKStatisticGroup alloc] init];
@@ -195,11 +210,37 @@
     
     XCTAssertFalse(group.enabled, @"Group should not be enabled, since modifier is not added to the group yet.");
     
-    [group addModifier:modifier forStatisticID:@"stat"];
+    [statGroup applyModifier:modifier toStatisticWithID:@"stat"];
     XCTAssertTrue(group.enabled, @"Group should be enabled, since source statistic is over the threshold.");
     
     stat.base = @(-5);
     XCTAssertFalse(group.enabled, @"Group should not be enabled, since source statistic is under the threshold.");
+}
+
+- (void)testMultiLevelDependencies {
+    
+    DKStatisticGroup* statGroup = [[DKStatisticGroup alloc] init];
+    DKNumericStatistic* stat = [[DKNumericStatistic alloc] initWithInt:0];
+    [statGroup setStatistic:stat forStatisticID:@"stat"];
+    
+    DKModifierGroup* group = [[DKModifierGroup alloc] init];
+    [group addDependency:stat forKey:@"source"];
+    group.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:3];
+    [statGroup addModifierGroup:group forGroupID:@"group"];
+    
+    DKModifierGroup* subgroup = [[DKModifierGroup alloc] init];
+    [subgroup addDependency:stat forKey:@"source"];
+    subgroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:5];
+    [group addSubgroup:subgroup];
+    
+    DKModifier* enableModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    [subgroup addModifier:enableModifier forStatisticID:@"irrelevant"];
+    
+    XCTAssertFalse(enableModifier.enabled, @"Neither group nor subgroup have their enabled condition met.");
+    stat.base = @3;
+    XCTAssertFalse(enableModifier.enabled, @"Subgroup does not have its enabled condition met.");
+    stat.base = @5;
+    XCTAssertTrue(enableModifier.enabled, @"Subgroup has its enabled condition met.");
 }
 
 - (void)testEncoding {

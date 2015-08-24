@@ -23,13 +23,15 @@
 
 + (DKModifierGroup*)abilityScoreImprovementForThreshold:(NSInteger)threshold level:(DKNumericStatistic*)classLevel {
     
-    DKChoiceModifierGroup* firstAbilityScoreChoice = [[DKChoiceModifierGroup alloc] initWithTag:DKChoiceAbilityScoreImprovement];
+    DKChoiceModifierGroup* firstAbilityScoreChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceAbilityScoreImprovement];
     firstAbilityScoreChoice.explanation = [NSString stringWithFormat:@"Ability score improvement choice for level %li", (long)threshold];
     
-    DKChoiceModifierGroup* secondAbilityScoreChoice = [[DKChoiceModifierGroup alloc] initWithTag:DKChoiceAbilityScoreImprovement];
+    DKChoiceModifierGroup* secondAbilityScoreChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceAbilityScoreImprovement];
     secondAbilityScoreChoice.explanation = [NSString stringWithFormat:@"Ability score improvement choice for level %li", (long)threshold];
     
     DKModifierGroup* abilityScoreGroup = [[DKModifierGroup alloc] init];
+    [abilityScoreGroup addDependency:classLevel forKey:@"level"];
+    abilityScoreGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:threshold];
     abilityScoreGroup.explanation = [NSString stringWithFormat:@"Ability score improvements for level %li", (long)threshold];
     
     [abilityScoreGroup addSubgroup:firstAbilityScoreChoice];
@@ -41,9 +43,9 @@
 + (DKModifierGroup*)skillProficienciesWithStatIDs:(NSArray*)statIDs
                                    choiceGroupTag:(NSString*)tag {
     
-    DKChoiceModifierGroup* firstSkillProficiencyChoice = [[DKChoiceModifierGroup alloc] initWithTag:tag];
+    DKChoiceModifierGroup* firstSkillProficiencyChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:tag];
     firstSkillProficiencyChoice.explanation = @"Class skill proficiency choice";
-    DKChoiceModifierGroup* secondSkillProficiencyChoice = [[DKChoiceModifierGroup alloc] initWithTag:tag];
+    DKChoiceModifierGroup* secondSkillProficiencyChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:tag];
     secondSkillProficiencyChoice.explanation = @"Class skill proficiency choice";
     for (NSString* statID in statIDs) {
         DKModifier* modifier = [DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Class skill proficiency"];

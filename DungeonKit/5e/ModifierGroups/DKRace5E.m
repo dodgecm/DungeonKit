@@ -44,7 +44,7 @@
     [race addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Warhammer]
                                                         explanation:@"Dwarven Combat Training"] forStatisticID:DKStatIDWeaponProficiencies];
     
-    DKChoiceModifierGroup* toolSubgroup = [[DKChoiceModifierGroup alloc] initWithTag:DKChoiceDwarfToolProficiency];
+    DKChoiceModifierGroup* toolSubgroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceDwarfToolProficiency];
     toolSubgroup.explanation = @"Dwarven Tool Proficiency: Proficiency with one of the following: smith's tools, brewer's supplies, or mason's tools";
     [toolSubgroup addModifier:[DKModifierBuilder modifierWithAppendedString:@"Smith's Tools" explanation:@"Dwarven Tool Proficiency"]
                forStatisticID:DKStatIDToolProficiencies];

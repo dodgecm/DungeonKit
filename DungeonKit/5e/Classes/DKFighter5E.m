@@ -34,6 +34,8 @@
                            equipment:(DKEquipment5E*)equipment {
     
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
+    [class addDependency:level forKey:@"level"];
+    class.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:1];
     class.explanation = @"Fighter class modifiers";
     
     [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:level explanation:@"Fighter level"]
@@ -118,11 +120,11 @@
     return class;
 }
 
-+ (DKMultipleChoiceModifierGroup*)fightingStyleChoiceWithLevel:(DKNumericStatistic*)level
++ (DKSubgroupChoiceModifierGroup*)fightingStyleChoiceWithLevel:(DKNumericStatistic*)level
                                                       minLevel:(NSNumber*)minLevel
                                                      equipment:(DKEquipment5E*)equipment {
     
-    DKMultipleChoiceModifierGroup* fightingStyleChoice = [[DKMultipleChoiceModifierGroup alloc] initWithTag:@"DKChoiceFightingStyle"];
+    DKSubgroupChoiceModifierGroup* fightingStyleChoice = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:@"DKChoiceFightingStyle"];
     
     NSArray* fightingStyles = @[ @(kDKFightingStyle5E_Archery),
                                  @(kDKFightingStyle5E_Defense),

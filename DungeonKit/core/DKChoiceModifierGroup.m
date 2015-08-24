@@ -10,28 +10,55 @@
 
 @implementation DKChoiceModifierGroup
 
+- (id<NSObject>)choice { return nil; }
+- (NSArray*)choices { return @[]; }
+
+- (void)choose:(id)choice { }
+
+@end
+
+#pragma mark -
+
+@interface DKSingleChoiceModifierGroup()
+@end
+
+@implementation DKSingleChoiceModifierGroup
+
 @synthesize chosenModifier = _chosenModifier;
 
 - (void)chooseModifier:(DKModifier*)chosenModifier {
+    [self choose:chosenModifier];
+}
+
+#pragma DKChoiceModifierGroup override
+- (id<NSObject>)choice {
+    return _chosenModifier;
+}
+
+- (NSArray*)choices {
+    return self.modifiers;
+}
+
+- (void)choose:(id)choice {
     
-    if (!chosenModifier) {
-        _chosenModifier.active = NO;
-        _chosenModifier = nil;
+    if (choice && ![choice isKindOfClass:[DKModifier class]]) {
+        NSLog(@"DKSingleChoiceModifierGroup: Attempted to choose an object: %@ that is not of type DKModifier.", choice);
         return;
     }
     
-    if (![self.modifiers containsObject:chosenModifier]) {
+    DKModifier* chosenModifier = (DKModifier*)choice;
+    if (chosenModifier && ![self.modifiers containsObject:chosenModifier]) {
         NSLog(@"DKChoiceModifierGroup: Attempted to choose a modifier (%@) that does not belong to the modifier group: %@.", chosenModifier, self);
         return;
     }
     
-    for (DKModifier* modifier in self.modifiers) {
-        if (modifier != chosenModifier) {
-            modifier.active = NO;
-        }
-    }
     _chosenModifier = chosenModifier;
-    _chosenModifier.active = YES;
+    [self refresh];
+}
+
+#pragma DKModifierGroup override
+- (BOOL)shouldModifierBeActive:(DKModifier*)modifier {
+    return self.enabled && (modifier == _chosenModifier);
 }
 
 #pragma DKModifierGroup Override
@@ -62,46 +89,66 @@
 
 #pragma mark -
 
-@implementation DKMultipleChoiceModifierGroup
+@interface DKSubgroupChoiceModifierGroup()
+@end
+
+@implementation DKSubgroupChoiceModifierGroup
 
 @synthesize chosenGroup = _chosenGroup;
 
 - (void)setSubgroup:(DKModifierGroup*)subgroup
           toEnabled:(BOOL)enabled {
-    for (DKModifier* modifier in subgroup.modifiers) {
-        modifier.active = enabled;
+    
+    if (!enabled) {
+        for (DKModifier* modifier in subgroup.modifiers) {
+            modifier.active = NO;
+        }
+    } else {
+        [subgroup refresh];
     }
 }
 
 - (void)chooseModifierGroup:(DKModifierGroup*)chosenModifierGroup {
+    [self choose:chosenModifierGroup];
+}
+
+#pragma DKChoiceModifierGroup override
+- (id<NSObject>)choice {
+    return _chosenGroup;
+}
+
+- (NSArray*)choices {
+    return [self.subgroups allObjects];
+}
+
+- (void)choose:(id)choice {
     
-    if (!chosenModifierGroup) {
-        [self setSubgroup:_chosenGroup toEnabled:NO];
-        _chosenGroup = nil;
+    if (choice && ![choice isKindOfClass:[DKModifierGroup class]]) {
+        NSLog(@"DKMultipleChoiceModifierGroup: Attempted to choose an object: %@ that is not of type DKModifierGroup.", choice);
         return;
     }
     
-    if (![self.subgroups containsObject:chosenModifierGroup]) {
+    DKModifierGroup* chosenModifierGroup = (DKModifierGroup*)choice;
+    if (chosenModifierGroup && ![self.subgroups containsObject:chosenModifierGroup]) {
         NSLog(@"DKMultipleChoiceModifierGroup: Attempted to choose a modifier group (%@) that is not a subgroup of the modifier group: %@.", chosenModifierGroup, self);
         return;
     }
     
-    for (DKModifierGroup* subgroup in self.subgroups) {
-        if (subgroup != chosenModifierGroup) {
-            [self setSubgroup:subgroup toEnabled:NO];
-        }
-    }
     _chosenGroup = chosenModifierGroup;
-    [self setSubgroup:_chosenGroup toEnabled:YES];
+    [self refresh];
+}
+
+#pragma DKModifierGroup override
+- (BOOL)shouldModifierBeActive:(DKModifier*)modifier {
+    return self.enabled && ([_chosenGroup.modifiers containsObject:modifier]);
 }
 
 #pragma DKModifierGroupOwner
 
 - (void)group:(DKModifierGroup*)modifierGroup willAddModifier:(DKModifier*)modifier forStatID:(NSString*)statID {
-    if (modifierGroup != _chosenGroup) {
-        modifier.active = NO;
-    }
+    
     [super group:modifierGroup willAddModifier:modifier forStatID:statID];
+    [self refresh];
 }
 
 #pragma mark NSCoding
