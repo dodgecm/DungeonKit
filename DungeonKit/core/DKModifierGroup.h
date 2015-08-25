@@ -12,6 +12,7 @@
 @class DKModifierGroup;
 @protocol DKModifierGroupOwner <NSObject>
 @required
+- (BOOL)enabledPredicateResult;
 - (void)removeModifierGroup:(DKModifierGroup*)modifier;
 - (void)group:(DKModifierGroup*)modifierGroup willAddModifier:(DKModifier*)modifier forStatID:(NSString*)statID;
 - (void)group:(DKModifierGroup*)modifierGroup willRemoveModifier:(DKModifier*)modifier;
@@ -23,10 +24,6 @@
 @property (nonatomic, strong, readonly) NSArray* modifiers;
 /** Array of DKModifierGroups that this DKModifierGroup is the owner of. */
 @property (nonatomic, strong, readonly) NSSet* subgroups;
-/** A predicate that enables or disables the modifiers inside this modifier group. */
-@property (nonatomic, copy) NSPredicate* enabledPredicate;
-/** A flag for the current evaluated value of enabledPredicate */
-@property (nonatomic, readonly) BOOL enabled;
 /** An optional tag for looking up this modifier group */
 @property (nonatomic, copy) NSString* tag;
 /** An optional explanation of the nature or source of this modifier group */

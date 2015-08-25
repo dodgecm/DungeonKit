@@ -117,6 +117,12 @@
                                      arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
 }
 
++ (NSExpression*)simpleReplaceStringExpression {
+    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                  selectorName:@"stringByReplacingWithString:"
+                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
+}
+
 + (id)modifierWithExplanation:(NSString*)explanation {
     
     DKModifier* modifier = [DKModifier modifierWithValue:@(0)

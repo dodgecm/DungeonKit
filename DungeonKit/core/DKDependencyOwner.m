@@ -10,11 +10,18 @@
 
 NSString *const DKDependencyChangedNotification = @"DKDependencyChangedNotification";
 
+@interface DKDependencyOwner()
+@property (nonatomic, assign) BOOL enabled;
+@end
+
 @implementation DKDependencyOwner {
     NSMutableDictionary* _dependencies;
 }
 
 @synthesize dependencies = _dependencies;
+@synthesize enabledPredicate = _enabledPredicate;
+@synthesize enabled = _enabled;
+@synthesize active = _active;
 
 - (void)dealloc {
     
@@ -28,8 +35,22 @@ NSString *const DKDependencyChangedNotification = @"DKDependencyChangedNotificat
     self = [super init];
     if (self) {
         _dependencies = [NSMutableDictionary dictionary];
+        _enabled = YES;
+        _active = YES;
     }
     return self;
+}
+
+- (void)setActive:(BOOL)active {
+    if (_active != active) {
+        _active = active;
+        [self refresh];
+    }
+}
+
+- (void)setEnabledPredicate:(NSPredicate*)enabledPredicate {
+    _enabledPredicate = [enabledPredicate copy];
+    [self refresh];
 }
 
 - (void)addDependency:(NSObject<DKDependency>*)dependency forKey:(NSString*)key {
@@ -104,7 +125,25 @@ NSString *const DKDependencyChangedNotification = @"DKDependencyChangedNotificat
 }
 
 //Gets overridden in subclasses
-- (void)refresh { }
+- (void)refresh {
+    NSMutableDictionary* context = [NSMutableDictionary dictionary];
+    for (NSString* key in self.dependencies) {
+        NSObject<DKDependency>* dependency = self.dependencies[key];
+        context[key] = dependency.value;
+    }
+    
+    //Doing it this way allows subclasses to override this method
+    self.enabled = [self enabledPredicateResult:context];
+}
+
+- (BOOL)enabledPredicateResult:(NSDictionary*)context {
+    
+    BOOL predicateResult = YES;
+    if (self.enabledPredicate != nil) {
+        predicateResult = [_enabledPredicate evaluateWithObject:self substitutionVariables:context];
+    }
+    return (predicateResult && _active);
+}
 
 - (void)remove { }
 
@@ -112,6 +151,8 @@ NSString *const DKDependencyChangedNotification = @"DKDependencyChangedNotificat
 - (void)encodeWithCoder:(NSCoder *)aCoder {
 
     [aCoder encodeObject:self.dependencies forKey:@"dependencies"];
+    [aCoder encodeBool:self.active forKey:@"active"];
+    [aCoder encodeObject:self.enabledPredicate forKey:@"enabledPredicate"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -124,6 +165,8 @@ NSString *const DKDependencyChangedNotification = @"DKDependencyChangedNotificat
         for (NSString* key in dependencies) {
             [self addDependency:dependencies[key] forKey:key];
         }
+        _active = [aDecoder decodeBoolForKey:@"active"];
+        _enabledPredicate = [aDecoder decodeObjectForKey:@"enabledPredicate"];
     }
     
     return self;

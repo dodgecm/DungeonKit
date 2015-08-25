@@ -96,18 +96,6 @@
 
 @synthesize chosenGroup = _chosenGroup;
 
-- (void)setSubgroup:(DKModifierGroup*)subgroup
-          toEnabled:(BOOL)enabled {
-    
-    if (!enabled) {
-        for (DKModifier* modifier in subgroup.modifiers) {
-            modifier.active = NO;
-        }
-    } else {
-        [subgroup refresh];
-    }
-}
-
 - (void)chooseModifierGroup:(DKModifierGroup*)chosenModifierGroup {
     [self choose:chosenModifierGroup];
 }
@@ -134,21 +122,16 @@
         return;
     }
     
+    [_chosenGroup setActive:NO];
     _chosenGroup = chosenModifierGroup;
-    [self refresh];
+    [_chosenGroup setActive:YES];
 }
 
 #pragma DKModifierGroup override
-- (BOOL)shouldModifierBeActive:(DKModifier*)modifier {
-    return self.enabled && ([_chosenGroup.modifiers containsObject:modifier]);
-}
-
-#pragma DKModifierGroupOwner
-
-- (void)group:(DKModifierGroup*)modifierGroup willAddModifier:(DKModifier*)modifier forStatID:(NSString*)statID {
+- (void)addSubgroup:(DKModifierGroup*)subgroup {
     
-    [super group:modifierGroup willAddModifier:modifier forStatID:statID];
-    [self refresh];
+    subgroup.active = NO;
+    [super addSubgroup:subgroup];
 }
 
 #pragma mark NSCoding

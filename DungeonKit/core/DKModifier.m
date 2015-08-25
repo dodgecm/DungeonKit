@@ -10,8 +10,6 @@
 #import "DKDiceCollection.h"
 
 @interface DKModifier()
-@property (nonatomic, assign) BOOL enabled;
-@property (nonatomic) BOOL cachedPredicateResult;
 @end
 
 @implementation DKModifier
@@ -19,14 +17,9 @@
 @synthesize value = _value;
 @synthesize priority = _priority;
 @synthesize valueExpression = _valueExpression;
-@synthesize enabledPredicate = _enabledPredicate;
-@synthesize enabled = _enabled;
-@synthesize active = _active;
 @synthesize modifierExpression = _modifierExpression;
 @synthesize explanation = _explanation;
 @synthesize owner = _owner;
-
-@synthesize cachedPredicateResult = _cachedPredicateResult;
 
 + (id)modifierWithValue:(id<NSObject>)value
                priority:(DKModifierPriority)priority
@@ -45,9 +38,6 @@
     self = [super init];
     if (self) {
         _value = value;
-        _enabled = YES;
-        _active = YES;
-        _cachedPredicateResult = YES;
         _priority = priority;
         _modifierExpression = expression;
     }
@@ -95,17 +85,12 @@
             [self addDependency:dependencies[key] forKey:key];
         }
         _valueExpression = valueExpression;
-        _enabledPredicate = enabledPredicate;
+        self.enabledPredicate = enabledPredicate;
         
         [self refresh];
         
     }
     return self;
-}
-
-- (void)setActive:(BOOL)active {
-    _active = active;
-    self.enabled = (_cachedPredicateResult && _active);
 }
 
 - (void)removeFromStatistic {
@@ -132,16 +117,13 @@
 #pragma mark DKDependencyOwner override
 - (void)refresh {
     
+    [super refresh];
+    
     NSMutableDictionary* context = [NSMutableDictionary dictionary];
     for (NSString* key in self.dependencies) {
         NSObject<DKDependency>* dependency = self.dependencies[key];
         context[key] = dependency.value;
     }
-    
-    if (self.enabledPredicate != nil) {
-        self.cachedPredicateResult = [_enabledPredicate evaluateWithObject:self substitutionVariables:context];
-    }
-    self.enabled = (_cachedPredicateResult && _active);
     
     if (self.valueExpression != nil) {
         self.value = [_valueExpression expressionValueWithObject:self context:context];
@@ -170,8 +152,6 @@
     [super encodeWithCoder:aCoder];
     [aCoder encodeObject:self.value forKey:@"value"];
     [aCoder encodeObject:self.valueExpression forKey:@"valueExpression"];
-    [aCoder encodeBool:self.active forKey:@"active"];
-    [aCoder encodeObject:self.enabledPredicate forKey:@"enabledPredicate"];
     [aCoder encodeInt:self.priority forKey:@"priority"];
     [aCoder encodeObject:self.modifierExpression forKey:@"modifierExpression"];
     [aCoder encodeObject:self.explanation forKey:@"explanation"];
@@ -183,12 +163,9 @@
     self = [super initWithCoder:aDecoder];
     if (self) {
         
-        _cachedPredicateResult = YES;
         _value = [aDecoder decodeObjectForKey:@"value"];
         _priority = [aDecoder decodeIntForKey:@"priority"];
         _valueExpression = [aDecoder decodeObjectForKey:@"valueExpression"];
-        _active = [aDecoder decodeBoolForKey:@"active"];
-        _enabledPredicate = [aDecoder decodeObjectForKey:@"enabledPredicate"];
         _modifierExpression = [aDecoder decodeObjectForKey:@"modifierExpression"];
         _explanation = [aDecoder decodeObjectForKey:@"explanation"];
         _owner = [aDecoder decodeObjectForKey:@"owner"];

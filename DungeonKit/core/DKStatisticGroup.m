@@ -337,6 +337,10 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
 
 #pragma DKModifierGroupOwner
 
+- (BOOL)enabledPredicateResult {
+    return YES;
+}
+
 - (void)removeModifierGroup:(DKModifierGroup*)modifierGroup {
     
     if (!modifierGroup || [modifierGroup isEqual:[NSNull null]]) { return; }

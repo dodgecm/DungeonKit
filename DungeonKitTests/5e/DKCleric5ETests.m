@@ -94,7 +94,6 @@
 - (void)testArmorProficiencies {
     XCTAssertTrue([_character.armorProficiencies.value containsObject:@"Light Armor"], @"Clerics can wear light armor.");
     XCTAssertTrue([_character.armorProficiencies.value containsObject:@"Medium Armor"], @"Clerics can wear medium armor.");
-    XCTAssertTrue([_character.armorProficiencies.value containsObject:@"Heavy Armor"], @"Clerics can wear heavy armor.");
 }
 
 - (void)testSkillProficiencies {
@@ -128,6 +127,20 @@
     XCTAssertFalse([_character.classes.cleric.classTraits.value containsObject:@"Channel Divinity - Turn Undead"], @"Cleric doesn't learn Turn Undead until level 2");
     _character.classes.cleric.classLevel.base = @2;
     XCTAssertTrue([_character.classes.cleric.classTraits.value containsObject:@"Channel Divinity - Turn Undead"], @"Cleric learns Turn Undead at level 2");
+    
+    XCTAssertFalse([_character.classes.cleric.classTraits.value containsObject:@"Destroy Undead"], @"Cleric doesn't learn Destroy Undead until level 5");
+    _character.classes.cleric.classLevel.base = @5;
+    XCTAssertTrue([_character.classes.cleric.classTraits.value containsObject:@"Destroy Undead"], @"Cleric learns Destroy Undead at level 5");
+    
+    XCTAssertEqualObjects(_character.classes.cleric.destroyUndeadCR.value, @"1/2", @"Destroy Undead CR is 1/2 at level 5");
+    _character.classes.cleric.classLevel.base = @8;
+    XCTAssertEqualObjects(_character.classes.cleric.destroyUndeadCR.value, @"1", @"Destroy Undead CR is 1/2 at level 8");
+    _character.classes.cleric.classLevel.base = @11;
+    XCTAssertEqualObjects(_character.classes.cleric.destroyUndeadCR.value, @"2", @"Destroy Undead CR is 2 at level 11");
+    _character.classes.cleric.classLevel.base = @14;
+    XCTAssertEqualObjects(_character.classes.cleric.destroyUndeadCR.value, @"3", @"Destroy Undead CR is 3 at level 14");
+    _character.classes.cleric.classLevel.base = @17;
+    XCTAssertEqualObjects(_character.classes.cleric.destroyUndeadCR.value, @"4", @"Destroy Undead CR is 4 at level 17");
 }
 
 - (void)testDivineIntervention {
@@ -148,6 +161,164 @@
     DKChoiceModifierGroup* cantripChoice = cantripChoices[0];
     [cantripChoice choose:cantripChoice.choices[0]];
     XCTAssertTrue([_character.spells.spellbook.cantrips.value containsObject:@"Guidance"], @"Cleric should be granted the cantrip.");
+    
+    [cantripChoice choose:nil];
+    _character.classes.cleric.classLevel.base = @4;
+    cantripChoices = [_character allUnallocatedChoicesWithTag:DKChoiceClericCantrip];
+    XCTAssertEqual(cantripChoices.count, 4, @"Clerics get a fourth cantrip at level 4.");
+    
+    _character.classes.cleric.classLevel.base = @10;
+    cantripChoices = [_character allUnallocatedChoicesWithTag:DKChoiceClericCantrip];
+    XCTAssertEqual(cantripChoices.count, 5, @"Clerics get a fifth cantrip at level 10.");
+}
+
+- (void)testSpellSlots {
+    
+    //First level spells
+    _character.classes.cleric.classLevel.base = @1;
+    XCTAssertEqualObjects(_character.spells.firstLevelSpellSlotsMax.value, @2, @"Clerics have 2 first-level spells at level 1");
+    _character.classes.cleric.classLevel.base = @2;
+    XCTAssertEqualObjects(_character.spells.firstLevelSpellSlotsMax.value, @3, @"Clerics have 3 first-level spells at level 2");
+    _character.classes.cleric.classLevel.base = @3;
+    XCTAssertEqualObjects(_character.spells.firstLevelSpellSlotsMax.value, @4, @"Clerics have 4 first-level spells at level 3");
+    
+    //Second level spells
+    _character.classes.cleric.classLevel.base = @2;
+    XCTAssertEqualObjects(_character.spells.secondLevelSpellSlotsMax.value, @0, @"Clerics have 0 second-level spells at level 2");
+    _character.classes.cleric.classLevel.base = @3;
+    XCTAssertEqualObjects(_character.spells.secondLevelSpellSlotsMax.value, @2, @"Clerics have 2 second-level spells at level 3");
+    _character.classes.cleric.classLevel.base = @4;
+    XCTAssertEqualObjects(_character.spells.secondLevelSpellSlotsMax.value, @3, @"Clerics have 3 second-level spells at level 4");
+    
+    //Third level spells
+    _character.classes.cleric.classLevel.base = @4;
+    XCTAssertEqualObjects(_character.spells.thirdLevelSpellSlotsMax.value, @0, @"Clerics have 0 third-level spells at level 4");
+    _character.classes.cleric.classLevel.base = @5;
+    XCTAssertEqualObjects(_character.spells.thirdLevelSpellSlotsMax.value, @2, @"Clerics have 2 third-level spells at level 5");
+    _character.classes.cleric.classLevel.base = @6;
+    XCTAssertEqualObjects(_character.spells.thirdLevelSpellSlotsMax.value, @3, @"Clerics have 3 third-level spells at level 6");
+    
+    //Fourth level spells
+    _character.classes.cleric.classLevel.base = @6;
+    XCTAssertEqualObjects(_character.spells.fourthLevelSpellSlotsMax.value, @0, @"Clerics have 0 fourth-level spells at level 6");
+    _character.classes.cleric.classLevel.base = @7;
+    XCTAssertEqualObjects(_character.spells.fourthLevelSpellSlotsMax.value, @1, @"Clerics have 1 fourth-level spells at level 7");
+    _character.classes.cleric.classLevel.base = @8;
+    XCTAssertEqualObjects(_character.spells.fourthLevelSpellSlotsMax.value, @2, @"Clerics have 2 fourth-level spells at level 8");
+    _character.classes.cleric.classLevel.base = @9;
+    XCTAssertEqualObjects(_character.spells.fourthLevelSpellSlotsMax.value, @3, @"Clerics have 3 fourth-level spells at level 9");
+    
+    //Fifth level spells
+    _character.classes.cleric.classLevel.base = @8;
+    XCTAssertEqualObjects(_character.spells.fifthLevelSpellSlotsMax.value, @0, @"Clerics have 0 fifth-level spells at level 8");
+    _character.classes.cleric.classLevel.base = @9;
+    XCTAssertEqualObjects(_character.spells.fifthLevelSpellSlotsMax.value, @1, @"Clerics have 1 fifth-level spells at level 9");
+    _character.classes.cleric.classLevel.base = @10;
+    XCTAssertEqualObjects(_character.spells.fifthLevelSpellSlotsMax.value, @2, @"Clerics have 2 fifth-level spells at level 10");
+    _character.classes.cleric.classLevel.base = @18;
+    XCTAssertEqualObjects(_character.spells.fifthLevelSpellSlotsMax.value, @3, @"Clerics have 3 fifth-level spells at level 18");
+    
+    //Sixth level spells
+    _character.classes.cleric.classLevel.base = @10;
+    XCTAssertEqualObjects(_character.spells.sixthLevelSpellSlotsMax.value, @0, @"Clerics have 0 sixth-level spells at level 10");
+    _character.classes.cleric.classLevel.base = @11;
+    XCTAssertEqualObjects(_character.spells.sixthLevelSpellSlotsMax.value, @1, @"Clerics have 1 sixth-level spells at level 11");
+    _character.classes.cleric.classLevel.base = @19;
+    XCTAssertEqualObjects(_character.spells.sixthLevelSpellSlotsMax.value, @2, @"Clerics have 2 sixth-level spells at level 19");
+    
+    //Seventh level spells
+    _character.classes.cleric.classLevel.base = @12;
+    XCTAssertEqualObjects(_character.spells.seventhLevelSpellSlotsMax.value, @0, @"Clerics have 0 seventh-level spells at level 12");
+    _character.classes.cleric.classLevel.base = @13;
+    XCTAssertEqualObjects(_character.spells.seventhLevelSpellSlotsMax.value, @1, @"Clerics have 1 seventh-level spells at level 13");
+    _character.classes.cleric.classLevel.base = @20;
+    XCTAssertEqualObjects(_character.spells.seventhLevelSpellSlotsMax.value, @2, @"Clerics have 2 seventh-level spells at level 20");
+    
+    //Eighth level spells
+    _character.classes.cleric.classLevel.base = @14;
+    XCTAssertEqualObjects(_character.spells.eighthLevelSpellSlotsMax.value, @0, @"Clerics have 0 eighth-level spells at level 14");
+    _character.classes.cleric.classLevel.base = @15;
+    XCTAssertEqualObjects(_character.spells.eighthLevelSpellSlotsMax.value, @1, @"Clerics have 1 eighth-level spells at level 15");
+    
+    //Ninth level spells
+    _character.classes.cleric.classLevel.base = @16;
+    XCTAssertEqualObjects(_character.spells.ninthLevelSpellSlotsMax.value, @0, @"Clerics have 0 ninth-level spells at level 16");
+    _character.classes.cleric.classLevel.base = @17;
+    XCTAssertEqualObjects(_character.spells.ninthLevelSpellSlotsMax.value, @1, @"Clerics have 1 ninth-level spells at level 17");
+}
+
+- (void)testSpellList {
+    
+    for (int i = 1; i <= 9; i++) {
+        DKSetStatistic* spellList = [_character.spells.spellbook statForSpellLevel:i];
+        _character.classes.cleric.classLevel.base = @(i * 2 - 2);
+        XCTAssertEqual(spellList.value.count, 0, @"Clerics don't gain access to level %i spells until level %i", i, i * 2 - 1);
+        _character.classes.cleric.classLevel.base = @(i * 2 - 1);
+        XCTAssertGreaterThan(spellList.value.count, 0, @"Clerics have access to level %i spells at level %i", i, i * 2 - 1);
+    }
+}
+
+- (void)testAbilityScoreImprovements {
+    
+    NSArray* abilityScoreChoices = [_character allUnallocatedChoicesWithTag:DKChoiceAbilityScoreImprovement];
+    XCTAssertEqual(abilityScoreChoices.count, 0, @"Clerics don't start with ability score improvements");
+    
+    NSArray* levels = @[@4, @8, @12, @16, @19];
+    int improvementCount = 0;
+    for (NSNumber* level in levels) {
+        
+        _character.classes.cleric.classLevel.base = level;
+        improvementCount += 2;
+        abilityScoreChoices = [_character allUnallocatedChoicesWithTag:DKChoiceAbilityScoreImprovement];
+        XCTAssertEqual(abilityScoreChoices.count, improvementCount, @"Clerics get two ability score improvements at level %@", level);
+    }
+}
+
+- (void)testLifeDomain {
+    
+    DKChoiceModifierGroup* divineDomain = [_character firstUnallocatedChoiceWithTag:DKChoiceClericDivineDomain];
+    [divineDomain choose:divineDomain.choices[0]];
+    
+    XCTAssertTrue([_character.armorProficiencies.value containsObject:@"Heavy Armor"], @"Clerics can wear heavy armor with Life Domain");
+    
+    XCTAssertTrue([_character.spells.preparedSpells.value containsObject:@"Bless"], @"Life domain spells");
+    XCTAssertTrue([_character.spells.preparedSpells.value containsObject:@"Cure Wounds"], @"Life domain spells");
+    XCTAssertEqualObjects(_character.spells.preparedSpellsMax.value, @3, @"Life domain spells do not count against prepared spells limit.");
+    
+    _character.classes.cleric.classLevel.base = @3;
+    XCTAssertTrue([_character.spells.preparedSpells.value containsObject:@"Lesser Restoration"], @"Life domain spells");
+    XCTAssertTrue([_character.spells.preparedSpells.value containsObject:@"Spiritual Weapon"], @"Life domain spells");
+    XCTAssertEqualObjects(_character.spells.preparedSpellsMax.value, @7, @"Life domain spells do not count against prepared spells limit.");
+    
+    _character.classes.cleric.classLevel.base = @5;
+    XCTAssertTrue([_character.spells.preparedSpells.value containsObject:@"Beacon of Hope"], @"Life domain spells");
+    XCTAssertTrue([_character.spells.preparedSpells.value containsObject:@"Revivify"], @"Life domain spells");
+    XCTAssertEqualObjects(_character.spells.preparedSpellsMax.value, @11, @"Life domain spells do not count against prepared spells limit.");
+    
+    _character.classes.cleric.classLevel.base = @7;
+    XCTAssertTrue([_character.spells.preparedSpells.value containsObject:@"Death Ward"], @"Life domain spells");
+    XCTAssertTrue([_character.spells.preparedSpells.value containsObject:@"Guardian of Faith"], @"Life domain spells");
+    XCTAssertEqualObjects(_character.spells.preparedSpellsMax.value, @15, @"Life domain spells do not count against prepared spells limit.");
+    
+    _character.classes.cleric.classLevel.base = @9;
+    XCTAssertTrue([_character.spells.preparedSpells.value containsObject:@"Mass Cure Wounds"], @"Life domain spells");
+    XCTAssertTrue([_character.spells.preparedSpells.value containsObject:@"Raise Dead"], @"Life domain spells");
+    XCTAssertEqualObjects(_character.spells.preparedSpellsMax.value, @19, @"Life domain spells do not count against prepared spells limit.");
+    
+    _character.classes.cleric.classLevel.base = @1;
+    XCTAssertTrue([_character.classes.cleric.classTraits.value containsObject:@"Disciple of Life"], @"Life domain grants the Disciple of Life heal bonus");
+    
+    _character.classes.cleric.classLevel.base = @2;
+    XCTAssertTrue([_character.classes.cleric.classTraits.value containsObject:@"Channel Divinity - Preserve Life"], @"Life domain grants Preserve Life");
+    
+    _character.classes.cleric.classLevel.base = @6;
+    XCTAssertTrue([_character.classes.cleric.classTraits.value containsObject:@"Blessed Healer"], @"Life domain grants Blessed Healer");
+    
+    _character.classes.cleric.classLevel.base = @8;
+    XCTAssertTrue([_character.classes.cleric.classTraits.value containsObject:@"Divine Strike"], @"Life domain grants Divine Strike");
+    
+    _character.classes.cleric.classLevel.base = @17;
+    XCTAssertTrue([_character.classes.cleric.classTraits.value containsObject:@"Supreme Healing"], @"Life domain grants Supreme Healing");
 }
 
 @end

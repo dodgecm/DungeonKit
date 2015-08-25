@@ -241,6 +241,14 @@
     XCTAssertFalse(enableModifier.enabled, @"Subgroup does not have its enabled condition met.");
     stat.base = @5;
     XCTAssertTrue(enableModifier.enabled, @"Subgroup has its enabled condition met.");
+    
+    group.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:5];
+    subgroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:3];
+    XCTAssertTrue(enableModifier.enabled, @"Subgroup has its enabled condition met.");
+    stat.base = @3;
+    XCTAssertFalse(enableModifier.enabled, @"Subgroup does not have its enabled condition met due to owner group being disabled.");
+    stat.base = @0;
+    XCTAssertFalse(enableModifier.enabled, @"Neither group nor subgroup have their enabled condition met.");
 }
 
 - (void)testEncoding {

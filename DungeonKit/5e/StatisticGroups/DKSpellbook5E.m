@@ -42,6 +42,21 @@
     return spellLevelToStatIDs[@(spellLevel)];
 }
 
+- (DKSetStatistic*)statForSpellLevel:(NSInteger)spellLevel {
+    switch (spellLevel) {
+        case 0: { return _cantrips; } break;
+        case 1: { return _firstLevelSpells; } break;
+        case 2: { return _secondLevelSpells; } break;
+        case 3: { return _thirdLevelSpells; } break;
+        case 4: { return _fourthLevelSpells; } break;
+        case 5: { return _fifthLevelSpells; } break;
+        case 6: { return _sixthLevelSpells; } break;
+        case 7: { return _seventhLevelSpells; } break;
+        case 8: { return _eighthLevelSpells; } break;
+        case 9: { return _ninthLevelSpells; } break;
+        default: { return nil; } break;
+    }
+}
 
 - (NSDictionary*) statisticKeyPaths {
     return @{

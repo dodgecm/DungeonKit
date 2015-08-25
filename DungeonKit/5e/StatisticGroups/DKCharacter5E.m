@@ -105,7 +105,6 @@
              DKModifierGroupIDSubrace: @"subrace",
              
              DKModifierGroupIDClericClass: @"classes.cleric.classModifiers",
-             DKModifierGroupIDClericDivineDomain: @"classes.cleric.divineDomain",
              DKModifierGroupIDFighterClass: @"classes.fighter.classModifiers",
              DKModifierGroupIDFighterMartialArchetype: @"classes.fighter.martialArchetype",
              DKModifierGroupIDRogueClass: @"classes.rogue.classModifiers",

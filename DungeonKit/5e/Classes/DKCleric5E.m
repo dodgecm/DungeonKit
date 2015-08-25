@@ -21,8 +21,7 @@
 
 @synthesize channelDivinityUsesCurrent = _channelDivinityUsesCurrent;
 @synthesize channelDivinityUsesMax = _channelDivinityUsesMax;
-@synthesize turnUndead = _turnUndead;
-@synthesize divineDomain = _divineDomain;
+@synthesize destroyUndeadCR = _destroyUndeadCR;
 
 #pragma mark -
 
@@ -88,6 +87,9 @@
     
     DKModifierGroup* divineInterventionGroup = [DKCleric5E divineInterventionWithLevel:level];
     [class addSubgroup:divineInterventionGroup];
+    
+    DKChoiceModifierGroup* divineDomainGroup = [DKCleric5E divineDomainChoiceWithLevel:level];
+    [class addSubgroup:divineDomainGroup];
     
     NSArray* skillProficiencyStatIDs = @[ DKStatIDSkillHistoryProficiency,
                                           DKStatIDSkillInsightProficiency,
@@ -255,70 +257,71 @@
 + (DKModifierGroup*)turnUndeadWithLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* turnUndeadGroup = [[DKModifierGroup alloc] init];
-    DKModifier* turnUndeadAbility = [[DKModifier alloc] initWithSource:level
-                                                                 value:[DKDependentModifierBuilder expressionForConstantValue:@"Channel Divinity - Turn Undead"]
-                                                               enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                        isGreaterThanOrEqualTo:2]
-                                                              priority:kDKModifierPriority_Additive
-                                                            expression:[DKModifierBuilder simpleAppendModifierExpression]];
-    turnUndeadAbility.explanation = @"Channel Divinity - Turn Undead: As an action, you present your holy symbol and speak a prayer censuring the undead.  "  "Each undead that can see or hear you within 30 feet of you must make a Wisdom saving throw.  If the creature fails its saving throw, "
-    "it is turned for 1 minute or until it takes any damage.";
+    [turnUndeadGroup addDependency:level forKey:@"level"];
+    turnUndeadGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:2];
+    
+    DKModifier* turnUndeadAbility = [DKModifierBuilder modifierWithAppendedString:@"Channel Divinity - Turn Undead"];
+    turnUndeadAbility.explanation = @"As an action, you present your holy symbol and speak a prayer censuring the undead.  "
+        "Each undead that can see or hear you within 30 feet of you must make a Wisdom saving throw.  If the creature fails its saving throw, "
+        "it is turned for 1 minute or until it takes any damage.";
     [turnUndeadGroup addModifier:turnUndeadAbility forStatisticID:DKStatIDClericTraits];
     
-    NSString* destroyUndeadExplanation = @"Destroy Undead: When an undead fails its saving throw against your Turn Undead feature, "
-    "the creature is instantly destroyed if its challenge rating is at or below a certain threshold.";
-    DKModifier* destroyUndeadAbility = [DKDependentModifierBuilder informationalModifierFromSource:level
-                                                                                           enabled:[DKDependentModifierBuilder
-                                                                                                    enabledWhen:@"source" isGreaterThanOrEqualTo:5]
-                                                                                       explanation:destroyUndeadExplanation];
-    [turnUndeadGroup addModifier:destroyUndeadAbility forStatisticID:DKStatIDTurnUndead];
+    
+    NSString* destroyUndeadExplanation = @"When an undead fails its saving throw against your Turn Undead feature, "
+        "the creature is instantly destroyed if its challenge rating is at or below a certain threshold.";
+    DKModifier* destroyUndeadAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                                constantValue:@"Destroy Undead"
+                                                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                               isGreaterThanOrEqualTo:5]
+                                                                                  explanation:destroyUndeadExplanation];
+    [turnUndeadGroup addModifier:destroyUndeadAbility forStatisticID:DKStatIDClericTraits];
     
     DKModifier* firstCRThreshold = [[DKModifier alloc] initWithSource:level
-                                                                value:nil
+                                                                value:[DKDependentModifierBuilder expressionForConstantValue:@"1/2"]
                                                               enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                            isEqualToOrBetween:5 and:7]
-                                                             priority:kDKModifierPriority_Informational
-                                                           expression:nil];
+                                                             priority:kDKModifierPriority_Additive
+                                                           expression:[DKModifierBuilder simpleReplaceStringExpression]];
     firstCRThreshold.explanation = @"Destroy Undead destroys undead creatures of CR 1/2 or lower.";
-    [turnUndeadGroup addModifier:firstCRThreshold forStatisticID:DKStatIDTurnUndead];
+    [turnUndeadGroup addModifier:firstCRThreshold forStatisticID:DKStatIDDestroyUndeadCR];
     
     DKModifier* secondCRThreshold = [[DKModifier alloc] initWithSource:level
-                                                                 value:nil
+                                                                 value:[DKDependentModifierBuilder expressionForConstantValue:@"1"]
                                                                enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                             isEqualToOrBetween:8 and:10]
-                                                              priority:kDKModifierPriority_Informational
-                                                            expression:nil];
+                                                              priority:kDKModifierPriority_Additive
+                                                            expression:[DKModifierBuilder simpleReplaceStringExpression]];
     secondCRThreshold.explanation = @"Destroy Undead destroys undead creatures of CR 1 or lower.";
-    [turnUndeadGroup addModifier:secondCRThreshold forStatisticID:DKStatIDTurnUndead];
+    [turnUndeadGroup addModifier:secondCRThreshold forStatisticID:DKStatIDDestroyUndeadCR];
     
     DKModifier* thirdCRThreshold = [[DKModifier alloc] initWithSource:level
-                                                                value:nil
+                                                                value:[DKDependentModifierBuilder expressionForConstantValue:@"2"]
                                                               enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                            isEqualToOrBetween:11 and:13]
-                                                             priority:kDKModifierPriority_Informational
-                                                           expression:nil];
+                                                             priority:kDKModifierPriority_Additive
+                                                           expression:[DKModifierBuilder simpleReplaceStringExpression]];
     
     thirdCRThreshold.explanation = @"Destroy Undead destroys undead creatures of CR 2 or lower.";
-    [turnUndeadGroup addModifier:thirdCRThreshold forStatisticID:DKStatIDTurnUndead];
+    [turnUndeadGroup addModifier:thirdCRThreshold forStatisticID:DKStatIDDestroyUndeadCR];
     
     DKModifier* fourthCRThreshold = [[DKModifier alloc] initWithSource:level
-                                                                 value:nil
+                                                                 value:[DKDependentModifierBuilder expressionForConstantValue:@"3"]
                                                                enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                             isEqualToOrBetween:14 and:16]
-                                                              priority:kDKModifierPriority_Informational
-                                                            expression:nil];
+                                                              priority:kDKModifierPriority_Additive
+                                                            expression:[DKModifierBuilder simpleReplaceStringExpression]];
     
     fourthCRThreshold.explanation = @"Destroy Undead destroys undead creatures of CR 3 or lower.";
-    [turnUndeadGroup addModifier:fourthCRThreshold forStatisticID:DKStatIDTurnUndead];
+    [turnUndeadGroup addModifier:fourthCRThreshold forStatisticID:DKStatIDDestroyUndeadCR];
     
     DKModifier* fifthCRThreshold = [[DKModifier alloc] initWithSource:level
-                                                                value:nil
+                                                                value:[DKDependentModifierBuilder expressionForConstantValue:@"4"]
                                                               enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                        isGreaterThanOrEqualTo:17]
-                                                             priority:kDKModifierPriority_Informational
-                                                           expression:nil];
+                                                             priority:kDKModifierPriority_Additive
+                                                           expression:[DKModifierBuilder simpleReplaceStringExpression]];
     fifthCRThreshold.explanation = @"Destroy Undead destroys undead creatures of CR 4 or lower.";
-    [turnUndeadGroup addModifier:fifthCRThreshold forStatisticID:DKStatIDTurnUndead];
+    [turnUndeadGroup addModifier:fifthCRThreshold forStatisticID:DKStatIDDestroyUndeadCR];
     
     return turnUndeadGroup;
 }
@@ -326,8 +329,10 @@
 + (DKModifierGroup*)divineInterventionWithLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* divineInterventionGroup = [[DKModifierGroup alloc] init];
+    [divineInterventionGroup addDependency:level forKey:@"level"];
+    divineInterventionGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:10];
     
-    NSString* divineInterventionExplanation = @"Divine Intervention: You can call on your deity to intervene on your behalf when your need is great.  "
+    NSString* divineInterventionExplanation = @"You can call on your deity to intervene on your behalf when your need is great.  "
     "Imploring your deity's aid requires you to use your action.  Describe the assistance you seek, and roll percentile dice.  If you roll a number "
     "equal to or lower than your cleric level, your deity intervenes.  If your deity intervenes, you can't use this feature again for 7 days.  Otherwise, "
     "you can use it again after you finish a long rest.";
@@ -340,7 +345,7 @@
     divineInterventionAbility.explanation = divineInterventionExplanation;
     [divineInterventionGroup addModifier:divineInterventionAbility forStatisticID:DKStatIDClericTraits];
     
-    NSString* autoInterveneExplanation = @"Divine Intervention: You can call on your deity to intervene on your behalf when your need is great.  Imploring your deity's aid requires you to use your action.  Describe the assistance you seek.  Your call for intervention succeeds automatically, no roll required.  You can't use this feature again for 7 days.";
+    NSString* autoInterveneExplanation = @"You can call on your deity to intervene on your behalf when your need is great.  Imploring your deity's aid requires you to use your action.  Describe the assistance you seek.  Your call for intervention succeeds automatically, no roll required.  You can't use this feature again for 7 days.";
     DKModifier* autoInterveneAbility = [[DKModifier alloc] initWithSource:level
                                                                     value:[DKDependentModifierBuilder expressionForConstantValue:@"Divine Intervention"]
                                                                   enabled:[DKDependentModifierBuilder enabledWhen:@"source"
@@ -356,9 +361,6 @@
 + (DKModifierGroup*)domainSpellsGroupClericLevel:(DKNumericStatistic*)level spellDictionary:(NSDictionary*)spellsDict {
     
     DKModifierGroup* domainSpellsGroup = [[DKModifierGroup alloc] init];
-    DKModifier* domainInfoModifier = [DKModifierBuilder modifierWithExplanation:@"Divine Domain: Spells granted by your Divine Domain do not count against "
-                                      "your prepared spells limit."];
-    [domainSpellsGroup addModifier:domainInfoModifier forStatisticID:DKStatIDPreparedSpellsMax];
     
     for (NSNumber* levelThreshold in spellsDict.allKeys) {
         NSArray* spellExplanations = spellsDict[levelThreshold];
@@ -378,6 +380,18 @@
 
 #pragma mark -
 
++ (DKChoiceModifierGroup*)divineDomainChoiceWithLevel:(DKNumericStatistic*)level {
+    
+    DKSubgroupChoiceModifierGroup* divineDomainGroup = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceClericDivineDomain];
+    divineDomainGroup.explanation = @"Cleric divine domain";
+    [divineDomainGroup addDependency:level forKey:@"level"];
+    divineDomainGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:1];
+    
+    [divineDomainGroup addSubgroup:[DKCleric5E lifeDomainWithLevel:level]];
+    
+    return divineDomainGroup;
+}
+
 + (DKModifierGroup*)lifeDomainWithLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* lifeDomainGroup = [[DKModifierGroup alloc] init];
@@ -395,6 +409,21 @@
     DKModifierGroup* lifeDomainSpellsGroup = [DKCleric5E domainSpellsGroupClericLevel:level spellDictionary:spells];
     [lifeDomainGroup addSubgroup:lifeDomainSpellsGroup];
     
+    NSExpression* preparedSpellsValue = [DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:
+                                         @{ [DKDependentModifierBuilder rangeValueWithMin:0 max:0] : @(0),
+                                            [DKDependentModifierBuilder rangeValueWithMin:1 max:2] : @(2),
+                                            [DKDependentModifierBuilder rangeValueWithMin:3 max:4] : @(4),
+                                            [DKDependentModifierBuilder rangeValueWithMin:5 max:6] : @(6),
+                                            [DKDependentModifierBuilder rangeValueWithMin:7 max:8] : @(8),
+                                            [DKDependentModifierBuilder rangeValueWithMin:9 max:20] : @(10) }
+                                                                                     usingDependency:@"source"];
+    DKModifier* preparedSpellsBonus = [[DKModifier alloc] initWithSource:level
+                                                                   value:preparedSpellsValue
+                                                                priority:kDKModifierPriority_Additive
+                                                              expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    preparedSpellsBonus.explanation = @"Spells granted by your Divine Domain do not count against your prepared spells limit.";
+    [lifeDomainGroup addModifier:preparedSpellsBonus forStatisticID:DKStatIDPreparedSpellsMax];
+    
     DKModifier* discipleOfLife = [DKModifierBuilder modifierWithAppendedString:@"Disciple of Life" explanation:@"Whenever you use a spell of 1st level or higher to restore hit points to a creature, the creature regains additional hit points equal to 2 + the spell's level."];
     [lifeDomainGroup addModifier:discipleOfLife forStatisticID:DKStatIDClericTraits];
     
@@ -409,7 +438,7 @@
                                                                                  explanation:preserveLifeExplanation];
     [lifeDomainGroup addModifier:preserveLifeAbility forStatisticID:DKStatIDClericTraits];
     
-    NSString* blessedHealerExplanation = @"Blessed Healer: The healing spells you cast on others heal you as well.  When you cast a spell of 1st "
+    NSString* blessedHealerExplanation = @"The healing spells you cast on others heal you as well.  When you cast a spell of 1st "
     "level or higher that restores hit points to a creature other than you, you regain hit points equal to 2 + the spell’s level.";
     
     DKModifier* blessedHealerAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
@@ -429,7 +458,7 @@
                                                                                  explanation:divineStrikeExplanation];
     [lifeDomainGroup addModifier:divineStrikeAbility forStatisticID:DKStatIDClericTraits];
     
-    NSString* supremeHealingExplanation = @"Supreme Healing: When you would normally roll one or more dice to restore hit points with a spell, you "
+    NSString* supremeHealingExplanation = @"When you would normally roll one or more dice to restore hit points with a spell, you "
     "instead use the highest number possible for each die.";
     DKModifier* supremeHealingAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
                                                                                  constantValue:@"Supreme Healing"
@@ -451,8 +480,6 @@
         self.classModifiers = [DKCleric5E clericWithLevel:self.classLevel abilities:abilities];
         [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
                                                                                      explanation:@"Cleric hit dice"] forStatisticID:DKStatIDHitDiceMax];
-        
-        self.divineDomain = [DKCleric5E lifeDomainWithLevel:self.classLevel];
     }
     return self;
 }
@@ -464,7 +491,7 @@
              DKStatIDClericHitDice: @"classHitDice",
              DKStatIDChannelDivinityUsesCurrent: @"channelDivinityUsesCurrent",
              DKStatIDChannelDivinityUsesMax: @"channelDivinityUsesMax",
-             DKStatIDTurnUndead: @"turnUndead",
+             DKStatIDDestroyUndeadCR: @"destroyUndeadCR",
              };
 }
 
@@ -473,7 +500,7 @@
     [super loadStatistics];
     self.channelDivinityUsesMax = [DKNumericStatistic statisticWithInt:0];
     self.channelDivinityUsesCurrent = [DKNumericStatistic statisticWithInt:0];
-    self.turnUndead = [DKNumericStatistic statisticWithInt:0];
+    self.destroyUndeadCR = [DKStringStatistic statisticWithString:@""];
 }
 
 - (void)loadModifiers {

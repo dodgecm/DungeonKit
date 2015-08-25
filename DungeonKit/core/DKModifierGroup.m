@@ -22,8 +22,6 @@
 
 @synthesize modifiers = _modifiers;
 @synthesize subgroups = _subgroups;
-@synthesize enabledPredicate = _enabledPredicate;
-@synthesize enabled = _enabled;
 @synthesize tag = _tag;
 @synthesize explanation = _explanation;
 @synthesize owner = _owner;
@@ -34,7 +32,6 @@
         _modifierHashesToStatIDs = [NSMutableDictionary dictionary];
         _modifiers = [NSMutableArray array];
         _subgroups = [NSMutableSet set];
-        _enabled = YES;
     }
     return self;
 }
@@ -45,11 +42,6 @@
         self.tag = tag;
     }
     return self;
-}
-
-- (void)setEnabledPredicate:(NSPredicate*)enabledPredicate {
-    _enabledPredicate = [enabledPredicate copy];
-    [self refresh];
 }
 
 - (NSString*)statIDForModifier:(DKModifier*)modifier {
@@ -125,6 +117,7 @@
 
 - (void)wasAddedToOwner:(id<DKModifierGroupOwner>)owner {
     _owner = owner;
+    [self refresh];
 }
 
 - (DKModifierGroup*)firstSubgroupWithTag:(NSString*)tag {
@@ -179,24 +172,14 @@
 
 /* Will be overridden in subclasses */
 - (BOOL)shouldModifierBeActive:(DKModifier*)modifier {
-    return _enabled;
+    return self.enabled;
 }
 
 #pragma DKDependencyOwner override
 
 - (void)refresh {
     
-    NSMutableDictionary* context = [NSMutableDictionary dictionary];
-    for (NSString* key in self.dependencies) {
-        NSObject<DKDependency>* dependency = self.dependencies[key];
-        context[key] = dependency.value;
-    }
-    
-    if (self.enabledPredicate != nil) {
-        _enabled = [self.enabledPredicate evaluateWithObject:self substitutionVariables:context];
-    } else {
-        _enabled = YES;
-    }
+    [super refresh];
     
     for (DKModifier* modifier in self.modifiers) {
         BOOL modifierActive = [self shouldModifierBeActive:modifier];
@@ -214,6 +197,25 @@
             }
         }
     }
+    
+    //Due to our enabled state, we may have caused some of our subgroups to become enabled as well, so we have to refresh tehm
+    for (DKModifierGroup* subgroup in self.subgroups) {
+        [subgroup refresh];
+    }
+}
+
+- (BOOL)enabledPredicateResult:(NSDictionary*)context {
+    
+    BOOL ownerEnabled = YES;
+    if (self.owner) {
+        ownerEnabled = [self.owner enabledPredicateResult];
+    }
+    
+    if (self.enabledPredicate != nil) {
+        return [self.enabledPredicate evaluateWithObject:self substitutionVariables:context] && ownerEnabled && self.active;
+    } else {
+        return ownerEnabled && self.active;
+    }
 }
 
 - (void)remove {
@@ -221,6 +223,17 @@
 }
 
 #pragma DKModifierGroupOwner
+
+- (BOOL)enabledPredicateResult {
+    
+    NSMutableDictionary* context = [NSMutableDictionary dictionary];
+    for (NSString* key in self.dependencies) {
+        NSObject<DKDependency>* dependency = self.dependencies[key];
+        context[key] = dependency.value;
+    }
+    
+    return [self enabledPredicateResult:context];
+}
 
 - (void)removeModifierGroup:(DKModifierGroup*)modifierGroup {
     
@@ -243,6 +256,7 @@
     
     NSMutableString* description = [NSMutableString string];
     if ([_explanation length]) { [description appendString:_explanation]; }
+    if (!self.enabled) { [description appendString:@" - inactive"]; }
     for (DKModifier* modifier in _modifiers) {
         [description appendFormat:@"\n\t%@", modifier];
     }
@@ -252,7 +266,9 @@
 - (NSString*)description {
     
     NSMutableString* description = [NSMutableString stringWithString:@"Modifier group: "];
-    if ([_explanation length]) { [description appendFormat:@"%@\n", _explanation]; }
+    if ([_explanation length]) { [description appendFormat:@"%@", _explanation]; }
+    if (!self.enabled) { [description appendString:@" - inactive"]; }
+    [description appendString:@"\n"];
     if ([_subgroups count]) {
         [description appendString:[NSString stringWithFormat:@"%lu subgroups(s):", (unsigned long) _subgroups.count]];
         for (DKModifierGroup* subgroup in _subgroups) {
@@ -283,7 +299,6 @@
     [aCoder encodeObject:statIDsToModifiers forKey:@"statIDsToModifiers"];
     [aCoder encodeObject:_modifiers forKey:@"modifiers"];
     [aCoder encodeObject:_subgroups forKey:@"subgroups"];
-    [aCoder encodeObject:_enabledPredicate forKey:@"enabledPredicate"];
     [aCoder encodeObject:_tag forKey:@"tag"];
     [aCoder encodeObject:_explanation forKey:@"explanation"];
     [aCoder encodeConditionalObject:_owner forKey:@"owner"];
@@ -302,7 +317,6 @@
         }
         _modifiers = [aDecoder decodeObjectForKey:@"modifiers"];
         _subgroups = [aDecoder decodeObjectForKey:@"subgroups"];
-        _enabledPredicate = [aDecoder decodeObjectForKey:@"enabledPredicate"];
         _tag = [aDecoder decodeObjectForKey:@"tag"];
         _explanation = [aDecoder decodeObjectForKey:@"explanation"];
         _owner = [aDecoder decodeObjectForKey:@"owner"];

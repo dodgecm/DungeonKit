@@ -25,4 +25,6 @@
 
 + (NSString*)statIDForSpellLevel:(NSInteger)spellLevel;
 
+- (DKSetStatistic*)statForSpellLevel:(NSInteger)spellLevel;
+
 @end
