@@ -56,6 +56,7 @@
 		B38DF2DF1B7C53F4004785F2 /* DKCleric5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B38DF2DE1B7C53F4004785F2 /* DKCleric5ETests.m */; };
 		B3A8BD221B859E37004161BA /* DKDependencyOwner.h in Headers */ = {isa = PBXBuildFile; fileRef = B3A8BD201B859E37004161BA /* DKDependencyOwner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3A8BD231B859E37004161BA /* DKDependencyOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A8BD211B859E37004161BA /* DKDependencyOwner.m */; };
+		B3A8BD261B8C47D1004161BA /* DKFighter5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A8BD251B8C47D1004161BA /* DKFighter5ETests.m */; };
 		B3B5659C1B44CA51004DB93B /* DKWizard5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3B5659A1B44CA51004DB93B /* DKWizard5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3B5659D1B44CA51004DB93B /* DKWizard5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B5659B1B44CA51004DB93B /* DKWizard5E.m */; };
 		B3B565A11B4BA321004DB93B /* DKRace5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B565A01B4BA321004DB93B /* DKRace5ETests.m */; };
@@ -157,6 +158,7 @@
 		B38DF2DE1B7C53F4004785F2 /* DKCleric5ETests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKCleric5ETests.m; sourceTree = "<group>"; };
 		B3A8BD201B859E37004161BA /* DKDependencyOwner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDependencyOwner.h; sourceTree = "<group>"; };
 		B3A8BD211B859E37004161BA /* DKDependencyOwner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDependencyOwner.m; sourceTree = "<group>"; };
+		B3A8BD251B8C47D1004161BA /* DKFighter5ETests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKFighter5ETests.m; sourceTree = "<group>"; };
 		B3B5659A1B44CA51004DB93B /* DKWizard5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKWizard5E.h; sourceTree = "<group>"; };
 		B3B5659B1B44CA51004DB93B /* DKWizard5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKWizard5E.m; sourceTree = "<group>"; };
 		B3B565A01B4BA321004DB93B /* DKRace5ETests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKRace5ETests.m; sourceTree = "<group>"; };
@@ -386,6 +388,7 @@
 				B3565E111B39584B00C86DC1 /* DKEquipmentTests.m */,
 				B3B565A01B4BA321004DB93B /* DKRace5ETests.m */,
 				B38DF2DE1B7C53F4004785F2 /* DKCleric5ETests.m */,
+				B3A8BD251B8C47D1004161BA /* DKFighter5ETests.m */,
 			);
 			path = 5e;
 			sourceTree = "<group>";
@@ -597,6 +600,7 @@
 				B3C605D71A691282007FADAB /* DKProficientStatisticTests.m in Sources */,
 				B36F2D751AFF53A80079263C /* DKDiceCollectionTests.m in Sources */,
 				B3E40D591A57E53B004342F3 /* DKAbilitiesTests.m in Sources */,
+				B3A8BD261B8C47D1004161BA /* DKFighter5ETests.m in Sources */,
 				B3E40D5D1A57E53B004342F3 /* DKStatisticTests.m in Sources */,
 				B36BF3351A7251FF00979EE9 /* DKCurrencyTests.m in Sources */,
 				B3B565A71B4BCB1C004DB93B /* DKChoiceModifierGroupTests.m in Sources */,

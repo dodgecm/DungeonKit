@@ -358,6 +358,11 @@
     return nil;
 }
 
++ (DKArmor5E*)shieldForCharacter:(DKCharacter5E*)character {
+    return [DKArmorBuilder5E shieldWithEquipment:character.equipment
+                              armorProficiencies:character.armorProficiencies];
+}
+
 + (DKArmor5E*)shieldWithEquipment:(DKEquipment5E*)equipment
                armorProficiencies:(DKSetStatistic*)armorProficiencies {
     

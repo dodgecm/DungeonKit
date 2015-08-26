@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DKStatistic.h"
 #import "DKStatisticGroup5E.h"
-#import "DKModifierGroup.h"
+#import "DKChoiceModifierGroup.h"
 #import "DKWeapon5E.h"
 #import "DKArmor5E.h"
 
@@ -21,14 +21,14 @@
 @property (nonatomic, strong) DKNumericStatistic* offHandOccupied;
 @property (nonatomic, strong) DKNumericStatistic* armorSlotOccupied;
 
-@property (nonatomic, strong) DKWeapon5E* mainHandWeapon;
+@property (nonatomic, strong) DKSubgroupChoiceModifierGroup* mainHandWeapon;
 @property (nonatomic, strong) DKNumericStatistic* mainHandWeaponAttackBonus;
 @property (nonatomic, strong) DKDiceStatistic* mainHandWeaponDamage;
 @property (nonatomic, strong) DKNumericStatistic* mainHandWeaponRange;
 @property (nonatomic, strong) DKNumericStatistic* mainHandWeaponAttacksPerAction;
 @property (nonatomic, strong) DKSetStatistic* mainHandWeaponAttributes;
 
-@property (nonatomic, strong) DKWeapon5E* offHandWeapon;
+@property (nonatomic, strong) DKSubgroupChoiceModifierGroup* offHandWeapon;
 @property (nonatomic, strong) DKNumericStatistic* offHandWeaponAttackBonus;
 @property (nonatomic, strong) DKDiceStatistic* offHandWeaponDamage;
 @property (nonatomic, strong) DKNumericStatistic* offHandWeaponRange;
@@ -38,8 +38,8 @@
 /** Non-combat related items */
 @property (nonatomic, strong) DKSetStatistic* inventory;
 
-@property (nonatomic, strong) DKArmor5E* armor;
-@property (nonatomic, strong) DKArmor5E* shield;
+@property (nonatomic, strong) DKSubgroupChoiceModifierGroup* armor;
+@property (nonatomic, strong) DKSubgroupChoiceModifierGroup* shield;
 @property (nonatomic, strong) DKModifierGroup* otherEquipment;
 
 - (id)init __unavailable;
@@ -48,5 +48,10 @@
           characterSize:(DKStringStatistic*)characterSize
     weaponProficiencies:(DKSetStatistic*)weaponProficiencies
      armorProficiencies:(DKSetStatistic*)armorProficiencies;
+
+- (void)equipWeapon:(DKWeapon5E*)weapon
+          inMainHand:(BOOL)isMainHand;
+- (void)equipArmor:(DKArmor5E*)armor;
+- (void)equipShield:(DKArmor5E*)shield;
 
 @end

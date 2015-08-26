@@ -15,7 +15,7 @@
 @implementation DKModifierGroup {
     NSMutableDictionary* _modifierHashesToStatIDs;
     NSMutableArray* _modifiers;
-    NSMutableSet* _subgroups;
+    NSMutableOrderedSet* _subgroups;
 }
 
 @synthesize modifierHashesToStatIDs = _modifierHashesToStatIDs;
@@ -31,7 +31,7 @@
     if (self) {
         _modifierHashesToStatIDs = [NSMutableDictionary dictionary];
         _modifiers = [NSMutableArray array];
-        _subgroups = [NSMutableSet set];
+        _subgroups = [NSMutableOrderedSet orderedSet];
     }
     return self;
 }

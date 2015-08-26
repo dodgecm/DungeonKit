@@ -106,7 +106,7 @@
 }
 
 - (NSArray*)choices {
-    return [self.subgroups allObjects];
+    return [self.subgroups array];
 }
 
 - (void)choose:(id)choice {

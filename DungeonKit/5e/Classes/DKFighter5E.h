@@ -31,12 +31,6 @@ typedef NS_ENUM(NSInteger, DKFightingStyle5E) {
 @property (nonatomic, strong) DKNumericStatistic* actionSurgeUsesMax;
 @property (nonatomic, strong) DKNumericStatistic* indomitableUsesCurrent;
 @property (nonatomic, strong) DKNumericStatistic* indomitableUsesMax;
-@property (nonatomic, strong) DKModifierGroup* martialArchetype;
-
-+ (DKModifierGroup*)fightingStyle:(DKFightingStyle5E)fightingStyle
-                     fighterLevel:(DKNumericStatistic*)fighterLevel
-                         minLevel:(NSNumber*)minLevel
-                        equipment:(DKEquipment5E*)equipment;
 
 - (id)init __unavailable;
 - (id)initWithAbilities:(DKAbilities5E*)abilities

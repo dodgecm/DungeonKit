@@ -43,7 +43,7 @@
     XCTAssertEqualObjects(_character.size.value, @"Medium", @"Dwarves are size Medium creatures.");
     
     XCTAssertEqualObjects(_character.movementSpeed.value, @25, @"Dwarves have a base movement speed of 25 feet.");
-    _character.equipment.armor = [DKArmorBuilder5E armorOfType:kDKArmorType5E_Plate forCharacter:_character];
+    [_character.equipment equipArmor:[DKArmorBuilder5E armorOfType:kDKArmorType5E_Plate forCharacter:_character]];
     XCTAssertEqualObjects(_character.movementSpeed.value, @25, @"Dwarves are not slowed by wearing heavy armor.");
     _character.equipment.armor = nil;
     

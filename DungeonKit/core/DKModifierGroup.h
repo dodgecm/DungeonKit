@@ -23,7 +23,7 @@
 /** Array of DKModifiers that this DKModifierGroup is the owner of (including modifiers from subgroups). */
 @property (nonatomic, strong, readonly) NSArray* modifiers;
 /** Array of DKModifierGroups that this DKModifierGroup is the owner of. */
-@property (nonatomic, strong, readonly) NSSet* subgroups;
+@property (nonatomic, strong, readonly) NSOrderedSet* subgroups;
 /** An optional tag for looking up this modifier group */
 @property (nonatomic, copy) NSString* tag;
 /** An optional explanation of the nature or source of this modifier group */

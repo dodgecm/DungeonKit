@@ -8,6 +8,7 @@
 
 #import "DKEquipment5E.h"
 #import "DKStatisticIDs5E.h"
+#import "DKModifierGroupTags5E.h"
 #import "DKModifierBuilder.h"
 #import "DKAbilities5E.h"
 
@@ -46,19 +47,73 @@
     self = [super init];
     if (self) {
         
-        self.mainHandWeapon = [DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Unarmed
+        self.mainHandWeapon = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceMainHandWeapon];
+        self.offHandWeapon = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceOffHandWeapon];
+        DKWeapon5E* unarmed = [DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Unarmed
                                                     abilities:abilities
                                              proficiencyBonus:proficiencyBonus
                                                 characterSize:characterSize
                                           weaponProficiencies:weaponProficiencies
                                               offHandOccupied:_offHandOccupied
                                                    isMainHand:YES];
+        [self equipWeapon:unarmed inMainHand:YES];
         
-        self.armor = [DKArmorBuilder5E armorOfType:kDKArmorType5E_Unarmored
-                                         abilities:abilities
-                                armorProficiencies:armorProficiencies];
+        DKWeapon5E* emptyHand = [[DKModifierGroup alloc] init];
+        emptyHand.explanation = @"Empty";
+        [self equipWeapon:emptyHand inMainHand:NO];
+        
+        self.armor = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceArmor];
+        DKArmor5E* unarmored = [DKArmorBuilder5E armorOfType:kDKArmorType5E_Unarmored
+                                                   abilities:abilities
+                                          armorProficiencies:armorProficiencies];
+        [self equipArmor:unarmored];
+        
+        self.shield = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceShield];
+        DKArmor5E* emptyShield = [[DKModifierGroup alloc] init];
+        emptyShield.explanation = @"Empty";
+        [self equipShield:emptyShield];
     }
     return self;
+}
+
+- (void)equipWeapon:(DKWeapon5E*)weapon
+          inMainHand:(BOOL)isMainHand {
+    
+    DKChoiceModifierGroup* weaponGroup;
+    if (isMainHand) {
+        weaponGroup = _mainHandWeapon;
+    } else {
+        weaponGroup = _offHandWeapon;
+    }
+    
+    if (weaponGroup && ![weaponGroup.subgroups containsObject:weapon]) {
+        [weaponGroup addSubgroup:weapon];
+    }
+    
+    if (weaponGroup.choice != weapon) {
+        [weaponGroup choose:weapon];
+    }
+}
+
+- (void)equipArmor:(DKArmor5E*)armor {
+    
+    if (armor && ![_armor.subgroups containsObject:armor]) {
+        [_armor addSubgroup:armor];
+    }
+    
+    if (_armor.choice != armor) {
+        [_armor choose:armor];
+    }
+}
+- (void)equipShield:(DKArmor5E*)shield {
+    
+    if (shield && ![_shield.subgroups containsObject:shield]) {
+        [_shield addSubgroup:shield];
+    }
+    
+    if (_shield.choice != shield) {
+        [_shield choose:shield];
+    }
 }
 
 - (NSDictionary*) statisticKeyPaths {

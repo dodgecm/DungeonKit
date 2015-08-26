@@ -10,6 +10,11 @@
 
 NSString *const DKChoiceAbilityScoreImprovement = @"DKChoiceAbilityScoreImprovement";
 
+NSString *const DKChoiceMainHandWeapon = @"DKChoiceMainHandWeapon";
+NSString *const DKChoiceOffHandWeapon = @"DKChoiceOffHandWeapon";
+NSString *const DKChoiceArmor = @"DKChoiceArmor";
+NSString *const DKChoiceShield = @"DKChoiceShield";
+
 NSString *const DKChoiceDwarfToolProficiency = @"DKChoiceDwarfToolProficiency";
 NSString *const DKChoiceHumanBonusLanguage = @"DKChoiceHumanBonusLanguage";
 NSString *const DKChoiceHighElfBonusLanguage = @"DKChoiceHighElfBonusLanguage";
@@ -20,5 +25,8 @@ NSString *const DKChoiceClericDivineDomain = @"DKChoiceClericDivineDomain";
 NSString *const DKChoiceClericCantrip = @"DKChoiceClericCantrip";
 
 NSString *const DKChoiceFighterSkillProficiency = @"DKChoiceFighterSkillProficiency";
+NSString *const DKChoiceFighterMartialArchetype = @"DKChoiceFighterMartialArchetype";
+NSString *const DKChoiceFighterFightingStyle = @"DKChoiceFighterFightingStyle";
+
 NSString *const DKChoiceRogueSkillProficiency = @"DKChoiceRogueSkillProficiency";
 NSString *const DKChoiceWizardSkillProficiency = @"DKChoiceWizardSkillProficiency";

@@ -94,6 +94,7 @@
 - (void)testArmorProficiencies {
     XCTAssertTrue([_character.armorProficiencies.value containsObject:@"Light Armor"], @"Clerics can wear light armor.");
     XCTAssertTrue([_character.armorProficiencies.value containsObject:@"Medium Armor"], @"Clerics can wear medium armor.");
+    XCTAssertTrue([_character.armorProficiencies.value containsObject:@"Shields"], @"Clerics can use shields.");
 }
 
 - (void)testSkillProficiencies {
