@@ -107,7 +107,6 @@
              DKModifierGroupIDClericClass: @"classes.cleric.classModifiers",
              DKModifierGroupIDFighterClass: @"classes.fighter.classModifiers",
              DKModifierGroupIDRogueClass: @"classes.rogue.classModifiers",
-             DKModifierGroupIDRogueRoguishArchetype: @"classes.rogue.roguishArchetype",
              DKModifierGroupIDWizardClass: @"classes.wizard.classModifiers",
              DKModifierGroupIDWizardArcaneTradition: @"classes.wizard.arcaneTradition",
              

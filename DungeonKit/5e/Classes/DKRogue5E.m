@@ -19,7 +19,6 @@
 
 @synthesize strokeOfLuckUsesCurrent = _strokeOfLuckUsesCurrent;
 @synthesize strokeOfLuckUsesMax = _strokeOfLuckUsesMax;
-@synthesize roguishArchetype = _roguishArchetype;
 
 + (DKModifierGroup*)rogueWithLevel:(DKNumericStatistic*)level
                          abilities:(DKAbilities5E*)abilities
@@ -147,7 +146,7 @@
     
     //Slippery Mind
     DKModifier* slipperyMindModifier = [[DKModifier alloc] initWithSource:level
-                                                                    value:nil
+                                                                    value:[DKDependentModifierBuilder expressionForConstantInteger:0]
                                                                   enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                            isGreaterThanOrEqualTo:15]
                                                                  priority:kDKModifierPriority_Clamping
@@ -164,6 +163,7 @@
                                                                              explanation:elusiveExplanation];
     [class addModifier:elusiveModifier forStatisticID:DKStatIDRogueTraits];
     
+    //Stroke of Luck
     NSString* strokeOfLuckExplanation = @"If your attack misses a target within range, you can turn the miss into a hit. Alternatively, if you fail an ability check, you can treat the d20 roll as a 20.";
     DKModifier* strokeOfLuckAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
                                                                                constantValue:@"Stroke of Luck"
@@ -178,7 +178,10 @@
                                                                                                           isGreaterThanOrEqualTo:20]
                                                                              explanation:@"Once you use this feature, you can’t use it again until you finish a short or long rest."];
     [class addModifier:strokeOfLuckModifier forStatisticID:DKStatIDStrokeOfLuckUsesMax];
-
+    
+    DKModifierGroup* roguishArchetypeGroup = [DKRogue5E roguishArchetypeChoiceWithRogueLevel:level];
+    [class addSubgroup:roguishArchetypeGroup];
+    
     NSArray* abilityScoreImprovementLevels = @[ @4, @8, @10, @12, @16, @19];
     for (NSNumber* abilityScoreLevel in abilityScoreImprovementLevels) {
         DKModifierGroup* abilityScoreGroup = [DKClass5E abilityScoreImprovementForThreshold:abilityScoreLevel.integerValue level:level];
@@ -193,14 +196,12 @@
 + (DKChoiceModifierGroup*)expertiseChoiceWithLevel:(DKNumericStatistic*)level
                                   levelRequirement:(NSNumber*)enabledLevel {
     
-    DKChoiceModifierGroup* expertiseChoiceGroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceRogueExpertise"];
+    DKChoiceModifierGroup* expertiseChoiceGroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceRogueExpertise];
+    [expertiseChoiceGroup addDependency:level forKey:@"level"];
+    expertiseChoiceGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:enabledLevel.integerValue];
+    
     for (NSString* statID in [DKSkills5E skillProficiencyStatIDs]) {
-        DKModifier* modifier = [[DKModifier alloc] initWithDependencies:@{ @"level" : level }
-                                                                  value:nil
-                                                                enabled:[DKDependentModifierBuilder enabledWhen:@"level"
-                                                                                         isGreaterThanOrEqualTo:enabledLevel.integerValue]
-                                                               priority:kDKModifierPriority_Clamping
-                                                             expression:[DKModifierBuilder simpleClampExpressionBetween:2 and:2]];
+        DKModifier* modifier = [DKModifierBuilder modifierWithClampBetween:2 and:2];
         [expertiseChoiceGroup addModifier:modifier forStatisticID:statID];
     }
     
@@ -212,6 +213,14 @@
     
     DKModifierGroup* sneakAttackGroup = [[DKModifierGroup alloc] init];
     sneakAttackGroup.explanation = @"Sneak Attack";
+    
+    NSString* sneakAttackExplanation = @"You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal extra damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.";
+    DKModifier* sneakAttackModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
+                                                                               constantValue:@"Sneak Attack"
+                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                              isGreaterThanOrEqualTo:1]
+                                                                                 explanation:sneakAttackExplanation];
+    [sneakAttackGroup addModifier:sneakAttackModifier forStatisticID:DKStatIDRogueTraits];
     
     NSMutableDictionary* piecewiseFunction = [NSMutableDictionary dictionary];
     for (int i = 1; i <= 20; i += 2) {
@@ -249,6 +258,18 @@
 }
 
 #pragma mark -
+
++ (DKChoiceModifierGroup*)roguishArchetypeChoiceWithRogueLevel:(DKNumericStatistic*)level {
+    
+    DKSubgroupChoiceModifierGroup* roguishArchetypeGroup = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceRogueRoguishArchetype];
+    roguishArchetypeGroup.explanation = @"Rogue roguish archetype";
+    [roguishArchetypeGroup addDependency:level forKey:@"level"];
+    roguishArchetypeGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:3];
+    
+    [roguishArchetypeGroup addSubgroup:[DKRogue5E thiefRoguishArchetypeWithLevel:level]];
+    
+    return roguishArchetypeGroup;
+}
 
 + (DKModifierGroup*)thiefRoguishArchetypeWithLevel:(DKNumericStatistic*)level {
     
@@ -319,8 +340,6 @@
                                        proficiencyBonus:proficiencyBonus];
         [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
                                                                                      explanation:@"Rogue hit dice"] forStatisticID:DKStatIDHitDiceMax];
-        
-        self.roguishArchetype = [DKRogue5E thiefRoguishArchetypeWithLevel:self.classLevel];
     }
     return self;
 }

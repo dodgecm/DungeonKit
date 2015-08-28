@@ -29,4 +29,7 @@ NSString *const DKChoiceFighterMartialArchetype = @"DKChoiceFighterMartialArchet
 NSString *const DKChoiceFighterFightingStyle = @"DKChoiceFighterFightingStyle";
 
 NSString *const DKChoiceRogueSkillProficiency = @"DKChoiceRogueSkillProficiency";
+NSString *const DKChoiceRogueRoguishArchetype = @"DKChoiceRogueRoguishArchetype";
+NSString *const DKChoiceRogueExpertise = @"DKChoiceRogueExpertise";
+
 NSString *const DKChoiceWizardSkillProficiency = @"DKChoiceWizardSkillProficiency";

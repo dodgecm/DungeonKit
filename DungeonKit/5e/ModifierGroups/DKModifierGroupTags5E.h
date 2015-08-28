@@ -33,4 +33,7 @@ FOUNDATION_EXPORT NSString *const DKChoiceFighterMartialArchetype;
 FOUNDATION_EXPORT NSString *const DKChoiceFighterFightingStyle;
 
 FOUNDATION_EXPORT NSString *const DKChoiceRogueSkillProficiency;
+FOUNDATION_EXPORT NSString *const DKChoiceRogueRoguishArchetype;
+FOUNDATION_EXPORT NSString *const DKChoiceRogueExpertise;
+
 FOUNDATION_EXPORT NSString *const DKChoiceWizardSkillProficiency;
