@@ -77,18 +77,13 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
 - (void)addKeyPath:(NSString*)keyPath forStatisticID:(NSString*)statID {
     
     id oldStat = [self statisticForID:statID];
-    if (!oldStat) { oldStat = [NSNull null]; }
     [self removeStatisticWithID:statID];
     
     [_statistics setObject:keyPath forKey:statID];
     [self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:DKCharacterStatisticKVOContext];
     id newStat = [self statisticForID:statID];
-    if (!newStat) { newStat = [NSNull null]; }
     
-    [[NSNotificationCenter defaultCenter] postNotificationName:DKDependencyChangedNotification
-                                                        object:oldStat
-                                                      userInfo:@{@"old": oldStat,
-                                                                 @"new": newStat}];
+    [self replaceDependency:oldStat with:newStat];
 }
 
 - (void)setStatistic:(DKStatistic*)statistic forStatisticID:(NSString*)statID {
@@ -99,11 +94,25 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     [self removeStatisticWithID:statID];
     
     [_statistics setObject:statistic forKey:statID];
+    [self replaceDependency:oldStat with:statistic];
+}
+
+- (void)replaceDependency:(id)oldStat with:(id)newStat {
     
+    if (!oldStat) { oldStat = [NSNull null]; }
+    if (!newStat) { newStat = [NSNull null]; }
     [[NSNotificationCenter defaultCenter] postNotificationName:DKDependencyChangedNotification
                                                         object:oldStat
                                                       userInfo:@{@"old": oldStat,
-                                                                 @"new": statistic}];
+                                                                 @"new": newStat}];
+    
+    if (![oldStat isEqual:[NSNull null]] && ![newStat isEqual:[NSNull null]] ) {
+        NSArray* modifiers = [[oldStat modifiers] copy];
+        for (DKModifier* modifier in modifiers) {
+            [modifier removeFromStatistic];
+            [newStat applyModifier:modifier];
+        }
+    }
 }
 
 - (void)removeStatisticWithID:(NSString*)statID {
@@ -405,9 +414,8 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
             DKStatistic* newStat = [newGroup statisticForID:statID];
             if (oldStat) { changeDict[@"old"] = oldStat; }
             if (newStat) { changeDict[@"new"] = newStat; }
-            [[NSNotificationCenter defaultCenter] postNotificationName:DKDependencyChangedNotification
-                                                                object:oldStat
-                                                              userInfo:changeDict];
+            
+            [self replaceDependency:oldStat with:newStat];
         }
     }
 }

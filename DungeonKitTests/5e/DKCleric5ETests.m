@@ -27,8 +27,6 @@
     _character.classes.cleric = [[DKCleric5E alloc] initWithAbilities:_character.abilities];
     _character.classes.cleric.classLevel.base = @1;
     _character.abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
-    _character.race = nil;
-    _character.subrace = nil;
 }
 
 - (void)tearDown {

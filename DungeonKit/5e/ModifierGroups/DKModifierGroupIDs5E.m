@@ -10,7 +10,6 @@
 #import "DKModifierGroupIDs5E.h"
 
 NSString *const DKModifierGroupIDRace = @"DKRace";
-NSString *const DKModifierGroupIDSubrace = @"DKSubrace";
 
 NSString *const DKModifierGroupIDClericClass = @"DKClericClass";
 NSString *const DKModifierGroupIDFighterClass = @"DKFighterClass";

@@ -283,7 +283,8 @@
     _character.abilities.dexterity.base = @14;
     XCTAssertEqualObjects(_character.armorClass.value, @18, "Dexterity ability score does not get applied for heavy armor.");
     
-    //Remember that humans get +1 to STR!
+    //Replacement racial movement speed since we haven't picked a race
+    [_character.movementSpeed applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:30]];
     _character.abilities.strength.base = @13;
     XCTAssertEqualObjects(_character.movementSpeed.value, @20, "Movement speed is reduced by 10 for heavy armor if the strength requierment is not met.");
     

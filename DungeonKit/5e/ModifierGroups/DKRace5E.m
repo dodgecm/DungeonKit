@@ -17,7 +17,17 @@
 
 @implementation DKRace5EBuilder
 
-+ (DKRace5E*)dwarf {
++ (DKSubgroupChoiceModifierGroup*)raceChoiceForCharacter:(DKCharacter5E*)character {
+    
+    DKSubgroupChoiceModifierGroup* raceChoiceGroup = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceRace];
+    [raceChoiceGroup addSubgroup:[DKRace5EBuilder dwarfWithCharacter:character]];
+    [raceChoiceGroup addSubgroup:[DKRace5EBuilder elf]];
+    [raceChoiceGroup addSubgroup:[DKRace5EBuilder halfling]];
+    [raceChoiceGroup addSubgroup:[DKRace5EBuilder human]];
+    return raceChoiceGroup;
+}
+
++ (DKRace5E*)dwarfWithCharacter:(DKCharacter5E*)character {
     
     DKRace5E* race = [[DKRace5E alloc] init];
     race.explanation = @"Dwarven racial modifiers";
@@ -62,6 +72,11 @@
     [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Dwarvish" explanation:@"Dwarven Languages"]
        forStatisticID:DKStatIDLanguages];
     
+    DKSubgroupChoiceModifierGroup* subraceChoice = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceSubrace];
+    [subraceChoice addSubgroup:[DKSubrace5EBuilder hillDwarfFromCharacter:character]];
+    [subraceChoice addSubgroup:[DKSubrace5EBuilder mountainDwarf]];
+    [race addSubgroup:subraceChoice];
+    
     return race;
 }
 
@@ -89,6 +104,11 @@
     [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Elvish" explanation:@"Elven Languages"]
        forStatisticID:DKStatIDLanguages];
     
+    DKSubgroupChoiceModifierGroup* subraceChoice = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceSubrace];
+    [subraceChoice addSubgroup:[DKSubrace5EBuilder highElf]];
+    [subraceChoice addSubgroup:[DKSubrace5EBuilder woodElf]];
+    [race addSubgroup:subraceChoice];
+    
     return race;
 }
 
@@ -111,6 +131,12 @@
        forStatisticID:DKStatIDLanguages];
     [race addModifier:[DKModifierBuilder modifierWithAppendedString:@"Halfling" explanation:@"Halfling Languages"]
        forStatisticID:DKStatIDLanguages];
+    
+    DKSubgroupChoiceModifierGroup* subraceChoice = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceSubrace];
+    [subraceChoice addSubgroup:[DKSubrace5EBuilder lightfootHalfling]];
+    [subraceChoice addSubgroup:[DKSubrace5EBuilder stoutHalfling]];
+    [race addSubgroup:subraceChoice];
+     
     return race;
 }
 

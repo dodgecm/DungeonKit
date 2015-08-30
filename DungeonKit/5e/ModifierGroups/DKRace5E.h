@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DKModifierGroup.h"
+#import "DKChoiceModifierGroup.h"
 
 @class DKCharacter5E;
 
@@ -17,7 +17,8 @@
 
 @interface DKRace5EBuilder : NSObject
 
-+ (DKRace5E*)dwarf;
++ (DKSubgroupChoiceModifierGroup*)raceChoiceForCharacter:(DKCharacter5E*)character;
++ (DKRace5E*)dwarfWithCharacter:(DKCharacter5E*)character;
 + (DKRace5E*)elf;
 + (DKRace5E*)halfling;
 + (DKRace5E*)human;

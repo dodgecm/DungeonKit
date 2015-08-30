@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "DKStatistic.h"
+#import "DKStatisticGroup.h"
 #import "DKModifierBuilder.h"
 
 @interface DKModifierTests : XCTestCase
@@ -73,6 +74,20 @@
     DKModifier* modifier = [DKModifierBuilder modifierWithExplanation:@"This is a modifier that does not change a statistic's value."];
     [stat applyModifier:modifier];
     XCTAssertEqualObjects(stat.value, @10, @"Informational modifier should not change statistic's value.");
+}
+
+
+- (void)testStatisticUpdates {
+    
+    DKStatisticGroup* statGroup = [[DKStatisticGroup alloc] init];
+    DKNumericStatistic* stat = [[DKNumericStatistic alloc] initWithInt:0];
+    [statGroup setStatistic:stat forStatisticID:@"stat"];
+    
+    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    [stat applyModifier:modifier];
+    
+    [statGroup setStatistic:[[DKNumericStatistic alloc] initWithInt:5] forStatisticID:@"stat"];
+    XCTAssertEqualObjects([statGroup statisticForID:@"stat"].value, @10, @"Modifier should get transferred over to the new statistic");
 }
 
 - (void)testActiveModifier {

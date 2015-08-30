@@ -16,6 +16,8 @@
 
 @synthesize name = _name;
 @synthesize level = _level;
+@synthesize race = _race;
+@synthesize subrace = _subrace;
 @synthesize size = _size;
 @synthesize alignment = _alignment;
 @synthesize inspiration = _inspiration;
@@ -47,13 +49,12 @@
 @synthesize currency = _currency;
 @synthesize equipment = _equipment;
 
-@synthesize race = _race;
-@synthesize subrace = _subrace;
-
 - (NSDictionary*) statisticKeyPaths {
     return @{
              DKStatIDName: @"name",
              DKStatIDLevel: @"level",
+             DKStatIDRace: @"race",
+             DKStatIDSubrace: @"subrace",
              DKStatIDInspiration: @"inspiration",
              DKStatIDProficiencyBonus: @"proficiencyBonus",
              DKStatIDSize: @"size",
@@ -101,9 +102,6 @@
 
 - (NSDictionary*) modifierGroupKeyPaths {
     return @{
-             DKModifierGroupIDRace: @"race",
-             DKModifierGroupIDSubrace: @"subrace",
-             
              DKModifierGroupIDClericClass: @"classes.cleric.classModifiers",
              DKModifierGroupIDFighterClass: @"classes.fighter.classModifiers",
              DKModifierGroupIDRogueClass: @"classes.rogue.classModifiers",
@@ -121,6 +119,8 @@
     
     self.name = [DKStringStatistic statisticWithString:@""];
     self.level = [DKNumericStatistic statisticWithInt:0];
+    self.race = [DKStringStatistic statisticWithString:@""];
+    self.subrace = [DKStringStatistic statisticWithString:@""];
     self.size = [DKStringStatistic statisticWithString:@""];
     self.alignment = [DKStringStatistic statisticWithString:@""];
     
@@ -193,9 +193,7 @@
     [_deathSaveSuccesses applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
     [_deathSaveFailures applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
     
-    //Modifier groups
-    self.race = [DKRace5EBuilder human];
-    self.subrace = nil;
+    [self addModifierGroup:[DKRace5EBuilder raceChoiceForCharacter:self] forGroupID:DKModifierGroupIDRace];
 }
 
 @end

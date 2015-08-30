@@ -22,6 +22,8 @@
 //Statistics
 @property (nonatomic, strong) DKStringStatistic* name;
 @property (nonatomic, strong) DKNumericStatistic* level;
+@property (nonatomic, strong) DKStringStatistic* race;
+@property (nonatomic, strong) DKStringStatistic* subrace;
 @property (nonatomic, strong) DKStringStatistic* size;
 @property (nonatomic, strong) DKStringStatistic* alignment;
 
@@ -61,9 +63,5 @@
 @property (nonatomic, strong) DKSpellcasting5E* spells;
 @property (nonatomic, strong) DKCurrency5E* currency;
 @property (nonatomic, strong) DKEquipment5E* equipment;
-
-//Modifier Groups
-@property (nonatomic, strong) DKRace5E* race;
-@property (nonatomic, strong) DKSubrace5E* subrace;
 
 @end

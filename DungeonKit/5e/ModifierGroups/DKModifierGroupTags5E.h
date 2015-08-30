@@ -10,6 +10,8 @@
 
 //Generic
 FOUNDATION_EXPORT NSString *const DKChoiceAbilityScoreImprovement;
+FOUNDATION_EXPORT NSString *const DKChoiceRace;
+FOUNDATION_EXPORT NSString *const DKChoiceSubrace;
 
 //Equipment
 FOUNDATION_EXPORT NSString *const DKChoiceMainHandWeapon;

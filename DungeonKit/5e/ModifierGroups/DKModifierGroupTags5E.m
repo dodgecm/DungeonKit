@@ -9,6 +9,8 @@
 #import "DKModifierGroupTags5E.h"
 
 NSString *const DKChoiceAbilityScoreImprovement = @"DKChoiceAbilityScoreImprovement";
+NSString *const DKChoiceRace = @"DKChoiceRace";
+NSString *const DKChoiceSubrace = @"DKChoiceSubrace";
 
 NSString *const DKChoiceMainHandWeapon = @"DKChoiceMainHandWeapon";
 NSString *const DKChoiceOffHandWeapon = @"DKChoiceOffHandWeapon";

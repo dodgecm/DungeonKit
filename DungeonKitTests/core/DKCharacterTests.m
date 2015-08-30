@@ -124,7 +124,7 @@
     
     [character setStatistic:secondStatistic forStatisticID:@"test"];
     [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
-    XCTAssertEqualObjects([character statisticForID:@"test"].value, @10, @"Statistic should transfer modifiers when a statistic ID is replaced.");
+    XCTAssertEqualObjects([character statisticForID:@"test"].value, @12, @"Statistic should transfer modifiers when a statistic ID is replaced.");
 }
 
 - (void)testModifierCycle {

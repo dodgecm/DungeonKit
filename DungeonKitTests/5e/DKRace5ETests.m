@@ -26,8 +26,6 @@
     //Override the class information, so there's no class modifiers messing with the stats
     _character.classes = [[DKClasses5E alloc] init];
     _character.abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
-    _character.race = nil;
-    _character.subrace = nil;
 }
 
 - (void)tearDown {
@@ -38,7 +36,9 @@
 #pragma mark -
 
 - (void)testDwarf {
-    _character.race = [DKRace5EBuilder dwarf];
+    
+    DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
+    [raceChoice choose:raceChoice.choices[0]];
     XCTAssertEqualObjects(_character.abilities.constitution.value, @12, @"Dwarves get +2 bonus to Constitution.");
     XCTAssertEqualObjects(_character.size.value, @"Medium", @"Dwarves are size Medium creatures.");
     
@@ -67,7 +67,12 @@
 }
 
 - (void)testHillDwarf {
-    _character.subrace = [DKSubrace5EBuilder hillDwarfFromCharacter:_character];
+    
+    DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
+    [raceChoice choose:raceChoice.choices[0]];
+    DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
+    [subraceChoice choose:subraceChoice.choices[0]];
+    
     XCTAssertEqualObjects(_character.abilities.wisdom.value, @11, @"Hill Dwarves get +1 bonus to Wisdom.");
     _character.level.base = @1;
     XCTAssertEqualObjects(_character.hitPointsMax.value, @1, @"Hill Dwarves get +1 HP to their maximum for every level gained.");
@@ -76,7 +81,12 @@
 }
 
 - (void)testMountainDwarf {
-    _character.subrace = [DKSubrace5EBuilder mountainDwarf];
+    
+    DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
+    [raceChoice choose:raceChoice.choices[0]];
+    DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
+    [subraceChoice choose:subraceChoice.choices[1]];
+    
     XCTAssertEqualObjects(_character.abilities.strength.value, @12, @"Mountain Dwarves get +2 bonus to Strength.");
     XCTAssertTrue([_character.armorProficiencies.value containsObject:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]],
                   @"Mountain Dwarves are proficient with light armor.");
@@ -88,7 +98,9 @@
 #pragma mark -
 
 - (void)testElf {
-    _character.race = [DKRace5EBuilder elf];
+    
+    DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
+    [raceChoice choose:raceChoice.choices[1]];
     XCTAssertEqualObjects(_character.abilities.dexterity.value, @12, @"Elves get +2 bonus to Dexterity.");
     XCTAssertEqualObjects(_character.size.value, @"Medium", @"Elves are size Medium creatures.");
     
@@ -102,7 +114,12 @@
 }
 
 - (void)testHighElf {
-    _character.subrace = [DKSubrace5EBuilder highElf];
+    
+    DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
+    [raceChoice choose:raceChoice.choices[1]];
+    DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
+    [subraceChoice choose:subraceChoice.choices[0]];
+    
     XCTAssertEqualObjects(_character.abilities.intelligence.value, @11, @"High Elves get +1 bonus to Intelligence.");
     
     NSArray* weaponProficiencies = @[ [DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Longsword],
@@ -124,7 +141,12 @@
 }
 
 - (void)testWoodElf {
-    _character.subrace = [DKSubrace5EBuilder woodElf];
+    
+    DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
+    [raceChoice choose:raceChoice.choices[1]];
+    DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
+    [subraceChoice choose:subraceChoice.choices[1]];
+    
     XCTAssertEqualObjects(_character.abilities.wisdom.value, @11, @"Wood Elves get +1 bonus to Wisdom.");
     
     NSArray* weaponProficiencies = @[ [DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Longsword],
@@ -136,13 +158,15 @@
                       @"Wood Elves have sword and bow weapon proficiencies.");
     }
     
-    XCTAssertEqualObjects(_character.movementSpeed.value, @5, @"Wood elves have a 5 foot bonus to movement speed.");
+    XCTAssertEqualObjects(_character.movementSpeed.value, @35, @"Wood elves have a 5 foot bonus to movement speed.");
 }
 
 #pragma mark -
 
 - (void)testHalfling {
-    _character.race = [DKRace5EBuilder halfling];
+    DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
+    [raceChoice choose:raceChoice.choices[2]];
+    
     XCTAssertEqualObjects(_character.abilities.dexterity.value, @12, @"Halflings get +2 bonus to Dexterity.");
     XCTAssertEqualObjects(_character.size.value, @"Small", @"Halflings are size Small creatures.");
     
@@ -154,13 +178,23 @@
 }
 
 - (void)testLightfootHalfling {
-    _character.subrace = [DKSubrace5EBuilder lightfootHalfling];
+    
+    DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
+    [raceChoice choose:raceChoice.choices[2]];
+    DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
+    [subraceChoice choose:subraceChoice.choices[0]];
+    
     XCTAssertEqualObjects(_character.abilities.charisma.value, @11, @"Lightfoot Halflings get +1 bonus to Charisma.");
     XCTAssertTrue([_character.otherTraits.value containsObject:@"Naturally Stealthy"], @"Lightfoot Halflings have the Naturally Stealthy trait.");
 }
 
 - (void)testStoutHalfling {
-    _character.subrace = [DKSubrace5EBuilder stoutHalfling];
+    
+    DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
+    [raceChoice choose:raceChoice.choices[2]];
+    DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
+    [subraceChoice choose:subraceChoice.choices[1]];
+    
     XCTAssertEqualObjects(_character.abilities.constitution.value, @11, @"Stout Halflings get +1 bonus to Constitution.");
     XCTAssertTrue([_character.resistances.value containsObject:@"Poison"], @"Stout Halflings have resistance to poison damage.");
 }
@@ -168,7 +202,10 @@
 #pragma mark -
 
 - (void)testHuman {
-    _character.race = [DKRace5EBuilder human];
+    
+    DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
+    [raceChoice choose:raceChoice.choices[3]];
+    
     XCTAssertEqualObjects(_character.abilities.strength.value, @11, @"Humans get +1 bonus to Strength.");
     XCTAssertEqualObjects(_character.abilities.dexterity.value, @11, @"Humans get +1 bonus to Dexterity.");
     XCTAssertEqualObjects(_character.abilities.constitution.value, @11, @"Humans get +1 bonus to Constitution.");

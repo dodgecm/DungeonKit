@@ -8,6 +8,8 @@
 
 FOUNDATION_EXPORT NSString *const DKStatIDName;
 FOUNDATION_EXPORT NSString *const DKStatIDLevel;
+FOUNDATION_EXPORT NSString *const DKStatIDRace;
+FOUNDATION_EXPORT NSString *const DKStatIDSubrace;
 FOUNDATION_EXPORT NSString *const DKStatIDInspiration;
 FOUNDATION_EXPORT NSString *const DKStatIDProficiencyBonus;
 FOUNDATION_EXPORT NSString *const DKStatIDSize;

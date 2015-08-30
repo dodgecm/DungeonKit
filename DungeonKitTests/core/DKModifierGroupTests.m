@@ -251,6 +251,21 @@
     XCTAssertFalse(enableModifier.enabled, @"Neither group nor subgroup have their enabled condition met.");
 }
 
+- (void)testStatisticUpdates {
+    
+    DKStatisticGroup* statGroup = [[DKStatisticGroup alloc] init];
+    DKNumericStatistic* stat = [[DKNumericStatistic alloc] initWithInt:0];
+    [statGroup setStatistic:stat forStatisticID:@"stat"];
+    
+    DKModifierGroup* group = [[DKModifierGroup alloc] init];
+    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    [group addModifier:modifier forStatisticID:@"stat"];
+    [statGroup addModifierGroup:group forGroupID:@"modifierGroup"];
+    
+    [statGroup setStatistic:[[DKNumericStatistic alloc] initWithInt:5] forStatisticID:@"stat"];
+    XCTAssertEqualObjects([statGroup statisticForID:@"stat"].value, @10, @"Modifier should get transferred over to the new statistic");
+}
+
 - (void)testEncoding {
     
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
