@@ -37,3 +37,4 @@ NSString *const DKChoiceWizardArcaneTradition = @"DKChoiceWizardArcaneTradition"
 NSString *const DKChoiceWizardSpellMastery = @"DKChoiceWizardSpellMastery";
 NSString *const DKChoiceWizardSignatureSpell = @"DKChoiceWizardSignatureSpell";
 NSString *const DKChoiceWizardCantrip = @"DKChoiceWizardCantrip";
+NSString *const DKChoiceWizardSpellbook = @"DKChoiceWizardSpellbook";;

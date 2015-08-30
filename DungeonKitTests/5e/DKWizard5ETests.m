@@ -79,6 +79,7 @@
 
 - (void)testTraits {
     XCTAssertTrue([_character.classes.wizard.classTraits.value containsObject:@"Ritual Casting"], @"Wizards have the Ritual Casting trait.");
+    XCTAssertTrue([_character.classes.wizard.classTraits.value containsObject:@"Spellcasting Focus"], @"Wizards have the Spellcasting Focus trait.");
 }
 
 - (void)testAbilityScoreImprovements {
@@ -145,6 +146,22 @@
     _character.classes.wizard.classLevel.base = @10;
     cantripChoices = [_character allUnallocatedChoicesWithTag:DKChoiceWizardCantrip];
     XCTAssertEqual(cantripChoices.count, 5, @"Wizards get a fifth cantrip at level 10.");
+}
+
+- (void)testSpellbook {
+    
+    NSArray* spellbookChoices = [_character allUnallocatedChoicesWithTag:DKChoiceWizardSpellbook];
+    XCTAssertEqual(spellbookChoices.count, 6, @"Wizards can learn six first-level spells.");
+    
+    for (int i = 1; i <= 20; i++) {
+        _character.classes.wizard.classLevel.base = @(i);
+        spellbookChoices = [_character allUnallocatedChoicesWithTag:DKChoiceWizardSpellbook];
+        XCTAssertEqual(spellbookChoices.count, 6 + (i-1) * 2, @"Wizards can learn two new spells for each level.");
+    }
+    
+    DKChoiceModifierGroup* firstChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceWizardSpellbook];
+    [firstChoice choose:firstChoice.choices[0]];
+    XCTAssertTrue([_character.spells.spellbook.firstLevelSpells.value containsObject:@"Burning Hands"], @"Wizard should have the spell in the spellbook.");
 }
 
 - (void)testSpellSlots {

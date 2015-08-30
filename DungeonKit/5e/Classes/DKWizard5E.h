@@ -34,4 +34,8 @@
 + (DKChoiceModifierGroup*)cantripChoiceWithLevel:(DKNumericStatistic*)level
                                        threshold:(NSInteger)threshold
                                      explanation:(NSString*)explanation;
+
++ (DKModifierGroup*)spellListUpToAndIncludingSpellLevel:(NSInteger)spellLevel;
++ (DKModifierGroup*)spellListForSpellLevel:(NSInteger)spellLevel;
+
 @end

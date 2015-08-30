@@ -50,6 +50,8 @@
         forStatisticID:DKStatIDPreparedSpellsMax];
     [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Ritual Casting" explanation:@"You can cast a wizard spell as a ritual if that spell has the ritual tag and you have the spell prepared"]
         forStatisticID:DKStatIDWizardTraits];
+    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Spellcasting Focus" explanation:@"You can use an arcane focus as a spellcasting focus for your wizard spells"]
+        forStatisticID:DKStatIDWizardTraits];
     
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Wizard Saving Throw Proficiency: Wisdom"]
         forStatisticID:DKStatIDSavingThrowWisdomProficiency];
@@ -80,6 +82,9 @@
     
     DKModifierGroup* cantripsGroup = [DKWizard5E cantripsWithLevel:level];
     [class addSubgroup:cantripsGroup];
+    
+    DKModifierGroup* spellbookGroup = [DKWizard5E spellbookWithWizardLevel:level];
+    [class addSubgroup:spellbookGroup];
     
     DKModifierGroup* spellSlotsGroup = [DKWizard5E spellSlotsWithLevel:level];
     [class addSubgroup:spellSlotsGroup];
@@ -243,14 +248,34 @@
     DKModifierGroup* spellbookGroup = [[DKModifierGroup alloc] init];
     spellbookGroup.explanation = @"Wizard spellbook";
     
-    DKSubgroupChoiceModifierGroup* initialSpells = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:@"DKChoiceInitialWizardSpells"];
-    initialSpells.explanation = @"Starting Wizard spells.";
-    [spellbookGroup addSubgroup:initialSpells];
+    DKModifierGroup* firstLevelSpells = [DKWizardSpellBuilder5E spellListForSpellLevel:1];
+    for (int i = 0; i < 6; i++) {
+        
+        DKSingleChoiceModifierGroup* initialSpell = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceWizardSpellbook];
+        initialSpell.choicesSource = firstLevelSpells;
+        initialSpell.explanation = @"Starting Wizard spell.";
+        [spellbookGroup addSubgroup:initialSpell];
+    }
     
+    NSInteger spellLevel = 1;
+    DKModifierGroup* spellList = [DKWizardSpellBuilder5E spellListUpToAndIncludingSpellLevel:1];
     for (NSInteger i = 2; i <= 20; i++) {
-        DKChoiceModifierGroup* spellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceWizardSpell"];
-        spellChoice.explanation = [NSString stringWithFormat:@"Spell learned at Wizard level %li.", (long)i];
-        [spellbookGroup addSubgroup:spellChoice];
+        NSInteger newSpellLevel = MIN(9, (i+1)/2);
+        if (spellLevel != newSpellLevel) {
+            //Caching the spell list so that we can use fewer objects; helps keep encoded object size down
+            spellLevel = newSpellLevel;
+            spellList = [DKWizardSpellBuilder5E spellListUpToAndIncludingSpellLevel:spellLevel];
+        }
+        
+        for (NSInteger j = 0; j < 2; j++) {
+            //Wizard gets two spell choices at each level
+            DKSingleChoiceModifierGroup* spellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceWizardSpellbook];
+            [spellChoice addDependency:level forKey:@"level"];
+            spellChoice.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:i];
+            spellChoice.choicesSource = spellList;
+            spellChoice.explanation = [NSString stringWithFormat:@"Spell learned at Wizard level %li.", (long)i];
+            [spellbookGroup addSubgroup:spellChoice];
+        }
     }
     
     return spellbookGroup;
@@ -560,6 +585,139 @@
     }
     
     return cantripGroup;
+}
+
++ (DKModifierGroup*)spellListUpToAndIncludingSpellLevel:(NSInteger)spellLevel {
+    
+    DKModifierGroup* spellGroup = [[DKModifierGroup alloc] init];
+    for (int i = 1; i <= spellLevel; i++) {
+        DKModifierGroup* spellList = [DKWizardSpellBuilder5E spellListForSpellLevel:i];
+        [spellGroup addSubgroup:spellList];
+    }
+    
+    return spellGroup;
+}
+
++ (DKModifierGroup*)spellListForSpellLevel:(NSInteger)spellLevel {
+    
+    DKModifierGroup* spellGroup = [[DKModifierGroup alloc] init];
+    spellGroup.explanation = [NSString stringWithFormat:@"Wizard level %li spells", (long)spellLevel];
+    
+    NSArray* spellNames = nil;
+    switch (spellLevel) {
+        case 1: {
+            
+            spellNames = @[ @"Burning Hands",
+                            @"Charm Person",
+                            @"Comprehend Languages",
+                            @"Detect Magic",
+                            @"Disguise Self",
+                            @"Identify",
+                            @"Mage Armor",
+                            @"Magic Missile",
+                            @"Shield",
+                            @"Silent Image",
+                            @"Sleep",
+                            @"Thunderwave" ];
+            break;
+        }
+            
+        case 2: {
+            spellNames = @[ @"Arcane Lock",
+                            @"Blur",
+                            @"Darkness",
+                            @"Flaming Sphere",
+                            @"Hold Person",
+                            @"Invisibility",
+                            @"Knock",
+                            @"Levitate",
+                            @"Magic Weapon",
+                            @"Misty Step",
+                            @"Shatter",
+                            @"Spider Climb",
+                            @"Suggestion",
+                            @"Web" ];
+            break;
+        }
+            
+        case 3: {
+            spellNames = @[ @"Counterspell",
+                            @"Dispel Magic",
+                            @"Fireball",
+                            @"Fly",
+                            @"Haste",
+                            @"Lightning Bolt",
+                            @"Major Image",
+                            @"Protection from Energy" ];
+            break;
+        }
+            
+        case 4: {
+            spellNames = @[ @"Arcane Eye",
+                            @"Dimension Door",
+                            @"Greater Invisibility",
+                            @"Ice Storm",
+                            @"Stoneskin",
+                            @"Wall of Fire" ];
+            break;
+        }
+            
+        case 5: {
+            spellNames = @[ @"Cone of Cold",
+                            @"Dominate Person",
+                            @"Dream",
+                            @"Passwall",
+                            @"Wall of Stone" ];
+            break;
+        }
+            
+        case 6: {
+            spellNames = @[ @"Chain Lightning",
+                            @"Disintegrate",
+                            @"Globe of Invulnerability",
+                            @"Mass Suggestion",
+                            @"Otto’s Irresistible Dance",
+                            @"True Seeing" ];
+            break;
+        }
+        
+        case 7: {
+            spellNames = @[ @"Delayed Blast",
+                            @"Fireball",
+                            @"Finger of Death",
+                            @"Mordenkainen’s Sword",
+                            @"Teleport" ];
+            break;
+        }
+            
+        case 8: {
+            spellNames = @[ @"Dominate Monster",
+                            @"Maze",
+                            @"Power Word Stun",
+                            @"Sunburst" ];
+            break;
+        }
+        
+        case 9: {
+            spellNames = @[ @"Foresight",
+                            @"Imprisonment",
+                            @"Meteor Swarm",
+                            @"Power Word Kill",
+                            @"Time Stop" ];
+            break;
+        }
+            
+        default:
+            break;
+    }
+    
+    for (NSString* spell in spellNames) {
+        DKModifier* modifier = [DKModifierBuilder modifierWithAppendedString:spell
+                                                                 explanation:[NSString stringWithFormat:@"Wizard level %li spell", (long)spellLevel]];
+        [spellGroup addModifier:modifier forStatisticID:[DKSpellbook5E statIDForSpellLevel:spellLevel]];
+    }
+    
+    return spellGroup;
 }
 
 @end

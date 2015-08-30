@@ -41,3 +41,4 @@ FOUNDATION_EXPORT NSString *const DKChoiceWizardArcaneTradition;
 FOUNDATION_EXPORT NSString *const DKChoiceWizardSpellMastery;
 FOUNDATION_EXPORT NSString *const DKChoiceWizardSignatureSpell;
 FOUNDATION_EXPORT NSString *const DKChoiceWizardCantrip;
+FOUNDATION_EXPORT NSString *const DKChoiceWizardSpellbook;
