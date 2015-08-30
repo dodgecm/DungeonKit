@@ -25,6 +25,7 @@
 @implementation DKSingleChoiceModifierGroup
 
 @synthesize chosenModifier = _chosenModifier;
+@synthesize choicesSource = _choicesSource;
 
 - (void)chooseModifier:(DKModifier*)chosenModifier {
     [self choose:chosenModifier];
@@ -36,7 +37,11 @@
 }
 
 - (NSArray*)choices {
-    return self.modifiers;
+    if (_choicesSource) {
+        return _choicesSource.modifiers;
+    } else {
+        return self.modifiers;
+    }
 }
 
 - (void)choose:(id)choice {
@@ -47,12 +52,22 @@
     }
     
     DKModifier* chosenModifier = (DKModifier*)choice;
-    if (chosenModifier && ![self.modifiers containsObject:chosenModifier]) {
+    if (chosenModifier && ![self.choices containsObject:chosenModifier]) {
         NSLog(@"DKChoiceModifierGroup: Attempted to choose a modifier (%@) that does not belong to the modifier group: %@.", chosenModifier, self);
         return;
     }
     
-    _chosenModifier = chosenModifier;
+    if (_choicesSource) {
+        
+        if (_chosenModifier) {
+            [self removeModifier:_chosenModifier];
+        }
+        _chosenModifier = [chosenModifier copy];
+        [self addModifier:_chosenModifier forStatisticID:[_choicesSource statIDForModifier:choice]];
+        
+    } else {
+        _chosenModifier = chosenModifier;
+    }
     [self refresh];
 }
 
@@ -73,6 +88,7 @@
     
     [super encodeWithCoder:aCoder];
     [aCoder encodeObject:_chosenModifier forKey:@"chosenModifier"];
+    [aCoder encodeObject:_choicesSource forKey:@"choicesSource"];
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
@@ -81,6 +97,7 @@
     if (self) {
         
         _chosenModifier = [aDecoder decodeObjectForKey:@"chosenModifier"];
+        _choicesSource = [aDecoder decodeObjectForKey:@"choicesSource"];
     }
     return self;
 }

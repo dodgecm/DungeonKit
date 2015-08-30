@@ -20,6 +20,7 @@
 @interface DKSingleChoiceModifierGroup : DKChoiceModifierGroup <DKModifierGroupOwner, NSCoding>
 
 @property (nonatomic, strong, readonly) DKModifier* chosenModifier;
+@property (nonatomic, strong) DKModifierGroup* choicesSource;
 
 - (id)init __unavailable;
 - (void)chooseModifier:(DKModifier*)chosenModifier;

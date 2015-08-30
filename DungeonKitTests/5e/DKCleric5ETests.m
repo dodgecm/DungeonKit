@@ -75,7 +75,7 @@
 
 - (void)testTraits {
     XCTAssertTrue([_character.classes.cleric.classTraits.value containsObject:@"Channel Divinity"], @"Clerics have the Channel Divinity trait.");
-    XCTAssertTrue([_character.classes.cleric.classTraits.value containsObject:@"Ritual Casting"], @"Clerics have the Channel Divinity trait.");
+    XCTAssertTrue([_character.classes.cleric.classTraits.value containsObject:@"Ritual Casting"], @"Clerics have the Ritual Casting trait.");
 }
 
 - (void)testSavingThrows {

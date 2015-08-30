@@ -96,6 +96,10 @@
         abilityScoreChoices = [_character allUnallocatedChoicesWithTag:DKChoiceAbilityScoreImprovement];
         XCTAssertEqual(abilityScoreChoices.count, improvementCount, @"Fighters get two ability score improvements at level %@", level);
     }
+    
+    DKChoiceModifierGroup* abilityScoreChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceAbilityScoreImprovement];
+    [abilityScoreChoice choose:abilityScoreChoice.choices[0]];
+    XCTAssertEqualObjects(_character.abilities.strength.value, @11, @"Strength should be increased by one.");
 }
 
 - (void)testArcheryFightingStyle {

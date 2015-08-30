@@ -24,9 +24,10 @@
 @synthesize signatureSpellUsesCurrent = _signatureSpellUsesCurrent;
 @synthesize signatureSpellUsesMax = _signatureSpellUsesMax;
 @synthesize signatureSpells = _signatureSpells;
-@synthesize arcaneTradition = _arcaneTradition;
 
-+ (DKModifierGroup*)wizardWithLevel:(DKNumericStatistic*)level abilities:(DKAbilities5E*)abilities {
++ (DKModifierGroup*)wizardWithLevel:(DKNumericStatistic*)level
+                          abilities:(DKAbilities5E*)abilities
+                    signatureSpells:(DKSetStatistic*)signatureSpells {
     
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
     [class addDependency:level forKey:@"level"];
@@ -89,8 +90,12 @@
     DKModifierGroup* spellMasteryGroup = [DKWizard5E spellMasteryWithWizardLevel:level];
     [class addSubgroup:spellMasteryGroup];
     
-    DKModifierGroup* signatureSpellsGroup = [DKWizard5E signatureSpellsWithWizardLevel:level];
+    DKModifierGroup* signatureSpellsGroup = [DKWizard5E signatureSpellsWithWizardLevel:level
+                                                                       signatureSpells:signatureSpells];
     [class addSubgroup:signatureSpellsGroup];
+    
+    DKModifierGroup* arcaneTraditionGroup = [DKWizard5E arcaneTraditionChoiceWithWizardLevel:level];
+    [class addSubgroup:arcaneTraditionGroup];
     
     NSArray* abilityScoreImprovementLevels = @[ @4, @8, @12, @16, @19];
     for (NSNumber* abilityScoreLevel in abilityScoreImprovementLevels) {
@@ -254,30 +259,28 @@
 + (DKModifierGroup*)arcaneRecoveryWithWizardLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* arcaneRecoveryGroup = [[DKModifierGroup alloc] init];
+    [arcaneRecoveryGroup addDependency:level forKey:@"level"];
+    arcaneRecoveryGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:1];
     arcaneRecoveryGroup.explanation = @"Arcane Recovery ability";
     
     NSString* arcaneRecoveryExplanation = @"Once per day when you finish a short rest, you can choose expended spell slots to recover. The spell slots cannot be 6th level or higher.  For example, if you’re a 4th-level wizard, you can recover up to two levels worth of spell slots. You can recover either a 2nd-level spell slot or two 1st-level spell slots.";
-    DKModifier* arcaneRecoveryAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                 constantValue:@"Arcane Recovery"
-                                                                                       enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                isGreaterThanOrEqualTo:1]
-                                                                                   explanation:arcaneRecoveryExplanation];
+    DKModifier* arcaneRecoveryAbility = [DKModifierBuilder modifierWithAppendedString:@"Arcane Recovery"
+                                                                          explanation:arcaneRecoveryExplanation];
     [arcaneRecoveryGroup addModifier:arcaneRecoveryAbility forStatisticID:DKStatIDWizardTraits];
     
     DKModifier* arcaneRecoveryUses = [DKDependentModifierBuilder addedNumberFromSource:level
                                                                          constantValue:@1
-                                                                               enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                        isGreaterThanOrEqualTo:1]
+                                                                               enabled:nil
                                                                            explanation:@"Once per day when you finish a short rest, you can choose expended spell slots to recover."];
     [arcaneRecoveryGroup addModifier:arcaneRecoveryUses forStatisticID:DKStatIDArcaneRecoveryUsesMax];
     
-    NSExpression* divisionExpression = [NSExpression expressionForFunction:@"divide:by:" arguments:@[[NSExpression expressionForVariable:@"source"], [NSExpression expressionForConstantValue:@2]]];
+    NSExpression* divisionExpression = [NSExpression expressionForFunction:@"divide:by:" arguments:@[[NSExpression expressionForVariable:@"source"], [NSExpression expressionForConstantValue:@(2.0)]]];
     NSExpression* roundUpExpression = [NSExpression expressionForFunction:@"ceiling:" arguments:@[divisionExpression]];
-    DKModifier* arcaneRecoverySlots = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                       value:roundUpExpression
-                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                              isGreaterThanOrEqualTo:1]
-                                                                                 explanation:@"The spell slots can have a combined level that is equal to or less than half your wizard level (rounded up)."];
+    DKModifier* arcaneRecoverySlots = [[DKModifier alloc] initWithSource:level
+                                                                   value:roundUpExpression
+                                                                priority:kDKModifierPriority_Additive
+                                                              expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    arcaneRecoverySlots.explanation = @"The spell slots can have a combined level that is equal to or less than half your wizard level (rounded up).";
     [arcaneRecoveryGroup addModifier:arcaneRecoverySlots forStatisticID:DKStatIDArcaneRecoverySpellSlots];
     
     return arcaneRecoveryGroup;
@@ -286,18 +289,17 @@
 + (DKModifierGroup*)spellMasteryWithWizardLevel:(DKNumericStatistic*)level {
     
     DKModifierGroup* spellMasteryGroup = [[DKModifierGroup alloc] init];
+    [spellMasteryGroup addDependency:level forKey:@"level"];
+    spellMasteryGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:18];
     spellMasteryGroup.explanation = @"Spell Mastery ability";
     
     NSString* spellMasteryExplanation = @"Choose a 1st-level wizard spell and a 2nd-level wizard spell that are in your spellbook. You can cast those spells at their lowest level without expending a spell slot when you have them prepared. If you want to cast either spell at a higher level, you must expend a spell slot as normal.  By spending 8 hours in study, you can exchange one or both of the spells you chose for different spells of the same levels.";
-    DKModifier* spellMasteryAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                               constantValue:@"Spell Mastery"
-                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                              isGreaterThanOrEqualTo:18]
-                                                                                 explanation:spellMasteryExplanation];
+    DKModifier* spellMasteryAbility = [DKModifierBuilder modifierWithAppendedString:@"Spell Mastery"
+                                                                        explanation:spellMasteryExplanation];
     [spellMasteryGroup addModifier:spellMasteryAbility forStatisticID:DKStatIDWizardTraits];
     
-    DKChoiceModifierGroup* firstLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceSpellMastery"];
-    firstLevelSpellChoice.tag = @"Choose a 1st-level wizard spell that is in your spellbook.";
+    DKChoiceModifierGroup* firstLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceWizardSpellMastery];
+    firstLevelSpellChoice.explanation = @"Choose a 1st-level wizard spell that is in your spellbook.";
     NSArray* firstLevelSpells = @[ @"Burning Hands",
                                    @"Charm Person",
                                    @"Comprehend Languages",
@@ -311,18 +313,15 @@
                                    @"Thunderwave" ];
     for (NSString* spellName in firstLevelSpells) {
         
-        DKModifier* firstLevelSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                               constantValue:spellName
-                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                              isGreaterThanOrEqualTo:18]
-                                                                                 explanation:@"Wizard Spell Mastery"];
+        DKModifier* firstLevelSpell = [DKModifierBuilder modifierWithAppendedString:spellName
+                                                                        explanation:@"Wizard Spell Mastery"];
         [firstLevelSpellChoice addModifier:firstLevelSpell forStatisticID:DKStatIDSpellMasterySpells];
     }
     
     [spellMasteryGroup addSubgroup:firstLevelSpellChoice];
     
-    DKChoiceModifierGroup* secondLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceSpellMastery"];
-    secondLevelSpellChoice.tag = @"Choose a 2nd-level wizard spell that is in your spellbook.";
+    DKChoiceModifierGroup* secondLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceWizardSpellMastery];
+    secondLevelSpellChoice.explanation = @"Choose a 2nd-level wizard spell that is in your spellbook.";
     NSArray* secondLevelSpells = @[ @"Arcane Lock",
                                     @"Blur",
                                     @"Darkness",
@@ -339,11 +338,8 @@
                                     @"Web" ];
     for (NSString* spellName in secondLevelSpells) {
         
-        DKModifier* secondLevelSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                constantValue:spellName
-                                                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                               isGreaterThanOrEqualTo:18]
-                                                                                  explanation:@"Wizard Spell Mastery"];
+        DKModifier* secondLevelSpell = [DKModifierBuilder modifierWithAppendedString:spellName
+                                                                         explanation:@"Wizard Spell Mastery"];
         [secondLevelSpellChoice addModifier:secondLevelSpell forStatisticID:DKStatIDSpellMasterySpells];
     }
     [spellMasteryGroup addSubgroup:secondLevelSpellChoice];
@@ -351,24 +347,24 @@
     return spellMasteryGroup;
 }
 
-+ (DKModifierGroup*)signatureSpellsWithWizardLevel:(DKNumericStatistic*)level {
++ (DKModifierGroup*)signatureSpellsWithWizardLevel:(DKNumericStatistic*)level
+                                   signatureSpells:(DKSetStatistic*)signatureSpells {
     
     DKModifierGroup* signatureSpellsGroup = [[DKModifierGroup alloc] init];
+    [signatureSpellsGroup addDependency:level forKey:@"level"];
+    signatureSpellsGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:20];
     signatureSpellsGroup.explanation = @"Signature Spells ability";
     
     NSString* signatureSpellsExplanation = @"Choose two 3rd-level wizard spells in your spellbook as your signature spells. You always have these spells prepared, they don’t count against the number of spells you have prepared, and you can cast each of them once at 3rd level without expending a spell slot. When you do so, you can’t do so again until you finish a short or long rest.  If you want to cast either spell at a higher level, you must expend a spell slot as normal.";
-    DKModifier* signatureSpellsAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                  constantValue:@"Signature Spells"
-                                                                                        enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                 isGreaterThanOrEqualTo:20]
-                                                                                    explanation:signatureSpellsExplanation];
+    DKModifier* signatureSpellsAbility = [DKModifierBuilder modifierWithAppendedString:@"Signature Spells"
+                                                                           explanation:signatureSpellsExplanation];
     [signatureSpellsGroup addModifier:signatureSpellsAbility forStatisticID:DKStatIDWizardTraits];
     
-    DKChoiceModifierGroup* thirdLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceSignatureSpell"];
-    thirdLevelSpellChoice.tag = @"Choose a 3rd-level wizard spell in your spellbook as one of your signature spells.";
+    DKSingleChoiceModifierGroup* thirdLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceWizardSignatureSpell];
+    thirdLevelSpellChoice.explanation = @"Choose a 3rd-level wizard spell in your spellbook as one of your signature spells.";
     
-    DKChoiceModifierGroup* otherThirdLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceSignatureSpell"];
-    otherThirdLevelSpellChoice.tag = @"Choose a 3rd-level wizard spell in your spellbook as one of your signature spells.";
+    DKSingleChoiceModifierGroup* otherThirdLevelSpellChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceWizardSignatureSpell];
+    otherThirdLevelSpellChoice.explanation = @"Choose a 3rd-level wizard spell in your spellbook as one of your signature spells.";
     
     NSArray* thirdLevelSpells = @[ @"Counterspell",
                                    @"Dispel Magic",
@@ -378,31 +374,53 @@
                                    @"Lightning Bolt",
                                    @"Major Image",
                                    @"Protection from Energy" ];
+    DKModifierGroup* thirdLevelSpellGroup = [[DKModifierGroup alloc] init];
     for (NSString* spellName in thirdLevelSpells) {
         
-        DKModifier* thirdLevelSpell = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                               constantValue:spellName
-                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                              isGreaterThanOrEqualTo:20]
-                                                                                 explanation:@"Wizard Signature Spell"];
-        [thirdLevelSpellChoice addModifier:thirdLevelSpell forStatisticID:DKStatIDSignatureSpells];
-        [otherThirdLevelSpellChoice addModifier:[thirdLevelSpell copy] forStatisticID:DKStatIDSignatureSpells];
+        DKModifier* thirdLevelSpell = [DKModifierBuilder modifierWithAppendedString:spellName
+                                                                        explanation:@"Wizard Signature Spell"];
+        [thirdLevelSpellGroup addModifier:thirdLevelSpell forStatisticID:DKStatIDSignatureSpells];
     }
     
+    thirdLevelSpellChoice.choicesSource = thirdLevelSpellGroup;
+    otherThirdLevelSpellChoice.choicesSource = thirdLevelSpellGroup;
     [signatureSpellsGroup addSubgroup:thirdLevelSpellChoice];
     [signatureSpellsGroup addSubgroup:otherThirdLevelSpellChoice];
     
-    DKModifier* signatureSpellUsesModifier = [DKDependentModifierBuilder addedNumberFromSource:level
-                                                                                 constantValue:@2
-                                                                                       enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                isGreaterThanOrEqualTo:20]
-                                                                                   explanation:@"Once you cast a signature spell using this feature, you can’t use it again without a spell slot until you finish a short or long rest."];
+    DKModifier* preparedSpellsBonus = [DKModifierBuilder modifierWithAdditiveBonus:2];
+    preparedSpellsBonus.explanation = @"Signature spells don’t count against the number of spells you have prepared";;
+    [signatureSpellsGroup addModifier:preparedSpellsBonus forStatisticID:DKStatIDPreparedSpellsMax];
+    
+    NSString* preparedSpellsExplanation = @"Wizard's Signature Spells are always prepared.";
+    DKModifier* preparedSpellsModifier = [[DKModifier alloc] initWithSource:signatureSpells
+                                                                      value:[DKDependentModifierBuilder valueFromDependency:@"source"]
+                                                                   priority:kDKModifierPriority_Additive
+                                                                 expression:[DKModifierBuilder simpleAppendSetModifierExpression]];
+    preparedSpellsModifier.explanation = preparedSpellsExplanation;
+    [signatureSpellsGroup addModifier:preparedSpellsModifier forStatisticID:DKStatIDPreparedSpells];
+    
+    NSString* signatureSpellRecharge = @"Once you cast a signature spell using this feature, you can’t use it again without a spell slot "
+        "until you finish a short or long rest.";
+    DKModifier* signatureSpellUsesModifier = [DKModifierBuilder modifierWithAdditiveBonus:2
+                                                                              explanation:signatureSpellRecharge];
     [signatureSpellsGroup addModifier:signatureSpellUsesModifier forStatisticID:DKStatIDSignatureSpellUsesMax];
     
     return signatureSpellsGroup;
 }
 
 #pragma mark -
+
++ (DKChoiceModifierGroup*)arcaneTraditionChoiceWithWizardLevel:(DKNumericStatistic*)level {
+    
+    DKSubgroupChoiceModifierGroup* arcaneTraditionGroup = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceWizardArcaneTradition];
+    arcaneTraditionGroup.explanation = @"Wizard arcane archetype";
+    [arcaneTraditionGroup addDependency:level forKey:@"level"];
+    arcaneTraditionGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:2];
+    
+    [arcaneTraditionGroup addSubgroup:[DKWizard5E evocationArcaneTraditionWithLevel:level]];
+    
+    return arcaneTraditionGroup;
+}
 
 + (DKModifierGroup*)evocationArcaneTraditionWithLevel:(DKNumericStatistic*)level {
     
@@ -461,11 +479,11 @@
     self = [super init];
     if (self) {
         
-        self.classModifiers = [DKWizard5E wizardWithLevel:self.classLevel abilities:abilities];
+        self.classModifiers = [DKWizard5E wizardWithLevel:self.classLevel
+                                                abilities:abilities
+                                          signatureSpells:_signatureSpells];
         [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
                                                                                      explanation:@"Wizard hit dice"] forStatisticID:DKStatIDHitDiceMax];
-        
-        self.arcaneTradition = [DKWizard5E evocationArcaneTraditionWithLevel:self.classLevel];
     }
     return self;
 }
@@ -518,7 +536,11 @@
                                        threshold:(NSInteger)threshold
                                      explanation:(NSString*)explanation {
     
-    DKChoiceModifierGroup* cantripGroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceWizardCantrip"];
+    DKChoiceModifierGroup* cantripGroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceWizardCantrip];
+    if (level && threshold > 0) {
+        [cantripGroup addDependency:level forKey:@"level"];
+        cantripGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:threshold];
+    }
     
     NSArray* spellNames = @[ @"Acid Splash",
                              @"Dancing Lights",
@@ -532,19 +554,8 @@
                              @"Shocking Grasp" ];
     for (NSString* spell in spellNames) {
         
-        DKModifier* modifier;
-        if (level && threshold > 0) {
-            
-            modifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                constantValue:spell
-                                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                               isGreaterThanOrEqualTo:threshold]
-                                                                  explanation:explanation];
-        } else {
-            
-            modifier = [DKModifierBuilder modifierWithAppendedString:spell explanation:explanation];
-        }
-        
+        DKModifier* modifier = [DKModifierBuilder modifierWithAppendedString:spell
+                                                                 explanation:explanation];
         [cantripGroup addModifier:modifier forStatisticID:DKStatIDCantrips];
     }
     

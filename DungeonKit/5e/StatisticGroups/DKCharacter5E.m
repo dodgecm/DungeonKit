@@ -108,7 +108,6 @@
              DKModifierGroupIDFighterClass: @"classes.fighter.classModifiers",
              DKModifierGroupIDRogueClass: @"classes.rogue.classModifiers",
              DKModifierGroupIDWizardClass: @"classes.wizard.classModifiers",
-             DKModifierGroupIDWizardArcaneTradition: @"classes.wizard.arcaneTradition",
              
              DKModifierGroupIDMainHandWeapon: @"equipment.mainHandWeapon",
              DKModifierGroupIDOffHandWeapon: @"equipment.offHandWeapon",

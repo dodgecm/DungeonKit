@@ -45,6 +45,7 @@
 + (NSExpression*)simpleAdditionModifierExpression;
 + (NSExpression*)simpleClampExpressionBetween:(NSInteger)min and:(NSInteger)max;
 + (NSExpression*)simpleAppendModifierExpression;
++ (NSExpression*)simpleAppendSetModifierExpression;
 + (NSExpression*)simpleAddDiceModifierExpression;
 + (NSExpression*)simpleReplaceStringExpression;
 

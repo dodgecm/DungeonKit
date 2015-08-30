@@ -192,9 +192,6 @@
     [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Longbow]
                                                            explanation:@"High Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
     
-    
-    [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Mending" explanation:@"High Elf racial cantrip (default)"] forStatisticID:DKStatIDCantrips];
-    
     DKChoiceModifierGroup* cantripSubgroup = [DKWizardSpellBuilder5E cantripChoiceWithExplanation:@"High Elf bonus cantrip"];
     cantripSubgroup.tag = DKChoiceHighElfCantrip;
     cantripSubgroup.explanation = @"You know one cantrip of your choice from the wizard spell list.  Intelligence is your spellcasting ability for it.";

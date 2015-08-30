@@ -37,3 +37,7 @@ FOUNDATION_EXPORT NSString *const DKChoiceRogueRoguishArchetype;
 FOUNDATION_EXPORT NSString *const DKChoiceRogueExpertise;
 
 FOUNDATION_EXPORT NSString *const DKChoiceWizardSkillProficiency;
+FOUNDATION_EXPORT NSString *const DKChoiceWizardArcaneTradition;
+FOUNDATION_EXPORT NSString *const DKChoiceWizardSpellMastery;
+FOUNDATION_EXPORT NSString *const DKChoiceWizardSignatureSpell;
+FOUNDATION_EXPORT NSString *const DKChoiceWizardCantrip;

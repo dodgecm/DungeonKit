@@ -21,12 +21,28 @@
 
 #pragma mark -
 
++ (DKModifierGroup*)abilityScoreModifiers {
+    static dispatch_once_t pred;
+    static DKModifierGroup *modifiers = nil;
+    dispatch_once(&pred, ^{
+        modifiers = [[DKModifierGroup alloc] init];
+        NSArray* statIDs = @[DKStatIDStrength, DKStatIDDexterity, DKStatIDConstitution, DKStatIDIntelligence, DKStatIDWisdom, DKStatIDCharisma];
+        for (NSString* statID in statIDs) {
+            DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:1];
+            [modifiers addModifier:modifier forStatisticID:statID];
+        }
+    });
+    return modifiers;
+}
+
 + (DKModifierGroup*)abilityScoreImprovementForThreshold:(NSInteger)threshold level:(DKNumericStatistic*)classLevel {
     
-    DKChoiceModifierGroup* firstAbilityScoreChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceAbilityScoreImprovement];
+    DKSingleChoiceModifierGroup* firstAbilityScoreChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceAbilityScoreImprovement];
+    firstAbilityScoreChoice.choicesSource = [DKClass5E abilityScoreModifiers];
     firstAbilityScoreChoice.explanation = [NSString stringWithFormat:@"Ability score improvement choice for level %li", (long)threshold];
     
-    DKChoiceModifierGroup* secondAbilityScoreChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceAbilityScoreImprovement];
+    DKSingleChoiceModifierGroup* secondAbilityScoreChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceAbilityScoreImprovement];
+    secondAbilityScoreChoice.choicesSource = [DKClass5E abilityScoreModifiers];
     secondAbilityScoreChoice.explanation = [NSString stringWithFormat:@"Ability score improvement choice for level %li", (long)threshold];
     
     DKModifierGroup* abilityScoreGroup = [[DKModifierGroup alloc] init];

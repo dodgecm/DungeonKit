@@ -242,7 +242,7 @@
             DKModifier* protectionModifier = [[DKModifier alloc] initWithDependencies:@{ @"source": equipment.offHandWeaponAttributes }
                                                                                 value:[NSExpression expressionForConstantValue:@"Protection"]
                                                                               enabled:shieldPredicate
-                                                                             priority:kDKModifierPriority_Informational
+                                                                             priority:kDKModifierPriority_Additive
                                                                            expression:[DKModifierBuilder simpleAppendModifierExpression]];
             protectionModifier.explanation = protectionExplanation;
             [fightingStyleGroup addModifier:protectionModifier forStatisticID:DKStatIDFighterTraits];

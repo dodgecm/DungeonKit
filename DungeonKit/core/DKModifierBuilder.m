@@ -111,6 +111,13 @@
                                      arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
 }
 
++ (NSExpression*)simpleAppendSetModifierExpression {
+    
+    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                  selectorName:@"setByAddingObjectsFromSet:"
+                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
+}
+
 + (NSExpression*)simpleAddDiceModifierExpression {
     return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
                                   selectorName:@"diceByAddingDice:"

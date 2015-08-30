@@ -33,3 +33,7 @@ NSString *const DKChoiceRogueRoguishArchetype = @"DKChoiceRogueRoguishArchetype"
 NSString *const DKChoiceRogueExpertise = @"DKChoiceRogueExpertise";
 
 NSString *const DKChoiceWizardSkillProficiency = @"DKChoiceWizardSkillProficiency";
+NSString *const DKChoiceWizardArcaneTradition = @"DKChoiceWizardArcaneTradition";
+NSString *const DKChoiceWizardSpellMastery = @"DKChoiceWizardSpellMastery";
+NSString *const DKChoiceWizardSignatureSpell = @"DKChoiceWizardSignatureSpell";
+NSString *const DKChoiceWizardCantrip = @"DKChoiceWizardCantrip";

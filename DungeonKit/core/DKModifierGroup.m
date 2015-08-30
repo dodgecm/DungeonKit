@@ -198,9 +198,11 @@
         }
     }
     
-    //Due to our enabled state, we may have caused some of our subgroups to become enabled as well, so we have to refresh tehm
+    //Due to our enabled state, we may have caused some of our subgroups to become enabled as well, so we have to refresh them
     for (DKModifierGroup* subgroup in self.subgroups) {
-        [subgroup refresh];
+        if (self.enabled || subgroup.enabled) {
+            [subgroup refresh];
+        }
     }
 }
 
