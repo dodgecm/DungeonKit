@@ -16,6 +16,7 @@
 #import "DKWeapon5E.h"
 #import "DKArmor5E.h"
 #import "DKSpellbook5E.h"
+#import "DKCharacter5E.h"
 
 @implementation DKCleric5E
 
@@ -471,18 +472,20 @@
 
 #pragma mark -
 
-- (id)initWithAbilities:(DKAbilities5E*)abilities {
+- (void)loadClassModifiersWithAbilities:(DKAbilities5E*)abilities {
     
-    self = [super init];
-    if (self) {
-        
-        self.classModifiers = [DKCleric5E clericWithLevel:self.classLevel abilities:abilities];
-        [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
-                                                                                     explanation:@"Cleric hit dice"] forStatisticID:DKStatIDHitDiceMax];
-    }
-    return self;
+    self.classModifiers = [DKCleric5E clericWithLevel:self.classLevel abilities:abilities];
+    [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
+                                                                                 explanation:@"Cleric hit dice"] forStatisticID:DKStatIDHitDiceMax];
 }
 
+#pragma DKClass5E override
+- (void)loadClassModifiersForCharacter:(DKCharacter5E*)character {
+    [self loadClassModifiersWithAbilities:character.abilities];
+}
+
+#pragma mark -
+#pragma DKStatisticGroup5E override
 - (NSDictionary*) statisticKeyPaths {
     return @{
              DKStatIDClericLevel: @"classLevel",
@@ -509,6 +512,8 @@
 }
 
 @end
+
+#pragma mark -
 
 @implementation DKClericSpellBuilder5E
 

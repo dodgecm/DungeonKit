@@ -22,8 +22,7 @@
 @property (nonatomic, strong) DKNumericStatistic* signatureSpellUsesMax;
 @property (nonatomic, strong) DKSetStatistic* signatureSpells;
 
-- (id)init __unavailable;
-- (id)initWithAbilities:(DKAbilities5E*)abilities;
+- (void)loadClassModifiersWithAbilities:(DKAbilities5E*)abilities;
 
 @end
 

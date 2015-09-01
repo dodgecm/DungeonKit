@@ -19,8 +19,7 @@
 @property (nonatomic, strong) DKNumericStatistic* channelDivinityUsesMax;
 @property (nonatomic, strong) DKStringStatistic* destroyUndeadCR;
 
-- (id)init __unavailable;
-- (id)initWithAbilities:(DKAbilities5E*)abilities;
+- (void)loadClassModifiersWithAbilities:(DKAbilities5E*)abilities;
 
 @end
 

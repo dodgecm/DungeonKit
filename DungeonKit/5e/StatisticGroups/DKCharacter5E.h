@@ -66,4 +66,6 @@
 @property (nonatomic, strong) DKCurrency5E* currency;
 @property (nonatomic, strong) DKEquipment5E* equipment;
 
+- (void)chooseClass:(DKClassType5E)classType;
+
 @end

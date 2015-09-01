@@ -32,10 +32,9 @@ typedef NS_ENUM(NSInteger, DKFightingStyle5E) {
 @property (nonatomic, strong) DKNumericStatistic* indomitableUsesCurrent;
 @property (nonatomic, strong) DKNumericStatistic* indomitableUsesMax;
 
-- (id)init __unavailable;
-- (id)initWithAbilities:(DKAbilities5E*)abilities
-                 skills:(DKSkills5E*)skills
-              equipment:(DKEquipment5E*)equipment
-       proficiencyBonus:(DKNumericStatistic*)proficiencyBonus;
+- (void)loadClassModifiersWithAbilities:(DKAbilities5E*)abilities
+                                 skills:(DKSkills5E*)skills
+                              equipment:(DKEquipment5E*)equipment
+                       proficiencyBonus:(DKNumericStatistic*)proficiencyBonus;
 
 @end

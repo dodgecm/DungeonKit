@@ -52,6 +52,34 @@
 @synthesize currency = _currency;
 @synthesize equipment = _equipment;
 
+#pragma mark -
+
+- (void)chooseClass:(DKClassType5E)classType {
+    
+    DKChoiceModifierGroup* classChoice = (DKChoiceModifierGroup*)[self firstModifierGroupWithTag:DKChoiceClass];
+    NSDictionary* typeToIndex = @{ @(kDKClassType5E_Cleric) : @0,
+                                   @(kDKClassType5E_Fighter) : @1,
+                                   @(kDKClassType5E_Rogue) : @2,
+                                   @(kDKClassType5E_Wizard) : @3 };
+    
+    //Unload all the existing class modifiers
+    for (NSNumber* type in typeToIndex.allKeys) {
+        [self.classes classForClassType:type.integerValue].classModifiers = nil;
+    }
+    
+    NSNumber* index = typeToIndex[@(classType)];
+    if ([index integerValue] < classChoice.choices.count) {
+        [classChoice choose:classChoice.choices[index.integerValue]];
+        [[self.classes classForClassType:classType] loadClassModifiersForCharacter:self];
+    } else {
+        NSLog(@"DKCharacter5E: Attempted to choose invalid class type: %li", (long)classType);
+        return;
+    }
+}
+
+#pragma mark -
+#pragma mark DKStatisticGroup5E override
+
 - (NSDictionary*) statisticKeyPaths {
     return @{
              DKStatIDName: @"name",
@@ -175,7 +203,7 @@
                                           weaponProficiencies:_weaponProficiencies
                                            armorProficiencies:_armorProficiencies];
     
-    self.classes = [[DKClasses5E alloc] initWithCharacter:self];
+    self.classes = [[DKClasses5E alloc] init];
 }
 
 - (void)loadModifiers {

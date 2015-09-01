@@ -12,6 +12,8 @@
 #import "DKModifierGroup.h"
 #import "DKDiceCollection.h"
 
+@class DKCharacter5E;
+
 @interface DKClass5E : DKStatisticGroup5E
 
 @property (nonatomic, strong) DKNumericStatistic* classLevel;
@@ -22,5 +24,7 @@
 + (DKModifierGroup*)abilityScoreImprovementForThreshold:(NSInteger)threshold level:(DKNumericStatistic*)classLevel;
 + (DKModifierGroup*)skillProficienciesWithStatIDs:(NSArray*)statIDs choiceGroupTag:(NSString*)tag;
 + (DKModifier*)hitDiceModifierForSides:(NSInteger)sides level:(DKNumericStatistic*)classLevel;
+
+- (void)loadClassModifiersForCharacter:(DKCharacter5E*)character;
 
 @end

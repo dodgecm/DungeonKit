@@ -14,6 +14,7 @@
 #import "DKModifierBuilder.h"
 #import "DKWeapon5E.h"
 #import "DKSpellbook5E.h"
+#import "DKCharacter5E.h"
 
 @implementation DKWizard5E
 
@@ -499,18 +500,24 @@
     return evocationGroup;
 }
 
-- (id)initWithAbilities:(DKAbilities5E*)abilities {
-    self = [super init];
-    if (self) {
-        
-        self.classModifiers = [DKWizard5E wizardWithLevel:self.classLevel
-                                                abilities:abilities
-                                          signatureSpells:_signatureSpells];
-        [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
-                                                                                     explanation:@"Wizard hit dice"] forStatisticID:DKStatIDHitDiceMax];
-    }
-    return self;
+#pragma mark -
+
+- (void)loadClassModifiersWithAbilities:(DKAbilities5E*)abilities {
+    
+    self.classModifiers = [DKWizard5E wizardWithLevel:self.classLevel
+                                            abilities:abilities
+                                      signatureSpells:_signatureSpells];
+    [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
+                                                                                 explanation:@"Wizard hit dice"] forStatisticID:DKStatIDHitDiceMax];
 }
+
+#pragma DKClass5E override
+- (void)loadClassModifiersForCharacter:(DKCharacter5E*)character {
+    [self loadClassModifiersWithAbilities:character.abilities];
+}
+
+#pragma mark -
+#pragma DKStatisticGroup5E override
 
 - (NSDictionary*) statisticKeyPaths {
     return @{

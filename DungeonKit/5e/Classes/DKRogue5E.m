@@ -14,6 +14,7 @@
 #import "DKEquipment5E.h"
 #import "DKModifierBuilder.h"
 #import "DKStatisticIDs5E.h"
+#import "DKCharacter5E.h"
 
 @implementation DKRogue5E
 
@@ -326,22 +327,27 @@
 
 #pragma mark -
 
-- (id)initWithAbilities:(DKAbilities5E*)abilities
-              equipment:(DKEquipment5E*)equipment
-       proficiencyBonus:(DKNumericStatistic*)proficiencyBonus {
+- (void)loadClassModifiersWithAbilities:(DKAbilities5E*)abilities
+                              equipment:(DKEquipment5E*)equipment
+                       proficiencyBonus:(DKNumericStatistic*)proficiencyBonus {
     
-    self = [super init];
-    if (self) {
-        
-        self.classModifiers = [DKRogue5E rogueWithLevel:self.classLevel
-                                              abilities:abilities
-                                              equipment:equipment
-                                       proficiencyBonus:proficiencyBonus];
-        [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
-                                                                                     explanation:@"Rogue hit dice"] forStatisticID:DKStatIDHitDiceMax];
-    }
-    return self;
+    self.classModifiers = [DKRogue5E rogueWithLevel:self.classLevel
+                                          abilities:abilities
+                                          equipment:equipment
+                                   proficiencyBonus:proficiencyBonus];
+    [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
+                                                                                 explanation:@"Rogue hit dice"] forStatisticID:DKStatIDHitDiceMax];
 }
+
+#pragma DKClass5E override
+- (void)loadClassModifiersForCharacter:(DKCharacter5E*)character {
+    [self loadClassModifiersWithAbilities:character.abilities
+                                equipment:character.equipment
+                         proficiencyBonus:character.proficiencyBonus];
+}
+
+#pragma mark -
+#pragma DKStatisticGroup5E override
 
 - (NSDictionary*) statisticKeyPaths {
     return @{

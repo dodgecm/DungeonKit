@@ -16,6 +16,7 @@
 #import "DKWeapon5E.h"
 #import "DKArmor5E.h"
 #import "DKSkills5E.h"
+#import "DKCharacter5E.h"
 
 @implementation DKFighter5E
 
@@ -434,6 +435,31 @@
 }
 
 #pragma mark -
+
+- (void)loadClassModifiersWithAbilities:(DKAbilities5E*)abilities
+                                 skills:(DKSkills5E*)skills
+                              equipment:(DKEquipment5E*)equipment
+                       proficiencyBonus:(DKNumericStatistic*)proficiencyBonus {
+    
+    self.classModifiers = [DKFighter5E fighterWithLevel:self.classLevel
+                                              abilities:abilities
+                                                 skills:skills
+                                              equipment:equipment
+                                       proficiencyBonus:proficiencyBonus];
+    [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
+                                                                                 explanation:@"Fighter hit dice"] forStatisticID:DKStatIDHitDiceMax];
+}
+
+#pragma DKClass5E override
+- (void)loadClassModifiersForCharacter:(DKCharacter5E*)character {
+    [self loadClassModifiersWithAbilities:character.abilities
+                                   skills:character.skills
+                                equipment:character.equipment
+                         proficiencyBonus:character.proficiencyBonus];
+}
+
+#pragma mark -
+#pragma DKStatisticGroup5E override
 
 - (id)initWithAbilities:(DKAbilities5E*)abilities
                  skills:(DKSkills5E*)skills

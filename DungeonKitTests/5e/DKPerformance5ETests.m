@@ -36,9 +36,9 @@
         
         _character = [[DKCharacter5E alloc] init];
         _character.experiencePoints.base = @(-1);
-        DKChoiceModifierGroup* classChoice = (DKChoiceModifierGroup*) [_character firstUnallocatedChoiceWithTag:DKChoiceClass];
-        for (int i = 0; i < classChoice.choices.count; i++) {
-            [classChoice choose:classChoice.choices[i]];
+        NSArray* classes = @[@(kDKClassType5E_Cleric), @(kDKClassType5E_Fighter), @(kDKClassType5E_Rogue), @(kDKClassType5E_Wizard)];
+        for (int i = 0; i < classes.count; i++) {
+            [_character chooseClass:[classes[i] integerValue]];
             for (int j = 1; j < 20; j++) {
                 _character.level.base = @(j);
             }

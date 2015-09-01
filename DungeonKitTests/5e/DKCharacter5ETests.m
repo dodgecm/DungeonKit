@@ -23,6 +23,8 @@
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
     _character = [[DKCharacter5E alloc] init];
+    _character.experiencePoints.base = @(-1);
+    _character.level.base = @(1);
 }
 
 - (void)tearDown {
@@ -92,10 +94,9 @@
 
 - (void)testHitDice {
     
-    _character.classes.fighter = [[DKFighter5E alloc] initWithAbilities:_character.abilities
-                                                                 skills:_character.skills
-                                                              equipment:_character.equipment
-                                                       proficiencyBonus:_character.proficiencyBonus];
+    _character.level.base = @0;
+    [_character chooseClass:kDKClassType5E_Fighter];
+    
     _character.classes.fighter.classLevel.base = @0;
     XCTAssertEqualObjects(_character.classes.fighter.classHitDice.value.stringValue, @"0", @"Class hit dice should be empty at level 0");
     _character.classes.fighter.classLevel.base = @2;
@@ -103,14 +104,11 @@
     _character.classes.fighter.classLevel.base = @10;
     XCTAssertEqualObjects(_character.classes.fighter.classHitDice.value.stringValue, @"10d10", @"Class hit dice should scale with level");
     
-    _character.classes.cleric = [[DKCleric5E alloc] initWithAbilities:_character.abilities];
+    [_character chooseClass:kDKClassType5E_Cleric];
     _character.classes.cleric.classLevel.base = @2;
     XCTAssertEqualObjects(_character.classes.cleric.classHitDice.value.stringValue, @"2d8", @"Class hit dice should scale with level");
     _character.classes.cleric.classLevel.base = @10;
     XCTAssertEqualObjects(_character.classes.cleric.classHitDice.value.stringValue, @"10d8", @"Class hit dice should scale with level");
-    
-    _character.classes.cleric.classLevel.base = @5;
-    XCTAssertEqualObjects(_character.hitDiceMax.value.stringValue, @"10d10+5d8", @"Multiclass hit die should get combined properly.");
 }
 
 - (void)testArmorClass {
@@ -149,6 +147,7 @@
 
 - (void)testExperiencePoints {
     
+    _character.level.base = @(0);
     _character.experiencePoints.base = @299;
     XCTAssertEqualObjects(_character.level.value, @1, @"Character is still level 1 at 299 experience points.");
     _character.experiencePoints.base = @300;

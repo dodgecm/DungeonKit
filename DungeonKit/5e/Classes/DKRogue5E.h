@@ -17,9 +17,8 @@
 @property (nonatomic, strong) DKNumericStatistic* strokeOfLuckUsesCurrent;
 @property (nonatomic, strong) DKNumericStatistic* strokeOfLuckUsesMax;
 
-- (id)init __unavailable;
-- (id)initWithAbilities:(DKAbilities5E*)abilities
-              equipment:(DKEquipment5E*)equipment
-       proficiencyBonus:(DKNumericStatistic*)proficiencyBonus;
+- (void)loadClassModifiersWithAbilities:(DKAbilities5E*)abilities
+                              equipment:(DKEquipment5E*)equipment
+                       proficiencyBonus:(DKNumericStatistic*)proficiencyBonus;
 
 @end

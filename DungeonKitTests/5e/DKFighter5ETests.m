@@ -24,8 +24,7 @@
     _character = [[DKCharacter5E alloc] init];
     _character.experiencePoints.base = @(-1);
     _character.level.base = @(1);
-    DKChoiceModifierGroup* classChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceClass];
-    [classChoice choose:classChoice.choices[1]];
+    [_character chooseClass:kDKClassType5E_Fighter];
 }
 
 - (void)tearDown {

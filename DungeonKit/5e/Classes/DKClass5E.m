@@ -94,6 +94,9 @@
 
 #pragma mark -
 
+- (void)loadClassModifiersForCharacter:(DKCharacter5E*)character { }
+
+#pragma DKStatisticGroup5E override
 - (void)loadStatistics {
     
     self.classLevel = [DKNumericStatistic statisticWithInt:0];
