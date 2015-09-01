@@ -25,8 +25,6 @@
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
     _character = [[DKCharacter5E alloc] init];
-    //Override the class information, so there's no class modifiers messing with the stats
-    _character.classes = [[DKClasses5E alloc] init];
 }
 
 - (void)tearDown {

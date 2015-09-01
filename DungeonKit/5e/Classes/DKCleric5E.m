@@ -32,8 +32,7 @@
     class.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:1];
     class.explanation = @"Cleric class modifiers";
     
-    [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:level explanation:@"Cleric level"]
-        forStatisticID:DKStatIDLevel];
+    [class addModifier:[DKModifierBuilder modifierWithOverrideString:@"Cleric"] forStatisticID:DKStatIDClassName];
     [class addModifier:[DKClass5E hitDiceModifierForSides:8 level:level] forStatisticID:DKStatIDClericHitDice];
     
     [class addModifier:[abilities.wisdom modifierFromAbilityScoreWithExplanation:@"Cleric spellcasting ability: Wisdom"]

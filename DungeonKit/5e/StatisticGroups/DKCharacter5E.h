@@ -22,8 +22,10 @@
 //Statistics
 @property (nonatomic, strong) DKStringStatistic* name;
 @property (nonatomic, strong) DKNumericStatistic* level;
+@property (nonatomic, strong) DKNumericStatistic* experiencePoints;
 @property (nonatomic, strong) DKStringStatistic* race;
 @property (nonatomic, strong) DKStringStatistic* subrace;
+@property (nonatomic, strong) DKStringStatistic* className;
 @property (nonatomic, strong) DKStringStatistic* size;
 @property (nonatomic, strong) DKStringStatistic* alignment;
 

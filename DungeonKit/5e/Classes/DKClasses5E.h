@@ -22,6 +22,7 @@
 @property (nonatomic, strong) DKRogue5E* rogue;
 @property (nonatomic, strong) DKWizard5E* wizard;
 
+- (id)init __unavailable;
 - (id)initWithCharacter:(DKCharacter5E*)character;
 
 @end

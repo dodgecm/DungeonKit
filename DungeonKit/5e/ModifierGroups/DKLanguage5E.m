@@ -8,12 +8,13 @@
 
 #import "DKLanguage5E.h"
 #import "DKModifierBuilder.h"
+#import "DKModifierGroupTags5E.h"
 #import "DKStatisticIDs5E.h"
 
 @implementation DKLanguageBuilder5E
 
 + (DKChoiceModifierGroup*)languageChoiceWithExplanation:(NSString*)explanation {
-    DKChoiceModifierGroup* languageGroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:@"DKChoiceLanguage"];
+    DKChoiceModifierGroup* languageGroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceLanguage];
     
     NSArray* languageNames = @[ @"Common",
                                 @"Dwarvish",

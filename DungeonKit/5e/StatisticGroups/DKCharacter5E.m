@@ -10,14 +10,17 @@
 #import "DKModifierBuilder.h"
 #import "DKStatisticIDs5E.h"
 #import "DKModifierGroupIDs5E.h"
+#import "DKModifierGroupTags5E.h"
 #import "DKStatisticGroupIDs5E.h"
 
 @implementation DKCharacter5E
 
 @synthesize name = _name;
 @synthesize level = _level;
+@synthesize experiencePoints = _experiencePoints;
 @synthesize race = _race;
 @synthesize subrace = _subrace;
+@synthesize className = _className;
 @synthesize size = _size;
 @synthesize alignment = _alignment;
 @synthesize inspiration = _inspiration;
@@ -53,8 +56,10 @@
     return @{
              DKStatIDName: @"name",
              DKStatIDLevel: @"level",
+             DKStatIDExperiencePoints: @"experiencePoints",
              DKStatIDRace: @"race",
              DKStatIDSubrace: @"subrace",
+             DKStatIDClassName: @"className",
              DKStatIDInspiration: @"inspiration",
              DKStatIDProficiencyBonus: @"proficiencyBonus",
              DKStatIDSize: @"size",
@@ -119,8 +124,10 @@
     
     self.name = [DKStringStatistic statisticWithString:@""];
     self.level = [DKNumericStatistic statisticWithInt:0];
+    self.experiencePoints = [DKNumericStatistic statisticWithInt:0];
     self.race = [DKStringStatistic statisticWithString:@""];
     self.subrace = [DKStringStatistic statisticWithString:@""];
+    self.className = [DKStringStatistic statisticWithString:@""];
     self.size = [DKStringStatistic statisticWithString:@""];
     self.alignment = [DKStringStatistic statisticWithString:@""];
     
@@ -168,7 +175,7 @@
                                           weaponProficiencies:_weaponProficiencies
                                            armorProficiencies:_armorProficiencies];
     
-    self.classes = [[DKClasses5E alloc] init];
+    self.classes = [[DKClasses5E alloc] initWithCharacter:self];
 }
 
 - (void)loadModifiers {
@@ -193,7 +200,48 @@
     [_deathSaveSuccesses applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
     [_deathSaveFailures applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
     
-    [self addModifierGroup:[DKRace5EBuilder raceChoiceForCharacter:self] forGroupID:DKModifierGroupIDRace];
+    [self addModifierGroup:[DKRace5EBuilder raceChoiceForCharacter:self] forGroupID:DKChoiceRace];
+    
+    DKModifierGroup* experiencePointsGroup = [[DKModifierGroup alloc] init];
+    NSDictionary* experienceTable = @{
+                                      @1: [NSValue valueWithRange:NSMakeRange(0, 299)],
+                                      @2: [NSValue valueWithRange:NSMakeRange(300, 899)],
+                                      @3: [NSValue valueWithRange:NSMakeRange(900, 2699)],
+                                      @4: [NSValue valueWithRange:NSMakeRange(2700, 6499)],
+                                      @5: [NSValue valueWithRange:NSMakeRange(6500, 13999)],
+                                      @6: [NSValue valueWithRange:NSMakeRange(14000, 22999)],
+                                      @7: [NSValue valueWithRange:NSMakeRange(23000, 33999)],
+                                      @8: [NSValue valueWithRange:NSMakeRange(34000, 47999)],
+                                      @9: [NSValue valueWithRange:NSMakeRange(48000, 63999)],
+                                      @10: [NSValue valueWithRange:NSMakeRange(64000, 84999)],
+                                      @11: [NSValue valueWithRange:NSMakeRange(85000, 99999)],
+                                      @12: [NSValue valueWithRange:NSMakeRange(100000, 119999)],
+                                      @13: [NSValue valueWithRange:NSMakeRange(120000, 139999)],
+                                      @14: [NSValue valueWithRange:NSMakeRange(140000, 164999)],
+                                      @15: [NSValue valueWithRange:NSMakeRange(165000, 194999)],
+                                      @16: [NSValue valueWithRange:NSMakeRange(195000, 224999)],
+                                      @17: [NSValue valueWithRange:NSMakeRange(225000, 264999)],
+                                      @18: [NSValue valueWithRange:NSMakeRange(265000, 304999)],
+                                      @19: [NSValue valueWithRange:NSMakeRange(305000, 354999)],
+                                      @20: [NSValue valueWithRange:NSMakeRange(355000, NSIntegerMax)],
+                                      };
+    for (NSNumber* level in experienceTable.allKeys) {
+        NSRange expRange = [experienceTable[level] rangeValue];
+        DKModifier* levelModifier = [DKDependentModifierBuilder addedNumberFromSource:_experiencePoints
+                                                                        constantValue:level
+                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                                                                           isEqualToOrBetween:expRange.location
+                                                                                                                          and:NSMaxRange(expRange)] explanation:nil];
+        [experiencePointsGroup addModifier:levelModifier forStatisticID:DKStatIDLevel];
+    }
+    [self addModifierGroup:experiencePointsGroup forGroupID:DKModifierGroupIDExperiencePoints];
+    
+    DKSingleChoiceModifierGroup* classChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceClass];
+    [classChoice addModifier:[DKDependentModifierBuilder simpleModifierFromSource:_level] forStatisticID:DKStatIDClericLevel];
+    [classChoice addModifier:[DKDependentModifierBuilder simpleModifierFromSource:_level] forStatisticID:DKStatIDFighterLevel];
+    [classChoice addModifier:[DKDependentModifierBuilder simpleModifierFromSource:_level] forStatisticID:DKStatIDRogueLevel];
+    [classChoice addModifier:[DKDependentModifierBuilder simpleModifierFromSource:_level] forStatisticID:DKStatIDWizardLevel];
+    [self addModifierGroup:classChoice forGroupID:DKChoiceClass];
 }
 
 @end

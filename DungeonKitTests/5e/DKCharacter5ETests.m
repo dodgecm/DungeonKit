@@ -67,6 +67,8 @@
 }
 
 - (void)testProficiencyBonus {
+    
+    _character.experiencePoints.base = @(-1);
     for (int i = 1; i < 5; i++) {
         _character.level.base = @(i);
         XCTAssertEqualObjects(_character.proficiencyBonus.value, @2, @"Proficiency bonus should start at +2 for a level 1-4 character.");
@@ -143,6 +145,14 @@
         statToTest.base = @4;
         XCTAssertEqualObjects(statToTest.value, @3, @"Death saves modifiers should clamp invalid values.");
     }
+}
+
+- (void)testExperiencePoints {
+    
+    _character.experiencePoints.base = @299;
+    XCTAssertEqualObjects(_character.level.value, @1, @"Character is still level 1 at 299 experience points.");
+    _character.experiencePoints.base = @300;
+    XCTAssertEqualObjects(_character.level.value, @2, @"Character is level 2 at 300 experience points.");
 }
 
 @end

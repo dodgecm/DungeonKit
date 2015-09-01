@@ -21,12 +21,10 @@
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
     _character = [[DKCharacter5E alloc] init];
-    _character.classes = [[DKClasses5E alloc] init];
-    _character.classes.rogue = [[DKRogue5E alloc] initWithAbilities:_character.abilities
-                                                          equipment:_character.equipment
-                                                   proficiencyBonus:_character.proficiencyBonus];
-    _character.classes.rogue.classLevel.base = @1;
-    _character.abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
+    _character.experiencePoints.base = @(-1);
+    _character.level.base = @(1);
+    DKChoiceModifierGroup* classChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceClass];
+    [classChoice choose:classChoice.choices[2]];
 }
 
 - (void)tearDown {
@@ -37,7 +35,7 @@
 - (void)testHitDice {
     
     XCTAssertEqualObjects(_character.hitDiceMax.value.stringValue, @"1d8", @"Rogue should have 1d8 hit dice at level 1.");
-    _character.classes.rogue.classLevel.base = @5;
+    _character.level.base = @5;
     XCTAssertEqualObjects(_character.hitDiceMax.value.stringValue, @"5d8", @"Rogue should have 5d8 hit dice at level 5.");
 }
 
@@ -95,7 +93,7 @@
     int improvementCount = 0;
     for (NSNumber* level in levels) {
         
-        _character.classes.rogue.classLevel.base = level;
+        _character.level.base = level;
         improvementCount += 2;
         abilityScoreChoices = [_character allUnallocatedChoicesWithTag:DKChoiceAbilityScoreImprovement];
         XCTAssertEqual(abilityScoreChoices.count, improvementCount, @"Rogues get two ability score improvements at level %@", level);
@@ -113,7 +111,7 @@
     XCTAssertEqualObjects(_character.skills.acrobatics.value, @4, @"Rogue should gain a second proficiency level in the selected skill.");
     [expertiseChoice choose:nil];
     
-    _character.classes.rogue.classLevel.base = @6;
+    _character.level.base = @6;
     expertiseChoices = [_character allUnallocatedChoicesWithTag:DKChoiceRogueExpertise];
     XCTAssertEqual(expertiseChoices.count, 4, @"Rogues gain two more expertise choices at level 6.");
 }
@@ -128,7 +126,7 @@
     for (int i = 0; i < levelLearned.count; i++) {
         NSNumber* level = levelLearned[i];
         NSString* ability = abilityNames[i];
-        _character.classes.rogue.classLevel.base = level;
+        _character.level.base = level;
         XCTAssertTrue([_character.classes.rogue.classTraits.value containsObject:ability], @"Rogue learns %@ at level %@", ability, level);
     }
     
@@ -141,7 +139,7 @@
     DKChoiceModifierGroup* roguishArchetype = [_character firstUnallocatedChoiceWithTag:DKChoiceRogueRoguishArchetype];
     XCTAssertNil(roguishArchetype, @"Rogues can't choose Roguish Archetype until level 3.");
     
-    _character.classes.rogue.classLevel.base = @3;
+    _character.level.base = @3;
     roguishArchetype = [_character firstUnallocatedChoiceWithTag:DKChoiceRogueRoguishArchetype];
     DKModifierGroup* thiefArchetype = roguishArchetype.choices[0];
     [roguishArchetype choose:thiefArchetype];
@@ -153,7 +151,7 @@
     for (int i = 0; i < levelLearned.count; i++) {
         NSNumber* level = levelLearned[i];
         NSString* ability = abilityNames[i];
-        _character.classes.rogue.classLevel.base = level;
+        _character.level.base = level;
         XCTAssertTrue([_character.classes.rogue.classTraits.value containsObject:ability], @"Thief learns %@ at level %@", ability, level);
     }
 }

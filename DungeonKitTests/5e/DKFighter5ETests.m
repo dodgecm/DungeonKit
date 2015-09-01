@@ -22,13 +22,10 @@
 - (void)setUp {
     [super setUp];
     _character = [[DKCharacter5E alloc] init];
-    _character.classes = [[DKClasses5E alloc] init];
-    _character.classes.fighter = [[DKFighter5E alloc] initWithAbilities:_character.abilities
-                                                                 skills:_character.skills
-                                                              equipment:_character.equipment
-                                                       proficiencyBonus:_character.proficiencyBonus];
-    _character.classes.fighter.classLevel.base = @1;
-    _character.abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
+    _character.experiencePoints.base = @(-1);
+    _character.level.base = @(1);
+    DKChoiceModifierGroup* classChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceClass];
+    [classChoice choose:classChoice.choices[1]];
 }
 
 - (void)tearDown {
@@ -39,7 +36,7 @@
 - (void)testHitDice {
     
     XCTAssertEqualObjects(_character.hitDiceMax.value.stringValue, @"1d10", @"Fighter should have 1d10 hit dice at level 1.");
-    _character.classes.fighter.classLevel.base = @5;
+    _character.level.base = @5;
     XCTAssertEqualObjects(_character.hitDiceMax.value.stringValue, @"5d10", @"Fighter should have 5d10 hit dice at level 5.");
 }
 
@@ -89,7 +86,7 @@
     int improvementCount = 0;
     for (NSNumber* level in levels) {
         
-        _character.classes.fighter.classLevel.base = level;
+        _character.level.base = level;
         improvementCount += 2;
         abilityScoreChoices = [_character allUnallocatedChoicesWithTag:DKChoiceAbilityScoreImprovement];
         XCTAssertEqual(abilityScoreChoices.count, improvementCount, @"Fighters get two ability score improvements at level %@", level);
@@ -98,6 +95,9 @@
     DKChoiceModifierGroup* abilityScoreChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceAbilityScoreImprovement];
     [abilityScoreChoice choose:abilityScoreChoice.choices[0]];
     XCTAssertEqualObjects(_character.abilities.strength.value, @11, @"Strength should be increased by one.");
+    
+    _character.abilities.strength.base = @25;
+    XCTAssertEqualObjects(_character.abilities.strength.value, @25, @"Ability score improvement cannot increase the score above 20.");
 }
 
 - (void)testArcheryFightingStyle {
@@ -214,11 +214,11 @@
 
 - (void)testActionSurge {
     
-    _character.classes.fighter.classLevel.base = @2;
+    _character.level.base = @2;
     XCTAssertTrue([_character.classes.fighter.classTraits.value containsObject:@"Action Surge"], @"Fighters get Action Surge at level 2.");
     XCTAssertEqualObjects(_character.classes.fighter.actionSurgeUsesMax.value, @1, @"Fighters get one use of Action Surge per short or long rest.");
 
-    _character.classes.fighter.classLevel.base = @17;
+    _character.level.base = @17;
     XCTAssertEqualObjects(_character.classes.fighter.actionSurgeUsesMax.value, @2, @"Fighters get a second use of Action Surge at level 17.");
 }
 
@@ -236,29 +236,29 @@
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttacksPerAction.value, @1, @"Fighters start with one attack per round.");
     XCTAssertEqualObjects(_character.equipment.offHandWeaponAttacksPerAction.value, @1, @"Fighters start with one attack per round.");
     
-    _character.classes.fighter.classLevel.base = @5;
+    _character.level.base = @5;
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttacksPerAction.value, @2, @"Fighters get a second attack per round at level 5.");
     XCTAssertEqualObjects(_character.equipment.offHandWeaponAttacksPerAction.value, @2, @"Fighters get a second attack per round at level 5.");
     
-    _character.classes.fighter.classLevel.base = @11;
+    _character.level.base = @11;
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttacksPerAction.value, @3, @"Fighters get a third attack per round at level 11.");
     XCTAssertEqualObjects(_character.equipment.offHandWeaponAttacksPerAction.value, @3, @"Fighters get a third attack per round at level 11.");
     
-    _character.classes.fighter.classLevel.base = @20;
+    _character.level.base = @20;
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttacksPerAction.value, @4, @"Fighters get a fourth attack per round at level 20.");
     XCTAssertEqualObjects(_character.equipment.offHandWeaponAttacksPerAction.value, @4, @"Fighters get a fourth attack per round at level 20.");
 }
 
 - (void)testIndomitable {
     
-    _character.classes.fighter.classLevel.base = @9;
+    _character.level.base = @9;
     XCTAssertTrue([_character.classes.fighter.classTraits.value containsObject:@"Indomitable"], @"Fighters get Indomitable at level 9.");
     XCTAssertEqualObjects(_character.classes.fighter.indomitableUsesMax.value, @1, @"Fighters get one use of Indomitable per short or long rest.");
     
-    _character.classes.fighter.classLevel.base = @13;
+    _character.level.base = @13;
     XCTAssertEqualObjects(_character.classes.fighter.indomitableUsesMax.value, @2, @"Fighters get a second use of Indomitable at level 13.");
     
-    _character.classes.fighter.classLevel.base = @17;
+    _character.level.base = @17;
     XCTAssertEqualObjects(_character.classes.fighter.indomitableUsesMax.value, @3, @"Fighters get a third use of Indomitable at level 17.");
 }
 
@@ -267,15 +267,15 @@
     DKChoiceModifierGroup* martialArchetype = [_character firstUnallocatedChoiceWithTag:DKChoiceFighterMartialArchetype];
     XCTAssertNil(martialArchetype, @"Fighters can't choose Martial Archetype until level 3.");
     
-    _character.classes.fighter.classLevel.base = @3;
+    _character.level.base = @3;
     martialArchetype = [_character firstUnallocatedChoiceWithTag:DKChoiceFighterMartialArchetype];
     DKModifierGroup* championArchetype = martialArchetype.choices[0];
     [martialArchetype choose:championArchetype];
     
-    _character.classes.fighter.classLevel.base = @3;
+    _character.level.base = @3;
     XCTAssertTrue([_character.classes.fighter.classTraits.value containsObject:@"Improved Critical"], @"Champions get Improved Critical at level 3.");
     
-    _character.classes.fighter.classLevel.base = @7;
+    _character.level.base = @7;
     XCTAssertTrue([_character.classes.fighter.classTraits.value containsObject:@"Remarkable Athlete"], @"Champions get Remarkable Athlete at level 7.");
     XCTAssertEqualObjects(_character.skills.athletics.value, @2, @"Remarkable Athlete gives bonuses to non-proficient Strength skills.");
     XCTAssertEqualObjects(_character.skills.acrobatics.value, @2, @"Remarkable Athlete gives bonuses to non-proficient Dexterity skills.");
@@ -283,14 +283,14 @@
     _character.skills.athletics.proficiencyLevel.base = @1;
     XCTAssertEqualObjects(_character.skills.athletics.value, @3, @"Remarkable Athlete bonus goes away if the skill has proficiency.");
     
-    _character.classes.fighter.classLevel.base = @10;
+    _character.level.base = @10;
     NSArray* fightingStyles = [_character allUnallocatedChoicesWithTag:DKChoiceFighterFightingStyle];
     XCTAssertEqual(fightingStyles.count, 2, @"Champions get a second fighting style at level 10.");
     
-    _character.classes.fighter.classLevel.base = @15;
+    _character.level.base = @15;
     XCTAssertTrue([_character.classes.fighter.classTraits.value containsObject:@"Superior Critical"], @"Champions get Superior Critical at level 15.");
     
-    _character.classes.fighter.classLevel.base = @18;
+    _character.level.base = @18;
     XCTAssertTrue([_character.classes.fighter.classTraits.value containsObject:@"Survivor"], @"Champions get Survivor at level 18.");
 }
 

@@ -33,6 +33,7 @@
     race.explanation = @"Dwarven racial modifiers";
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:2 explanation:@"Dwarven racial trait"]
        forStatisticID:DKStatIDConstitution];
+    [race addModifier:[DKModifierBuilder modifierWithOverrideString:@"Dwarf"] forStatisticID:DKStatIDRace];
     [race addModifier:[DKModifierBuilder modifierWithOverrideString:@"Medium"] forStatisticID:DKStatIDSize];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:25 explanation:@"Dwarven base movement speed"]
        forStatisticID:DKStatIDMoveSpeed];
@@ -86,6 +87,7 @@
     race.explanation = @"Elven racial modifiers";
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:2 explanation:@"Elven racial dexterity bonus"]
        forStatisticID:DKStatIDDexterity];
+    [race addModifier:[DKModifierBuilder modifierWithOverrideString:@"Elf"] forStatisticID:DKStatIDRace];
     [race addModifier:[DKModifierBuilder modifierWithOverrideString:@"Medium"] forStatisticID:DKStatIDSize];
     [race addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Elven Keen Senses: Proficiency in the Perception skill"]
        forStatisticID:DKStatIDSkillPerceptionProficiency];
@@ -118,6 +120,7 @@
     race.explanation = @"Halfling racial modifiers";
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:2 explanation:@"Halfling racial dexterity bonus"]
        forStatisticID:DKStatIDDexterity];
+    [race addModifier:[DKModifierBuilder modifierWithOverrideString:@"Halfling"] forStatisticID:DKStatIDRace];
     [race addModifier:[DKModifierBuilder modifierWithOverrideString:@"Small"] forStatisticID:DKStatIDSize];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:25 explanation:@"Halfling base movement speed"]
        forStatisticID:DKStatIDMoveSpeed];
@@ -156,6 +159,7 @@
        forStatisticID:DKStatIDWisdom];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1 explanation:@"Human racial charisma bonus"]
        forStatisticID:DKStatIDCharisma];
+    [race addModifier:[DKModifierBuilder modifierWithOverrideString:@"Human"] forStatisticID:DKStatIDRace];
     [race addModifier:[DKModifierBuilder modifierWithOverrideString:@"Medium"] forStatisticID:DKStatIDSize];
     [race addModifier:[DKModifierBuilder modifierWithAdditiveBonus:30  explanation:@"Human base movement speed"]
        forStatisticID:DKStatIDMoveSpeed];
@@ -179,6 +183,7 @@
     
     DKSubrace5E* subrace = [[DKSubrace5E alloc] init];
     subrace.explanation = @"Hill Dwarf racial modifiers";
+    [subrace addModifier:[DKModifierBuilder modifierWithOverrideString:@"Hill Dwarf"] forStatisticID:DKStatIDSubrace];
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1 explanation:@"Hill Dwarf racial wisdom bonus"] forStatisticID:DKStatIDWisdom];
     
     DKModifier* hpModifier = [DKDependentModifierBuilder simpleModifierFromSource:character.level];
@@ -192,6 +197,7 @@
     
     DKSubrace5E* subrace = [[DKSubrace5E alloc] init];
     subrace.explanation = @"Mountain Dwarf racial modifiers";
+    [subrace addModifier:[DKModifierBuilder modifierWithOverrideString:@"Mountain Dwarf"] forStatisticID:DKStatIDSubrace];
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:2 explanation:@"Mountain Dwarf racial strength bonus"]
           forStatisticID:DKStatIDStrength];
     [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]
@@ -207,6 +213,7 @@
     
     DKSubrace5E* subrace = [[DKSubrace5E alloc] init];
     subrace.explanation = @"High Elf racial modifiers";
+    [subrace addModifier:[DKModifierBuilder modifierWithOverrideString:@"High Elf"] forStatisticID:DKStatIDSubrace];
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1 explanation:@"High Elf racial intelligence bonus"]
           forStatisticID:DKStatIDIntelligence];
     [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Longsword]
@@ -235,6 +242,7 @@
     
     DKSubrace5E* subrace = [[DKSubrace5E alloc] init];
     subrace.explanation = @"Wood Elf racial modifiers";
+    [subrace addModifier:[DKModifierBuilder modifierWithOverrideString:@"Wood Elf"] forStatisticID:DKStatIDSubrace];
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1 explanation:@"Wood Elf racial wisdom bonus"] forStatisticID:DKStatIDWisdom];
     [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Longsword]
                                                            explanation:@"Wood Elf Weapon Training"] forStatisticID:DKStatIDWeaponProficiencies];
@@ -255,6 +263,7 @@
     
     DKSubrace5E* subrace = [[DKSubrace5E alloc] init];
     subrace.explanation = @"Lightfoot Halfling racial modifiers";
+    [subrace addModifier:[DKModifierBuilder modifierWithOverrideString:@"Lightfoot Halfling"] forStatisticID:DKStatIDSubrace];
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1 explanation:@"Lightfoot Halfling racial charisma bonus"]
           forStatisticID:DKStatIDCharisma];
     [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Naturally Stealthy" explanation:@"Able to attempt to hide when obscured by a creature that is at least one size larger than you"]
@@ -266,6 +275,7 @@
     
     DKSubrace5E* subrace = [[DKSubrace5E alloc] init];
     subrace.explanation = @"Stout Halfling racial modifiers";
+    [subrace addModifier:[DKModifierBuilder modifierWithOverrideString:@"Stout Halfling"] forStatisticID:DKStatIDSubrace];
     [subrace addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1 explanation:@"Stout halfling racial constitution bonus"]
           forStatisticID:DKStatIDConstitution];
     [subrace addModifier:[DKModifierBuilder modifierWithAppendedString:@"Poison" explanation:@"Stout Halfling Resilience"]

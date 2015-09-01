@@ -28,7 +28,10 @@
         modifiers = [[DKModifierGroup alloc] init];
         NSArray* statIDs = @[DKStatIDStrength, DKStatIDDexterity, DKStatIDConstitution, DKStatIDIntelligence, DKStatIDWisdom, DKStatIDCharisma];
         for (NSString* statID in statIDs) {
-            DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:1];
+            
+            DKModifier* modifier = [DKModifier modifierWithValue:@(1)
+                                                        priority:kDKModifierPriority_Additive
+                                                      expression:[NSExpression expressionWithFormat:@"min:({ max:({ 20, $input}), $input+$value })"]];
             [modifiers addModifier:modifier forStatisticID:statID];
         }
     });
@@ -93,7 +96,7 @@
 
 - (void)loadStatistics {
     
-    self.classLevel = [DKNumericStatistic statisticWithInt:1];
+    self.classLevel = [DKNumericStatistic statisticWithInt:0];
     self.classTraits = [DKSetStatistic statisticWithEmptySet];
     self.classHitDice = [DKDiceStatistic statisticWithNoDice];
 }

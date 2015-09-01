@@ -23,9 +23,8 @@
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
     _character = [[DKCharacter5E alloc] init];
-    //Override the class information, so there's no class modifiers messing with the stats
-    _character.classes = [[DKClasses5E alloc] init];
-    _character.abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
+    _character.experiencePoints.base = @(-1);
+    _character.level.base = @(1);
 }
 
 - (void)tearDown {
@@ -40,6 +39,7 @@
     DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
     [raceChoice choose:raceChoice.choices[0]];
     XCTAssertEqualObjects(_character.abilities.constitution.value, @12, @"Dwarves get +2 bonus to Constitution.");
+    XCTAssertEqualObjects(_character.race.value, @"Dwarf", @"Dwarves are Dwarves.");
     XCTAssertEqualObjects(_character.size.value, @"Medium", @"Dwarves are size Medium creatures.");
     
     XCTAssertEqualObjects(_character.movementSpeed.value, @25, @"Dwarves have a base movement speed of 25 feet.");
@@ -73,6 +73,7 @@
     DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
     [subraceChoice choose:subraceChoice.choices[0]];
     
+    XCTAssertEqualObjects(_character.subrace.value, @"Hill Dwarf", @"Subrace should be set properly.");
     XCTAssertEqualObjects(_character.abilities.wisdom.value, @11, @"Hill Dwarves get +1 bonus to Wisdom.");
     _character.level.base = @1;
     XCTAssertEqualObjects(_character.hitPointsMax.value, @1, @"Hill Dwarves get +1 HP to their maximum for every level gained.");
@@ -87,6 +88,7 @@
     DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
     [subraceChoice choose:subraceChoice.choices[1]];
     
+    XCTAssertEqualObjects(_character.subrace.value, @"Mountain Dwarf", @"Subrace should be set properly.");
     XCTAssertEqualObjects(_character.abilities.strength.value, @12, @"Mountain Dwarves get +2 bonus to Strength.");
     XCTAssertTrue([_character.armorProficiencies.value containsObject:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]],
                   @"Mountain Dwarves are proficient with light armor.");
@@ -102,6 +104,7 @@
     DKChoiceModifierGroup* raceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceRace];
     [raceChoice choose:raceChoice.choices[1]];
     XCTAssertEqualObjects(_character.abilities.dexterity.value, @12, @"Elves get +2 bonus to Dexterity.");
+    XCTAssertEqualObjects(_character.race.value, @"Elf", @"Race should be set properly.");
     XCTAssertEqualObjects(_character.size.value, @"Medium", @"Elves are size Medium creatures.");
     
     XCTAssertEqualObjects(_character.movementSpeed.value, @30, @"Elves have a base movement speed of 30 feet.");
@@ -120,6 +123,7 @@
     DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
     [subraceChoice choose:subraceChoice.choices[0]];
     
+    XCTAssertEqualObjects(_character.subrace.value, @"High Elf", @"Subrace should be set properly.");
     XCTAssertEqualObjects(_character.abilities.intelligence.value, @11, @"High Elves get +1 bonus to Intelligence.");
     
     NSArray* weaponProficiencies = @[ [DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Longsword],
@@ -147,6 +151,7 @@
     DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
     [subraceChoice choose:subraceChoice.choices[1]];
     
+    XCTAssertEqualObjects(_character.subrace.value, @"Wood Elf", @"Subrace should be set properly.");
     XCTAssertEqualObjects(_character.abilities.wisdom.value, @11, @"Wood Elves get +1 bonus to Wisdom.");
     
     NSArray* weaponProficiencies = @[ [DKWeaponBuilder5E proficiencyNameForWeapon:kDKWeaponType5E_Longsword],
@@ -168,6 +173,7 @@
     [raceChoice choose:raceChoice.choices[2]];
     
     XCTAssertEqualObjects(_character.abilities.dexterity.value, @12, @"Halflings get +2 bonus to Dexterity.");
+    XCTAssertEqualObjects(_character.race.value, @"Halfling", @"Race should be set properly.");
     XCTAssertEqualObjects(_character.size.value, @"Small", @"Halflings are size Small creatures.");
     
     XCTAssertEqualObjects(_character.movementSpeed.value, @25, @"Halflings have a base movement speed of 25 feet.");
@@ -184,6 +190,7 @@
     DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
     [subraceChoice choose:subraceChoice.choices[0]];
     
+    XCTAssertEqualObjects(_character.subrace.value, @"Lightfoot Halfling", @"Subrace should be set properly.");
     XCTAssertEqualObjects(_character.abilities.charisma.value, @11, @"Lightfoot Halflings get +1 bonus to Charisma.");
     XCTAssertTrue([_character.otherTraits.value containsObject:@"Naturally Stealthy"], @"Lightfoot Halflings have the Naturally Stealthy trait.");
 }
@@ -195,6 +202,7 @@
     DKChoiceModifierGroup* subraceChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceSubrace];
     [subraceChoice choose:subraceChoice.choices[1]];
     
+    XCTAssertEqualObjects(_character.subrace.value, @"Stout Halfling", @"Subrace should be set properly.");
     XCTAssertEqualObjects(_character.abilities.constitution.value, @11, @"Stout Halflings get +1 bonus to Constitution.");
     XCTAssertTrue([_character.resistances.value containsObject:@"Poison"], @"Stout Halflings have resistance to poison damage.");
 }
@@ -212,6 +220,7 @@
     XCTAssertEqualObjects(_character.abilities.intelligence.value, @11, @"Humans get +1 bonus to Intelligence.");
     XCTAssertEqualObjects(_character.abilities.wisdom.value, @11, @"Humans get +1 bonus to Wisdom.");
     XCTAssertEqualObjects(_character.abilities.charisma.value, @11, @"Humans get +1 bonus to Charisma.");
+    XCTAssertEqualObjects(_character.race.value, @"Human", @"Race should be set properly.");
     XCTAssertEqualObjects(_character.size.value, @"Medium", @"Humans are size Medium creatures.");
     XCTAssertEqualObjects(_character.movementSpeed.value, @30, @"Humans have a base movement speed of 30 feet.");
     

@@ -11,8 +11,10 @@
 
 NSString *const DKStatIDName = @"DKName";
 NSString *const DKStatIDLevel = @"DKLevel";
+NSString *const DKStatIDExperiencePoints = @"DKExperiencePoints";
 NSString *const DKStatIDRace = @"DKRace";
 NSString *const DKStatIDSubrace = @"DKSubrace";
+NSString *const DKStatIDClassName = @"DKClassName";
 NSString *const DKStatIDInspiration = @"DKInspiration";
 NSString *const DKStatIDProficiencyBonus = @"DKProficiencyBonus";
 NSString *const DKStatIDSize = @"DKSize";

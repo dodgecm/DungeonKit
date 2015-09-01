@@ -21,16 +21,16 @@
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
     _character = [[DKCharacter5E alloc] init];
-    _character.classes = [[DKClasses5E alloc] init];
-    _character.classes.wizard = [[DKWizard5E alloc] initWithAbilities:_character.abilities];
-    _character.classes.wizard.classLevel.base = @1;
-    _character.abilities = [[DKAbilities5E alloc] initWithStr:10 dex:10 con:10 intel:10 wis:10 cha:10];
+    _character.experiencePoints.base = @(-1);
+    _character.level.base = @(1);
+    DKChoiceModifierGroup* classChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceClass];
+    [classChoice choose:classChoice.choices[3]];
 }
 
 - (void)testHitDice {
     
     XCTAssertEqualObjects(_character.hitDiceMax.value.stringValue, @"1d6", @"Wizard should have 1d6 hit dice at level 1.");
-    _character.classes.wizard.classLevel.base = @5;
+    _character.level.base = @5;
     XCTAssertEqualObjects(_character.hitDiceMax.value.stringValue, @"5d6", @"Wizard should have 5d6 hit dice at level 5.");
 }
 
@@ -89,7 +89,7 @@
     int improvementCount = 0;
     for (NSNumber* level in levels) {
         
-        _character.classes.wizard.classLevel.base = level;
+        _character.level.base = level;
         improvementCount += 2;
         abilityScoreChoices = [_character allUnallocatedChoicesWithTag:DKChoiceAbilityScoreImprovement];
         XCTAssertEqual(abilityScoreChoices.count, improvementCount, @"Wizards get two ability score improvements at level %@", level);
@@ -101,7 +101,7 @@
     XCTAssertEqualObjects(_character.spells.spellSaveDC.value, @10, @"Spell save DC starts out at 10 (8 + proficiency).");
     _character.abilities.intelligence.base = @14;
     XCTAssertEqualObjects(_character.spells.spellSaveDC.value, @12, @"Spell save DC should increase with intelligence.");
-    _character.classes.wizard.classLevel.base = @9;
+    _character.level.base = @9;
     XCTAssertEqualObjects(_character.spells.spellSaveDC.value, @14, @"Spell save DC should increase with proficiency bonus.");
 }
 
@@ -110,7 +110,7 @@
     XCTAssertEqualObjects(_character.spells.spellAttackBonus.value, @2, @"Spell attack bonus starts out at 2 (proficiency).");
     _character.abilities.intelligence.base = @14;
     XCTAssertEqualObjects(_character.spells.spellAttackBonus.value, @4, @"Spell attack bonus should increase with intelligence.");
-    _character.classes.wizard.classLevel.base = @9;
+    _character.level.base = @9;
     XCTAssertEqualObjects(_character.spells.spellAttackBonus.value, @6, @"Spell attack bonus should increase with proficiency bonus.");
 }
 
@@ -119,10 +119,10 @@
     XCTAssertEqualObjects(_character.spells.preparedSpellsMax.value, @1, @"Prepared spells limit starts out at 1 (level).");
     _character.abilities.intelligence.base = @14;
     XCTAssertEqualObjects(_character.spells.preparedSpellsMax.value, @3, @"Prepared spells limit should increase with intelligence.");
-    _character.classes.wizard.classLevel.base = @9;
+    _character.level.base = @9;
     XCTAssertEqualObjects(_character.spells.preparedSpellsMax.value, @11, @"Prepared spells limit should increase with level.");
     _character.abilities.intelligence.base = @1;
-    _character.classes.wizard.classLevel.base = @1;
+    _character.level.base = @1;
     XCTAssertEqualObjects(_character.spells.preparedSpellsMax.value, @1, @"Prepared spells limit cannot go below 1.");
 }
 
@@ -137,11 +137,11 @@
     XCTAssertTrue([_character.spells.spellbook.cantrips.value containsObject:@"Acid Splash"], @"Wizard should be granted the cantrip.");
     
     [cantripChoice choose:nil];
-    _character.classes.wizard.classLevel.base = @4;
+    _character.level.base = @4;
     cantripChoices = [_character allUnallocatedChoicesWithTag:DKChoiceWizardCantrip];
     XCTAssertEqual(cantripChoices.count, 4, @"Wizards get a fourth cantrip at level 4.");
     
-    _character.classes.wizard.classLevel.base = @10;
+    _character.level.base = @10;
     cantripChoices = [_character allUnallocatedChoicesWithTag:DKChoiceWizardCantrip];
     XCTAssertEqual(cantripChoices.count, 5, @"Wizards get a fifth cantrip at level 10.");
 }
@@ -152,7 +152,7 @@
     XCTAssertEqual(spellbookChoices.count, 6, @"Wizards can learn six first-level spells.");
     
     for (int i = 1; i <= 20; i++) {
-        _character.classes.wizard.classLevel.base = @(i);
+        _character.level.base = @(i);
         spellbookChoices = [_character allUnallocatedChoicesWithTag:DKChoiceWizardSpellbook];
         XCTAssertEqual(spellbookChoices.count, 6 + (i-1) * 2, @"Wizards can learn two new spells for each level.");
     }
@@ -165,75 +165,75 @@
 - (void)testSpellSlots {
     
     //First level spells
-    _character.classes.wizard.classLevel.base = @1;
+    _character.level.base = @1;
     XCTAssertEqualObjects(_character.spells.firstLevelSpellSlotsMax.value, @2, @"Wizards have 2 first-level spells at level 1");
-    _character.classes.wizard.classLevel.base = @2;
+    _character.level.base = @2;
     XCTAssertEqualObjects(_character.spells.firstLevelSpellSlotsMax.value, @3, @"Wizards have 3 first-level spells at level 2");
-    _character.classes.wizard.classLevel.base = @3;
+    _character.level.base = @3;
     XCTAssertEqualObjects(_character.spells.firstLevelSpellSlotsMax.value, @4, @"Wizards have 4 first-level spells at level 3");
     
     //Second level spells
-    _character.classes.wizard.classLevel.base = @2;
+    _character.level.base = @2;
     XCTAssertEqualObjects(_character.spells.secondLevelSpellSlotsMax.value, @0, @"Wizards have 0 second-level spells at level 2");
-    _character.classes.wizard.classLevel.base = @3;
+    _character.level.base = @3;
     XCTAssertEqualObjects(_character.spells.secondLevelSpellSlotsMax.value, @2, @"Wizards have 2 second-level spells at level 3");
-    _character.classes.wizard.classLevel.base = @4;
+    _character.level.base = @4;
     XCTAssertEqualObjects(_character.spells.secondLevelSpellSlotsMax.value, @3, @"Wizards have 3 second-level spells at level 4");
     
     //Third level spells
-    _character.classes.wizard.classLevel.base = @4;
+    _character.level.base = @4;
     XCTAssertEqualObjects(_character.spells.thirdLevelSpellSlotsMax.value, @0, @"Wizards have 0 third-level spells at level 4");
-    _character.classes.wizard.classLevel.base = @5;
+    _character.level.base = @5;
     XCTAssertEqualObjects(_character.spells.thirdLevelSpellSlotsMax.value, @2, @"Wizards have 2 third-level spells at level 5");
-    _character.classes.wizard.classLevel.base = @6;
+    _character.level.base = @6;
     XCTAssertEqualObjects(_character.spells.thirdLevelSpellSlotsMax.value, @3, @"Wizards have 3 third-level spells at level 6");
     
     //Fourth level spells
-    _character.classes.wizard.classLevel.base = @6;
+    _character.level.base = @6;
     XCTAssertEqualObjects(_character.spells.fourthLevelSpellSlotsMax.value, @0, @"Wizards have 0 fourth-level spells at level 6");
-    _character.classes.wizard.classLevel.base = @7;
+    _character.level.base = @7;
     XCTAssertEqualObjects(_character.spells.fourthLevelSpellSlotsMax.value, @1, @"Wizards have 1 fourth-level spells at level 7");
-    _character.classes.wizard.classLevel.base = @8;
+    _character.level.base = @8;
     XCTAssertEqualObjects(_character.spells.fourthLevelSpellSlotsMax.value, @2, @"Wizards have 2 fourth-level spells at level 8");
-    _character.classes.wizard.classLevel.base = @9;
+    _character.level.base = @9;
     XCTAssertEqualObjects(_character.spells.fourthLevelSpellSlotsMax.value, @3, @"Wizards have 3 fourth-level spells at level 9");
     
     //Fifth level spells
-    _character.classes.wizard.classLevel.base = @8;
+    _character.level.base = @8;
     XCTAssertEqualObjects(_character.spells.fifthLevelSpellSlotsMax.value, @0, @"Wizards have 0 fifth-level spells at level 8");
-    _character.classes.wizard.classLevel.base = @9;
+    _character.level.base = @9;
     XCTAssertEqualObjects(_character.spells.fifthLevelSpellSlotsMax.value, @1, @"Wizards have 1 fifth-level spells at level 9");
-    _character.classes.wizard.classLevel.base = @10;
+    _character.level.base = @10;
     XCTAssertEqualObjects(_character.spells.fifthLevelSpellSlotsMax.value, @2, @"Wizards have 2 fifth-level spells at level 10");
-    _character.classes.wizard.classLevel.base = @18;
+    _character.level.base = @18;
     XCTAssertEqualObjects(_character.spells.fifthLevelSpellSlotsMax.value, @3, @"Wizards have 3 fifth-level spells at level 18");
     
     //Sixth level spells
-    _character.classes.wizard.classLevel.base = @10;
+    _character.level.base = @10;
     XCTAssertEqualObjects(_character.spells.sixthLevelSpellSlotsMax.value, @0, @"Wizards have 0 sixth-level spells at level 10");
-    _character.classes.wizard.classLevel.base = @11;
+    _character.level.base = @11;
     XCTAssertEqualObjects(_character.spells.sixthLevelSpellSlotsMax.value, @1, @"Wizards have 1 sixth-level spells at level 11");
-    _character.classes.wizard.classLevel.base = @19;
+    _character.level.base = @19;
     XCTAssertEqualObjects(_character.spells.sixthLevelSpellSlotsMax.value, @2, @"Wizards have 2 sixth-level spells at level 19");
     
     //Seventh level spells
-    _character.classes.wizard.classLevel.base = @12;
+    _character.level.base = @12;
     XCTAssertEqualObjects(_character.spells.seventhLevelSpellSlotsMax.value, @0, @"Wizards have 0 seventh-level spells at level 12");
-    _character.classes.wizard.classLevel.base = @13;
+    _character.level.base = @13;
     XCTAssertEqualObjects(_character.spells.seventhLevelSpellSlotsMax.value, @1, @"Wizards have 1 seventh-level spells at level 13");
-    _character.classes.wizard.classLevel.base = @20;
+    _character.level.base = @20;
     XCTAssertEqualObjects(_character.spells.seventhLevelSpellSlotsMax.value, @2, @"Wizards have 2 seventh-level spells at level 20");
     
     //Eighth level spells
-    _character.classes.wizard.classLevel.base = @14;
+    _character.level.base = @14;
     XCTAssertEqualObjects(_character.spells.eighthLevelSpellSlotsMax.value, @0, @"Wizards have 0 eighth-level spells at level 14");
-    _character.classes.wizard.classLevel.base = @15;
+    _character.level.base = @15;
     XCTAssertEqualObjects(_character.spells.eighthLevelSpellSlotsMax.value, @1, @"Wizards have 1 eighth-level spells at level 15");
     
     //Ninth level spells
-    _character.classes.wizard.classLevel.base = @16;
+    _character.level.base = @16;
     XCTAssertEqualObjects(_character.spells.ninthLevelSpellSlotsMax.value, @0, @"Wizards have 0 ninth-level spells at level 16");
-    _character.classes.wizard.classLevel.base = @17;
+    _character.level.base = @17;
     XCTAssertEqualObjects(_character.spells.ninthLevelSpellSlotsMax.value, @1, @"Wizards have 1 ninth-level spells at level 17");
 }
 
@@ -244,7 +244,7 @@
     XCTAssertEqualObjects(_character.classes.wizard.arcaneRecoveryUsesMax.value, @1, @"Wizards have 1 use of Arcane Recovery per day");
     XCTAssertEqualObjects(_character.classes.wizard.arcaneRecoverySpellSlots.value, @1, @"Wizards regain 1 spell slot when using Arcane Recovery");
     
-    _character.classes.wizard.classLevel.base = @3;
+    _character.level.base = @3;
     XCTAssertEqualObjects(_character.classes.wizard.arcaneRecoverySpellSlots.value, @2, @"Wizards regain 2 spell slots at level 3");
 }
 
@@ -253,7 +253,7 @@
     NSArray* spellMasteryChoices = [_character allUnallocatedChoicesWithTag:DKChoiceWizardSpellMastery];
     XCTAssertEqual(spellMasteryChoices.count, 0, @"Wizard does not learn Spell Mastery until level 18");
     
-    _character.classes.wizard.classLevel.base = @18;
+    _character.level.base = @18;
     spellMasteryChoices = [_character allUnallocatedChoicesWithTag:DKChoiceWizardSpellMastery];
     XCTAssertEqual(spellMasteryChoices.count, 2, @"Wizard learns Spell Mastery at level 18");
     XCTAssertTrue([_character.classes.wizard.classTraits.value containsObject:@"Spell Mastery"], @"Wizards have the Spell Mastery trait.");
@@ -272,7 +272,7 @@
     NSArray* signatureSpellChoices = [_character allUnallocatedChoicesWithTag:DKChoiceWizardSignatureSpell];
     XCTAssertEqual(signatureSpellChoices.count, 0, @"Wizard does not learn Signature Spells until level 20");
     
-    _character.classes.wizard.classLevel.base = @20;
+    _character.level.base = @20;
     signatureSpellChoices = [_character allUnallocatedChoicesWithTag:DKChoiceWizardSignatureSpell];
     XCTAssertEqual(signatureSpellChoices.count, 2, @"Wizard learns Signature Spells at level 20");
     XCTAssertTrue([_character.classes.wizard.classTraits.value containsObject:@"Signature Spells"], @"Wizards have the Signature Spells trait.");
@@ -288,7 +288,7 @@
     DKChoiceModifierGroup* arcaneTradition = [_character firstUnallocatedChoiceWithTag:DKChoiceWizardArcaneTradition];
     XCTAssertNil(arcaneTradition, @"Wizards can't choose Arcane Tradition until level 2.");
     
-    _character.classes.wizard.classLevel.base = @2;
+    _character.level.base = @2;
     arcaneTradition = [_character firstUnallocatedChoiceWithTag:DKChoiceWizardArcaneTradition];
     DKModifierGroup* evocationTradition = arcaneTradition.choices[0];
     [arcaneTradition choose:evocationTradition];
@@ -300,7 +300,7 @@
     for (int i = 0; i < levelLearned.count; i++) {
         NSNumber* level = levelLearned[i];
         NSString* ability = abilityNames[i];
-        _character.classes.wizard.classLevel.base = level;
+        _character.level.base = level;
         XCTAssertTrue([_character.classes.wizard.classTraits.value containsObject:ability], @"Wizard learns %@ at level %@", ability, level);
     }
 }

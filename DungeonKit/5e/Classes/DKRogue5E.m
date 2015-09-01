@@ -30,8 +30,7 @@
     class.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:1];
     class.explanation = @"Rogue class modifiers";
     
-    [class addModifier:[DKDependentModifierBuilder simpleModifierFromSource:level explanation:@"Rogue level"]
-        forStatisticID:DKStatIDLevel];
+    [class addModifier:[DKModifierBuilder modifierWithOverrideString:@"Rogue"] forStatisticID:DKStatIDClassName];
     [class addModifier:[DKClass5E hitDiceModifierForSides:8 level:level] forStatisticID:DKStatIDRogueHitDice];
     
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Rogue Saving Throw Proficiency: Dexterity"]

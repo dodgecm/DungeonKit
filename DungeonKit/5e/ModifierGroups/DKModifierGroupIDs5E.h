@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 Dodge. All rights reserved.
 //
 
-FOUNDATION_EXPORT NSString *const DKModifierGroupIDRace;
+FOUNDATION_EXPORT NSString *const DKModifierGroupIDExperiencePoints;
 
 FOUNDATION_EXPORT NSString *const DKModifierGroupIDClericClass;
 FOUNDATION_EXPORT NSString *const DKModifierGroupIDFighterClass;
