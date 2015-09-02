@@ -2,8 +2,7 @@
 //  DKWeapon5E.h
 //  DungeonKit
 //
-//  Created by Christopher Dodge on 6/17/15.
-//  Copyright (c) 2015 Dodge. All rights reserved.
+//  Copyright (c) 2015 Chris Dodge
 //
 
 #import <Foundation/Foundation.h>
