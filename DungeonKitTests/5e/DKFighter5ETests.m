@@ -100,20 +100,18 @@
 
 - (void)testArcheryFightingStyle {
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Longbow
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Longbow
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
      XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttackBonus.value, @2, @"Fighter does not have a ranged bonus to hit.");
     
     DKChoiceModifierGroup* fightingStyleChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceFighterFightingStyle];
     [fightingStyleChoice choose:fightingStyleChoice.choices[0]];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttackBonus.value, @4, @"Fighter gains a ranged bonus to hit.");
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Longsword
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Longsword
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttackBonus.value, @2, @"Bonus only applies to ranged weapons.");
 }
 
@@ -133,26 +131,23 @@
     DKChoiceModifierGroup* fightingStyleChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceFighterFightingStyle];
     [fightingStyleChoice choose:fightingStyleChoice.choices[2]];
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Dagger
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Dagger
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponDamage.value.stringValue, @"1d4+2", @"Dueling style provides +2 damage bonus.");
     
     [_character.equipment equipShield:[DKArmorBuilder5E shieldWithEquipment:_character.equipment
                                                          armorProficiencies:_character.armorProficiencies]];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponDamage.value.stringValue, @"1d4+2", @"Dueling style still works with a shield.");
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Dagger
+    [_character.equipment equipOffHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Dagger
                                                          forCharacter:_character
-                                                           isMainHand:NO]
-                           inMainHand:NO];
+                                                           isMainHand:NO]];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponDamage.value.stringValue, @"1d4", @"Dueling bonus goes away with 2 weapons equipped.");
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Greataxe
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Greataxe
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     [_character.equipment equipShield:nil];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponDamage.value.stringValue, @"1d12", @"Dueling bonus goes away with two-handed weapon equipped.");
 }
@@ -165,20 +160,18 @@
     [fightingStyleChoice choose:greatWeaponStyle];
     
     DKModifier* modifier = greatWeaponStyle.modifiers[0];
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Quarterstaff
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Quarterstaff
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     XCTAssertTrue(modifier.enabled, @"Great weapon style is active for versatile weapons that are held in both hands");
     
     [_character.equipment equipShield:[DKArmorBuilder5E shieldForCharacter:_character]];
     XCTAssertFalse(modifier.enabled, @"Great weapon style is inactive once a versatile weapon is only held in one hand");
     
     [_character.equipment equipShield:nil];
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_HeavyCrossbow
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_HeavyCrossbow
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     XCTAssertFalse(modifier.enabled, @"Great weapon style is inactive for ranged weapons");
 }
 
@@ -222,14 +215,12 @@
 
 - (void)testExtraAttacks {
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Dagger
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Dagger
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Dagger
+                                                           isMainHand:YES]];
+    [_character.equipment equipOffHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Dagger
                                                          forCharacter:_character
-                                                           isMainHand:NO]
-                           inMainHand:NO];
+                                                           isMainHand:NO]];
     
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttacksPerAction.value, @1, @"Fighters start with one attack per round.");
     XCTAssertEqualObjects(_character.equipment.offHandWeaponAttacksPerAction.value, @1, @"Fighters start with one attack per round.");

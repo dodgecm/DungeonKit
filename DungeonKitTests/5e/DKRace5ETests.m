@@ -74,6 +74,7 @@
     
     XCTAssertEqualObjects(_character.subrace.value, @"Hill Dwarf", @"Subrace should be set properly.");
     XCTAssertEqualObjects(_character.abilities.wisdom.value, @11, @"Hill Dwarves get +1 bonus to Wisdom.");
+    _character.abilities.constitution.base = @9;
     _character.level.base = @1;
     XCTAssertEqualObjects(_character.hitPointsMax.value, @1, @"Hill Dwarves get +1 HP to their maximum for every level gained.");
     _character.level.base = @5;
@@ -229,7 +230,39 @@
     XCTAssertTrue([_character.languages.value containsObject:@"Common"], @"Humans can speak Common.");
     
     XCTAssertGreaterThanOrEqual(_character.languages.value.count, 2, @"Humans can speak an extra language of their choice.");
+}
+
+- (void)testReadme {
     
+    DKCharacter5E* character = [[DKCharacter5E alloc] init];
+    character.name.base = @"Madagascar the Wise";
+    character.abilities.intelligence.base = @17;
+    NSLog(@"My character has an intelligence score of %@.", character.abilities.intelligence.value); //17
+    DKChoiceModifierGroup* chooseRace = [character firstUnallocatedChoiceWithTag:DKChoiceRace];
+    NSArray* possibleRaces = chooseRace.choices;
+    [chooseRace choose:possibleRaces[3]]; //Human
+    NSLog(@"My human character now has an intelligence score of %@.", character.abilities.intelligence.value); //18
+    
+    [character chooseClass:kDKClassType5E_Wizard];
+    NSLog(@"My wizard now has %@ 1st level spell slots.", character.spells.firstLevelSpellSlotsMax.value);
+    
+    NSLog(@"My wizard is level %@.", character.level.value);
+    character.experiencePoints.base = @6500;
+    NSLog(@"My wizard is now level %@.", character.level.value);
+    NSLog(@"My proficiency bonus is +%@.", character.proficiencyBonus.value);
+    
+    NSLog(@"My wizard can use %@ as weapons.", character.weaponProficiencies.value);
+    [character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Quarterstaff
+                                                                 forCharacter:character
+                                                                   isMainHand:YES]];
+    NSLog(@"My attack bonus for my quarterstaff is +%@ at level 5.", character.equipment.mainHandWeaponAttackBonus.value);
+    NSLog(@"My versatile quarterstaff does %@ damage per attack.", character.equipment.mainHandWeaponDamage.value);
+    
+    [character.equipment equipOffHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Shortsword
+                                                                forCharacter:character
+                                                                  isMainHand:NO]];
+    NSLog(@"My non-proficient attack bonus for my short sword is +%@.", character.equipment.offHandWeaponAttackBonus.value);
+    NSLog(@"My quarterstaff, held in only one hand, now does %@ damage per attack.", character.equipment.mainHandWeaponDamage.value);
 }
 
 @end

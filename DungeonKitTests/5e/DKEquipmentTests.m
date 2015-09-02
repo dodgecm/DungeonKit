@@ -43,10 +43,9 @@
 }
 
 - (void)testAttackBonus {
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Mace
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Mace
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttackBonus.value, @(0), "Non proficient, +0 STR character should have no attack bonus.");
     
     _character.abilities.strength.base = @12;
@@ -54,19 +53,17 @@
 }
 
 - (void)testDamage {
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Morningstar
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Morningstar
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponDamage.value.stringValue, @"1d8", "Morningstars deal 1d8 damage.");
 }
 
 - (void)testDamageBonus {
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Flail
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Flail
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     XCTAssertEqual(_character.equipment.mainHandWeaponDamage.value.modifier, 0, "+0 STR character should have no damage bonus.");
     
     _character.abilities.strength.base = @12;
@@ -75,10 +72,9 @@
 
 - (void)testVersatileWeapon {
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Quarterstaff
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Quarterstaff
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponDamage.value.stringValue, @"1d8", "Quarterstaves deal 1d8 damage if used with both hands.");
     
     [_character.equipment equipShield:[DKArmorBuilder5E shieldWithEquipment:_character.equipment
@@ -89,10 +85,9 @@
 
 - (void)testWeaponProficiency {
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_WarPick
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_WarPick
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttackBonus.value, @(0), "Non-proficient character should have +0 attack bonus.");
     
@@ -105,20 +100,18 @@
 
 - (void)testReachWeapon {
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Lance
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Lance
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponRange.value, @(10), "Weapon with reach should have range of 10 feet.");
 }
 
 - (void)testFinesseWeapon {
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Rapier
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Rapier
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     
     XCTAssertTrue([_character.equipment.mainHandWeaponAttributes.value containsObject:@"Finesse"], @"Weapon attributes contain proper values.");
     XCTAssertEqual(_character.equipment.mainHandWeaponDamage.value.modifier, 0, "+0 STR and +0 DEX character should have no damage bonus.");
@@ -138,10 +131,9 @@
     XCTAssertEqualObjects(_character.equipment.mainHandOccupied.value, @0, "Main hand should start out unoccupied.");
     XCTAssertEqualObjects(_character.equipment.offHandOccupied.value, @0, "Off hand should start out unoccupied.");
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Maul
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Maul
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     
     XCTAssertTrue([_character.equipment.mainHandWeaponAttributes.value containsObject:@"Two-handed"], @"Weapon attributes contain proper values.");
     XCTAssertEqualObjects(_character.equipment.mainHandOccupied.value, @1, "Two handed weapon should occupy both hands.");
@@ -150,18 +142,16 @@
 
 - (void)testLightWeapon {
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Sickle
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Sickle
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
 
     XCTAssertTrue([_character.equipment.mainHandWeaponAttributes.value containsObject:@"Light"], @"Weapon attributes contain proper values.");
     XCTAssertEqualObjects(_character.equipment.offHandOccupied.value, @0, "Each weapon should occupy one hand.");
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Dagger
+    [_character.equipment equipOffHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Dagger
                                                          forCharacter:_character
-                                                           isMainHand:NO]
-                           inMainHand:NO];
+                                                           isMainHand:NO]];
     
     XCTAssertTrue([_character.equipment.offHandWeaponAttributes.value containsObject:@"Light"], @"Weapon attributes contain proper values.");
     
@@ -182,10 +172,9 @@
     //Attacks per round
     XCTAssertEqualObjects(_character.equipment.offHandWeaponAttacksPerAction.value, @1, "Off hand weapon should get 1 attack per round.");
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Trident
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Trident
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     XCTAssertEqualObjects(_character.equipment.offHandWeaponAttacksPerAction.value, @0, "Off hand weapon cannot attack if a non-light weapon is in the main hand.");
     
     //Damage
@@ -203,14 +192,12 @@
 
 - (void)testOffhandProficiency {
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Scimitar
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Scimitar
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Shortsword
+                                                           isMainHand:YES]];
+    [_character.equipment equipOffHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Shortsword
                                                          forCharacter:_character
-                                                           isMainHand:NO]
-                           inMainHand:NO];
+                                                           isMainHand:NO]];
     
     _character.abilities.strength.base = @14;
     XCTAssertEqual(_character.equipment.offHandWeaponDamage.value.modifier, 0, "Off hand weapon does not get ability score bonus to damage.");
@@ -224,10 +211,9 @@
     [_character applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:1] toStatisticWithID:DKStatIDMainHandWeaponAttacksPerAction];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttacksPerAction.value, @2, "Main hand weapon should get 2 attacks per round.");
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_HeavyCrossbow
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_HeavyCrossbow
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     XCTAssertTrue([_character.equipment.mainHandWeaponAttributes.value containsObject:@"Loading"], @"Weapon attributes contain proper values.");
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttacksPerAction.value, @1, "Loading weapons can only be used to attack once per round.");
 }
@@ -308,10 +294,9 @@
                                                          armorProficiencies:_character.armorProficiencies]];
     XCTAssertEqualObjects(_character.armorClass.value, @12, "Armor class bonus from shield should be applied properly.");
     
-    [_character.equipment equipWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Greatclub
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Greatclub
                                                          forCharacter:_character
-                                                           isMainHand:YES]
-                           inMainHand:YES];
+                                                           isMainHand:YES]];
     XCTAssertEqualObjects(_character.armorClass.value, @10, "Armor class bonus from shield should not be applied when wielding a two handed weapon.");
 }
 

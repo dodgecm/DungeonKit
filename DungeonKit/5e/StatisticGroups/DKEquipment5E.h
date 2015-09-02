@@ -48,8 +48,8 @@
     weaponProficiencies:(DKSetStatistic*)weaponProficiencies
      armorProficiencies:(DKSetStatistic*)armorProficiencies;
 
-- (void)equipWeapon:(DKWeapon5E*)weapon
-          inMainHand:(BOOL)isMainHand;
+- (void)equipMainHandWeapon:(DKWeapon5E*)weapon;
+- (void)equipOffHandWeapon:(DKWeapon5E*)weapon;
 - (void)equipArmor:(DKArmor5E*)armor;
 - (void)equipShield:(DKArmor5E*)shield;
 

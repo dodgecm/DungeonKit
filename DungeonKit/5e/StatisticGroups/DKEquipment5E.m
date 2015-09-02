@@ -95,6 +95,13 @@
     }
 }
 
+- (void)equipMainHandWeapon:(DKWeapon5E*)weapon {
+    [self equipWeapon:weapon inMainHand:YES];
+}
+- (void)equipOffHandWeapon:(DKWeapon5E*)weapon {
+    [self equipWeapon:weapon inMainHand:NO];
+}
+
 - (void)equipArmor:(DKArmor5E*)armor {
     
     if (armor && ![_armor.subgroups containsObject:armor]) {
