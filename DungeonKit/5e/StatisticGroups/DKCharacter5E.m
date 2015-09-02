@@ -232,25 +232,25 @@
     
     DKModifierGroup* experiencePointsGroup = [[DKModifierGroup alloc] init];
     NSDictionary* experienceTable = @{
-                                      @1: [NSValue valueWithRange:NSMakeRange(0, 299)],
-                                      @2: [NSValue valueWithRange:NSMakeRange(300, 899)],
-                                      @3: [NSValue valueWithRange:NSMakeRange(900, 2699)],
-                                      @4: [NSValue valueWithRange:NSMakeRange(2700, 6499)],
-                                      @5: [NSValue valueWithRange:NSMakeRange(6500, 13999)],
-                                      @6: [NSValue valueWithRange:NSMakeRange(14000, 22999)],
-                                      @7: [NSValue valueWithRange:NSMakeRange(23000, 33999)],
-                                      @8: [NSValue valueWithRange:NSMakeRange(34000, 47999)],
-                                      @9: [NSValue valueWithRange:NSMakeRange(48000, 63999)],
-                                      @10: [NSValue valueWithRange:NSMakeRange(64000, 84999)],
-                                      @11: [NSValue valueWithRange:NSMakeRange(85000, 99999)],
-                                      @12: [NSValue valueWithRange:NSMakeRange(100000, 119999)],
-                                      @13: [NSValue valueWithRange:NSMakeRange(120000, 139999)],
-                                      @14: [NSValue valueWithRange:NSMakeRange(140000, 164999)],
-                                      @15: [NSValue valueWithRange:NSMakeRange(165000, 194999)],
-                                      @16: [NSValue valueWithRange:NSMakeRange(195000, 224999)],
-                                      @17: [NSValue valueWithRange:NSMakeRange(225000, 264999)],
-                                      @18: [NSValue valueWithRange:NSMakeRange(265000, 304999)],
-                                      @19: [NSValue valueWithRange:NSMakeRange(305000, 354999)],
+                                      @1: [NSValue valueWithRange:NSMakeRange(0, 300)],
+                                      @2: [NSValue valueWithRange:NSMakeRange(300, 600)],
+                                      @3: [NSValue valueWithRange:NSMakeRange(900, 1800)],
+                                      @4: [NSValue valueWithRange:NSMakeRange(2700, 3800)],
+                                      @5: [NSValue valueWithRange:NSMakeRange(6500, 7500)],
+                                      @6: [NSValue valueWithRange:NSMakeRange(14000, 9000)],
+                                      @7: [NSValue valueWithRange:NSMakeRange(23000, 11000)],
+                                      @8: [NSValue valueWithRange:NSMakeRange(34000, 14000)],
+                                      @9: [NSValue valueWithRange:NSMakeRange(48000, 16000)],
+                                      @10: [NSValue valueWithRange:NSMakeRange(64000, 21000)],
+                                      @11: [NSValue valueWithRange:NSMakeRange(85000, 15000)],
+                                      @12: [NSValue valueWithRange:NSMakeRange(100000, 20000)],
+                                      @13: [NSValue valueWithRange:NSMakeRange(120000, 20000)],
+                                      @14: [NSValue valueWithRange:NSMakeRange(140000, 25000)],
+                                      @15: [NSValue valueWithRange:NSMakeRange(165000, 30000)],
+                                      @16: [NSValue valueWithRange:NSMakeRange(195000, 30000)],
+                                      @17: [NSValue valueWithRange:NSMakeRange(225000, 40000)],
+                                      @18: [NSValue valueWithRange:NSMakeRange(265000, 40000)],
+                                      @19: [NSValue valueWithRange:NSMakeRange(305000, 50000)],
                                       @20: [NSValue valueWithRange:NSMakeRange(355000, NSIntegerMax)],
                                       };
     for (NSNumber* level in experienceTable.allKeys) {
@@ -259,7 +259,7 @@
                                                                         constantValue:level
                                                                               enabled:[DKDependentModifierBuilder enabledWhen:@"source"
                                                                                                            isEqualToOrBetween:expRange.location
-                                                                                                                          and:NSMaxRange(expRange)] explanation:nil];
+                                                                                                                          and:NSMaxRange(expRange)-1] explanation:nil];
         [experiencePointsGroup addModifier:levelModifier forStatisticID:DKStatIDLevel];
     }
     [self addModifierGroup:experiencePointsGroup forGroupID:DKModifierGroupIDExperiencePoints];
