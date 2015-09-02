@@ -280,6 +280,18 @@
                                                                 priority:kDKModifierPriority_Additive
                                                               expression:[DKModifierBuilder simpleAdditionModifierExpression]];
     [self applyModifier:hpMaxModifier toStatisticWithID:DKStatIDHitPointsMax];
+    
+    DKSingleChoiceModifierGroup* alignmentChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceAlignment];
+    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Lawful Good"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Neutral Good"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Chaotic Good"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Lawful Neutral"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"True Neutral"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Chaotic Neutral"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Lawful Evil"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Neutral Evil"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Chaotic Evil"] forStatisticID:DKStatIDAlignment];
+    [self addModifierGroup:alignmentChoice forGroupID:DKChoiceAlignment];
 }
 
 @end

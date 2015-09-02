@@ -15,6 +15,7 @@ FOUNDATION_EXPORT NSString *const DKChoiceSubrace;
 FOUNDATION_EXPORT NSString *const DKChoiceClass;
 FOUNDATION_EXPORT NSString *const DKChoiceHitPointsMax;
 FOUNDATION_EXPORT NSString *const DKChoiceLanguage;
+FOUNDATION_EXPORT NSString *const DKChoiceAlignment;
 
 //Equipment
 FOUNDATION_EXPORT NSString *const DKChoiceMainHandWeapon;

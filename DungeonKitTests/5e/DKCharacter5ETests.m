@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 #import "DKCharacter5E.h"
+#import "DKModifierGroupTags5E.h"
 #import "DKModifierBuilder.h"
 
 @interface DKCharacter5ETests : XCTestCase
@@ -152,6 +153,13 @@
     XCTAssertEqualObjects(_character.level.value, @1, @"Character is still level 1 at 299 experience points.");
     _character.experiencePoints.base = @300;
     XCTAssertEqualObjects(_character.level.value, @2, @"Character is level 2 at 300 experience points.");
+}
+
+- (void)testAlignment {
+    
+    DKChoiceModifierGroup* alignmentChoice = [_character firstUnallocatedChoiceWithTag:DKChoiceAlignment];
+    [alignmentChoice choose:alignmentChoice.choices[0]];
+    XCTAssertEqualObjects(_character.alignment.value, @"Lawful Good", @"Character's alignment should be set properly.");
 }
 
 @end
