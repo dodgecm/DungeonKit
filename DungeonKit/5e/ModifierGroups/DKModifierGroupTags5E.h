@@ -13,6 +13,7 @@ FOUNDATION_EXPORT NSString *const DKChoiceAbilityScoreImprovement;
 FOUNDATION_EXPORT NSString *const DKChoiceRace;
 FOUNDATION_EXPORT NSString *const DKChoiceSubrace;
 FOUNDATION_EXPORT NSString *const DKChoiceClass;
+FOUNDATION_EXPORT NSString *const DKChoiceHitPointsMax;
 FOUNDATION_EXPORT NSString *const DKChoiceLanguage;
 
 //Equipment

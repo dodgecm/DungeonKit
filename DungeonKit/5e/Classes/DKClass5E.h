@@ -24,6 +24,7 @@
 + (DKModifierGroup*)abilityScoreImprovementForThreshold:(NSInteger)threshold level:(DKNumericStatistic*)classLevel;
 + (DKModifierGroup*)skillProficienciesWithStatIDs:(NSArray*)statIDs choiceGroupTag:(NSString*)tag;
 + (DKModifier*)hitDiceModifierForSides:(NSInteger)sides level:(DKNumericStatistic*)classLevel;
++ (DKModifierGroup*)hitPointsMaxIncreasesForSides:(NSInteger)sides level:(DKNumericStatistic*)classLevel;
 
 - (void)loadClassModifiersForCharacter:(DKCharacter5E*)character;
 

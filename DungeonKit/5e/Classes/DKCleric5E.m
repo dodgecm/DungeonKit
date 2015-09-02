@@ -35,6 +35,7 @@
     
     [class addModifier:[DKModifierBuilder modifierWithOverrideString:@"Cleric"] forStatisticID:DKStatIDClassName];
     [class addModifier:[DKClass5E hitDiceModifierForSides:8 level:level] forStatisticID:DKStatIDClericHitDice];
+    [class addSubgroup:[DKClass5E hitPointsMaxIncreasesForSides:8 level:level]];
     
     [class addModifier:[abilities.wisdom modifierFromAbilityScoreWithExplanation:@"Cleric spellcasting ability: Wisdom"]
         forStatisticID:DKStatIDSpellSaveDC];

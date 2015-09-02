@@ -37,6 +37,7 @@
     
     [class addModifier:[DKModifierBuilder modifierWithOverrideString:@"Wizard"] forStatisticID:DKStatIDClassName];
     [class addModifier:[DKClass5E hitDiceModifierForSides:6 level:level] forStatisticID:DKStatIDWizardHitDice];
+    [class addSubgroup:[DKClass5E hitPointsMaxIncreasesForSides:6 level:level]];
     
     [class addModifier:[abilities.intelligence modifierFromAbilityScoreWithExplanation:@"Wizard spellcasting ability: Intelligence"]
         forStatisticID:DKStatIDSpellSaveDC];

@@ -270,6 +270,16 @@
     [classChoice addModifier:[DKDependentModifierBuilder simpleModifierFromSource:_level] forStatisticID:DKStatIDRogueLevel];
     [classChoice addModifier:[DKDependentModifierBuilder simpleModifierFromSource:_level] forStatisticID:DKStatIDWizardLevel];
     [self addModifierGroup:classChoice forGroupID:DKChoiceClass];
+    
+    NSExpression* hpExpression = [NSExpression expressionForFunction:@"multiply:by:" arguments:@[[NSExpression expressionForVariable:@"constitution"],
+                                                                                                 [NSExpression expressionForVariable:@"level"]]];
+    DKModifier* hpMaxModifier = [[DKModifier alloc] initWithDependencies:@{ @"constitution" : _abilities.constitution,
+                                                                            @"level" : _level }
+                                                                   value:hpExpression
+                                                                 enabled:nil
+                                                                priority:kDKModifierPriority_Additive
+                                                              expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+    [self applyModifier:hpMaxModifier toStatisticWithID:DKStatIDHitPointsMax];
 }
 
 @end

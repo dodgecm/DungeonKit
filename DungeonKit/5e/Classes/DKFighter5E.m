@@ -42,6 +42,7 @@
     
     [class addModifier:[DKModifierBuilder modifierWithOverrideString:@"Fighter"] forStatisticID:DKStatIDClassName];
     [class addModifier:[DKClass5E hitDiceModifierForSides:10 level:level] forStatisticID:DKStatIDFighterHitDice];
+    [class addSubgroup:[DKClass5E hitPointsMaxIncreasesForSides:10 level:level]];
     
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Fighter Saving Throw Proficiency: Strength"]
         forStatisticID:DKStatIDSavingThrowStrengthProficiency];

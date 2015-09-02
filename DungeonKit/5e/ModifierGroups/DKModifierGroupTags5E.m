@@ -12,6 +12,7 @@ NSString *const DKChoiceAbilityScoreImprovement = @"DKChoiceAbilityScoreImprovem
 NSString *const DKChoiceRace = @"DKChoiceRace";
 NSString *const DKChoiceSubrace = @"DKChoiceSubrace";
 NSString *const DKChoiceClass = @"DKChoiceClass";
+NSString *const DKChoiceHitPointsMax = @"DKChoiceHitPointsMax";
 NSString *const DKChoiceLanguage = @"DKChoiceLanguage";
 
 NSString *const DKChoiceMainHandWeapon = @"DKChoiceMainHandWeapon";

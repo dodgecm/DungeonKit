@@ -41,6 +41,22 @@
     XCTAssertEqualObjects(_character.hitDiceMax.value.stringValue, @"5d8", @"Cleric should have 5d8 hit dice at level 5.");
 }
 
+- (void)testHitPointsMax {
+    
+    XCTAssertEqualObjects(_character.hitPointsMax.value, @8, @"Cleric should have 8 HP at level 1.");
+    NSArray* hitPointsChoices = [_character allUnallocatedChoicesWithTag:DKChoiceHitPointsMax];
+    XCTAssertEqual(hitPointsChoices.count, 0, @"Cleric shouldn't have any HP increases at level 1.");
+    
+    _character.level.base = @6;
+    hitPointsChoices = [_character allUnallocatedChoicesWithTag:DKChoiceHitPointsMax];
+    XCTAssertEqual(hitPointsChoices.count, 5, @"Cleric should have 5 HP increases at level 6.");
+    
+    DKChoiceModifierGroup* firstChoice = hitPointsChoices[0];
+    [firstChoice choose:firstChoice.choices[0]];
+    XCTAssertEqual(firstChoice.choices.count, 8, @"Cleric should be able to choose any number between 1 and 8.");
+    XCTAssertEqualObjects(_character.hitPointsMax.value, @9, @"Cleric should have 9 HP after choosing the 1 HP bonus.");
+}
+
 - (void)testSpellSaveDC {
     
     XCTAssertEqualObjects(_character.spells.spellSaveDC.value, @10, @"Spell save DC starts out at 10 (8 + proficiency).");

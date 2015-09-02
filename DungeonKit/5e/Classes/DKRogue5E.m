@@ -33,6 +33,7 @@
     
     [class addModifier:[DKModifierBuilder modifierWithOverrideString:@"Rogue"] forStatisticID:DKStatIDClassName];
     [class addModifier:[DKClass5E hitDiceModifierForSides:8 level:level] forStatisticID:DKStatIDRogueHitDice];
+    [class addSubgroup:[DKClass5E hitPointsMaxIncreasesForSides:8 level:level]];
     
     [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Rogue Saving Throw Proficiency: Dexterity"]
         forStatisticID:DKStatIDSavingThrowDexterityProficiency];

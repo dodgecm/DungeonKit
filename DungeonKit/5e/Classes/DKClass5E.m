@@ -92,6 +92,32 @@
                                                        explanation:@"Class hit die"];
 }
 
++ (DKModifierGroup*)hitPointsMaxIncreasesForSides:(NSInteger)sides level:(DKNumericStatistic*)classLevel {
+    
+    DKModifierGroup* hitPointsGroup = [[DKModifierGroup alloc] init];
+    
+    DKModifierGroup* possibleValues = [[DKModifierGroup alloc] init];
+    for (int i = 1; i <= sides; i++) {
+        [possibleValues addModifier:[DKModifierBuilder modifierWithAdditiveBonus:i] forStatisticID:DKStatIDHitPointsMax];
+    }
+    
+    //Level 1 gives HP increase as the maximum value of the hit dice
+    [hitPointsGroup addModifier:[DKModifierBuilder modifierWithAdditiveBonus:sides] forStatisticID:DKStatIDHitPointsMax];
+    
+    //Remaining levels can be anywhere between 1 and the maximum value of the hit dice
+    for (int level = 2; level <= 20; level++) {
+        DKSingleChoiceModifierGroup* hitPointIncrease = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceHitPointsMax];
+        hitPointIncrease.choicesSource = possibleValues;
+        [hitPointIncrease addDependency:classLevel forKey:@"level"];
+        hitPointIncrease.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:level];
+        hitPointIncrease.explanation = [NSString stringWithFormat:@"Hit points increase from level %i", level];
+        
+        [hitPointsGroup addSubgroup:hitPointIncrease];
+    }
+    
+    return hitPointsGroup;
+}
+
 #pragma mark -
 
 - (void)loadClassModifiersForCharacter:(DKCharacter5E*)character { }
