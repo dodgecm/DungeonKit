@@ -8,76 +8,83 @@
 
 /* Begin PBXBuildFile section */
 		B32222661AEA144300EE0DD6 /* DKModifierGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B32222651AEA144300EE0DD6 /* DKModifierGroupTests.m */; };
-		B323F4521B422FB200DA1FCA /* DKRogue5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4501B422FB200DA1FCA /* DKRogue5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B323F4531B422FB200DA1FCA /* DKRogue5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4511B422FB200DA1FCA /* DKRogue5E.m */; };
-		B323F46A1B43C41900DA1FCA /* DKAbilities5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F45C1B43C41900DA1FCA /* DKAbilities5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B323F46B1B43C41900DA1FCA /* DKAbilities5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F45D1B43C41900DA1FCA /* DKAbilities5E.m */; };
-		B323F46C1B43C41900DA1FCA /* DKCurrency5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F45E1B43C41900DA1FCA /* DKCurrency5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B323F46D1B43C41900DA1FCA /* DKCurrency5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F45F1B43C41900DA1FCA /* DKCurrency5E.m */; };
-		B323F46E1B43C41900DA1FCA /* DKEquipment5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4601B43C41900DA1FCA /* DKEquipment5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B323F46F1B43C41900DA1FCA /* DKEquipment5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4611B43C41900DA1FCA /* DKEquipment5E.m */; };
-		B323F4701B43C41900DA1FCA /* DKSavingThrows5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4621B43C41900DA1FCA /* DKSavingThrows5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B323F4711B43C41900DA1FCA /* DKSavingThrows5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4631B43C41900DA1FCA /* DKSavingThrows5E.m */; };
-		B323F4721B43C41900DA1FCA /* DKSkills5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4641B43C41900DA1FCA /* DKSkills5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B323F4731B43C41900DA1FCA /* DKSkills5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4651B43C41900DA1FCA /* DKSkills5E.m */; };
-		B323F4741B43C41900DA1FCA /* DKSpellbook5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4661B43C41900DA1FCA /* DKSpellbook5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B323F4751B43C41900DA1FCA /* DKSpellbook5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4671B43C41900DA1FCA /* DKSpellbook5E.m */; };
-		B323F4761B43C41900DA1FCA /* DKSpellcasting5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4681B43C41900DA1FCA /* DKSpellcasting5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B323F4771B43C41900DA1FCA /* DKSpellcasting5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4691B43C41900DA1FCA /* DKSpellcasting5E.m */; };
-		B323F47A1B43C48600DA1FCA /* DKCharacter5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4781B43C48600DA1FCA /* DKCharacter5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B323F47B1B43C48600DA1FCA /* DKCharacter5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4791B43C48600DA1FCA /* DKCharacter5E.m */; };
-		B323F47E1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F47C1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B323F47F1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F47D1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.m */; };
-		B323F4821B43C96C00DA1FCA /* DKStatisticGroup5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4801B43C96C00DA1FCA /* DKStatisticGroup5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B323F4831B43C96C00DA1FCA /* DKStatisticGroup5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4811B43C96C00DA1FCA /* DKStatisticGroup5E.m */; };
-		B32C77381A494A2700870150 /* DungeonKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B32C77371A494A2700870150 /* DungeonKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B32C773E1A494A2700870150 /* DungeonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B32C77321A494A2700870150 /* DungeonKit.framework */; };
-		B3565E081B3297E600C86DC1 /* DKWeapon5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3565E061B3297E600C86DC1 /* DKWeapon5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3565E091B3297E600C86DC1 /* DKWeapon5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3565E071B3297E600C86DC1 /* DKWeapon5E.m */; };
-		B3565E0F1B39368900C86DC1 /* DKArmor5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3565E0D1B39368900C86DC1 /* DKArmor5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3565E101B39368900C86DC1 /* DKArmor5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3565E0E1B39368900C86DC1 /* DKArmor5E.m */; };
-		B3565E121B39584B00C86DC1 /* DKEquipmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3565E111B39584B00C86DC1 /* DKEquipmentTests.m */; };
-		B36BF3351A7251FF00979EE9 /* DKCurrencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3341A7251FF00979EE9 /* DKCurrencyTests.m */; };
 		B36BF33C1A7351D700979EE9 /* DKModifierGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF33A1A7351D700979EE9 /* DKModifierGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B36BF33D1A7351D700979EE9 /* DKModifierGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF33B1A7351D700979EE9 /* DKModifierGroup.m */; };
-		B36BF3401A737C1300979EE9 /* DKStatisticIDs5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF33E1A737C1300979EE9 /* DKStatisticIDs5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B36BF3411A737C1300979EE9 /* DKStatisticIDs5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF33F1A737C1300979EE9 /* DKStatisticIDs5E.m */; };
-		B36BF3491A762FE900979EE9 /* DKModifierGroupIDs5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF3471A762FE900979EE9 /* DKModifierGroupIDs5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B36BF34A1A762FE900979EE9 /* DKModifierGroupIDs5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3481A762FE900979EE9 /* DKModifierGroupIDs5E.m */; };
-		B36BF3511A7630A800979EE9 /* DKRace5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF34F1A7630A800979EE9 /* DKRace5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B36BF3521A7630A800979EE9 /* DKRace5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3501A7630A800979EE9 /* DKRace5E.m */; };
 		B36F2D751AFF53A80079263C /* DKDiceCollectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B36F2D741AFF53A80079263C /* DKDiceCollectionTests.m */; };
 		B3751BCE1AF72E110018F5D3 /* DKModifierBuilder.h in Headers */ = {isa = PBXBuildFile; fileRef = B3751BCC1AF72E110018F5D3 /* DKModifierBuilder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3751BCF1AF72E110018F5D3 /* DKModifierBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = B3751BCD1AF72E110018F5D3 /* DKModifierBuilder.m */; };
-		B3751BD21AF88BCE0018F5D3 /* DKFighter5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3751BD01AF88BCE0018F5D3 /* DKFighter5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3751BD31AF88BCE0018F5D3 /* DKFighter5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3751BD11AF88BCE0018F5D3 /* DKFighter5E.m */; };
-		B38DF2DF1B7C53F4004785F2 /* DKCleric5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B38DF2DE1B7C53F4004785F2 /* DKCleric5ETests.m */; };
+		B394E3AD1B9BC77000C7AFB6 /* DKCleric5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BB9EE31AEF553000012A3B /* DKCleric5E.m */; };
+		B394E3AE1B9BC77000C7AFB6 /* DKAbilities5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F45D1B43C41900DA1FCA /* DKAbilities5E.m */; };
+		B394E3AF1B9BC77000C7AFB6 /* DKSkills5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4651B43C41900DA1FCA /* DKSkills5E.m */; };
+		B394E3B01B9BC77000C7AFB6 /* DKClasses5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BB9EE91AEF555600012A3B /* DKClasses5E.m */; };
+		B394E3B11B9BC77000C7AFB6 /* DKRogue5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4511B422FB200DA1FCA /* DKRogue5E.m */; };
+		B394E3B21B9BC77000C7AFB6 /* DKSavingThrows5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4631B43C41900DA1FCA /* DKSavingThrows5E.m */; };
+		B394E3B31B9BC77000C7AFB6 /* DKSpellcasting5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4691B43C41900DA1FCA /* DKSpellcasting5E.m */; };
+		B394E3B51B9BC77000C7AFB6 /* DKWizard5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B5659B1B44CA51004DB93B /* DKWizard5E.m */; };
+		B394E3B61B9BC77000C7AFB6 /* DKFighter5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3751BD11AF88BCE0018F5D3 /* DKFighter5E.m */; };
+		B394E3B71B9BC77000C7AFB6 /* DKModifierGroupIDs5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3481A762FE900979EE9 /* DKModifierGroupIDs5E.m */; };
+		B394E3B81B9BC77000C7AFB6 /* DKRace5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3501A7630A800979EE9 /* DKRace5E.m */; };
+		B394E3BA1B9BC77000C7AFB6 /* DKStatisticGroup5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4811B43C96C00DA1FCA /* DKStatisticGroup5E.m */; };
+		B394E3BB1B9BC77000C7AFB6 /* DKWeapon5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3565E071B3297E600C86DC1 /* DKWeapon5E.m */; };
+		B394E3BC1B9BC77000C7AFB6 /* DKEquipment5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4611B43C41900DA1FCA /* DKEquipment5E.m */; };
+		B394E3BD1B9BC77000C7AFB6 /* DKCharacter5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4791B43C48600DA1FCA /* DKCharacter5E.m */; };
+		B394E3BE1B9BC77000C7AFB6 /* DKStatisticGroupIDs5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F47D1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.m */; };
+		B394E3C21B9BC77000C7AFB6 /* DKLanguage5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B565A91B4CEAFF004DB93B /* DKLanguage5E.m */; };
+		B394E3C31B9BC77000C7AFB6 /* DKSpellbook5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F4671B43C41900DA1FCA /* DKSpellbook5E.m */; };
+		B394E3C51B9BC77000C7AFB6 /* DKProficientStatistic.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605D31A68F90E007FADAB /* DKProficientStatistic.m */; };
+		B394E3C61B9BC77000C7AFB6 /* DKCurrency5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B323F45F1B43C41900DA1FCA /* DKCurrency5E.m */; };
+		B394E3C81B9BC77000C7AFB6 /* DKModifierGroupTags5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B565B41B523ADF004DB93B /* DKModifierGroupTags5E.m */; };
+		B394E3C91B9BC77000C7AFB6 /* DKStatisticIDs5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF33F1A737C1300979EE9 /* DKStatisticIDs5E.m */; };
+		B394E3CB1B9BC77000C7AFB6 /* DKArmor5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3565E0E1B39368900C86DC1 /* DKArmor5E.m */; };
+		B394E3CC1B9BC77000C7AFB6 /* DKClass5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BB9EE11AEF553000012A3B /* DKClass5E.m */; };
+		B394E3CF1B9BC77000C7AFB6 /* DKSavingThrows5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4621B43C41900DA1FCA /* DKSavingThrows5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3D01B9BC77000C7AFB6 /* DKSkills5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4641B43C41900DA1FCA /* DKSkills5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3D11B9BC77000C7AFB6 /* DungeonKit5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B394E3A91B9BC70B00C7AFB6 /* DungeonKit5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3D31B9BC77000C7AFB6 /* DKEquipment5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4601B43C41900DA1FCA /* DKEquipment5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3D41B9BC77000C7AFB6 /* DKProficientStatistic.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C605D21A68F90E007FADAB /* DKProficientStatistic.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3D51B9BC77000C7AFB6 /* DKStatisticGroupIDs5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F47C1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3D61B9BC77000C7AFB6 /* DKRogue5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4501B422FB200DA1FCA /* DKRogue5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3D81B9BC77000C7AFB6 /* DKStatisticIDs5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF33E1A737C1300979EE9 /* DKStatisticIDs5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3D91B9BC77000C7AFB6 /* DKWeapon5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3565E061B3297E600C86DC1 /* DKWeapon5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3DA1B9BC77000C7AFB6 /* DKClass5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BB9EE01AEF553000012A3B /* DKClass5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3DB1B9BC77000C7AFB6 /* DKModifierGroupIDs5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF3471A762FE900979EE9 /* DKModifierGroupIDs5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3DC1B9BC77000C7AFB6 /* DKClasses5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BB9EE81AEF555600012A3B /* DKClasses5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3DD1B9BC77000C7AFB6 /* DKStatisticGroup5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4801B43C96C00DA1FCA /* DKStatisticGroup5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3DE1B9BC77000C7AFB6 /* DKSpellbook5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4661B43C41900DA1FCA /* DKSpellbook5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3DF1B9BC77000C7AFB6 /* DKCurrency5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F45E1B43C41900DA1FCA /* DKCurrency5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3E01B9BC77000C7AFB6 /* DKLanguage5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3B565A81B4CEAFF004DB93B /* DKLanguage5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3E11B9BC77000C7AFB6 /* DKArmor5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3565E0D1B39368900C86DC1 /* DKArmor5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3E21B9BC77000C7AFB6 /* DKRace5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B36BF34F1A7630A800979EE9 /* DKRace5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3E31B9BC77000C7AFB6 /* DKWizard5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3B5659A1B44CA51004DB93B /* DKWizard5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3E51B9BC77000C7AFB6 /* DKModifierGroupTags5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3B565B31B523ADF004DB93B /* DKModifierGroupTags5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3E61B9BC77000C7AFB6 /* DKCleric5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BB9EE21AEF553000012A3B /* DKCleric5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3EB1B9BC77000C7AFB6 /* DKAbilities5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F45C1B43C41900DA1FCA /* DKAbilities5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3EC1B9BC77000C7AFB6 /* DKCharacter5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4781B43C48600DA1FCA /* DKCharacter5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3EE1B9BC77000C7AFB6 /* DKFighter5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3751BD01AF88BCE0018F5D3 /* DKFighter5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3EF1B9BC77000C7AFB6 /* DKSpellcasting5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B323F4681B43C41900DA1FCA /* DKSpellcasting5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B394E3FD1B9BC86E00C7AFB6 /* DKSkillsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605E61A720E72007FADAB /* DKSkillsTests.m */; };
+		B394E3FE1B9BC86E00C7AFB6 /* DKSavingThrowsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F5883B1A5BE2D400E6A745 /* DKSavingThrowsTests.m */; };
+		B394E4001B9BC86E00C7AFB6 /* DKRace5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B565A01B4BA321004DB93B /* DKRace5ETests.m */; };
+		B394E4031B9BC86E00C7AFB6 /* DKEquipmentTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3565E111B39584B00C86DC1 /* DKEquipmentTests.m */; };
+		B394E4041B9BC86E00C7AFB6 /* DKAbilityScoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D541A57E53B004342F3 /* DKAbilityScoreTests.m */; };
+		B394E4051B9BC86E00C7AFB6 /* DKRogue5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A8BD281B8E9F5D004161BA /* DKRogue5ETests.m */; };
+		B394E4061B9BC86E00C7AFB6 /* DKCharacter5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D5E1A57E587004342F3 /* DKCharacter5ETests.m */; };
+		B394E4071B9BC86E00C7AFB6 /* DKProficientStatisticTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605D61A691282007FADAB /* DKProficientStatisticTests.m */; };
+		B394E4091B9BC86E00C7AFB6 /* DKPerformance5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A8BD2D1B92541C004161BA /* DKPerformance5ETests.m */; };
+		B394E40A1B9BC86E00C7AFB6 /* DKAbilitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D531A57E53B004342F3 /* DKAbilitiesTests.m */; };
+		B394E40B1B9BC86E00C7AFB6 /* DKFighter5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A8BD251B8C47D1004161BA /* DKFighter5ETests.m */; };
+		B394E40C1B9BC86E00C7AFB6 /* DKStatisticTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D581A57E53B004342F3 /* DKStatisticTests.m */; };
+		B394E40D1B9BC86E00C7AFB6 /* DKWizard5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A8BD2B1B9123A1004161BA /* DKWizard5ETests.m */; };
+		B394E40E1B9BC86E00C7AFB6 /* DKCurrencyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B36BF3341A7251FF00979EE9 /* DKCurrencyTests.m */; };
+		B394E4111B9BC86E00C7AFB6 /* DKCleric5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B38DF2DE1B7C53F4004785F2 /* DKCleric5ETests.m */; };
+		B394E4131B9BC86E00C7AFB6 /* DungeonKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B32C77321A494A2700870150 /* DungeonKit.framework */; };
+		B394E4221B9BCE8A00C7AFB6 /* DungeonKit.h in Headers */ = {isa = PBXBuildFile; fileRef = B394E4211B9BCE8A00C7AFB6 /* DungeonKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3A8BD221B859E37004161BA /* DKDependencyOwner.h in Headers */ = {isa = PBXBuildFile; fileRef = B3A8BD201B859E37004161BA /* DKDependencyOwner.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3A8BD231B859E37004161BA /* DKDependencyOwner.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A8BD211B859E37004161BA /* DKDependencyOwner.m */; };
-		B3A8BD261B8C47D1004161BA /* DKFighter5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A8BD251B8C47D1004161BA /* DKFighter5ETests.m */; };
-		B3A8BD291B8E9F5D004161BA /* DKRogue5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A8BD281B8E9F5D004161BA /* DKRogue5ETests.m */; };
-		B3A8BD2C1B9123A1004161BA /* DKWizard5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A8BD2B1B9123A1004161BA /* DKWizard5ETests.m */; };
-		B3A8BD2E1B92541C004161BA /* DKPerformance5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3A8BD2D1B92541C004161BA /* DKPerformance5ETests.m */; };
-		B3B5659C1B44CA51004DB93B /* DKWizard5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3B5659A1B44CA51004DB93B /* DKWizard5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3B5659D1B44CA51004DB93B /* DKWizard5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B5659B1B44CA51004DB93B /* DKWizard5E.m */; };
-		B3B565A11B4BA321004DB93B /* DKRace5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B565A01B4BA321004DB93B /* DKRace5ETests.m */; };
 		B3B565A41B4BC7A0004DB93B /* DKChoiceModifierGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = B3B565A21B4BC7A0004DB93B /* DKChoiceModifierGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3B565A51B4BC7A0004DB93B /* DKChoiceModifierGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B565A31B4BC7A0004DB93B /* DKChoiceModifierGroup.m */; };
 		B3B565A71B4BCB1C004DB93B /* DKChoiceModifierGroupTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B565A61B4BCB1C004DB93B /* DKChoiceModifierGroupTests.m */; };
-		B3B565AA1B4CEAFF004DB93B /* DKLanguage5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3B565A81B4CEAFF004DB93B /* DKLanguage5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3B565AB1B4CEAFF004DB93B /* DKLanguage5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B565A91B4CEAFF004DB93B /* DKLanguage5E.m */; };
-		B3B565B51B523ADF004DB93B /* DKModifierGroupTags5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3B565B31B523ADF004DB93B /* DKModifierGroupTags5E.h */; };
-		B3B565B61B523ADF004DB93B /* DKModifierGroupTags5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3B565B41B523ADF004DB93B /* DKModifierGroupTags5E.m */; };
-		B3BB9EE41AEF553000012A3B /* DKClass5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BB9EE01AEF553000012A3B /* DKClass5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3BB9EE51AEF553000012A3B /* DKClass5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BB9EE11AEF553000012A3B /* DKClass5E.m */; };
-		B3BB9EE61AEF553000012A3B /* DKCleric5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BB9EE21AEF553000012A3B /* DKCleric5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3BB9EE71AEF553000012A3B /* DKCleric5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BB9EE31AEF553000012A3B /* DKCleric5E.m */; };
-		B3BB9EEA1AEF555600012A3B /* DKClasses5E.h in Headers */ = {isa = PBXBuildFile; fileRef = B3BB9EE81AEF555600012A3B /* DKClasses5E.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3BB9EEB1AEF555600012A3B /* DKClasses5E.m in Sources */ = {isa = PBXBuildFile; fileRef = B3BB9EE91AEF555600012A3B /* DKClasses5E.m */; };
-		B3C605D41A68F90E007FADAB /* DKProficientStatistic.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C605D21A68F90E007FADAB /* DKProficientStatistic.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B3C605D51A68F90E007FADAB /* DKProficientStatistic.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605D31A68F90E007FADAB /* DKProficientStatistic.m */; };
-		B3C605D71A691282007FADAB /* DKProficientStatisticTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605D61A691282007FADAB /* DKProficientStatisticTests.m */; };
-		B3C605E71A720E72007FADAB /* DKSkillsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605E61A720E72007FADAB /* DKSkillsTests.m */; };
 		B3C605EA1A722F83007FADAB /* DKDiceCollection.h in Headers */ = {isa = PBXBuildFile; fileRef = B3C605E81A722F83007FADAB /* DKDiceCollection.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3C605EB1A722F83007FADAB /* DKDiceCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = B3C605E91A722F83007FADAB /* DKDiceCollection.m */; };
 		B3E40D391A57D20C004342F3 /* DKStatisticGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E40D311A57D20C004342F3 /* DKStatisticGroup.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -86,14 +93,10 @@
 		B3E40D3E1A57D20C004342F3 /* DKModifier.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D361A57D20C004342F3 /* DKModifier.m */; };
 		B3E40D3F1A57D20C004342F3 /* DKStatistic.h in Headers */ = {isa = PBXBuildFile; fileRef = B3E40D371A57D20C004342F3 /* DKStatistic.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B3E40D401A57D20C004342F3 /* DKStatistic.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D381A57D20C004342F3 /* DKStatistic.m */; };
-		B3E40D591A57E53B004342F3 /* DKAbilitiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D531A57E53B004342F3 /* DKAbilitiesTests.m */; };
-		B3E40D5A1A57E53B004342F3 /* DKAbilityScoreTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D541A57E53B004342F3 /* DKAbilityScoreTests.m */; };
 		B3E40D5B1A57E53B004342F3 /* DKCharacterTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D561A57E53B004342F3 /* DKCharacterTests.m */; };
 		B3E40D5C1A57E53B004342F3 /* DKModifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D571A57E53B004342F3 /* DKModifierTests.m */; };
 		B3E40D5D1A57E53B004342F3 /* DKStatisticTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D581A57E53B004342F3 /* DKStatisticTests.m */; };
-		B3E40D5F1A57E587004342F3 /* DKCharacter5ETests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D5E1A57E587004342F3 /* DKCharacter5ETests.m */; };
 		B3E40D611A5A4D66004342F3 /* DKDependentModifierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3E40D601A5A4D66004342F3 /* DKDependentModifierTests.m */; };
-		B3F5883C1A5BE2D400E6A745 /* DKSavingThrowsTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F5883B1A5BE2D400E6A745 /* DKSavingThrowsTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +106,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = B32C77311A494A2700870150;
 			remoteInfo = DungeonKit;
+		};
+		B394E3F71B9BC82D00C7AFB6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B32C77291A494A2700870150 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B32C77311A494A2700870150;
+			remoteInfo = DungeonKit;
+		};
+		B394E41A1B9BC89D00C7AFB6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B32C77291A494A2700870150 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B394E3AB1B9BC77000C7AFB6;
+			remoteInfo = DungeonKit5E;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -131,10 +148,7 @@
 		B323F4801B43C96C00DA1FCA /* DKStatisticGroup5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKStatisticGroup5E.h; sourceTree = "<group>"; };
 		B323F4811B43C96C00DA1FCA /* DKStatisticGroup5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKStatisticGroup5E.m; sourceTree = "<group>"; };
 		B32C77321A494A2700870150 /* DungeonKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DungeonKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B32C77361A494A2700870150 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B32C77371A494A2700870150 /* DungeonKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DungeonKit.h; sourceTree = "<group>"; };
 		B32C773D1A494A2700870150 /* DungeonKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DungeonKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B32C77431A494A2700870150 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B3565E061B3297E600C86DC1 /* DKWeapon5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKWeapon5E.h; sourceTree = "<group>"; };
 		B3565E071B3297E600C86DC1 /* DKWeapon5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKWeapon5E.m; sourceTree = "<group>"; };
 		B3565E0D1B39368900C86DC1 /* DKArmor5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKArmor5E.h; sourceTree = "<group>"; };
@@ -155,6 +169,10 @@
 		B3751BD01AF88BCE0018F5D3 /* DKFighter5E.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKFighter5E.h; sourceTree = "<group>"; };
 		B3751BD11AF88BCE0018F5D3 /* DKFighter5E.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKFighter5E.m; sourceTree = "<group>"; };
 		B38DF2DE1B7C53F4004785F2 /* DKCleric5ETests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKCleric5ETests.m; sourceTree = "<group>"; };
+		B394E3A91B9BC70B00C7AFB6 /* DungeonKit5E.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DungeonKit5E.h; sourceTree = "<group>"; };
+		B394E3F51B9BC77000C7AFB6 /* DungeonKit5E.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = DungeonKit5E.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B394E4181B9BC86E00C7AFB6 /* DungeonKit5ETests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DungeonKit5ETests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B394E4211B9BCE8A00C7AFB6 /* DungeonKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DungeonKit.h; sourceTree = "<group>"; };
 		B3A8BD201B859E37004161BA /* DKDependencyOwner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DKDependencyOwner.h; sourceTree = "<group>"; };
 		B3A8BD211B859E37004161BA /* DKDependencyOwner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKDependencyOwner.m; sourceTree = "<group>"; };
 		B3A8BD251B8C47D1004161BA /* DKFighter5ETests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DKFighter5ETests.m; sourceTree = "<group>"; };
@@ -215,6 +233,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B394E3CD1B9BC77000C7AFB6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B394E4121B9BC86E00C7AFB6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B394E4131B9BC86E00C7AFB6 /* DungeonKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -250,7 +283,6 @@
 			children = (
 				B32C77341A494A2700870150 /* DungeonKit */,
 				B32C77411A494A2700870150 /* DungeonKitTests */,
-				B32C77351A494A2700870150 /* Supporting Files */,
 				B32C77331A494A2700870150 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -260,6 +292,8 @@
 			children = (
 				B32C77321A494A2700870150 /* DungeonKit.framework */,
 				B32C773D1A494A2700870150 /* DungeonKitTests.xctest */,
+				B394E3F51B9BC77000C7AFB6 /* DungeonKit5E.framework */,
+				B394E4181B9BC86E00C7AFB6 /* DungeonKit5ETests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -267,19 +301,9 @@
 		B32C77341A494A2700870150 /* DungeonKit */ = {
 			isa = PBXGroup;
 			children = (
-				B32C77371A494A2700870150 /* DungeonKit.h */,
 				B3E40D301A57D20C004342F3 /* core */,
 				B3E40D411A57D2BE004342F3 /* 5e */,
 			);
-			path = DungeonKit;
-			sourceTree = "<group>";
-		};
-		B32C77351A494A2700870150 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				B32C77361A494A2700870150 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			path = DungeonKit;
 			sourceTree = "<group>";
 		};
@@ -288,17 +312,8 @@
 			children = (
 				B3E40D551A57E53B004342F3 /* core */,
 				B3E40D521A57E53B004342F3 /* 5e */,
-				B32C77421A494A2700870150 /* Supporting Files */,
 			);
 			path = DungeonKitTests;
-			sourceTree = "<group>";
-		};
-		B32C77421A494A2700870150 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				B32C77431A494A2700870150 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		B36BF3461A762FE900979EE9 /* ModifierGroups */ = {
@@ -342,6 +357,7 @@
 		B3E40D301A57D20C004342F3 /* core */ = {
 			isa = PBXGroup;
 			children = (
+				B394E4211B9BCE8A00C7AFB6 /* DungeonKit.h */,
 				B3E40D311A57D20C004342F3 /* DKStatisticGroup.h */,
 				B3E40D321A57D20C004342F3 /* DKStatisticGroup.m */,
 				B3E40D371A57D20C004342F3 /* DKStatistic.h */,
@@ -368,6 +384,7 @@
 				B323F45B1B43C40700DA1FCA /* StatisticGroups */,
 				B3BB9ED71AEF550300012A3B /* Classes */,
 				B36BF3461A762FE900979EE9 /* ModifierGroups */,
+				B394E3A91B9BC70B00C7AFB6 /* DungeonKit5E.h */,
 				B36BF33E1A737C1300979EE9 /* DKStatisticIDs5E.h */,
 				B36BF33F1A737C1300979EE9 /* DKStatisticIDs5E.m */,
 				B3C605D21A68F90E007FADAB /* DKProficientStatistic.h */,
@@ -418,39 +435,47 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B323F4701B43C41900DA1FCA /* DKSavingThrows5E.h in Headers */,
-				B323F4721B43C41900DA1FCA /* DKSkills5E.h in Headers */,
-				B32C77381A494A2700870150 /* DungeonKit.h in Headers */,
-				B323F46E1B43C41900DA1FCA /* DKEquipment5E.h in Headers */,
-				B3C605D41A68F90E007FADAB /* DKProficientStatistic.h in Headers */,
-				B323F47E1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.h in Headers */,
-				B323F4521B422FB200DA1FCA /* DKRogue5E.h in Headers */,
+				B394E4221B9BCE8A00C7AFB6 /* DungeonKit.h in Headers */,
 				B3B565A41B4BC7A0004DB93B /* DKChoiceModifierGroup.h in Headers */,
-				B36BF3401A737C1300979EE9 /* DKStatisticIDs5E.h in Headers */,
-				B3565E081B3297E600C86DC1 /* DKWeapon5E.h in Headers */,
-				B3BB9EE41AEF553000012A3B /* DKClass5E.h in Headers */,
-				B36BF3491A762FE900979EE9 /* DKModifierGroupIDs5E.h in Headers */,
-				B3BB9EEA1AEF555600012A3B /* DKClasses5E.h in Headers */,
-				B323F4821B43C96C00DA1FCA /* DKStatisticGroup5E.h in Headers */,
-				B323F4741B43C41900DA1FCA /* DKSpellbook5E.h in Headers */,
-				B323F46C1B43C41900DA1FCA /* DKCurrency5E.h in Headers */,
-				B3B565AA1B4CEAFF004DB93B /* DKLanguage5E.h in Headers */,
-				B3565E0F1B39368900C86DC1 /* DKArmor5E.h in Headers */,
-				B36BF3511A7630A800979EE9 /* DKRace5E.h in Headers */,
-				B3B5659C1B44CA51004DB93B /* DKWizard5E.h in Headers */,
 				B36BF33C1A7351D700979EE9 /* DKModifierGroup.h in Headers */,
-				B3B565B51B523ADF004DB93B /* DKModifierGroupTags5E.h in Headers */,
-				B3BB9EE61AEF553000012A3B /* DKCleric5E.h in Headers */,
 				B3A8BD221B859E37004161BA /* DKDependencyOwner.h in Headers */,
 				B3751BCE1AF72E110018F5D3 /* DKModifierBuilder.h in Headers */,
 				B3C605EA1A722F83007FADAB /* DKDiceCollection.h in Headers */,
 				B3E40D3D1A57D20C004342F3 /* DKModifier.h in Headers */,
-				B323F46A1B43C41900DA1FCA /* DKAbilities5E.h in Headers */,
-				B323F47A1B43C48600DA1FCA /* DKCharacter5E.h in Headers */,
 				B3E40D3F1A57D20C004342F3 /* DKStatistic.h in Headers */,
-				B3751BD21AF88BCE0018F5D3 /* DKFighter5E.h in Headers */,
-				B323F4761B43C41900DA1FCA /* DKSpellcasting5E.h in Headers */,
 				B3E40D391A57D20C004342F3 /* DKStatisticGroup.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B394E3CE1B9BC77000C7AFB6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B394E3CF1B9BC77000C7AFB6 /* DKSavingThrows5E.h in Headers */,
+				B394E3D01B9BC77000C7AFB6 /* DKSkills5E.h in Headers */,
+				B394E3D11B9BC77000C7AFB6 /* DungeonKit5E.h in Headers */,
+				B394E3D31B9BC77000C7AFB6 /* DKEquipment5E.h in Headers */,
+				B394E3D41B9BC77000C7AFB6 /* DKProficientStatistic.h in Headers */,
+				B394E3D51B9BC77000C7AFB6 /* DKStatisticGroupIDs5E.h in Headers */,
+				B394E3D61B9BC77000C7AFB6 /* DKRogue5E.h in Headers */,
+				B394E3D81B9BC77000C7AFB6 /* DKStatisticIDs5E.h in Headers */,
+				B394E3D91B9BC77000C7AFB6 /* DKWeapon5E.h in Headers */,
+				B394E3DA1B9BC77000C7AFB6 /* DKClass5E.h in Headers */,
+				B394E3DB1B9BC77000C7AFB6 /* DKModifierGroupIDs5E.h in Headers */,
+				B394E3DC1B9BC77000C7AFB6 /* DKClasses5E.h in Headers */,
+				B394E3DD1B9BC77000C7AFB6 /* DKStatisticGroup5E.h in Headers */,
+				B394E3DE1B9BC77000C7AFB6 /* DKSpellbook5E.h in Headers */,
+				B394E3DF1B9BC77000C7AFB6 /* DKCurrency5E.h in Headers */,
+				B394E3E01B9BC77000C7AFB6 /* DKLanguage5E.h in Headers */,
+				B394E3E11B9BC77000C7AFB6 /* DKArmor5E.h in Headers */,
+				B394E3E21B9BC77000C7AFB6 /* DKRace5E.h in Headers */,
+				B394E3E31B9BC77000C7AFB6 /* DKWizard5E.h in Headers */,
+				B394E3E51B9BC77000C7AFB6 /* DKModifierGroupTags5E.h in Headers */,
+				B394E3E61B9BC77000C7AFB6 /* DKCleric5E.h in Headers */,
+				B394E3EB1B9BC77000C7AFB6 /* DKAbilities5E.h in Headers */,
+				B394E3EC1B9BC77000C7AFB6 /* DKCharacter5E.h in Headers */,
+				B394E3EE1B9BC77000C7AFB6 /* DKFighter5E.h in Headers */,
+				B394E3EF1B9BC77000C7AFB6 /* DKSpellcasting5E.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +518,43 @@
 			productReference = B32C773D1A494A2700870150 /* DungeonKitTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		B394E3AB1B9BC77000C7AFB6 /* DungeonKit5E */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B394E3F21B9BC77000C7AFB6 /* Build configuration list for PBXNativeTarget "DungeonKit5E" */;
+			buildPhases = (
+				B394E3AC1B9BC77000C7AFB6 /* Sources */,
+				B394E3CD1B9BC77000C7AFB6 /* Frameworks */,
+				B394E3CE1B9BC77000C7AFB6 /* Headers */,
+				B394E3F11B9BC77000C7AFB6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B394E3F81B9BC82D00C7AFB6 /* PBXTargetDependency */,
+			);
+			name = DungeonKit5E;
+			productName = DungeonKit;
+			productReference = B394E3F51B9BC77000C7AFB6 /* DungeonKit5E.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B394E3F91B9BC86E00C7AFB6 /* DungeonKit5ETests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B394E4151B9BC86E00C7AFB6 /* Build configuration list for PBXNativeTarget "DungeonKit5ETests" */;
+			buildPhases = (
+				B394E3FC1B9BC86E00C7AFB6 /* Sources */,
+				B394E4121B9BC86E00C7AFB6 /* Frameworks */,
+				B394E4141B9BC86E00C7AFB6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B394E41B1B9BC89D00C7AFB6 /* PBXTargetDependency */,
+			);
+			name = DungeonKit5ETests;
+			productName = DungeonKitTests;
+			productReference = B394E4181B9BC86E00C7AFB6 /* DungeonKit5ETests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -523,7 +585,9 @@
 			projectRoot = "";
 			targets = (
 				B32C77311A494A2700870150 /* DungeonKit */,
+				B394E3AB1B9BC77000C7AFB6 /* DungeonKit5E */,
 				B32C773C1A494A2700870150 /* DungeonKitTests */,
+				B394E3F91B9BC86E00C7AFB6 /* DungeonKit5ETests */,
 			);
 		};
 /* End PBXProject section */
@@ -543,6 +607,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B394E3F11B9BC77000C7AFB6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B394E4141B9BC86E00C7AFB6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -550,38 +628,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3BB9EE71AEF553000012A3B /* DKCleric5E.m in Sources */,
-				B323F46B1B43C41900DA1FCA /* DKAbilities5E.m in Sources */,
-				B323F4731B43C41900DA1FCA /* DKSkills5E.m in Sources */,
-				B3BB9EEB1AEF555600012A3B /* DKClasses5E.m in Sources */,
-				B323F4531B422FB200DA1FCA /* DKRogue5E.m in Sources */,
-				B323F4711B43C41900DA1FCA /* DKSavingThrows5E.m in Sources */,
-				B323F4771B43C41900DA1FCA /* DKSpellcasting5E.m in Sources */,
 				B3E40D401A57D20C004342F3 /* DKStatistic.m in Sources */,
-				B3B5659D1B44CA51004DB93B /* DKWizard5E.m in Sources */,
-				B3751BD31AF88BCE0018F5D3 /* DKFighter5E.m in Sources */,
-				B36BF34A1A762FE900979EE9 /* DKModifierGroupIDs5E.m in Sources */,
-				B36BF3521A7630A800979EE9 /* DKRace5E.m in Sources */,
 				B3751BCF1AF72E110018F5D3 /* DKModifierBuilder.m in Sources */,
-				B323F4831B43C96C00DA1FCA /* DKStatisticGroup5E.m in Sources */,
-				B3565E091B3297E600C86DC1 /* DKWeapon5E.m in Sources */,
-				B323F46F1B43C41900DA1FCA /* DKEquipment5E.m in Sources */,
-				B323F47B1B43C48600DA1FCA /* DKCharacter5E.m in Sources */,
-				B323F47F1B43C4AE00DA1FCA /* DKStatisticGroupIDs5E.m in Sources */,
 				B3B565A51B4BC7A0004DB93B /* DKChoiceModifierGroup.m in Sources */,
 				B36BF33D1A7351D700979EE9 /* DKModifierGroup.m in Sources */,
 				B3A8BD231B859E37004161BA /* DKDependencyOwner.m in Sources */,
-				B3B565AB1B4CEAFF004DB93B /* DKLanguage5E.m in Sources */,
-				B323F4751B43C41900DA1FCA /* DKSpellbook5E.m in Sources */,
 				B3C605EB1A722F83007FADAB /* DKDiceCollection.m in Sources */,
-				B3C605D51A68F90E007FADAB /* DKProficientStatistic.m in Sources */,
-				B323F46D1B43C41900DA1FCA /* DKCurrency5E.m in Sources */,
 				B3E40D3E1A57D20C004342F3 /* DKModifier.m in Sources */,
-				B3B565B61B523ADF004DB93B /* DKModifierGroupTags5E.m in Sources */,
-				B36BF3411A737C1300979EE9 /* DKStatisticIDs5E.m in Sources */,
 				B3E40D3A1A57D20C004342F3 /* DKStatisticGroup.m in Sources */,
-				B3565E101B39368900C86DC1 /* DKArmor5E.m in Sources */,
-				B3BB9EE51AEF553000012A3B /* DKClass5E.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -589,27 +643,66 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B3C605E71A720E72007FADAB /* DKSkillsTests.m in Sources */,
-				B3F5883C1A5BE2D400E6A745 /* DKSavingThrowsTests.m in Sources */,
 				B3E40D611A5A4D66004342F3 /* DKDependentModifierTests.m in Sources */,
-				B3B565A11B4BA321004DB93B /* DKRace5ETests.m in Sources */,
 				B32222661AEA144300EE0DD6 /* DKModifierGroupTests.m in Sources */,
 				B3E40D5C1A57E53B004342F3 /* DKModifierTests.m in Sources */,
-				B3565E121B39584B00C86DC1 /* DKEquipmentTests.m in Sources */,
-				B3E40D5A1A57E53B004342F3 /* DKAbilityScoreTests.m in Sources */,
-				B3A8BD291B8E9F5D004161BA /* DKRogue5ETests.m in Sources */,
-				B3E40D5F1A57E587004342F3 /* DKCharacter5ETests.m in Sources */,
-				B3C605D71A691282007FADAB /* DKProficientStatisticTests.m in Sources */,
 				B36F2D751AFF53A80079263C /* DKDiceCollectionTests.m in Sources */,
-				B3A8BD2E1B92541C004161BA /* DKPerformance5ETests.m in Sources */,
-				B3E40D591A57E53B004342F3 /* DKAbilitiesTests.m in Sources */,
-				B3A8BD261B8C47D1004161BA /* DKFighter5ETests.m in Sources */,
 				B3E40D5D1A57E53B004342F3 /* DKStatisticTests.m in Sources */,
-				B3A8BD2C1B9123A1004161BA /* DKWizard5ETests.m in Sources */,
-				B36BF3351A7251FF00979EE9 /* DKCurrencyTests.m in Sources */,
 				B3B565A71B4BCB1C004DB93B /* DKChoiceModifierGroupTests.m in Sources */,
 				B3E40D5B1A57E53B004342F3 /* DKCharacterTests.m in Sources */,
-				B38DF2DF1B7C53F4004785F2 /* DKCleric5ETests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B394E3AC1B9BC77000C7AFB6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B394E3AD1B9BC77000C7AFB6 /* DKCleric5E.m in Sources */,
+				B394E3AE1B9BC77000C7AFB6 /* DKAbilities5E.m in Sources */,
+				B394E3AF1B9BC77000C7AFB6 /* DKSkills5E.m in Sources */,
+				B394E3B01B9BC77000C7AFB6 /* DKClasses5E.m in Sources */,
+				B394E3B11B9BC77000C7AFB6 /* DKRogue5E.m in Sources */,
+				B394E3B21B9BC77000C7AFB6 /* DKSavingThrows5E.m in Sources */,
+				B394E3B31B9BC77000C7AFB6 /* DKSpellcasting5E.m in Sources */,
+				B394E3B51B9BC77000C7AFB6 /* DKWizard5E.m in Sources */,
+				B394E3B61B9BC77000C7AFB6 /* DKFighter5E.m in Sources */,
+				B394E3B71B9BC77000C7AFB6 /* DKModifierGroupIDs5E.m in Sources */,
+				B394E3B81B9BC77000C7AFB6 /* DKRace5E.m in Sources */,
+				B394E3BA1B9BC77000C7AFB6 /* DKStatisticGroup5E.m in Sources */,
+				B394E3BB1B9BC77000C7AFB6 /* DKWeapon5E.m in Sources */,
+				B394E3BC1B9BC77000C7AFB6 /* DKEquipment5E.m in Sources */,
+				B394E3BD1B9BC77000C7AFB6 /* DKCharacter5E.m in Sources */,
+				B394E3BE1B9BC77000C7AFB6 /* DKStatisticGroupIDs5E.m in Sources */,
+				B394E3C21B9BC77000C7AFB6 /* DKLanguage5E.m in Sources */,
+				B394E3C31B9BC77000C7AFB6 /* DKSpellbook5E.m in Sources */,
+				B394E3C51B9BC77000C7AFB6 /* DKProficientStatistic.m in Sources */,
+				B394E3C61B9BC77000C7AFB6 /* DKCurrency5E.m in Sources */,
+				B394E3C81B9BC77000C7AFB6 /* DKModifierGroupTags5E.m in Sources */,
+				B394E3C91B9BC77000C7AFB6 /* DKStatisticIDs5E.m in Sources */,
+				B394E3CB1B9BC77000C7AFB6 /* DKArmor5E.m in Sources */,
+				B394E3CC1B9BC77000C7AFB6 /* DKClass5E.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B394E3FC1B9BC86E00C7AFB6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B394E3FD1B9BC86E00C7AFB6 /* DKSkillsTests.m in Sources */,
+				B394E3FE1B9BC86E00C7AFB6 /* DKSavingThrowsTests.m in Sources */,
+				B394E4001B9BC86E00C7AFB6 /* DKRace5ETests.m in Sources */,
+				B394E4031B9BC86E00C7AFB6 /* DKEquipmentTests.m in Sources */,
+				B394E4041B9BC86E00C7AFB6 /* DKAbilityScoreTests.m in Sources */,
+				B394E4051B9BC86E00C7AFB6 /* DKRogue5ETests.m in Sources */,
+				B394E4061B9BC86E00C7AFB6 /* DKCharacter5ETests.m in Sources */,
+				B394E4071B9BC86E00C7AFB6 /* DKProficientStatisticTests.m in Sources */,
+				B394E4091B9BC86E00C7AFB6 /* DKPerformance5ETests.m in Sources */,
+				B394E40A1B9BC86E00C7AFB6 /* DKAbilitiesTests.m in Sources */,
+				B394E40B1B9BC86E00C7AFB6 /* DKFighter5ETests.m in Sources */,
+				B394E40C1B9BC86E00C7AFB6 /* DKStatisticTests.m in Sources */,
+				B394E40D1B9BC86E00C7AFB6 /* DKWizard5ETests.m in Sources */,
+				B394E40E1B9BC86E00C7AFB6 /* DKCurrencyTests.m in Sources */,
+				B394E4111B9BC86E00C7AFB6 /* DKCleric5ETests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,6 +713,16 @@
 			isa = PBXTargetDependency;
 			target = B32C77311A494A2700870150 /* DungeonKit */;
 			targetProxy = B32C773F1A494A2700870150 /* PBXContainerItemProxy */;
+		};
+		B394E3F81B9BC82D00C7AFB6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B32C77311A494A2700870150 /* DungeonKit */;
+			targetProxy = B394E3F71B9BC82D00C7AFB6 /* PBXContainerItemProxy */;
+		};
+		B394E41B1B9BC89D00C7AFB6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B394E3AB1B9BC77000C7AFB6 /* DungeonKit5E */;
+			targetProxy = B394E41A1B9BC89D00C7AFB6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -659,7 +762,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -698,7 +801,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -715,7 +818,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = DungeonKit/Info.plist;
+				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -730,7 +833,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = DungeonKit/Info.plist;
+				INFOPLIST_FILE = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -749,7 +852,6 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = DungeonKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -762,9 +864,66 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = DungeonKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		B394E3F31B9BC77000C7AFB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = DungeonKit5E;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		B394E3F41B9BC77000C7AFB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = DungeonKit5E;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		B394E4161B9BC86E00C7AFB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = DungeonKit5ETests;
+			};
+			name = Debug;
+		};
+		B394E4171B9BC86E00C7AFB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_NAME = DungeonKit5ETests;
 			};
 			name = Release;
 		};
@@ -794,6 +953,24 @@
 			buildConfigurations = (
 				B32C774C1A494A2700870150 /* Debug */,
 				B32C774D1A494A2700870150 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B394E3F21B9BC77000C7AFB6 /* Build configuration list for PBXNativeTarget "DungeonKit5E" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B394E3F31B9BC77000C7AFB6 /* Debug */,
+				B394E3F41B9BC77000C7AFB6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B394E4151B9BC86E00C7AFB6 /* Build configuration list for PBXNativeTarget "DungeonKit5ETests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B394E4161B9BC86E00C7AFB6 /* Debug */,
+				B394E4171B9BC86E00C7AFB6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
