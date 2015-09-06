@@ -322,7 +322,8 @@ static void* const DKCharacterModifierGroupKVOContext = (void*)&DKCharacterModif
     
     NSArray* allUnallocatedChoices = [self allUnallocatedChoices];
     return [allUnallocatedChoices filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
-        return [[evaluatedObject tag] isEqualToString:tag];
+        DKChoiceModifierGroup* choice = (DKChoiceModifierGroup*)evaluatedObject;
+        return [[choice tag] isEqualToString:tag];
     }]];
 }
 

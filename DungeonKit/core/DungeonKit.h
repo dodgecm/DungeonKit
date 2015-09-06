@@ -41,27 +41,3 @@ FOUNDATION_EXPORT const unsigned char DungeonKitVersionString[];
 #import <DungeonKit/DKModifierGroup.h>
 #import <DungeonKit/DKChoiceModifierGroup.h>
 #import <DungeonKit/DKDependencyOwner.h>
-
-#import <DungeonKit/DKStatisticGroup5E.h>
-#import <DungeonKit/DKCharacter5E.h>
-#import <DungeonKit/DKStatisticIDs5E.h>
-#import <DungeonKit/DKStatisticGroupIDs5E.h>
-#import <DungeonKit/DKModifierGroupIDs5E.h>
-#import <DungeonKit/DKProficientStatistic.h>
-#import <DungeonKit/DKRace5E.h>
-#import <DungeonKit/DKClasses5E.h>
-#import <DungeonKit/DKClass5E.h>
-#import <DungeonKit/DKCleric5E.h>
-#import <DungeonKit/DKFighter5E.h>
-#import <DungeonKit/DKRogue5E.h>
-#import <DungeonKit/DKWizard5E.h>
-#import <DungeonKit/DKAbilities5E.h>
-#import <DungeonKit/DKSavingThrows5E.h>
-#import <DungeonKit/DKSkills5E.h>
-#import <DungeonKit/DKSpellcasting5E.h>
-#import <DungeonKit/DKSpellbook5E.h>
-#import <DungeonKit/DKCurrency5E.h>
-#import <DungeonKit/DKEquipment5E.h>
-#import <DungeonKit/DKWeapon5E.h>
-#import <DungeonKit/DKArmor5E.h>
-#import <DungeonKit/DKLanguage5E.h>
