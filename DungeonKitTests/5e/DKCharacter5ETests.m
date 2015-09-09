@@ -41,7 +41,7 @@
     
     _character.abilities.dexterity.base = @14;
     _character.armorClass = [[DKNumericStatistic alloc] initWithInt:10];
-    [_character.armorClass applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
+    [_character.armorClass applyModifier:[DKModifier numericModifierWithAdditiveBonus:2]];
     XCTAssertEqualObjects(_character.armorClass.value, @12, @"Character should start off with the correct armor class value.");
     
     DKModifier* dependentModifier = [_character.abilities.dexterity modifierFromAbilityScore];

@@ -28,7 +28,7 @@
     XCTAssertEqualObjects(stat.base, @10, @"Unmodified statistic should start with correct score.");
     XCTAssertEqualObjects(stat.value, @10 , @"Unmodified statistic should start with correct score.");
     
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [stat applyModifier:modifier];
     XCTAssertEqualObjects(stat.base, @10, @"Modified statistic should calculate correct score.");
     XCTAssertEqualObjects(stat.value, @15, @"Modified statistic should calculate correct score.");
@@ -45,8 +45,8 @@
 - (void)testModifierSorting {
     
     DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
-    DKModifier* secondModifier = [DKModifierBuilder modifierWithMinimum:18];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
+    DKModifier* secondModifier = [DKModifier numericModifierWithMin:18];
     [stat applyModifier:secondModifier];
     [stat applyModifier:modifier];
     XCTAssertEqualObjects(stat.value, @18, @"Modifiers should be applied in the correct value.");
@@ -54,10 +54,10 @@
 
 - (void)testModifierFiltering {
     DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
-    DKModifier* firstModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
-    DKModifier* secondModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
-    DKModifier* thirdModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
-    DKModifier* fourthModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* firstModifier = [DKModifier numericModifierWithAdditiveBonus:5];
+    DKModifier* secondModifier = [DKModifier numericModifierWithAdditiveBonus:5];
+    DKModifier* thirdModifier = [DKModifier numericModifierWithAdditiveBonus:5];
+    DKModifier* fourthModifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [stat applyModifier:firstModifier];
     [stat applyModifier:secondModifier];
     [stat applyModifier:thirdModifier];
@@ -87,7 +87,7 @@
 - (void)testModifierRemovalErrorCase {
     
     DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [stat removeModifier:modifier];
     [stat removeModifier:nil];
 }
@@ -106,7 +106,7 @@
 - (void)testModifierBuilder {
     
     DKStringStatistic* stat = [[DKStringStatistic alloc] initWithString:@"test"];
-    DKModifier* modifier = [DKModifierBuilder modifierWithOverrideString:@"test2"];
+    DKModifier* modifier = [DKModifier stringModifierWithNewString:@"test2"];
     
     XCTAssertEqualObjects(stat.value, @"test", @"Object should start off with the correct value.");
     
@@ -145,9 +145,9 @@
 - (void)testModifierBuilder {
 
     DKSetStatistic* stat = [DKSetStatistic statisticWithSet:[NSSet set]];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAppendedString:@"value1"];
-    DKModifier* modifier2 = [DKModifierBuilder modifierWithAppendedString:@"value2"];
-    DKModifier* modifier3 = [DKModifierBuilder modifierWithAppendedString:@"value3"];
+    DKModifier* modifier = [DKModifier setModifierWithAppendedObject:@"value1"];
+    DKModifier* modifier2 = [DKModifier setModifierWithAppendedObject:@"value2"];
+    DKModifier* modifier3 = [DKModifier setModifierWithAppendedObject:@"value3"];
     
     [stat applyModifier:modifier];
     [stat applyModifier:modifier2];

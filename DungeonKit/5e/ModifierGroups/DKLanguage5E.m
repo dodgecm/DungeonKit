@@ -33,7 +33,7 @@
                                 @"Sylvan",
                                 @"Undercommon" ];
     for (NSString* language in languageNames) {
-        [languageGroup addModifier:[DKModifierBuilder modifierWithAppendedString:language explanation:explanation]
+        [languageGroup addModifier:[DKModifier setModifierWithAppendedObject:language explanation:explanation]
                     forStatisticID:DKStatIDLanguages];
     }
     

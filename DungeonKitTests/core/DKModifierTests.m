@@ -29,13 +29,13 @@
 
 - (void)testConstructors {
     
-    XCTAssertNotNil([DKModifierBuilder modifierWithAdditiveBonus:5], @"Constructors should return non-nil object.");
+    XCTAssertNotNil([DKModifier numericModifierWithAdditiveBonus:5], @"Constructors should return non-nil object.");
 }
 
 - (void)testModifying {
     
     DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     XCTAssertEqualObjects(modifier.value, @5, @"Modifier fields should reflect its state properly.");
     XCTAssertNil(modifier.owner, @"Modifier fields should reflect its state properly.");
     [stat applyModifier:modifier];
@@ -47,7 +47,7 @@
 - (void)testValueChange {
     
     DKNumericStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [stat applyModifier:modifier];
     XCTAssertEqualObjects(stat.value, @15, @"Statistic should update score when modifier value is changed.");
     modifier.value = @3;
@@ -60,7 +60,7 @@
     //Modifier should only be allowed on one statistic at a time
     DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
     DKStatistic* stat2 = [[DKNumericStatistic alloc] initWithInt:15];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [stat applyModifier:modifier];
     [stat2 applyModifier:modifier];
     XCTAssertEqualObjects(stat.value, @10, @"Modifier should only belong to one statistic at a time.");
@@ -70,7 +70,7 @@
 - (void)testInformationalModifier {
     
     DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
-    DKModifier* modifier = [DKModifierBuilder modifierWithExplanation:@"This is a modifier that does not change a statistic's value."];
+    DKModifier* modifier = [DKModifier modifierWithExplanation:@"This is a modifier that does not change a statistic's value."];
     [stat applyModifier:modifier];
     XCTAssertEqualObjects(stat.value, @10, @"Informational modifier should not change statistic's value.");
 }
@@ -82,7 +82,7 @@
     DKNumericStatistic* stat = [[DKNumericStatistic alloc] initWithInt:0];
     [statGroup setStatistic:stat forStatisticID:@"stat"];
     
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [stat applyModifier:modifier];
     
     [statGroup setStatistic:[[DKNumericStatistic alloc] initWithInt:5] forStatisticID:@"stat"];
@@ -92,7 +92,7 @@
 - (void)testActiveModifier {
     
     DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [stat applyModifier:modifier];
     XCTAssertEqualObjects(stat.value, @15, @"Statistic should update score when modifier value is changed.");
     
@@ -102,10 +102,30 @@
     XCTAssertEqualObjects(stat.value, @15, @"Statistic should update score when enabled value is changed.");
 }
 
+- (void)testTypeChecking {
+    
+    DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:stat
+                                                        value:[DKExpressionBuilder valueFromDependency:@"source"]
+                                                     priority:kDKModifierPriority_Additive
+                                                   expression:[DKExpressionBuilder additionExpression]];
+    modifier.expectedInputType = [NSNumber class];
+    modifier.expectedValueType = [NSNumber class];
+    
+    DKStatistic* target = [[DKNumericStatistic alloc] initWithInt:10];
+    XCTAssertNoThrow([modifier modifyStatistic:target.base], @"Modifier should verify the input and value types correctly.");
+    
+    target = [DKSetStatistic statisticWithEmptySet];
+    XCTAssertThrows([modifier modifyStatistic:target.base], @"Modifier should verify the input types correctly.");
+    
+    modifier.expectedValueType = [NSSet class];
+    XCTAssertThrows([modifier refresh], @"Modifier should verify the value types correctly.");
+}
+
 - (void)testEncoding {
     
     DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
     NSString* documentsDirectory = [paths objectAtIndex:0];
     NSString* filePath = [NSString stringWithFormat:@"%@%@", documentsDirectory, @"encodeModifierTest"];

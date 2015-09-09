@@ -49,10 +49,10 @@
     
     self.testCharacter = [[DKTestCharacter alloc] init];
     self.testStatistic = [DKNumericStatistic statisticWithInt:10];
-    self.testModifier = [DKModifierBuilder modifierWithAdditiveBonus:2];
+    self.testModifier = [DKModifier numericModifierWithAdditiveBonus:2];
     
-    DKModifier* groupModifierOne = [DKModifierBuilder modifierWithAdditiveBonus:3];
-    DKModifier* groupModifierTwo = [DKModifierBuilder modifierWithAdditiveBonus:1];
+    DKModifier* groupModifierOne = [DKModifier numericModifierWithAdditiveBonus:3];
+    DKModifier* groupModifierTwo = [DKModifier numericModifierWithAdditiveBonus:1];
     self.testGroup = [[DKModifierGroup alloc] init];
     [_testGroup addModifier:groupModifierOne forStatisticID:@"test"];
     [_testGroup addModifier:groupModifierTwo forStatisticID:@"two"];
@@ -108,7 +108,7 @@
     
     DKTestCharacter* character = [[DKTestCharacter alloc] init];
     character.testStatistic = [DKNumericStatistic statisticWithInt:10];
-    [character.testStatistic applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
+    [character.testStatistic applyModifier:[DKModifier numericModifierWithAdditiveBonus:2]];
 
     [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
     XCTAssertEqualObjects(character.testStatistic.value, @12, @"Statistic should calculate modifier properly.");
@@ -119,7 +119,7 @@
     DKTestCharacter* character = [[DKTestCharacter alloc] init];
     character.testStatistic = [DKNumericStatistic statisticWithInt:10];
     DKStatistic* secondStatistic = [DKNumericStatistic statisticWithInt:8];
-    [secondStatistic applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
+    [secondStatistic applyModifier:[DKModifier numericModifierWithAdditiveBonus:2]];
     
     [character setStatistic:secondStatistic forStatisticID:@"test"];
     [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
@@ -133,10 +133,10 @@
     [character addKeyPath:@"testStatistic2" forStatisticID:@"test2"];
     character.testStatistic = [DKNumericStatistic statisticWithInt:10];
     character.testStatistic2 = [DKNumericStatistic statisticWithInt:10];
-    [character.testStatistic applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:character.testStatistic2]];
+    [character.testStatistic applyModifier:[DKModifier numericModifierAddedFromSource:character.testStatistic2]];
     
     DKStatistic* newStatistic2 = [DKNumericStatistic statisticWithInt:8];
-    [newStatistic2 applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:character.testStatistic]];
+    [newStatistic2 applyModifier:[DKModifier numericModifierAddedFromSource:character.testStatistic]];
     character.testStatistic2 = newStatistic2;
     XCTAssertEqual(character.testStatistic2.modifiers.count, 0, @"Statistic should drop all its modifiers instead of creating a modifier cycle.");
 }
@@ -223,18 +223,18 @@
     DKTestCharacter* character = [[DKTestCharacter alloc] init];
     character.testStatistic = [DKNumericStatistic statisticWithInt:10];
     DKStatistic* secondStatistic = [DKNumericStatistic statisticWithInt:8];
-    [secondStatistic applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:2]];
+    [secondStatistic applyModifier:[DKModifier numericModifierWithAdditiveBonus:2]];
     
     [character setStatistic:secondStatistic forStatisticID:@"test2"];
     [character addKeyPath:@"testStatistic" forStatisticID:@"test"];
     
     DKModifierGroup* group1 = [[DKModifierGroup alloc] init];
-    DKModifier* group1Modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* group1Modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [group1 addModifier:group1Modifier forStatisticID:@"test"];
     [character addModifierGroup:group1 forGroupID:@"group1"];
     
     DKModifierGroup* group2 = [[DKModifierGroup alloc] init];
-    DKModifier* group2Modifier = [DKModifierBuilder modifierWithAdditiveBonus:15];
+    DKModifier* group2Modifier = [DKModifier numericModifierWithAdditiveBonus:15];
     [group2 addModifier:group2Modifier forStatisticID:@"test2"];
     character.modifierGroup2 = group2;
     [character addKeyPath:@"modifierGroup2" forModifierGroupID:@"group2"];

@@ -208,7 +208,7 @@
 
 - (void)testLoadingWeapon {
     
-    [_character applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:1] toStatisticWithID:DKStatIDMainHandWeaponAttacksPerAction];
+    [_character applyModifier:[DKModifier numericModifierWithAdditiveBonus:1] toStatisticWithID:DKStatIDMainHandWeaponAttacksPerAction];
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponAttacksPerAction.value, @2, "Main hand weapon should get 2 attacks per round.");
     
     [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_HeavyCrossbow
@@ -267,7 +267,7 @@
     XCTAssertEqualObjects(_character.armorClass.value, @18, "Dexterity ability score does not get applied for heavy armor.");
     
     //Replacement racial movement speed since we haven't picked a race
-    [_character.movementSpeed applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:30]];
+    [_character.movementSpeed applyModifier:[DKModifier numericModifierWithAdditiveBonus:30]];
     _character.abilities.strength.base = @13;
     XCTAssertEqualObjects(_character.movementSpeed.value, @20, "Movement speed is reduced by 10 for heavy armor if the strength requierment is not met.");
     
@@ -277,7 +277,7 @@
 
 - (void)testArmorProficiency {
     
-    [_character applyModifier:[DKModifierBuilder modifierWithAdditiveBonus:1] toStatisticWithID:DKStatIDFirstLevelSpellSlotsCurrent];
+    [_character applyModifier:[DKModifier numericModifierWithAdditiveBonus:1] toStatisticWithID:DKStatIDFirstLevelSpellSlotsCurrent];
     XCTAssertEqualObjects(_character.spells.firstLevelSpellSlotsCurrent.value, @1, "Unarmed armor does not require any proficiency.");
     
     [_character.equipment equipArmor:[DKArmorBuilder5E armorOfType:kDKArmorType5E_StuddedLeather

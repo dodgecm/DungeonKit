@@ -1,5 +1,5 @@
 //
-//  DKCharacter.m
+//  DKStatisticGroup.m
 //  DungeonKit
 //
 //  Created by Christopher Dodge on 12/23/14.

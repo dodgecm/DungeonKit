@@ -47,10 +47,10 @@
     NSDictionary* dependencies = @{ @"bonus" : proficiencyBonus,
                                     @"proficiencies" : weaponProficiencies };
     DKModifier* modifier = [[DKModifier alloc] initWithDependencies:dependencies
-                                                              value:[DKDependentModifierBuilder valueFromDependency:@"bonus"]
-                                                            enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies"containsAnyFromObjects:proficiencyTypes]
+                                                              value:[DKExpressionBuilder valueFromDependency:@"bonus"]
+                                                            enabled:[DKPredicateBuilder enabledWhen:@"proficiencies"containsAnyFromObjects:proficiencyTypes]
                                                            priority:kDKModifierPriority_Additive
-                                                         expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                         expression:[DKExpressionBuilder additionExpression]];
     modifier.explanation = @"Proficiency bonus";
     return modifier;
 }
@@ -67,7 +67,7 @@
                                               value:valueExpression
                                             enabled:nil
                                            priority:kDKModifierPriority_Additive
-                                         expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                         expression:[DKExpressionBuilder additionExpression]];
 }
 
 + (DKModifierGroup*)damageAbilityScoreModifierFromAbilities:(DKAbilities5E*)abilities
@@ -96,24 +96,24 @@
     if (isMainHand) {
         enabled = nil;
     } else {
-        enabled = [DKDependentModifierBuilder enabledWhen:@"proficiencies" containsObject:@"Two-Weapon Fighting"];
+        enabled = [DKPredicateBuilder enabledWhen:@"proficiencies" containsObject:@"Two-Weapon Fighting"];
     }
     
     [damage addModifier:[[DKModifier alloc] initWithDependencies:dependencies
-                                                           value:[DKDependentModifierBuilder valueAsDiceCollectionFromExpression:valueExpression]
+                                                           value:[DKExpressionBuilder valueAsDiceCollectionFromExpression:valueExpression]
                                                          enabled:enabled
                                                         priority:kDKModifierPriority_Additive
-                                                      expression:[DKModifierBuilder simpleAddDiceModifierExpression]]
+                                                      expression:[DKExpressionBuilder addDiceExpression]]
          forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
     
     if (!isMainHand) {
         //For non proficient off-hand weapon, the ability score only gets applied if it is negative
         valueExpression = [NSExpression expressionForFunction:@"min:" arguments:@[ [NSExpression expressionForAggregate:@[ valueExpression, [NSExpression expressionForConstantValue:@(0)]]] ]];
         DKModifier* nonProficientModifier = [[DKModifier alloc] initWithDependencies:dependencies
-                                                                               value:[DKDependentModifierBuilder valueAsDiceCollectionFromExpression:valueExpression]
-                                                                             enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies" doesNotContainAnyFromObjects:@[ @"Two-Weapon Fighting"] ]
+                                                                               value:[DKExpressionBuilder valueAsDiceCollectionFromExpression:valueExpression]
+                                                                             enabled:[DKPredicateBuilder enabledWhen:@"proficiencies" doesNotContainAnyFromObjects:@[ @"Two-Weapon Fighting"] ]
                                                                             priority:kDKModifierPriority_Additive
-                                                                          expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
+                                                                          expression:[DKExpressionBuilder addDiceExpression]];
         nonProficientModifier.explanation = @"Off-hand weapons do not receive ability score bonuses to damage unless the ability score is negative or the character is proficient in Two-Weapon Fighting.";
         [damage addModifier:nonProficientModifier
              forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
@@ -153,37 +153,37 @@
     
     //Weapon attributes
     for (NSString* weaponAttribute in attributes) {
-        [weapon addModifier:[DKModifierBuilder modifierWithAppendedString:weaponAttribute]
+        [weapon addModifier:[DKModifier setModifierWithAppendedObject:weaponAttribute]
              forStatisticID:[DKWeaponBuilder5E weaponAttributesStatIDForMainHand:isMainHand]];
     }
     
     //Damage dice
     if (!versatileDamageDiceOrNil || !isMainHand) {
-        [weapon addModifier:[DKModifierBuilder modifierWithAddedDice:damageDice]
+        [weapon addModifier:[DKModifier diceModifierWithAddedDice:damageDice]
              forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
     } else {
         
         //Versatile weapon damage dice
-        [weapon addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:offHandOccupied
-                                                                              value:[DKDependentModifierBuilder expressionForConstantValue:damageDice]
-                                                                            enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                     isGreaterThanOrEqualTo:1]
-                                                                        explanation:@"Versatile damage bonus requires a free off hand"]
-             forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
+        DKModifier* normalWeaponDamage = [DKModifier diceModifierAddedFromSource:offHandOccupied
+                                                                           value:[DKExpressionBuilder valueFromObject:damageDice]
+                                                                         enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                          isGreaterThanOrEqualTo:1]];
+        normalWeaponDamage.explanation = @"Versatile damage bonus requires a free off hand";
+        [weapon addModifier:normalWeaponDamage forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
         
-        [weapon addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:offHandOccupied
-                                                                              value:[DKDependentModifierBuilder expressionForConstantValue:versatileDamageDiceOrNil]
-                                                                            enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                         isEqualToOrBetween:0 and:0]
-                                                                        explanation:@"Versatile damage bonus"]
-             forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
+        DKModifier* versatileWeaponDamage = [DKModifier diceModifierAddedFromSource:offHandOccupied
+                                                                                              value:[DKExpressionBuilder valueFromObject:versatileDamageDiceOrNil]
+                                                                                            enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                                                 isEqualToOrBetween:0 and:0]];
+        versatileWeaponDamage.explanation = @"Versatile damage bonus";
+        [weapon addModifier:versatileWeaponDamage forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
         
-        [weapon addModifier:[DKModifierBuilder modifierWithAppendedString:@"Versatile"]
+        [weapon addModifier:[DKModifier setModifierWithAppendedObject:@"Versatile"]
              forStatisticID:[DKWeaponBuilder5E weaponAttributesStatIDForMainHand:isMainHand]];
     }
     
     //Damage type
-    [weapon addModifier:[DKModifierBuilder modifierWithExplanation:[NSString stringWithFormat:@"%@ damage", damageType]]
+    [weapon addModifier:[DKModifier modifierWithExplanation:[NSString stringWithFormat:@"%@ damage", damageType]]
          forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
     
     //Ability score bonus to damage
@@ -208,57 +208,57 @@
          forStatisticID:[DKWeaponBuilder5E weaponAttackBonusStatIDForMainHand:isMainHand]];
     
     //Melee reach
-    [weapon addModifier:[DKModifierBuilder modifierWithAdditiveBonus:meleeReach]
+    [weapon addModifier:[DKModifier numericModifierWithAdditiveBonus:meleeReach]
          forStatisticID:[DKWeaponBuilder5E weaponRangeStatIDForMainHand:isMainHand]];
     
     //Ranged reach
     if (rangedReachOrNil) {
         NSRange range = [rangedReachOrNil rangeValue];
-        [weapon addModifier:[DKModifierBuilder modifierWithAdditiveBonus:range.location
+        [weapon addModifier:[DKModifier numericModifierWithAdditiveBonus:range.location
                                                              explanation:[NSString stringWithFormat:@"%@ thrown range limit", name]]
              forStatisticID:[DKWeaponBuilder5E weaponRangeStatIDForMainHand:isMainHand]];
-        [weapon addModifier:[DKModifierBuilder modifierWithExplanation:
+        [weapon addModifier:[DKModifier modifierWithExplanation:
                              [NSString stringWithFormat:@"Roll at disadvantage to throw at targets between %lul and %lul feet away",
                               (unsigned long)range.location, (unsigned long)NSMaxRange(range)]]
              forStatisticID:[DKWeaponBuilder5E weaponRangeStatIDForMainHand:isMainHand]];
     }
     
     //Number of attacks per action
-    [weapon addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1]
+    [weapon addModifier:[DKModifier numericModifierWithAdditiveBonus:1]
          forStatisticID:[DKWeaponBuilder5E weaponAttacksPerActionStatIDForMainHand:isMainHand]];
     
     if (!isLight) {
-        [weapon addModifier:[DKModifierBuilder modifierWithClampBetween:0 and:0 explanation:@"Off hand weapons may not be used to attack unless the main hand weapon is a light weapon."]
+        [weapon addModifier:[DKModifier numericModifierWithClampBetween:0 and:0 explanation:@"Off hand weapons may not be used to attack unless the main hand weapon is a light weapon."]
              forStatisticID:[DKWeaponBuilder5E weaponAttacksPerActionStatIDForMainHand:NO]];
     }
     
     //Ammunition weapons
     if (hasAmmunition) {
-        [weapon addModifier:[DKModifierBuilder modifierWithExplanation:@"This weapon requires ammunition in order to execute a ranged attack."]
+        [weapon addModifier:[DKModifier modifierWithExplanation:@"This weapon requires ammunition in order to execute a ranged attack."]
              forStatisticID:[DKWeaponBuilder5E weaponAttackBonusStatIDForMainHand:isMainHand]];
     }
     
     //Loading weapons
     if (isLoading) {
-        [weapon addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Weapons that need to be loaded may only be fired once per action, bonus action, or reaction."]
+        [weapon addModifier:[DKModifier numericModifierWithClampBetween:1 and:1 explanation:@"Weapons that need to be loaded may only be fired once per action, bonus action, or reaction."]
              forStatisticID:[DKWeaponBuilder5E weaponAttacksPerActionStatIDForMainHand:isMainHand]];
     }
     
     //Heavy weapons
     if (isHeavy) {
-        [weapon addModifier:[DKDependentModifierBuilder informationalModifierFromSource:characterSize
-                                                                                enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                isEqualToAnyFromStrings:@[@"Small", @"Tiny"]]
-                                                                            explanation:@"Small creatures have disadvantage on attack rolls with heavy weapons."]
+        [weapon addModifier:[DKModifier modifierFromSource:characterSize
+                                                   enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                   isEqualToAnyFromStrings:@[@"Small", @"Tiny"]]
+                                               explanation:@"Small creatures have disadvantage on attack rolls with heavy weapons."]
              forStatisticID:[DKWeaponBuilder5E weaponAttackBonusStatIDForMainHand:isMainHand]];
     }
     
     //Occupy hands as appropriate
     if (isMainHand && !isUnarmed) {
-        [weapon addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1] forStatisticID:DKStatIDMainHandOccupied];
+        [weapon addModifier:[DKModifier numericModifierWithAdditiveBonus:1] forStatisticID:DKStatIDMainHandOccupied];
     }
     if (!isMainHand || isTwoHanded) {
-        [weapon addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1] forStatisticID:DKStatIDOffHandOccupied];
+        [weapon addModifier:[DKModifier numericModifierWithAdditiveBonus:1] forStatisticID:DKStatIDOffHandOccupied];
     }
     
     return weapon;
@@ -769,9 +769,9 @@
                                                     characterSize:characterSize
                                               weaponProficiencies:weaponProficiencies
                                                   offHandOccupied:offHandOccupied];
-            [lance addModifier:[DKModifierBuilder modifierWithExplanation:@"A lance requires two hands to wield when you aren't mounted."]
+            [lance addModifier:[DKModifier modifierWithExplanation:@"A lance requires two hands to wield when you aren't mounted."]
                                                            forStatisticID:DKStatIDOffHandOccupied];
-            [lance addModifier:[DKModifierBuilder modifierWithExplanation:@"You have disadvantage when you use a lance to attack a target within 5 feet of you."]
+            [lance addModifier:[DKModifier modifierWithExplanation:@"You have disadvantage when you use a lance to attack a target within 5 feet of you."]
                  forStatisticID:[DKWeaponBuilder5E weaponRangeStatIDForMainHand:isMainHand]];
             
             return lance;
@@ -1079,9 +1079,9 @@
                                                   characterSize:characterSize
                                             weaponProficiencies:weaponProficiencies
                                                 offHandOccupied:offHandOccupied];
-            [net addModifier:[DKModifierBuilder modifierWithExplanation:@"A Large or smaller creature hit by a net is restrained until it is freed. A net has no effect on creatures that are formless, or creatures that are Huge or larger.  A creature can use its action to make a DC 10 Strength check, freeing itself or another creature within its reach on a success.  Dealing 5 slashing damage to the net (AC 10) also frees the creature without harming it, ending the effect and destroying the net."]
+            [net addModifier:[DKModifier modifierWithExplanation:@"A Large or smaller creature hit by a net is restrained until it is freed. A net has no effect on creatures that are formless, or creatures that are Huge or larger.  A creature can use its action to make a DC 10 Strength check, freeing itself or another creature within its reach on a success.  Dealing 5 slashing damage to the net (AC 10) also frees the creature without harming it, ending the effect and destroying the net."]
               forStatisticID:[DKWeaponBuilder5E weaponDamageStatIDForMainHand:isMainHand]];
-            [net addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Nets may only be used to attack once per action, bonus action, or reaction."]
+            [net addModifier:[DKModifier numericModifierWithClampBetween:1 and:1 explanation:@"Nets may only be used to attack once per action, bonus action, or reaction."]
                  forStatisticID:[DKWeaponBuilder5E weaponAttacksPerActionStatIDForMainHand:isMainHand]];
             return net;
             break;

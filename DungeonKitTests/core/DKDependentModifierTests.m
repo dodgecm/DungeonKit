@@ -29,14 +29,14 @@
 - (void)testConstructor {
     
     DKStatistic* statistic = [[DKNumericStatistic alloc] initWithInt:10];
-    XCTAssertNotNil([DKDependentModifierBuilder simpleModifierFromSource:statistic], @"Constructors should return non-nil object.");
+    XCTAssertNotNil([DKModifier numericModifierAddedFromSource:statistic], @"Constructors should return non-nil object.");
 }
 
 - (void)testDependentModifier {
     
     DKNumericStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:2];
     DKNumericStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:14];
-    DKModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
+    DKModifier* modifier = [DKModifier numericModifierAddedFromSource:firstStatistic];
     [secondStatistic applyModifier:modifier];
     XCTAssertEqualObjects(secondStatistic.value, @16, @"Dependant modifier should be applied correctly.");
     firstStatistic.base = @4;
@@ -49,7 +49,7 @@
     
     DKNumericStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:2];
     DKNumericStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:14];
-    DKModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
+    DKModifier* modifier = [DKModifier numericModifierAddedFromSource:firstStatistic];
     [secondStatistic applyModifier:modifier];
     
 }
@@ -57,7 +57,7 @@
 - (void)testSimpleCycle {
     
     DKStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:1];
-    DKModifier* firstModifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
+    DKModifier* firstModifier = [DKModifier numericModifierAddedFromSource:firstStatistic];
     [firstStatistic applyModifier:firstModifier];
     XCTAssert(![[firstStatistic modifiers] containsObject:firstModifier], @"Dependent modifier should not successfully add itself to its source statistic.");
 }
@@ -66,8 +66,8 @@
     
     DKStatistic* firstStatistic = [[DKNumericStatistic alloc] initWithInt:1];
     DKStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:2];
-    DKModifier* firstModifier = [DKDependentModifierBuilder simpleModifierFromSource:firstStatistic];
-    DKModifier* secondModifier = [DKDependentModifierBuilder simpleModifierFromSource:secondStatistic];
+    DKModifier* firstModifier = [DKModifier numericModifierAddedFromSource:firstStatistic];
+    DKModifier* secondModifier = [DKModifier numericModifierAddedFromSource:secondStatistic];
     [secondStatistic applyModifier:firstModifier];
     [firstStatistic applyModifier:secondModifier];
     XCTAssert([[secondStatistic modifiers] containsObject:firstModifier], @"Dependent modifier should add itself as long as it doesn't create a cycle.");
@@ -80,10 +80,10 @@
     DKNumericStatistic* secondStatistic = [[DKNumericStatistic alloc] initWithInt:5];
     DKModifier* modifier = [[DKModifier alloc] initWithSource:firstStatistic
                                                         value:[NSExpression expressionForConstantValue:@(5)]
-                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"source"
+                                                      enabled:[DKPredicateBuilder enabledWhen:@"source"
                                                                                isGreaterThanOrEqualTo:10]
                                                      priority:kDKModifierPriority_Additive
-                                                   expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                   expression:[DKExpressionBuilder additionExpression]];
     
     [secondStatistic applyModifier:modifier];
     XCTAssertFalse(modifier.enabled, @"Modifier should be disabled since first statistic is below the threshold.");
@@ -109,7 +109,7 @@
                                                                           value:[NSExpression expressionWithFormat:@"$abc+$dfe"]
                                                                         enabled:nil
                                                                        priority:kDKModifierPriority_Additive
-                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                                     expression:[DKExpressionBuilder additionExpression]];
     [thirdStatistic applyModifier:dependenciesModifier];
     XCTAssertEqualObjects(thirdStatistic.value, @6, @"Multiple dependency modifier should add proper value to its statistic.");
 }
@@ -122,39 +122,39 @@
                                                                           value:[NSExpression expressionWithFormat:@"$abc"]
                                                                         enabled:nil
                                                                        priority:kDKModifierPriority_Additive
-                                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                                     expression:[DKExpressionBuilder additionExpression]];
     XCTAssertThrows([dependenciesModifier addDependency:badStatistic forKey:@"first"], @"Should not be able to use the reserved key name.");
 }
 
 - (void)testPredicateBuilders {
     
-    NSPredicate* predicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:10];
+    NSPredicate* predicate = [DKPredicateBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:10];
     XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(10)}], @"Predicate should return correct result.");
     XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(15)}], @"Predicate should return correct result.");
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(5)}], @"Predicate should return correct result.");
     
-    predicate = [DKDependentModifierBuilder enabledWhen:@"source" isEqualToOrBetween:10 and:15];
+    predicate = [DKPredicateBuilder enabledWhen:@"source" isEqualToOrBetween:10 and:15];
     XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(10)}], @"Predicate should return correct result.");
     XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(15)}], @"Predicate should return correct result.");
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(5)}], @"Predicate should return correct result.");
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @(20)}], @"Predicate should return correct result.");
     
-    predicate = [DKDependentModifierBuilder enabledWhen:@"source" isEqualToString:@"thisvalue"];
+    predicate = [DKPredicateBuilder enabledWhen:@"source" isEqualToString:@"thisvalue"];
     XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @"thisvalue"}], @"Predicate should return correct result.");
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @"notthisvalue"}], @"Predicate should return correct result.");
     
-    predicate = [DKDependentModifierBuilder enabledWhen:@"source" isEqualToAnyFromStrings:@[@"thisvalue", @"thisvaluetoo"]];
+    predicate = [DKPredicateBuilder enabledWhen:@"source" isEqualToAnyFromStrings:@[@"thisvalue", @"thisvaluetoo"]];
     XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @"thisvalue"}], @"Predicate should return correct result.");
     XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @"thisvaluetoo"}], @"Predicate should return correct result.");
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": @"notthisvalue"}], @"Predicate should return correct result.");
     
-    predicate = [DKDependentModifierBuilder enabledWhen:@"source" containsObject:@"thisvalue"];
+    predicate = [DKPredicateBuilder enabledWhen:@"source" containsObject:@"thisvalue"];
     NSArray* trueValues = @[@"thisvalue", @"notthisvalue"];
     NSArray* falseValues = @[@"alsonotthisvalue", @"notthisvalue"];
     XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": trueValues}], @"Predicate should return correct result.");
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": falseValues}], @"Predicate should return correct result.");
     
-    predicate = [DKDependentModifierBuilder enabledWhen:@"source" containsAnyFromObjects:@[@"thisvalue", @"thisonetoo"]];
+    predicate = [DKPredicateBuilder enabledWhen:@"source" containsAnyFromObjects:@[@"thisvalue", @"thisonetoo"]];
     XCTAssertTrue([predicate evaluateWithObject:nil substitutionVariables:@{@"source": trueValues}], @"Predicate should return correct result.");
     XCTAssertFalse([predicate evaluateWithObject:nil substitutionVariables:@{@"source": falseValues}], @"Predicate should return correct result.");
 }
@@ -164,8 +164,8 @@
     NSDictionary* piecewiseFunction = @{ [NSValue valueWithRange:NSMakeRange(0, 2)] : @(2),
                                          [NSValue valueWithRange:NSMakeRange(2, 2)] : @(4),
                                          [NSValue valueWithRange:NSMakeRange(4, 2)] : @(6) };
-    NSExpression* expression = [DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:piecewiseFunction
-                                                                            usingDependency:@"source"];
+    NSExpression* expression = [DKExpressionBuilder valueFromPiecewiseFunctionRanges:piecewiseFunction
+                                                                     usingDependency:@"source"];
     NSMutableDictionary* context = [NSMutableDictionary dictionary];
     
     context[@"source"] = @(-1);
@@ -192,7 +192,7 @@
 
 - (void)testExpressionBridgeBuilder {
     
-    NSExpression* expression = [DKDependentModifierBuilder valueAsDiceCollectionFromNumericDependency:@"source"];
+    NSExpression* expression = [DKExpressionBuilder valueAsDiceCollectionFromNumericDependency:@"source"];
     NSMutableDictionary* context = [NSMutableDictionary dictionary];
     
     DKNumericStatistic* sourceStatistic = [DKNumericStatistic statisticWithInt:5];
@@ -205,7 +205,7 @@
 - (void)testEncoding {
     
     DKStatistic* stat = [[DKNumericStatistic alloc] initWithInt:10];
-    DKModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:stat];
+    DKModifier* modifier = [DKModifier numericModifierAddedFromSource:stat];
     [stat applyModifier:modifier];
     
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);

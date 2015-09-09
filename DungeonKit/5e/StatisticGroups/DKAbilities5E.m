@@ -51,7 +51,7 @@
     
     //Use the copy of abilityExpression so that we only have to do the expensive string parsing once
     DKModifier* dependentModifier = [[DKModifier alloc] initWithSource:self
-                                                                 value:[DKDependentModifierBuilder valueFromDependency:@"source"]
+                                                                 value:[DKExpressionBuilder valueFromDependency:@"source"]
                                                               priority:kDKModifierPriority_Additive
                                                             expression:[abilityExpression copy]];
     return dependentModifier;
@@ -65,10 +65,9 @@
 
 - (DKModifier*)diceCollectionModifierFromAbilityScore {
     
-    return [DKDependentModifierBuilder addedDiceModifierFromSource:self
-                                                             value:[DKAbilityScore diceCollectionValueFromAbilityScoreDependency:@"source"]
-                                                           enabled:nil
-                                                       explanation:nil];
+    return [DKModifier diceModifierAddedFromSource:self
+                                             value:[DKAbilityScore diceCollectionValueFromAbilityScoreDependency:@"source"]
+                                           enabled:nil];
 }
 
 - (NSString*) formattedAbilityModifier {

@@ -50,7 +50,7 @@
     
     DKModifierGroup* abilityScoreGroup = [[DKModifierGroup alloc] init];
     [abilityScoreGroup addDependency:classLevel forKey:@"level"];
-    abilityScoreGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:threshold];
+    abilityScoreGroup.enabledPredicate = [DKPredicateBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:threshold];
     abilityScoreGroup.explanation = [NSString stringWithFormat:@"Ability score improvements for level %li", (long)threshold];
     
     [abilityScoreGroup addSubgroup:firstAbilityScoreChoice];
@@ -67,7 +67,7 @@
     DKChoiceModifierGroup* secondSkillProficiencyChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:tag];
     secondSkillProficiencyChoice.explanation = @"Class skill proficiency choice";
     for (NSString* statID in statIDs) {
-        DKModifier* modifier = [DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Class skill proficiency"];
+        DKModifier* modifier = [DKModifier numericModifierWithClampBetween:1 and:1 explanation:@"Class skill proficiency"];
         [firstSkillProficiencyChoice addModifier:modifier forStatisticID:statID];
         [secondSkillProficiencyChoice addModifier:[modifier copy] forStatisticID:statID];
     }
@@ -86,10 +86,11 @@
                                                     arguments:@[ [NSExpression expressionForVariable:@"source"],
                                                                  [NSExpression expressionForConstantValue:@(sides)] ] ];
     
-    return [DKDependentModifierBuilder addedDiceModifierFromSource:classLevel
-                                                             value:value
-                                                           enabled:nil
-                                                       explanation:@"Class hit die"];
+    DKModifier* hitDiceModifier = [DKModifier diceModifierAddedFromSource:classLevel
+                                                                    value:value
+                                                                  enabled:nil];
+    hitDiceModifier.explanation = @"Class hit die";
+    return hitDiceModifier;
 }
 
 + (DKModifierGroup*)hitPointsMaxIncreasesForSides:(NSInteger)sides level:(DKNumericStatistic*)classLevel {
@@ -98,18 +99,18 @@
     
     DKModifierGroup* possibleValues = [[DKModifierGroup alloc] init];
     for (int i = 1; i <= sides; i++) {
-        [possibleValues addModifier:[DKModifierBuilder modifierWithAdditiveBonus:i] forStatisticID:DKStatIDHitPointsMax];
+        [possibleValues addModifier:[DKModifier numericModifierWithAdditiveBonus:i] forStatisticID:DKStatIDHitPointsMax];
     }
     
     //Level 1 gives HP increase as the maximum value of the hit dice
-    [hitPointsGroup addModifier:[DKModifierBuilder modifierWithAdditiveBonus:sides] forStatisticID:DKStatIDHitPointsMax];
+    [hitPointsGroup addModifier:[DKModifier numericModifierWithAdditiveBonus:sides] forStatisticID:DKStatIDHitPointsMax];
     
     //Remaining levels can be anywhere between 1 and the maximum value of the hit dice
     for (int level = 2; level <= 20; level++) {
         DKSingleChoiceModifierGroup* hitPointIncrease = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceHitPointsMax];
         hitPointIncrease.choicesSource = possibleValues;
         [hitPointIncrease addDependency:classLevel forKey:@"level"];
-        hitPointIncrease.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:level];
+        hitPointIncrease.enabledPredicate = [DKPredicateBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:level];
         hitPointIncrease.explanation = [NSString stringWithFormat:@"Hit points increase from level %i", level];
         
         [hitPointsGroup addSubgroup:hitPointIncrease];

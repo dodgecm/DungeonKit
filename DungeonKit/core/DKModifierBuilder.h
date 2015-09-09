@@ -7,100 +7,116 @@
 
 #import <Foundation/Foundation.h>
 #import "DKModifier.h"
+#import "DKDiceCollection.h"
 
-@class DKDiceCollection;
-
-/** The DKModifierBuilder class provides convenience initialization methods for common DKModifier operations. */
-@interface DKModifierBuilder : NSObject
-
-/** Initializes a standard additive modifier, ex: +2 to a statistic. */
-+ (id)modifierWithAdditiveBonus:(NSInteger)bonus;
-/** Initializes a standard additive modifier, ex: +2 to a statistic. */
-+ (id)modifierWithAdditiveBonus:(NSInteger)bonus explanation:(NSString*)explanation;
-
-/** Initializes a modifier that keeps the statistic value above the given minimum */
-+ (id)modifierWithMinimum:(NSInteger)min;
-/** Initializes a modifier that keeps the statistic value above the given minimum */
-+ (id)modifierWithMinimum:(NSInteger)min explanation:(NSString*)explanation;
-
-/** Initializes a modifier that keeps the statistic value within the given range */
-+ (id)modifierWithClampBetween:(NSInteger)min and:(NSInteger)max;
-/** Initializes a modifier that keeps the statistic value within the given range */
-+ (id)modifierWithClampBetween:(NSInteger)min and:(NSInteger)max explanation:(NSString*)explanation;
-
-/** DKStringStatistic Modifiers */
-+ (id)modifierWithOverrideString:(NSString*)string;
-
-/** DKSetStatistic Modifiers */
-+ (id)modifierWithAppendedString:(NSString*)stringToAppend;
-+ (id)modifierWithAppendedString:(NSString*)stringToAppend explanation:(NSString*)explanation;
-
-+ (id)modifierWithAddedDice:(DKDiceCollection*)collection;
-+ (id)modifierWithAddedDice:(DKDiceCollection*)collection explanation:(NSString*)explanation;
+#pragma mark DKModifier constructors
+@interface DKModifier (Base)
 
 /** Initializes a modifier with no mathematical effects */
-+ (id)modifierWithExplanation:(NSString*)explanation;
++ (instancetype)modifierWithExplanation:(NSString*)explanation;
 
-+ (NSExpression*)simpleAdditionModifierExpression;
-+ (NSExpression*)simpleClampExpressionBetween:(NSInteger)min and:(NSInteger)max;
-+ (NSExpression*)simpleAppendModifierExpression;
-+ (NSExpression*)simpleAppendSetModifierExpression;
-+ (NSExpression*)simpleAddDiceModifierExpression;
-+ (NSExpression*)simpleReplaceStringExpression;
++ (instancetype)modifierWithValue:(id<NSObject>)value
+               priority:(DKModifierPriority)priority
+             expression:(NSExpression*)expression;
 
++ (instancetype)modifierFromSource:(NSObject<DKDependency>*)source
+                 enabled:(NSPredicate*)enabledPredicate
+             explanation:(NSString*)explanation;
 
 @end
 
+@interface DKModifier (Numeric)
 
-/** The DKDependentModifierBuilder class provides convenience initialization methods for generating common modifiers from statistics. */
-@interface DKDependentModifierBuilder : NSObject
+/** Initializes a standard additive modifier, ex: +2 to a statistic. */
++ (instancetype)numericModifierWithAdditiveBonus:(NSInteger)bonus;
++ (instancetype)numericModifierWithAdditiveBonus:(NSInteger)bonus explanation:(NSString*)explanation;
 
-/** Initializes a modifier from the source object that simply adds the source's value to the modifier's owner. */
-+ (id)simpleModifierFromSource:(NSObject<DKDependency>*)source;
+/** Initializes a modifier that keeps the statistic value above the given minimum */
++ (instancetype)numericModifierWithMin:(NSInteger)min;
 
-+ (id)simpleModifierFromSource:(NSObject<DKDependency>*)source
-                   explanation:(NSString*)explanation;
+/** Initializes a modifier that keeps the statistic value within the given range */
++ (instancetype)numericModifierWithClampBetween:(NSInteger)min and:(NSInteger)max;
++ (instancetype)numericModifierWithClampBetween:(NSInteger)min and:(NSInteger)max explanation:(NSString*)explanation;
 
-+ (id)addedNumberFromSource:(NSObject<DKDependency>*)source
-              constantValue:(id)constantValue
-                    enabled:(NSPredicate*)enabledPredicate
-                explanation:(NSString*)explanation;
+/** Initializes a modifier from the source object that adds the source's value to the modifier's owner. */
++ (instancetype)numericModifierAddedFromSource:(NSObject<DKDependency>*)source;
 
-+ (id)appendedModifierFromSource:(NSObject<DKDependency>*)source
-                           value:(NSExpression*)valueExpression
-                         enabled:(NSPredicate*)enabledPredicate
-                     explanation:(NSString*)explanation;
++ (instancetype)numericModifierAddedFromSource:(NSObject<DKDependency>*)source
+                       constantValue:(id)constantValue
+                             enabled:(NSPredicate*)enabledPredicate;
 
-+ (id)appendedModifierFromSource:(NSObject<DKDependency>*)source
-                   constantValue:(id)constantValue
-                         enabled:(NSPredicate*)enabledPredicate
-                     explanation:(NSString*)explanation;
+@end
 
-+ (id)addedDiceModifierFromSource:(NSObject<DKDependency>*)source
-                      explanation:(NSString*)explanation;
+@interface DKModifier (String)
 
-+ (id)addedDiceModifierFromSource:(NSObject<DKDependency>*)source
+/** Replaces the existing value of the string modifier with the new string */
++ (instancetype)stringModifierWithNewString:(NSString*)string;
+
+@end
+
+@interface DKModifier (Set)
+
+/** DKSetStatistic Modifiers */
++ (instancetype)setModifierWithAppendedObject:(NSObject*)objectToAppend;
++ (instancetype)setModifierWithAppendedObject:(NSString*)stringToAppend explanation:(NSString*)explanation;
+
++ (instancetype)setModifierAppendedFromSource:(NSObject<DKDependency>*)source
+                              value:(NSExpression*)valueExpression
+                            enabled:(NSPredicate*)enabledPredicate;
+
++ (instancetype)setModifierAppendedFromSource:(NSObject<DKDependency>*)source
+                      constantValue:(id)constantValue
+                            enabled:(NSPredicate*)enabledPredicate
+                        explanation:(NSString*)explanation;
+
+@end
+
+@interface DKModifier (Dice)
+
+/** DKDiceCollection Modifiers */
++ (instancetype)diceModifierWithAddedDice:(DKDiceCollection*)collection;
+
++ (instancetype)diceModifierAddedFromSource:(NSObject<DKDependency>*)source;
+
++ (instancetype)diceModifierAddedFromSource:(NSObject<DKDependency>*)source
                             value:(NSExpression*)valueExpression
-                          enabled:(NSPredicate*)enabledPredicate
-                      explanation:(NSString*)explanation;
+                          enabled:(NSPredicate*)enabledPredicate;
 
-+ (id)informationalModifierFromSource:(NSObject<DKDependency>*)source
-                              enabled:(NSPredicate*)enabledPredicate
-                          explanation:(NSString*)explanation;
+@end
 
-/** An expression that simply uses the specified dependency's value as the modifier value. */
+#pragma mark -
+#pragma mark DKExpressionBuilder
+
+@interface DKExpressionBuilder : NSObject
+
++ (NSExpression*)additionExpression;
++ (NSExpression*)clampExpressionBetween:(NSInteger)min and:(NSInteger)max;
++ (NSExpression*)appendExpression;
++ (NSExpression*)appendObjectsInSetExpression;
++ (NSExpression*)addDiceExpression;
++ (NSExpression*)replaceStringExpression;
+
+/** An expression that uses the specified dependency's value as the modifier value. */
 + (NSExpression*)valueFromDependency:(NSString*)dependencyKey;
 /** An expression that has a constant value instead of relying on any of the dependencies. */
-+ (NSExpression*)expressionForConstantInteger:(NSInteger)value;
++ (NSExpression*)valueFromInteger:(NSInteger)value;
 /** An expression that has a constant value instead of relying on any of the dependencies. */
-+ (NSExpression*)expressionForConstantValue:(id<NSObject>) value;
++ (NSExpression*)valueFromObject:(id<NSObject>)value;
 
 + (NSValue*)rangeValueWithMin:(NSInteger)min max:(NSInteger)max;
+/** An expression that uses a DKNumericStatistic dependency as a lookup key for a value. */
 + (NSExpression*)valueFromPiecewiseFunctionRanges:(NSDictionary*)ranges usingDependency:(NSString*)dependencyKey;
 
 /** An expression that uses a DKNumericStatistic dependency and converts it into a DKDiceCollection value. */
 + (NSExpression*)valueAsDiceCollectionFromNumericDependency:(NSString*)dependencyKey;
 + (NSExpression*)valueAsDiceCollectionFromExpression:(NSExpression*)numericExpression;
+
+@end
+
+#pragma mark -
+#pragma mark DKPredicateBuilder
+
+@interface DKPredicateBuilder : NSObject
 
 /** DKNumericStatistic predicates */
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(NSInteger)threshold;

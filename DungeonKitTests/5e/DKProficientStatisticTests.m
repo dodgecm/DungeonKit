@@ -48,13 +48,13 @@
     proficiencyBonus.base = @5;
     XCTAssertEqualObjects(proficiencyStat.value, @15, @"Proficiency value should be updated when proficiency bonus changes.");
     
-    DKModifier* bonusModifier = [DKModifierBuilder modifierWithAdditiveBonus:2];
+    DKModifier* bonusModifier = [DKModifier numericModifierWithAdditiveBonus:2];
     [proficiencyBonus applyModifier:bonusModifier];
     XCTAssertEqualObjects(proficiencyStat.value, @21, @"Proficiency value should be updated when proficiency bonus changes.");
     [bonusModifier removeFromStatistic];
     XCTAssertEqualObjects(proficiencyStat.value, @15, @"Proficiency value should be updated when proficiency bonus changes.");
     
-    DKModifier* statModifier = [DKModifierBuilder modifierWithAdditiveBonus:2];
+    DKModifier* statModifier = [DKModifier numericModifierWithAdditiveBonus:2];
     [proficiencyStat applyModifier:statModifier];
     XCTAssertEqualObjects(proficiencyStat.value, @17, @"Modifiers should be applied correctly.");
 }

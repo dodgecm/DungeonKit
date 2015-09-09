@@ -37,7 +37,7 @@
 - (void)testAddModifier {
     
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [group addModifier:modifier forStatisticID:@"test"];
     XCTAssertTrue([group.modifiers containsObject:modifier], @"Modifier should be added to the group");
     XCTAssertEqual(group.modifiers.count, 1, @"Modifier should be added to the group");
@@ -47,7 +47,7 @@
 - (void)testRemoveModifier {
     
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [group addModifier:modifier forStatisticID:@"test"];
     [group removeModifier:modifier];
     XCTAssertFalse([group.modifiers containsObject:modifier], @"Modifier should be removed from the group");
@@ -59,7 +59,7 @@
     
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
     DKModifierGroup* secondGroup = [[DKModifierGroup alloc] init];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [secondGroup addModifier:modifier forStatisticID:@"test"];
     [group addSubgroup:secondGroup];
     XCTAssertTrue([group.subgroups containsObject:secondGroup], @"Subgroup should be added to the group");
@@ -74,7 +74,7 @@
     
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
     DKModifierGroup* secondGroup = [[DKModifierGroup alloc] init];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [secondGroup addModifier:modifier forStatisticID:@"test"];
     [group addSubgroup:secondGroup];
     [group removeSubgroup:secondGroup];
@@ -91,7 +91,7 @@
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
     DKModifierGroup* secondGroup = [[DKModifierGroup alloc] init];
     DKModifierGroup* thirdGroup = [[DKModifierGroup alloc] init];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [thirdGroup addModifier:modifier forStatisticID:@"test"];
     [group addSubgroup:secondGroup];
     [secondGroup addSubgroup:thirdGroup];
@@ -121,7 +121,7 @@
     
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
     DKModifierGroup* secondGroup = [[DKModifierGroup alloc] init];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [secondGroup addModifier:modifier forStatisticID:@"test"];
     [group addSubgroup:secondGroup];
     [secondGroup removeFromOwner];
@@ -136,7 +136,7 @@
 - (void)testDestructiveModifiers {
     
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [group addModifier:nil forStatisticID:@"test"];
     [group addModifier:modifier forStatisticID:nil];
     [group addModifier:nil forStatisticID:nil];
@@ -201,10 +201,10 @@
     [statGroup setStatistic:stat forStatisticID:@"stat"];
     
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     
     [group addDependency:stat forKey:@"source"];
-    group.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:3];
+    group.enabledPredicate = [DKPredicateBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:3];
     [statGroup addModifierGroup:group forGroupID:@"group"];
     
     XCTAssertFalse(group.enabled, @"Group should not be enabled, since modifier is not added to the group yet.");
@@ -224,15 +224,15 @@
     
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
     [group addDependency:stat forKey:@"source"];
-    group.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:3];
+    group.enabledPredicate = [DKPredicateBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:3];
     [statGroup addModifierGroup:group forGroupID:@"group"];
     
     DKModifierGroup* subgroup = [[DKModifierGroup alloc] init];
     [subgroup addDependency:stat forKey:@"source"];
-    subgroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:5];
+    subgroup.enabledPredicate = [DKPredicateBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:5];
     [group addSubgroup:subgroup];
     
-    DKModifier* enableModifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* enableModifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [subgroup addModifier:enableModifier forStatisticID:@"irrelevant"];
     
     XCTAssertFalse(enableModifier.enabled, @"Neither group nor subgroup have their enabled condition met.");
@@ -241,8 +241,8 @@
     stat.base = @5;
     XCTAssertTrue(enableModifier.enabled, @"Subgroup has its enabled condition met.");
     
-    group.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:5];
-    subgroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:3];
+    group.enabledPredicate = [DKPredicateBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:5];
+    subgroup.enabledPredicate = [DKPredicateBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:3];
     XCTAssertTrue(enableModifier.enabled, @"Subgroup has its enabled condition met.");
     stat.base = @3;
     XCTAssertFalse(enableModifier.enabled, @"Subgroup does not have its enabled condition met due to owner group being disabled.");
@@ -257,7 +257,7 @@
     [statGroup setStatistic:stat forStatisticID:@"stat"];
     
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [group addModifier:modifier forStatisticID:@"stat"];
     [statGroup addModifierGroup:group forGroupID:@"modifierGroup"];
     
@@ -270,7 +270,7 @@
     DKModifierGroup* group = [[DKModifierGroup alloc] init];
     DKModifierGroup* secondGroup = [[DKModifierGroup alloc] init];
     DKModifierGroup* thirdGroup = [[DKModifierGroup alloc] init];
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:5];
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:5];
     [thirdGroup addModifier:modifier forStatisticID:@"test"];
     [group addSubgroup:secondGroup];
     [secondGroup addSubgroup:thirdGroup];

@@ -50,8 +50,8 @@
             return nil;
         }
         
-        [self.spellSaveDC applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:proficiencyBonus]];
-        [self.spellAttackBonus applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:proficiencyBonus]];
+        [self.spellSaveDC applyModifier:[DKModifier numericModifierAddedFromSource:proficiencyBonus]];
+        [self.spellAttackBonus applyModifier:[DKModifier numericModifierAddedFromSource:proficiencyBonus]];
     }
     
     return self;
@@ -127,15 +127,15 @@
 
 - (void)loadModifiers {
     
-    [_firstLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_firstLevelSpellSlotsMax]];
-    [_secondLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_secondLevelSpellSlotsMax]];
-    [_thirdLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_thirdLevelSpellSlotsMax]];
-    [_fourthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_fourthLevelSpellSlotsMax]];
-    [_fifthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_fifthLevelSpellSlotsMax]];
-    [_sixthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_sixthLevelSpellSlotsMax]];
-    [_seventhLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_seventhLevelSpellSlotsMax]];
-    [_eighthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_eighthLevelSpellSlotsMax]];
-    [_ninthLevelSpellSlotsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_ninthLevelSpellSlotsMax]];
+    [_firstLevelSpellSlotsCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_firstLevelSpellSlotsMax]];
+    [_secondLevelSpellSlotsCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_secondLevelSpellSlotsMax]];
+    [_thirdLevelSpellSlotsCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_thirdLevelSpellSlotsMax]];
+    [_fourthLevelSpellSlotsCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_fourthLevelSpellSlotsMax]];
+    [_fifthLevelSpellSlotsCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_fifthLevelSpellSlotsMax]];
+    [_sixthLevelSpellSlotsCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_sixthLevelSpellSlotsMax]];
+    [_seventhLevelSpellSlotsCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_seventhLevelSpellSlotsMax]];
+    [_eighthLevelSpellSlotsCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_eighthLevelSpellSlotsMax]];
+    [_ninthLevelSpellSlotsCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_ninthLevelSpellSlotsMax]];
 }
 
 @end

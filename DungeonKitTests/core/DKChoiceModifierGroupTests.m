@@ -36,10 +36,10 @@
 
 - (void)testChoosingModifiers {
 
-    [_group addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1] forStatisticID:@"stat1"];
-    [_group addModifier:[DKModifierBuilder modifierWithAdditiveBonus:2] forStatisticID:@"stat2"];
-    [_group addModifier:[DKModifierBuilder modifierWithAdditiveBonus:3] forStatisticID:@"stat3"];
-    DKModifier* modifierToChoose = [DKModifierBuilder modifierWithAdditiveBonus:4];
+    [_group addModifier:[DKModifier numericModifierWithAdditiveBonus:1] forStatisticID:@"stat1"];
+    [_group addModifier:[DKModifier numericModifierWithAdditiveBonus:2] forStatisticID:@"stat2"];
+    [_group addModifier:[DKModifier numericModifierWithAdditiveBonus:3] forStatisticID:@"stat3"];
+    DKModifier* modifierToChoose = [DKModifier numericModifierWithAdditiveBonus:4];
     [_group addModifier:modifierToChoose forStatisticID:@"stat4"];
     
     for (DKModifier* modifier in _group.modifiers) {
@@ -56,7 +56,7 @@
 
 - (void)testChoosingModifierNotInGroup {
     
-    DKModifier* modifierToChoose = [DKModifierBuilder modifierWithAdditiveBonus:4];
+    DKModifier* modifierToChoose = [DKModifier numericModifierWithAdditiveBonus:4];
     [_group choose:modifierToChoose];
     XCTAssertTrue(modifierToChoose.enabled, @"Modifier that is not in the group should be ignored.");
     XCTAssertNil(_group.choice, @"Modifier that is not in the group should be ignored.");

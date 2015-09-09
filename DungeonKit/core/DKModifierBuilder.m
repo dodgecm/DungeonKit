@@ -1,5 +1,5 @@
 //
-//  DKModifierBuilder.m
+//  DKExpressionBuilder.m
 //  DungeonKit
 //
 //  Created by Christopher Dodge on 5/4/15.
@@ -9,128 +9,10 @@
 #import "DKModifierBuilder.h"
 #import "DKDiceCollection.h"
 
-@implementation DKModifierBuilder
+@implementation DKModifier(Base)
 
-+ (id)modifierWithAdditiveBonus:(NSInteger)bonus {
-    
-    DKModifier* modifier = [DKModifier modifierWithValue:@(bonus)
-                                                       priority:kDKModifierPriority_Additive
-                                                     expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    return modifier;
-}
-
-+ (id)modifierWithAdditiveBonus:(NSInteger)bonus explanation:(NSString*)explanation {
-    
-    DKModifier* modifier = [DKModifierBuilder modifierWithAdditiveBonus:bonus];
-    modifier.explanation = explanation;
-    return modifier;
-}
-
-+ (id)modifierWithMinimum:(NSInteger)min {
-    
-    NSExpression* maxExpression =  [NSExpression expressionWithFormat:@"max:({%i, $input})", min];
-    DKModifier* modifier = [DKModifier modifierWithValue:@(0)
-                                                priority:kDKModifierPriority_Clamping
-                                              expression:maxExpression];
-    return modifier;
-}
-
-+ (id)modifierWithMinimum:(NSInteger)min explanation:(NSString*)explanation {
-    
-    DKModifier* modifier = [DKModifierBuilder modifierWithMinimum:min];
-    modifier.explanation = explanation;
-    return modifier;
-}
-
-+ (id)modifierWithClampBetween:(NSInteger)min and:(NSInteger)max {
-    
-    NSExpression* clampExpression =  [NSExpression expressionWithFormat:@"min:({%i, max:({%i, $input}) })", max, min];
-    DKModifier* modifier = [DKModifier modifierWithValue:@(0)
-                                                priority:kDKModifierPriority_Clamping
-                                              expression:clampExpression];
-    return modifier;
-}
-
-
-+ (id)modifierWithClampBetween:(NSInteger)min and:(NSInteger)max explanation:(NSString*)explanation {
-    
-    DKModifier* modifier = [DKModifierBuilder modifierWithClampBetween:min and:max];
-    modifier.explanation = explanation;
-    return modifier;
-}
-
-+ (id)modifierWithOverrideString:(NSString*)string {
-
-    DKModifier* modifier = [DKModifier modifierWithValue:string
-                                                priority:kDKModifierPriority_Additive
-                                              expression:[NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
-                                                                                selectorName:@"stringByReplacingWithString:"
-                                                                                   arguments:@[ [NSExpression expressionForVariable:@"value"] ] ] ];
-    return modifier;
-}
-
-+ (id)modifierWithAppendedString:(NSString*)stringToAppend {
-    
-    return [DKModifierBuilder modifierWithAppendedString:stringToAppend explanation:nil];
-}
-
-+ (id)modifierWithAppendedString:(NSString*)stringToAppend explanation:(NSString*)explanation {
-    
-    DKModifier* modifier = [DKModifier modifierWithValue:stringToAppend
-                                                priority:kDKModifierPriority_Additive
-                                              expression:[DKModifierBuilder simpleAppendModifierExpression]];
-    modifier.explanation = explanation;
-    return modifier;
-}
-
-+ (id)modifierWithAddedDice:(DKDiceCollection*)collection {
-    return [DKModifierBuilder modifierWithAddedDice:collection explanation:nil];
-}
-
-+ (id)modifierWithAddedDice:(DKDiceCollection*)collection explanation:(NSString*)explanation {
-    
-    DKModifier* modifier = [DKModifier modifierWithValue:collection
-                                                priority:kDKModifierPriority_Additive
-                                              expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
-    modifier.explanation = explanation;
-    return modifier;
-}
-
-+ (NSExpression*)simpleAdditionModifierExpression {
-    return [NSExpression expressionWithFormat:@"$input+$value"];
-}
-
-+ (NSExpression*)simpleClampExpressionBetween:(NSInteger)min and:(NSInteger)max {
-    
-    return [NSExpression expressionWithFormat:@"min:({%i, max:({%i, $input}) })", max, min];
-}
-
-+ (NSExpression*)simpleAppendModifierExpression {
-    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
-                                  selectorName:@"setByAddingObject:"
-                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
-}
-
-+ (NSExpression*)simpleAppendSetModifierExpression {
-    
-    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
-                                  selectorName:@"setByAddingObjectsFromSet:"
-                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
-}
-
-+ (NSExpression*)simpleAddDiceModifierExpression {
-    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
-                                  selectorName:@"diceByAddingDice:"
-                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
-}
-
-+ (NSExpression*)simpleReplaceStringExpression {
-    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
-                                  selectorName:@"stringByReplacingWithString:"
-                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
-}
-
-+ (id)modifierWithExplanation:(NSString*)explanation {
+/** Initializes a modifier with no mathematical effects */
++ (instancetype)modifierWithExplanation:(NSString*)explanation {
     
     DKModifier* modifier = [DKModifier modifierWithValue:@(0)
                                                 priority:kDKModifierPriority_Informational
@@ -139,89 +21,19 @@
     return modifier;
 }
 
-@end
-
-
-@implementation DKDependentModifierBuilder
-
-+ (id)simpleModifierFromSource:(NSObject<DKDependency>*)source {
-    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
-                                                        value:[DKDependentModifierBuilder valueFromDependency:@"source"]
-                                                     priority:kDKModifierPriority_Additive
-                                                   expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    return modifier;
-}
-
-+ (id)simpleModifierFromSource:(NSObject<DKDependency>*)source explanation:(NSString*)explanation {
-    DKModifier* modifier = [DKDependentModifierBuilder simpleModifierFromSource:source];
-    modifier.explanation = explanation;
-    return modifier;
-}
-
-+ (id)addedNumberFromSource:(NSObject<DKDependency>*)source
-              constantValue:(id)constantValue
-                    enabled:(NSPredicate*)enabledPredicate
-                explanation:(NSString*)explanation {
++ (instancetype)modifierWithValue:(id<NSObject>)value
+                         priority:(DKModifierPriority)priority
+                       expression:(NSExpression*)expression {
     
-    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
-                                                        value:[NSExpression expressionForConstantValue:constantValue]
-                                                      enabled:enabledPredicate
-                                                     priority:kDKModifierPriority_Additive
-                                                   expression:[DKModifierBuilder simpleAdditionModifierExpression]];
-    modifier.explanation = explanation;
+    DKModifier* modifier = [[DKModifier alloc] initWithValue:value
+                                                    priority:priority
+                                                  expression:expression];
     return modifier;
 }
 
-+ (id)appendedModifierFromSource:(NSObject<DKDependency>*)source
-                           value:(NSExpression*)valueExpression
-                         enabled:(NSPredicate*)enabledPredicate
-                     explanation:(NSString*)explanation {
-    
-    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
-                                                        value:valueExpression
-                                                      enabled:enabledPredicate
-                                                     priority:kDKModifierPriority_Additive
-                                                   expression:[DKModifierBuilder simpleAppendModifierExpression]];
-    modifier.explanation = explanation;
-    return modifier;
-}
-
-+ (id)appendedModifierFromSource:(NSObject<DKDependency>*)source
-                   constantValue:(id)constantValue
-                         enabled:(NSPredicate*)enabledPredicate
-                     explanation:(NSString*)explanation {
-    return [DKDependentModifierBuilder appendedModifierFromSource:source
-                                                            value:[NSExpression expressionForConstantValue:constantValue]
-                                                          enabled:enabledPredicate
-                                                      explanation:explanation];
-}
-
-+ (id)addedDiceModifierFromSource:(NSObject<DKDependency>*)source
-                      explanation:(NSString*)explanation {
-    
-    return [DKDependentModifierBuilder addedDiceModifierFromSource:source
-                                                             value:[DKDependentModifierBuilder valueFromDependency:@"source"]
-                                                           enabled:nil
-                                                       explanation:explanation];
-}
-
-+ (id)addedDiceModifierFromSource:(NSObject<DKDependency>*)source
-                            value:(NSExpression*)valueExpression
-                          enabled:(NSPredicate*)enabledPredicate
-                      explanation:(NSString*)explanation {
-    
-    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
-                                                        value:valueExpression
-                                                      enabled:enabledPredicate
-                                                     priority:kDKModifierPriority_Additive
-                                                   expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
-    modifier.explanation = explanation;
-    return modifier;
-}
-
-+ (id)informationalModifierFromSource:(NSObject<DKDependency>*)source
-                              enabled:(NSPredicate*)enabledPredicate
-                          explanation:(NSString*)explanation {
++ (instancetype)modifierFromSource:(NSObject<DKDependency>*)source
+                           enabled:(NSPredicate*)enabledPredicate
+                       explanation:(NSString*)explanation {
     
     DKModifier* modifier = [[DKModifier alloc] initWithSource:source
                                                         value:nil
@@ -232,15 +44,232 @@
     return modifier;
 }
 
+@end
+
+@implementation DKModifier (Numeric)
+
++ (instancetype)numericModifierWithAdditiveBonus:(NSInteger)bonus {
+    
+    DKModifier* modifier = [DKModifier modifierWithValue:@(bonus)
+                                                priority:kDKModifierPriority_Additive
+                                              expression:[DKExpressionBuilder additionExpression]];
+    modifier.expectedInputType = [NSNumber class];
+    modifier.expectedValueType = [NSNumber class];
+    return modifier;
+}
+
++ (instancetype)numericModifierWithAdditiveBonus:(NSInteger)bonus explanation:(NSString*)explanation {
+    
+    DKModifier* modifier = [DKModifier numericModifierWithAdditiveBonus:bonus];
+    modifier.explanation = explanation;
+    return modifier;
+}
+
++ (instancetype)numericModifierWithMin:(NSInteger)min {
+    
+    NSExpression* maxExpression =  [NSExpression expressionWithFormat:@"max:({%i, $input})", min];
+    DKModifier* modifier = [DKModifier modifierWithValue:@(0)
+                                                priority:kDKModifierPriority_Clamping
+                                              expression:maxExpression];
+    modifier.expectedInputType = [NSNumber class];
+    modifier.expectedValueType = [NSNumber class];
+    return modifier;
+}
+
++ (instancetype)numericModifierWithClampBetween:(NSInteger)min and:(NSInteger)max {
+    
+    NSExpression* clampExpression =  [NSExpression expressionWithFormat:@"min:({%i, max:({%i, $input}) })", max, min];
+    DKModifier* modifier = [DKModifier modifierWithValue:@(0)
+                                                priority:kDKModifierPriority_Clamping
+                                              expression:clampExpression];
+    modifier.expectedInputType = [NSNumber class];
+    modifier.expectedValueType = [NSNumber class];
+    return modifier;
+}
+
++ (instancetype)numericModifierWithClampBetween:(NSInteger)min and:(NSInteger)max explanation:(NSString*)explanation {
+    
+    DKModifier* modifier = [DKModifier numericModifierWithClampBetween:min and:max];
+    modifier.explanation = explanation;
+    return modifier;
+}
+
++ (instancetype)numericModifierAddedFromSource:(NSObject<DKDependency>*)source {
+    
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
+                                                        value:[DKExpressionBuilder valueFromDependency:@"source"]
+                                                     priority:kDKModifierPriority_Additive
+                                                   expression:[DKExpressionBuilder additionExpression]];
+    modifier.expectedInputType = [NSNumber class];
+    modifier.expectedValueType = [NSNumber class];
+    return modifier;
+}
+
++ (instancetype)numericModifierAddedFromSource:(NSObject<DKDependency>*)source
+                                 constantValue:(id)constantValue
+                                       enabled:(NSPredicate*)enabledPredicate {
+    
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
+                                                        value:[DKExpressionBuilder valueFromObject:constantValue]
+                                                      enabled:enabledPredicate
+                                                     priority:kDKModifierPriority_Additive
+                                                   expression:[DKExpressionBuilder additionExpression]];
+    modifier.expectedInputType = [NSNumber class];
+    modifier.expectedValueType = [NSNumber class];
+    return modifier;
+}
+
+@end
+
+@implementation DKModifier (String)
+
+/** Replaces the existing value of the string modifier with the new string */
++ (instancetype)stringModifierWithNewString:(NSString*)string {
+    
+    DKModifier* modifier = [DKModifier modifierWithValue:string
+                                                priority:kDKModifierPriority_Additive
+                                              expression:[NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                                                                selectorName:@"stringByReplacingWithString:"
+                                                                                   arguments:@[ [NSExpression expressionForVariable:@"value"] ] ] ];
+    modifier.expectedInputType = [NSString class];
+    modifier.expectedValueType = [NSString class];
+    return modifier;
+}
+
+@end
+
+@implementation DKModifier (Set)
+
++ (instancetype)setModifierWithAppendedObject:(NSObject*)objectToAppend {
+    
+    DKModifier* modifier = [DKModifier modifierWithValue:objectToAppend
+                                                priority:kDKModifierPriority_Additive
+                                              expression:[DKExpressionBuilder appendExpression]];
+    modifier.expectedInputType = [NSSet class];
+    modifier.expectedValueType = [NSObject class];
+    return modifier;
+}
+
++ (instancetype)setModifierWithAppendedObject:(NSObject*)objectToAppend explanation:(NSString*)explanation {
+    
+    DKModifier* modifier = [DKModifier setModifierWithAppendedObject:objectToAppend];
+    modifier.explanation = explanation;
+    return modifier;
+}
+
++ (instancetype)setModifierAppendedFromSource:(NSObject<DKDependency>*)source
+                                        value:(NSExpression*)valueExpression
+                                      enabled:(NSPredicate*)enabledPredicate {
+    
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
+                                                        value:valueExpression
+                                                      enabled:enabledPredicate
+                                                     priority:kDKModifierPriority_Additive
+                                                   expression:[DKExpressionBuilder appendExpression]];
+    modifier.expectedInputType = [NSSet class];
+    modifier.expectedValueType = [NSObject class];
+    return modifier;
+}
+
++ (instancetype)setModifierAppendedFromSource:(NSObject<DKDependency>*)source
+                                constantValue:(id)constantValue
+                                      enabled:(NSPredicate*)enabledPredicate
+                                  explanation:(NSString*)explanation {
+    
+    DKModifier* modifier = [DKModifier setModifierAppendedFromSource:source
+                                                               value:[DKExpressionBuilder valueFromObject:constantValue]
+                                                             enabled:enabledPredicate];
+    modifier.explanation = explanation;
+    return modifier;
+}
+
+@end
+
+@implementation DKModifier (Dice)
+
++ (instancetype)diceModifierWithAddedDice:(DKDiceCollection*)collection {
+    
+    DKModifier* modifier = [DKModifier modifierWithValue:collection
+                                                priority:kDKModifierPriority_Additive
+                                              expression:[DKExpressionBuilder addDiceExpression]];
+    modifier.expectedInputType = [DKDiceCollection class];
+    modifier.expectedValueType = [DKDiceCollection class];
+    return modifier;
+}
+
++ (instancetype)diceModifierAddedFromSource:(NSObject<DKDependency>*)source {
+    
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
+                                                        value:[DKExpressionBuilder valueFromDependency:@"source"]
+                                                      enabled:nil
+                                                     priority:kDKModifierPriority_Additive
+                                                   expression:[DKExpressionBuilder addDiceExpression]];
+    modifier.expectedInputType = [DKDiceCollection class];
+    modifier.expectedValueType = [DKDiceCollection class];
+    return modifier;
+}
+
++ (instancetype)diceModifierAddedFromSource:(NSObject<DKDependency>*)source
+                                      value:(NSExpression*)valueExpression
+                                    enabled:(NSPredicate*)enabledPredicate {
+    
+    DKModifier* modifier = [[DKModifier alloc] initWithSource:source
+                                                        value:valueExpression
+                                                      enabled:enabledPredicate
+                                                     priority:kDKModifierPriority_Additive
+                                                   expression:[DKExpressionBuilder addDiceExpression]];
+    modifier.expectedInputType = [DKDiceCollection class];
+    modifier.expectedValueType = [DKDiceCollection class];
+    return modifier;
+}
+
+@end
+
+@implementation DKExpressionBuilder
+
++ (NSExpression*)additionExpression {
+    return [NSExpression expressionWithFormat:@"$input+$value"];
+}
+
++ (NSExpression*)clampExpressionBetween:(NSInteger)min and:(NSInteger)max {
+    
+    return [NSExpression expressionWithFormat:@"min:({%i, max:({%i, $input}) })", max, min];
+}
+
++ (NSExpression*)appendExpression {
+    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                  selectorName:@"setByAddingObject:"
+                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
+}
+
++ (NSExpression*)appendObjectsInSetExpression {
+    
+    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                  selectorName:@"setByAddingObjectsFromSet:"
+                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
+}
+
++ (NSExpression*)addDiceExpression {
+    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                  selectorName:@"diceByAddingDice:"
+                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
+}
+
++ (NSExpression*)replaceStringExpression {
+    return [NSExpression expressionForFunction:[NSExpression expressionForVariable:@"input"]
+                                  selectorName:@"stringByReplacingWithString:"
+                                     arguments:@[ [NSExpression expressionForVariable:@"value"] ] ];
+}
+
 + (NSExpression*)valueFromDependency:(NSString*)dependencyKey {
     return [NSExpression expressionForVariable:dependencyKey];
 }
 
-+ (NSExpression*)expressionForConstantInteger:(NSInteger)value {
++ (NSExpression*)valueFromInteger:(NSInteger)value {
     return [NSExpression expressionForConstantValue:@(value)];
 }
 
-+ (NSExpression*)expressionForConstantValue:(id<NSObject>) value {
++ (NSExpression*)valueFromObject:(id<NSObject>)value {
     return [NSExpression expressionForConstantValue:value];
 }
 
@@ -264,8 +293,8 @@
 }
 
 + (NSExpression*)valueAsDiceCollectionFromNumericDependency:(NSString*)dependencyKey {
-
-    return [DKDependentModifierBuilder valueAsDiceCollectionFromExpression:[NSExpression expressionForVariable:dependencyKey]];
+    
+    return [DKExpressionBuilder valueAsDiceCollectionFromExpression:[NSExpression expressionForVariable:dependencyKey]];
 }
 
 + (NSExpression*)valueAsDiceCollectionFromExpression:(NSExpression*)numericExpression {
@@ -274,6 +303,10 @@
                                   selectorName:@"diceByAddingModifier:"
                                      arguments:@[ numericExpression ] ];
 }
+
+@end
+
+@implementation DKPredicateBuilder
 
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName isGreaterThanOrEqualTo:(NSInteger)threshold {
     
@@ -338,7 +371,7 @@
 }
 
 + (NSPredicate*)enabledWhen:(NSString*)dependencyName containsObject:(id)object {
-
+    
     NSExpression* containsObjectExpression = [NSExpression expressionForFunction:[NSExpression expressionForVariable:dependencyName]
                                                                     selectorName:@"containsObjectAsNumber:"
                                                                        arguments:@[ [NSExpression expressionForConstantValue:object] ] ];

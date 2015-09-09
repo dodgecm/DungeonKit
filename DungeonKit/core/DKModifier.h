@@ -44,14 +44,14 @@ typedef enum {
 @property (nonatomic, copy, readonly) NSExpression* valueExpression;
 /** An expression to perform the modification. */
 @property (nonatomic, copy, readonly) NSExpression* modifierExpression;
+/** Optionally, the expected output of valueExpression for this modifier.  Used for type checking. */
+@property (nonatomic) Class expectedValueType;
+/** Optionally, the expected type of output from the valueExpression for this modifier.  Used for type checking. */
+@property (nonatomic) Class expectedInputType;
 /** An optional explanation of the nature or source of this modifier */
 @property (nonatomic, copy) NSString* explanation;
 /** The statistic to which this modifier is currently applied, if any. */
 @property (nonatomic, weak, readonly) id<DKModifierOwner> owner;
-
-+ (id)modifierWithValue:(id<NSObject>)value
-               priority:(DKModifierPriority)priority
-             expression:(NSExpression*)expression;
 
 - (id)init __unavailable;
 

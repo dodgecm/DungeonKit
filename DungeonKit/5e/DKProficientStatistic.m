@@ -30,7 +30,7 @@
                                                                              value:[NSExpression expressionWithFormat:@"$bonus*$level"]
                                                                            enabled:nil
                                                                           priority:kDKModifierPriority_Additive
-                                                                        expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                                        expression:[DKExpressionBuilder additionExpression]];
         [self applyModifier:proficiencyModifier];
     }
     return self;

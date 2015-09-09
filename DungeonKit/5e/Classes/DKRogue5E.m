@@ -28,19 +28,19 @@
     
     DKModifierGroup* class = [[DKModifierGroup alloc] init];
     [class addDependency:level forKey:@"level"];
-    class.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:1];
+    class.enabledPredicate = [DKPredicateBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:1];
     class.explanation = @"Rogue class modifiers";
     
-    [class addModifier:[DKModifierBuilder modifierWithOverrideString:@"Rogue"] forStatisticID:DKStatIDClassName];
+    [class addModifier:[DKModifier stringModifierWithNewString:@"Rogue"] forStatisticID:DKStatIDClassName];
     [class addModifier:[DKClass5E hitDiceModifierForSides:8 level:level] forStatisticID:DKStatIDRogueHitDice];
     [class addSubgroup:[DKClass5E hitPointsMaxIncreasesForSides:8 level:level]];
     
-    [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Rogue Saving Throw Proficiency: Dexterity"]
+    [class addModifier:[DKModifier numericModifierWithClampBetween:1 and:1 explanation:@"Rogue Saving Throw Proficiency: Dexterity"]
         forStatisticID:DKStatIDSavingThrowDexterityProficiency];
-    [class addModifier:[DKModifierBuilder modifierWithClampBetween:1 and:1 explanation:@"Rogue Saving Throw Proficiency: Intelligence"]
+    [class addModifier:[DKModifier numericModifierWithClampBetween:1 and:1 explanation:@"Rogue Saving Throw Proficiency: Intelligence"]
         forStatisticID:DKStatIDSavingThrowIntelligenceProficiency];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple]
-                                                         explanation:@"Rogue Weapon Proficiencies"]
+    [class addModifier:[DKModifier setModifierWithAppendedObject:[DKWeaponBuilder5E proficiencyNameForWeaponCategory:kDKWeaponCategory5E_Simple]
+                                                     explanation:@"Rogue Weapon Proficiencies"]
         forStatisticID:DKStatIDWeaponProficiencies];
     
     NSArray* weaponProficiencies = @[ @(kDKWeaponType5E_HandCrossbow),
@@ -48,16 +48,16 @@
                                       @(kDKWeaponType5E_Shortsword),
                                       @(kDKWeaponType5E_Rapier) ];
     for (NSNumber* weaponProficiency in weaponProficiencies) {
-        [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKWeaponBuilder5E proficiencyNameForWeapon:weaponProficiency.integerValue]
-                                                             explanation:@"Rogue Weapon Proficiencies"]
+        [class addModifier:[DKModifier setModifierWithAppendedObject:[DKWeaponBuilder5E proficiencyNameForWeapon:weaponProficiency.integerValue]
+                                                         explanation:@"Rogue Weapon Proficiencies"]
             forStatisticID:DKStatIDWeaponProficiencies];
     }
     
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]
-                                                         explanation:@"Rogue Armor Proficiencies"]
+    [class addModifier:[DKModifier setModifierWithAppendedObject:[DKArmorBuilder5E proficiencyNameForArmorCategory:kDKArmorCategory5E_Light]
+                                                     explanation:@"Rogue Armor Proficiencies"]
         forStatisticID:DKStatIDArmorProficiencies];
-    [class addModifier:[DKModifierBuilder modifierWithAppendedString:@"Thieves' tools"
-                                                         explanation:@"Rogue Tool Proficiencies"]
+    [class addModifier:[DKModifier setModifierWithAppendedObject:@"Thieves' tools"
+                                                     explanation:@"Rogue Tool Proficiencies"]
         forStatisticID:DKStatIDToolProficiencies];
     
     NSArray* skillProficiencyStatIDs = @[ DKStatIDSkillAcrobaticsProficiency,
@@ -93,91 +93,91 @@
     
     //Thieves' Cant
     NSString* thievesCantExplanation = @"You know a secret mix of dialect, jargon, and code that allows you to hide messages in seemingly normal conversation. Only another creature that knows thieves’ cant understands such messages. It takes four times longer to convey such a message than it does to speak the same idea plainly.  In addition, you understand a set of secret signs and symbols used to convey short, simple messages, such as whether an area is dangerous or the territory of a thieves’ guild, whether loot is nearby, or whether the people in an area are easy marks or will provide a safe house for thieves on the run.";
-    DKModifier* thievesCantModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                               constantValue:@"Thieves' Cant"
-                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                              isGreaterThanOrEqualTo:1]
-                                                                                 explanation:thievesCantExplanation];
+    DKModifier* thievesCantModifier = [DKModifier setModifierAppendedFromSource:level
+                                                                  constantValue:@"Thieves' Cant"
+                                                                        enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                         isGreaterThanOrEqualTo:1]
+                                                                    explanation:thievesCantExplanation];
     [class addModifier:thievesCantModifier forStatisticID:DKStatIDRogueTraits];
     
     //Cunning Action
     NSString* cunningActionExplanation = @"Your quick thinking and agility allow you to move and act quickly. You can take a bonus action on each of your turns in combat. This action can be used only to take the Dash, Disengage, or Hide action.";
-    DKModifier* cunningActionModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                 constantValue:@"Cunning Action"
-                                                                                       enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                isGreaterThanOrEqualTo:2]
-                                                                                   explanation:cunningActionExplanation];
+    DKModifier* cunningActionModifier = [DKModifier setModifierAppendedFromSource:level
+                                                                    constantValue:@"Cunning Action"
+                                                                          enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                           isGreaterThanOrEqualTo:2]
+                                                                      explanation:cunningActionExplanation];
     [class addModifier:cunningActionModifier forStatisticID:DKStatIDRogueTraits];
     
     //Uncanny Dodge
     NSString* uncannyDodgeExplanation = @"When an attacker that you can see hits you with an attack, you can use your reaction to halve the attack’s damage against you.";
-    DKModifier* uncannyDodgeModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                constantValue:@"Uncanny Dodge"
-                                                                                      enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                               isGreaterThanOrEqualTo:5]
-                                                                                  explanation:uncannyDodgeExplanation];
+    DKModifier* uncannyDodgeModifier = [DKModifier setModifierAppendedFromSource:level
+                                                                   constantValue:@"Uncanny Dodge"
+                                                                         enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                          isGreaterThanOrEqualTo:5]
+                                                                     explanation:uncannyDodgeExplanation];
     [class addModifier:uncannyDodgeModifier forStatisticID:DKStatIDRogueTraits];
     
     //Evasion
     NSString* evasionExplanation = @"When you are subjected to an effect that allows you to make a Dexterity saving throw to take only half damage, you instead take no damage if you succeed on the saving throw, and only half damage if you fail.";
-    DKModifier* evasionModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                           constantValue:@"Evasion"
-                                                                                 enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                          isGreaterThanOrEqualTo:7]
-                                                                             explanation:evasionExplanation];
+    DKModifier* evasionModifier = [DKModifier setModifierAppendedFromSource:level
+                                                              constantValue:@"Evasion"
+                                                                    enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                     isGreaterThanOrEqualTo:7]
+                                                                explanation:evasionExplanation];
     [class addModifier:evasionModifier forStatisticID:DKStatIDRogueTraits];
     
     //Reliable Talent
     NSString* reliableTalentExplanation = @"Whenever you make an ability check that lets you add your proficiency bonus, you can treat a d20 roll of 9 or lower as a 10.";
-    DKModifier* reliableTalentModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                  constantValue:@"Reliable Talent"
-                                                                                        enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                 isGreaterThanOrEqualTo:11]
-                                                                                    explanation:reliableTalentExplanation];
+    DKModifier* reliableTalentModifier = [DKModifier setModifierAppendedFromSource:level
+                                                                     constantValue:@"Reliable Talent"
+                                                                           enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                            isGreaterThanOrEqualTo:11]
+                                                                       explanation:reliableTalentExplanation];
     [class addModifier:reliableTalentModifier forStatisticID:DKStatIDRogueTraits];
     
     //Blindsense
     NSString* blindsenseExplanation = @"If you are able to hear, you are aware of the location of any hidden or invisible creature within 10 feet of you.";
-    DKModifier* blindsenseModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                              constantValue:@"Blindsense"
-                                                                                    enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                             isGreaterThanOrEqualTo:14]
-                                                                                explanation:blindsenseExplanation];
+    DKModifier* blindsenseModifier = [DKModifier setModifierAppendedFromSource:level
+                                                                 constantValue:@"Blindsense"
+                                                                       enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                        isGreaterThanOrEqualTo:14]
+                                                                   explanation:blindsenseExplanation];
     [class addModifier:blindsenseModifier forStatisticID:DKStatIDRogueTraits];
     
     //Slippery Mind
     DKModifier* slipperyMindModifier = [[DKModifier alloc] initWithSource:level
-                                                                    value:[DKDependentModifierBuilder expressionForConstantInteger:0]
-                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                           isGreaterThanOrEqualTo:15]
+                                                                    value:[DKExpressionBuilder valueFromInteger:0]
+                                                                  enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                   isGreaterThanOrEqualTo:15]
                                                                  priority:kDKModifierPriority_Clamping
-                                                               expression:[DKModifierBuilder simpleClampExpressionBetween:1 and:1]];
+                                                               expression:[DKExpressionBuilder clampExpressionBetween:1 and:1]];
     slipperyMindModifier.explanation = @"Slippery Mind (Rogue)";
     [class addModifier:slipperyMindModifier forStatisticID:DKStatIDSavingThrowWisdomProficiency];
     
     //Elusive
     NSString* elusiveExplanation = @"No attack roll has advantage against you while you aren’t incapacitated.";
-    DKModifier* elusiveModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                           constantValue:@"Elusive"
-                                                                                 enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                          isGreaterThanOrEqualTo:18]
-                                                                             explanation:elusiveExplanation];
+    DKModifier* elusiveModifier = [DKModifier setModifierAppendedFromSource:level
+                                                              constantValue:@"Elusive"
+                                                                    enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                     isGreaterThanOrEqualTo:18]
+                                                                explanation:elusiveExplanation];
     [class addModifier:elusiveModifier forStatisticID:DKStatIDRogueTraits];
     
     //Stroke of Luck
     NSString* strokeOfLuckExplanation = @"If your attack misses a target within range, you can turn the miss into a hit. Alternatively, if you fail an ability check, you can treat the d20 roll as a 20.";
-    DKModifier* strokeOfLuckAbility = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                               constantValue:@"Stroke of Luck"
-                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                              isGreaterThanOrEqualTo:20]
-                                                                                 explanation:strokeOfLuckExplanation];
+    DKModifier* strokeOfLuckAbility = [DKModifier setModifierAppendedFromSource:level
+                                                                  constantValue:@"Stroke of Luck"
+                                                                        enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                         isGreaterThanOrEqualTo:20]
+                                                                    explanation:strokeOfLuckExplanation];
     [class addModifier:strokeOfLuckAbility forStatisticID:DKStatIDRogueTraits];
     
-    DKModifier* strokeOfLuckModifier = [DKDependentModifierBuilder addedNumberFromSource:level
-                                                                           constantValue:@1
-                                                                                 enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                          isGreaterThanOrEqualTo:20]
-                                                                             explanation:@"Once you use this feature, you can’t use it again until you finish a short or long rest."];
+    DKModifier* strokeOfLuckModifier = [DKModifier numericModifierAddedFromSource:level
+                                                                    constantValue:@1
+                                                                          enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                           isGreaterThanOrEqualTo:20]];
+    strokeOfLuckModifier.explanation = @"Once you use this feature, you can’t use it again until you finish a short or long rest.";
     [class addModifier:strokeOfLuckModifier forStatisticID:DKStatIDStrokeOfLuckUsesMax];
     
     DKModifierGroup* roguishArchetypeGroup = [DKRogue5E roguishArchetypeChoiceWithRogueLevel:level];
@@ -189,7 +189,9 @@
         [class addSubgroup:abilityScoreGroup];
     }
     
-    [class addModifier:[DKModifierBuilder modifierWithAdditiveBonus:100 explanation:@"Rogue starting gold"] forStatisticID:DKStatIDCurrencyGold];
+    DKModifier* startingGold = [DKModifier numericModifierWithAdditiveBonus:100];
+    startingGold.explanation = @"Rogue starting gold";
+    [class addModifier:startingGold forStatisticID:DKStatIDCurrencyGold];
     
     return class;
 }
@@ -199,10 +201,10 @@
     
     DKChoiceModifierGroup* expertiseChoiceGroup = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceRogueExpertise];
     [expertiseChoiceGroup addDependency:level forKey:@"level"];
-    expertiseChoiceGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:enabledLevel.integerValue];
+    expertiseChoiceGroup.enabledPredicate = [DKPredicateBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:enabledLevel.integerValue];
     
     for (NSString* statID in [DKSkills5E skillProficiencyStatIDs]) {
-        DKModifier* modifier = [DKModifierBuilder modifierWithClampBetween:2 and:2];
+        DKModifier* modifier = [DKModifier numericModifierWithClampBetween:2 and:2];
         [expertiseChoiceGroup addModifier:modifier forStatisticID:statID];
     }
     
@@ -210,30 +212,30 @@
 }
 
 + (DKModifierGroup*)sneakAttackModifierWithLevel:(DKNumericStatistic*)level
-                                  equipment:(DKEquipment5E*)equipment {
+                                       equipment:(DKEquipment5E*)equipment {
     
     DKModifierGroup* sneakAttackGroup = [[DKModifierGroup alloc] init];
     sneakAttackGroup.explanation = @"Sneak Attack";
     
     NSString* sneakAttackExplanation = @"You know how to strike subtly and exploit a foe’s distraction. Once per turn, you can deal extra damage to one creature you hit with an attack if you have advantage on the attack roll. The attack must use a finesse or a ranged weapon.";
-    DKModifier* sneakAttackModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                               constantValue:@"Sneak Attack"
-                                                                                     enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                              isGreaterThanOrEqualTo:1]
-                                                                                 explanation:sneakAttackExplanation];
+    DKModifier* sneakAttackModifier = [DKModifier setModifierAppendedFromSource:level
+                                                                  constantValue:@"Sneak Attack"
+                                                                        enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                         isGreaterThanOrEqualTo:1]
+                                                                    explanation:sneakAttackExplanation];
     [sneakAttackGroup addModifier:sneakAttackModifier forStatisticID:DKStatIDRogueTraits];
     
     NSMutableDictionary* piecewiseFunction = [NSMutableDictionary dictionary];
     for (int i = 1; i <= 20; i += 2) {
         //Starts at 1d6 for levels 1 and 2, increases by d6 every two levels afterwards
-        piecewiseFunction[[DKDependentModifierBuilder rangeValueWithMin:i max:i+1]] =
-            [DKDiceCollection diceCollectionWithQuantity:ceil(i/2.0) sides:6 modifier:0];
+        piecewiseFunction[[DKExpressionBuilder rangeValueWithMin:i max:i+1]] =
+        [DKDiceCollection diceCollectionWithQuantity:ceil(i/2.0) sides:6 modifier:0];
     }
-    NSExpression* sneakAttackValue = [DKDependentModifierBuilder valueFromPiecewiseFunctionRanges:piecewiseFunction
-                                                                                     usingDependency:@"source"];
-    NSPredicate* levelPredicate = [DKDependentModifierBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:1];
-    NSPredicate* finesseWeaponPredicate = [DKDependentModifierBuilder enabledWhen:@"weapon" containsObject:@"Finesse"];
-    NSPredicate* rangedWeaponPredicate = [DKDependentModifierBuilder enabledWhen:@"weapon" containsObject:@"Ranged"];
+    NSExpression* sneakAttackValue = [DKExpressionBuilder valueFromPiecewiseFunctionRanges:piecewiseFunction
+                                                                           usingDependency:@"source"];
+    NSPredicate* levelPredicate = [DKPredicateBuilder enabledWhen:@"source" isGreaterThanOrEqualTo:1];
+    NSPredicate* finesseWeaponPredicate = [DKPredicateBuilder enabledWhen:@"weapon" containsObject:@"Finesse"];
+    NSPredicate* rangedWeaponPredicate = [DKPredicateBuilder enabledWhen:@"weapon" containsObject:@"Ranged"];
     NSPredicate* weaponPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:@[finesseWeaponPredicate, rangedWeaponPredicate]];
     NSPredicate* enabledPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[levelPredicate, weaponPredicate]];
     
@@ -242,7 +244,7 @@
                                                                       value:sneakAttackValue
                                                                     enabled:enabledPredicate
                                                                    priority:kDKModifierPriority_Additive
-                                                                 expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
+                                                                 expression:[DKExpressionBuilder addDiceExpression]];
     mainHandModifier.explanation = @"In order to deal Sneak Attack damage, you must have advantage on the attack roll.  You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.  Sneak attack damage can only be dealt once per turn.";
     [sneakAttackGroup addModifier:mainHandModifier forStatisticID:DKStatIDMainHandWeaponDamage];
     
@@ -251,7 +253,7 @@
                                                                      value:[sneakAttackValue copy]
                                                                    enabled:[enabledPredicate copy]
                                                                   priority:kDKModifierPriority_Additive
-                                                                expression:[DKModifierBuilder simpleAddDiceModifierExpression]];
+                                                                expression:[DKExpressionBuilder addDiceExpression]];
     [sneakAttackGroup addModifier:offHandModifier forStatisticID:DKStatIDOffHandWeaponDamage];
     offHandModifier.explanation = @"In order to deal Sneak Attack damage, you must have advantage on the attack roll.  You don’t need advantage on the attack roll if another enemy of the target is within 5 feet of it, that enemy isn’t incapacitated, and you don’t have disadvantage on the attack roll.  Sneak attack damage can only be dealt once per turn.";
     
@@ -265,7 +267,7 @@
     DKSubgroupChoiceModifierGroup* roguishArchetypeGroup = [[DKSubgroupChoiceModifierGroup alloc] initWithTag:DKChoiceRogueRoguishArchetype];
     roguishArchetypeGroup.explanation = @"Rogue roguish archetype";
     [roguishArchetypeGroup addDependency:level forKey:@"level"];
-    roguishArchetypeGroup.enabledPredicate = [DKDependentModifierBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:3];
+    roguishArchetypeGroup.enabledPredicate = [DKPredicateBuilder enabledWhen:@"level" isGreaterThanOrEqualTo:3];
     
     [roguishArchetypeGroup addSubgroup:[DKRogue5E thiefRoguishArchetypeWithLevel:level]];
     
@@ -279,48 +281,48 @@
     
     //Fast Hands
     NSString* fastHandsExplanation = @"You can use the bonus action granted by your Cunning Action to make a Dexterity (Sleight of Hand) check, use your thieves’ tools to disarm a trap or open a lock, or take the Use an Object action.";
-    DKModifier* fastHandsModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                           constantValue:@"Fast Hands"
-                                                                                 enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                          isGreaterThanOrEqualTo:3]
-                                                                             explanation:fastHandsExplanation];
+    DKModifier* fastHandsModifier = [DKModifier setModifierAppendedFromSource:level
+                                                                constantValue:@"Fast Hands"
+                                                                      enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                       isGreaterThanOrEqualTo:3]
+                                                                  explanation:fastHandsExplanation];
     [thiefGroup addModifier:fastHandsModifier forStatisticID:DKStatIDRogueTraits];
     
     //Second-Story Work
     NSString* secondStoryWorkExplanation = @"You gain the ability to climb faster than normal; climbing no longer costs you extra movement.  In addition, when you make a running jump, the distance you cover increases by a number of feet equal to your Dexterity modifier.";
-    DKModifier* secondStoryWorkModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                             constantValue:@"Second-Story Work"
-                                                                                   enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                            isGreaterThanOrEqualTo:3]
-                                                                               explanation:secondStoryWorkExplanation];
+    DKModifier* secondStoryWorkModifier = [DKModifier setModifierAppendedFromSource:level
+                                                                      constantValue:@"Second-Story Work"
+                                                                            enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                             isGreaterThanOrEqualTo:3]
+                                                                        explanation:secondStoryWorkExplanation];
     [thiefGroup addModifier:secondStoryWorkModifier forStatisticID:DKStatIDRogueTraits];
     
     //Supreme Sneak
     NSString* supremeSneakExplanation = @"You have advantage on a Stealth check if you move no more than half your speed on the same turn.";
-    DKModifier* supremeSneakModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                   constantValue:@"Supreme Sneak"
-                                                                                         enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                  isGreaterThanOrEqualTo:9]
-                                                                                     explanation:supremeSneakExplanation];
+    DKModifier* supremeSneakModifier = [DKModifier setModifierAppendedFromSource:level
+                                                                   constantValue:@"Supreme Sneak"
+                                                                         enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                          isGreaterThanOrEqualTo:9]
+                                                                     explanation:supremeSneakExplanation];
     [thiefGroup addModifier:supremeSneakModifier forStatisticID:DKStatIDRogueTraits];
-    [thiefGroup addModifier:[DKModifierBuilder modifierWithExplanation:supremeSneakExplanation] forStatisticID:DKStatIDSkillStealth];
+    [thiefGroup addModifier:[DKModifier modifierWithExplanation:supremeSneakExplanation] forStatisticID:DKStatIDSkillStealth];
     
     //Use Magic Device
     NSString* useMagicDeviceExplanation = @"You can improvise the use of items even when they are not intended for you. You ignore all class, race, and level requirements on the use of magic items.";
-    DKModifier* useMagicDeviceModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                   constantValue:@"Use Magic Device"
-                                                                                         enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                  isGreaterThanOrEqualTo:13]
-                                                                                     explanation:useMagicDeviceExplanation];
+    DKModifier* useMagicDeviceModifier = [DKModifier setModifierAppendedFromSource:level
+                                                                     constantValue:@"Use Magic Device"
+                                                                           enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                            isGreaterThanOrEqualTo:13]
+                                                                       explanation:useMagicDeviceExplanation];
     [thiefGroup addModifier:useMagicDeviceModifier forStatisticID:DKStatIDRogueTraits];
     
     //Thief's Reflexes
     NSString* thiefReflexesExplanation = @"You can take two turns during the first round of any combat. You take your first turn at your normal initiative and your second turn at your initiative minus 10. You can’t use this feature when you are surprised.";
-    DKModifier* thiefReflexesModifier = [DKDependentModifierBuilder appendedModifierFromSource:level
-                                                                                  constantValue:@"Thief's Reflexes"
-                                                                                        enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                                 isGreaterThanOrEqualTo:17]
-                                                                                    explanation:thiefReflexesExplanation];
+    DKModifier* thiefReflexesModifier = [DKModifier setModifierAppendedFromSource:level
+                                                                    constantValue:@"Thief's Reflexes"
+                                                                          enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                           isGreaterThanOrEqualTo:17]
+                                                                      explanation:thiefReflexesExplanation];
     [thiefGroup addModifier:thiefReflexesModifier forStatisticID:DKStatIDRogueTraits];
     
     return thiefGroup;
@@ -336,8 +338,9 @@
                                           abilities:abilities
                                           equipment:equipment
                                    proficiencyBonus:proficiencyBonus];
-    [self.classModifiers addModifier:[DKDependentModifierBuilder addedDiceModifierFromSource:self.classHitDice
-                                                                                 explanation:@"Rogue hit dice"] forStatisticID:DKStatIDHitDiceMax];
+    DKModifier* hitDiceModifier = [DKModifier diceModifierAddedFromSource:self.classHitDice];
+    hitDiceModifier.explanation = @"Rogue hit dice";
+    [self.classModifiers addModifier:hitDiceModifier forStatisticID:DKStatIDHitDiceMax];
 }
 
 #pragma DKClass5E override
@@ -370,7 +373,7 @@
 - (void)loadModifiers {
     
     [super loadModifiers];
-    [_strokeOfLuckUsesCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_strokeOfLuckUsesMax]];
+    [_strokeOfLuckUsesCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_strokeOfLuckUsesMax]];
 }
 
 @end

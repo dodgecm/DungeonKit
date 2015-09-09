@@ -102,7 +102,7 @@
         [_sleightOfHand applyModifier:[abilities.dexterity modifierFromAbilityScore]];
         [_stealth applyModifier:[abilities.dexterity modifierFromAbilityScore]];
         [_survival applyModifier:[abilities.wisdom modifierFromAbilityScore]];
-        [_passivePerception applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_perception]];
+        [_passivePerception applyModifier:[DKModifier numericModifierAddedFromSource:_perception]];
     }
     return self;
 }

@@ -209,24 +209,24 @@
 - (void)loadModifiers {
     
     //Inspiration is binary
-    [_inspiration applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:1]];
+    [_inspiration applyModifier:[DKModifier numericModifierWithClampBetween:0 and:1]];
     
     //Set up proficiency bonus to increase based on the level automatically
     DKModifier* levelModifier = [[DKModifier alloc] initWithSource:_level
                                                              value:[NSExpression expressionWithFormat:
                                                                     @"max:({ 0, ($source - 1) / 4 })"]
                                                           priority:kDKModifierPriority_Additive
-                                                        expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                        expression:[DKExpressionBuilder additionExpression]];
     [_proficiencyBonus applyModifier:levelModifier];
     
     //Link maximum and current HP so that current HP value will update when max HP value changes
-    [_hitPointsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitPointsMax]];
-    [_hitPointsCurrent applyModifier:[DKDependentModifierBuilder simpleModifierFromSource:_hitPointsTemporary]];
+    [_hitPointsCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_hitPointsMax]];
+    [_hitPointsCurrent applyModifier:[DKModifier numericModifierAddedFromSource:_hitPointsTemporary]];
     
     [_initiativeBonus applyModifier:[_abilities.dexterity modifierFromAbilityScore]];
     
-    [_deathSaveSuccesses applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
-    [_deathSaveFailures applyModifier:[DKModifierBuilder modifierWithClampBetween:0 and:3]];
+    [_deathSaveSuccesses applyModifier:[DKModifier numericModifierWithClampBetween:0 and:3]];
+    [_deathSaveFailures applyModifier:[DKModifier numericModifierWithClampBetween:0 and:3]];
     
     [self addModifierGroup:[DKRace5EBuilder raceChoiceForCharacter:self] forGroupID:DKChoiceRace];
     
@@ -255,20 +255,20 @@
                                       };
     for (NSNumber* level in experienceTable.allKeys) {
         NSRange expRange = [experienceTable[level] rangeValue];
-        DKModifier* levelModifier = [DKDependentModifierBuilder addedNumberFromSource:_experiencePoints
-                                                                        constantValue:level
-                                                                              enabled:[DKDependentModifierBuilder enabledWhen:@"source"
-                                                                                                           isEqualToOrBetween:expRange.location
-                                                                                                                          and:NSMaxRange(expRange)-1] explanation:nil];
+        DKModifier* levelModifier = [DKModifier numericModifierAddedFromSource:_experiencePoints
+                                                                 constantValue:level
+                                                                       enabled:[DKPredicateBuilder enabledWhen:@"source"
+                                                                                            isEqualToOrBetween:expRange.location
+                                                                                                           and:NSMaxRange(expRange)-1]];
         [experiencePointsGroup addModifier:levelModifier forStatisticID:DKStatIDLevel];
     }
     [self addModifierGroup:experiencePointsGroup forGroupID:DKModifierGroupIDExperiencePoints];
     
     DKSingleChoiceModifierGroup* classChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceClass];
-    [classChoice addModifier:[DKDependentModifierBuilder simpleModifierFromSource:_level] forStatisticID:DKStatIDClericLevel];
-    [classChoice addModifier:[DKDependentModifierBuilder simpleModifierFromSource:_level] forStatisticID:DKStatIDFighterLevel];
-    [classChoice addModifier:[DKDependentModifierBuilder simpleModifierFromSource:_level] forStatisticID:DKStatIDRogueLevel];
-    [classChoice addModifier:[DKDependentModifierBuilder simpleModifierFromSource:_level] forStatisticID:DKStatIDWizardLevel];
+    [classChoice addModifier:[DKModifier numericModifierAddedFromSource:_level] forStatisticID:DKStatIDClericLevel];
+    [classChoice addModifier:[DKModifier numericModifierAddedFromSource:_level] forStatisticID:DKStatIDFighterLevel];
+    [classChoice addModifier:[DKModifier numericModifierAddedFromSource:_level] forStatisticID:DKStatIDRogueLevel];
+    [classChoice addModifier:[DKModifier numericModifierAddedFromSource:_level] forStatisticID:DKStatIDWizardLevel];
     [self addModifierGroup:classChoice forGroupID:DKChoiceClass];
     
     NSExpression* hpExpression = [NSExpression expressionForFunction:@"multiply:by:"
@@ -279,20 +279,20 @@
                                                                    value:hpExpression
                                                                  enabled:nil
                                                                 priority:kDKModifierPriority_Additive
-                                                              expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                              expression:[DKExpressionBuilder additionExpression]];
     hpMaxModifier.explanation = @"Max HP bonus from Constitution.";
     [self applyModifier:hpMaxModifier toStatisticWithID:DKStatIDHitPointsMax];
     
     DKSingleChoiceModifierGroup* alignmentChoice = [[DKSingleChoiceModifierGroup alloc] initWithTag:DKChoiceAlignment];
-    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Lawful Good"] forStatisticID:DKStatIDAlignment];
-    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Neutral Good"] forStatisticID:DKStatIDAlignment];
-    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Chaotic Good"] forStatisticID:DKStatIDAlignment];
-    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Lawful Neutral"] forStatisticID:DKStatIDAlignment];
-    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"True Neutral"] forStatisticID:DKStatIDAlignment];
-    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Chaotic Neutral"] forStatisticID:DKStatIDAlignment];
-    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Lawful Evil"] forStatisticID:DKStatIDAlignment];
-    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Neutral Evil"] forStatisticID:DKStatIDAlignment];
-    [alignmentChoice addModifier:[DKModifierBuilder modifierWithOverrideString:@"Chaotic Evil"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifier stringModifierWithNewString:@"Lawful Good"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifier stringModifierWithNewString:@"Neutral Good"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifier stringModifierWithNewString:@"Chaotic Good"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifier stringModifierWithNewString:@"Lawful Neutral"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifier stringModifierWithNewString:@"True Neutral"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifier stringModifierWithNewString:@"Chaotic Neutral"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifier stringModifierWithNewString:@"Lawful Evil"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifier stringModifierWithNewString:@"Neutral Evil"] forStatisticID:DKStatIDAlignment];
+    [alignmentChoice addModifier:[DKModifier stringModifierWithNewString:@"Chaotic Evil"] forStatisticID:DKStatIDAlignment];
     [self addModifierGroup:alignmentChoice forGroupID:DKChoiceAlignment];
 }
 

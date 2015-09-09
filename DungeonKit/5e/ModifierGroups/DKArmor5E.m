@@ -40,7 +40,7 @@
     NSDictionary* dependencies = @{ @"proficiencies" : armorProficiencies };
     DKModifier* defaultPenalty = [[DKModifier alloc] initWithDependencies:dependencies
                                                                     value:nil
-                                                                  enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies"doesNotContainAnyFromObjects:proficiencyTypes]
+                                                                  enabled:[DKPredicateBuilder enabledWhen:@"proficiencies" doesNotContainAnyFromObjects:proficiencyTypes]
                                                                  priority:kDKModifierPriority_Informational
                                                                expression:nil];
     
@@ -67,10 +67,10 @@
     }
     
     DKModifier* clampPenalty = [[DKModifier alloc] initWithDependencies:dependencies
-                                                                  value:[DKDependentModifierBuilder expressionForConstantInteger:0]
-                                                                enabled:[DKDependentModifierBuilder enabledWhen:@"proficiencies" doesNotContainAnyFromObjects:proficiencyTypes]
+                                                                  value:[DKExpressionBuilder valueFromInteger:0]
+                                                                enabled:[DKPredicateBuilder enabledWhen:@"proficiencies" doesNotContainAnyFromObjects:proficiencyTypes]
                                                                priority:kDKModifierPriority_Clamping
-                                                             expression:[DKModifierBuilder simpleClampExpressionBetween:0 and:0]];
+                                                             expression:[DKExpressionBuilder clampExpressionBetween:0 and:0]];
     statIDs = @[DKStatIDFirstLevelSpellSlotsCurrent,
                 DKStatIDSecondLevelSpellSlotsCurrent,
                 DKStatIDThirdLevelSpellSlotsCurrent,
@@ -104,7 +104,7 @@
     DKArmor5E* armor = [[DKArmor5E alloc] init];
     armor.explanation = [name copy];
 
-    [armor addModifier:[DKModifierBuilder modifierWithAdditiveBonus:baseAC.integerValue - 10
+    [armor addModifier:[DKModifier numericModifierWithAdditiveBonus:baseAC.integerValue - 10
                                                         explanation:[NSString stringWithFormat:@"%@ base AC", name]] forStatisticID:DKStatIDArmorClass];
     
     //Armor proficiency
@@ -113,7 +113,7 @@
                                                                   proficiencyTypes:proficiencyTypes
                                                                 armorProficiencies:armorProficiencies]];
         
-        [armor addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1
+        [armor addModifier:[DKModifier numericModifierWithAdditiveBonus:1
                                                             explanation:[NSString stringWithFormat:@"Wearing %@", name]]
             forStatisticID:DKStatIDArmorSlotOccupied];
     }
@@ -132,7 +132,7 @@
             DKModifier* dexBonusModifier = [[DKModifier alloc] initWithSource:abilities.dexterity
                                                                         value:valueExpression
                                                                      priority:kDKModifierPriority_Additive
-                                                                   expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                                   expression:[DKExpressionBuilder additionExpression]];
             dexBonusModifier.explanation = [NSString stringWithFormat:@"%@ dexterity bonus", name];
             [armor addModifier:dexBonusModifier forStatisticID:DKStatIDArmorClass];
             
@@ -144,23 +144,23 @@
     
     if (strMinimum) {
         
-        NSPredicate* strPredicate = [DKDependentModifierBuilder enabledWhen:@"strength" isLessThan:strMinimum.integerValue];
-        NSPredicate* dwarfPredicate = [DKDependentModifierBuilder enabledWhen:@"armorProficiency"
+        NSPredicate* strPredicate = [DKPredicateBuilder enabledWhen:@"strength" isLessThan:strMinimum.integerValue];
+        NSPredicate* dwarfPredicate = [DKPredicateBuilder enabledWhen:@"armorProficiency"
                                                  doesNotContainAnyFromObjects:@[@"Dwarven Heavy Armor Proficiency"]];
         NSPredicate* enabledPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:@[ strPredicate, dwarfPredicate ]];
         DKModifier* moveSpeedPenaltyModifier = [[DKModifier alloc] initWithDependencies:@{ @"strength": abilities.strength,
                                                                                            @"armorProficiency": armorProficiencies }
-                                                                                  value:[DKDependentModifierBuilder expressionForConstantInteger:-10]
+                                                                                  value:[DKExpressionBuilder valueFromInteger:-10]
                                                                                 enabled:enabledPredicate
                                                                                priority:kDKModifierPriority_Additive
-                                                                             expression:[DKModifierBuilder simpleAdditionModifierExpression]];
+                                                                             expression:[DKExpressionBuilder additionExpression]];
         moveSpeedPenaltyModifier.explanation = [NSString stringWithFormat:@"%@ reduces move speed by 10 if you are below %@ strength.", name, strMinimum];
         [armor addModifier:moveSpeedPenaltyModifier forStatisticID:DKStatIDMoveSpeed];
     }
     
     if (stealthDisadvantage) {
         
-        [armor addModifier:[DKModifierBuilder modifierWithExplanation:
+        [armor addModifier:[DKModifier modifierWithExplanation:
                             [NSString stringWithFormat:@"While wearing %@, you have disadvantage on Stealth checks.", name]]
             forStatisticID:DKStatIDSkillStealth];
     }
@@ -370,14 +370,14 @@
     shield.explanation = @"Shield";
     
     //Shield is worn on the offhand
-    [shield addModifier:[DKModifierBuilder modifierWithAdditiveBonus:1] forStatisticID:DKStatIDOffHandOccupied];
+    [shield addModifier:[DKModifier numericModifierWithAdditiveBonus:1] forStatisticID:DKStatIDOffHandOccupied];
     
     //+2 to AC only when off hand does not have a weapon equipped
     [shield addModifier:[[DKModifier alloc] initWithSource:equipment.offHandOccupied
-                                                     value:[DKDependentModifierBuilder expressionForConstantInteger:2]
-                                                   enabled:[DKDependentModifierBuilder enabledWhen:@"source" isLessThan:2]
+                                                     value:[DKExpressionBuilder valueFromInteger:2]
+                                                   enabled:[DKPredicateBuilder enabledWhen:@"source" isLessThan:2]
                                                   priority:kDKModifierPriority_Additive
-                                                expression:[DKModifierBuilder simpleAdditionModifierExpression]]
+                                                expression:[DKExpressionBuilder additionExpression]]
          forStatisticID:DKStatIDArmorClass];
     
     DKModifierGroup* proficiencyPenalties = [DKArmorBuilder5E armorProficiencyPenaltiesForArmorName:@"Shield"
@@ -385,7 +385,7 @@
                                                                                  armorProficiencies:armorProficiencies];
     [shield addSubgroup:proficiencyPenalties];
     
-    [shield addModifier:[DKModifierBuilder modifierWithAppendedString:@"Shield"]
+    [shield addModifier:[DKModifier setModifierWithAppendedObject:@"Shield"]
          forStatisticID:DKStatIDOffHandWeaponAttributes];
     
     return shield;

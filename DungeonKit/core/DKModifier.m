@@ -18,18 +18,10 @@
 @synthesize priority = _priority;
 @synthesize valueExpression = _valueExpression;
 @synthesize modifierExpression = _modifierExpression;
+@synthesize expectedValueType = _expectedValueType;
+@synthesize expectedInputType = _expectedInputType;
 @synthesize explanation = _explanation;
 @synthesize owner = _owner;
-
-+ (id)modifierWithValue:(id<NSObject>)value
-               priority:(DKModifierPriority)priority
-             expression:(NSExpression*)expression {
-    
-    DKModifier* modifier = [[[self class] alloc] initWithValue:value
-                                                      priority:priority
-                                                    expression:expression];
-    return modifier;
-}
 
 - (id)initWithValue:(id<NSObject>)value
            priority:(DKModifierPriority)priority
@@ -100,10 +92,17 @@
 
 - (id<NSObject>) modifyStatistic:(id<NSObject>)input {
     
+    if (_expectedInputType) {
+        NSAssert2([input isKindOfClass:_expectedInputType], @"Expected input of type %@, but instead have %@",
+                  NSStringFromClass([_expectedInputType class]), NSStringFromClass([input class]));
+    }
+    
     if (self.modifierExpression != nil && self.enabled && input) {
         NSMutableDictionary* context = [@{ @"input": input,
                                            @"value": self.value } mutableCopy];
-        return [_modifierExpression expressionValueWithObject:self context:context];
+        id output = [_modifierExpression expressionValueWithObject:self context:context];
+
+        return output;
     }
     else {
         return input;
@@ -127,6 +126,11 @@
     
     if (self.valueExpression != nil) {
         self.value = [_valueExpression expressionValueWithObject:self context:context];
+        
+        if (_expectedValueType) {
+            NSAssert2([self.value isKindOfClass:_expectedValueType], @"Expected value of type %@, but instead have %@",
+                      NSStringFromClass([_expectedValueType class]), NSStringFromClass([self.value class]));
+        }
     }
 }
 
@@ -153,6 +157,8 @@
     [aCoder encodeObject:self.value forKey:@"value"];
     [aCoder encodeObject:self.valueExpression forKey:@"valueExpression"];
     [aCoder encodeInt:self.priority forKey:@"priority"];
+    [aCoder encodeObject:NSStringFromClass(self.expectedValueType) forKey:@"expectedValueType"];
+    [aCoder encodeObject:NSStringFromClass(self.expectedInputType) forKey:@"expectedInputType"];
     [aCoder encodeObject:self.modifierExpression forKey:@"modifierExpression"];
     [aCoder encodeObject:self.explanation forKey:@"explanation"];
     [aCoder encodeConditionalObject:self.owner forKey:@"owner"];
@@ -167,6 +173,8 @@
         _priority = [aDecoder decodeIntForKey:@"priority"];
         _valueExpression = [aDecoder decodeObjectForKey:@"valueExpression"];
         _modifierExpression = [aDecoder decodeObjectForKey:@"modifierExpression"];
+        _expectedValueType = NSClassFromString([aDecoder decodeObjectForKey:@"expectedValueType"]);
+        _expectedInputType = NSClassFromString([aDecoder decodeObjectForKey:@"expectedInputType"]);
         _explanation = [aDecoder decodeObjectForKey:@"explanation"];
         _owner = [aDecoder decodeObjectForKey:@"owner"];
         
