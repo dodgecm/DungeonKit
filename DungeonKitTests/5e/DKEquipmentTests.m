@@ -59,7 +59,7 @@
     XCTAssertEqualObjects(_character.equipment.mainHandWeaponDamage.value.stringValue, @"1d8", "Morningstars deal 1d8 damage.");
 }
 
-- (void)testDamageBonus {
+- (void)testMeleeDamageBonus {
     
     [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Flail
                                                          forCharacter:_character
@@ -68,6 +68,17 @@
     
     _character.abilities.strength.base = @12;
     XCTAssertEqual(_character.equipment.mainHandWeaponDamage.value.modifier, 1, "+1 STR character should have +1 damage bonus.");
+}
+
+- (void)testRangedDamageBonus {
+    
+    [_character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Shortbow
+                                                                 forCharacter:_character
+                                                                   isMainHand:YES]];
+    XCTAssertEqual(_character.equipment.mainHandWeaponDamage.value.modifier, 0, "+0 DEX character should have no damage bonus.");
+    
+    _character.abilities.dexterity.base = @12;
+    XCTAssertEqual(_character.equipment.mainHandWeaponDamage.value.modifier, 1, "+1 DEX character should have +1 damage bonus.");
 }
 
 - (void)testVersatileWeapon {

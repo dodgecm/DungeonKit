@@ -73,6 +73,7 @@
 + (DKModifierGroup*)damageAbilityScoreModifierFromAbilities:(DKAbilities5E*)abilities
                                         weaponProficiencies:(DKSetStatistic*)weaponProficiencies
                                                    mainHand:(BOOL)isMainHand
+                                                     ranged:(BOOL)isRanged
                                                     finesse:(BOOL)isFinesse {
     DKModifierGroup* damage = [[DKModifierGroup alloc] init];
     damage.explanation = @"Weapon damage modifier from ability score";
@@ -86,10 +87,15 @@
         NSExpression* strExpression = [DKAbilityScore abilityScoreValueForDependency:@"str"];
         NSExpression* dexExpression = [DKAbilityScore abilityScoreValueForDependency:@"dex"];
         valueExpression = [NSExpression expressionForFunction:@"max:" arguments:@[ [NSExpression expressionForAggregate:@[strExpression, dexExpression]] ]];
+    } else if (isRanged) {
+        dependencies = @{ @"dex" : abilities.dexterity,
+                          @"proficiencies" : weaponProficiencies };
+        valueExpression = [DKAbilityScore abilityScoreValueForDependency:@"dex"];
     } else {
         dependencies = @{ @"str" : abilities.strength,
                           @"proficiencies" : weaponProficiencies };
         valueExpression = [DKAbilityScore abilityScoreValueForDependency:@"str"];
+        
     }
     
     NSPredicate* enabled;
@@ -145,6 +151,7 @@
     BOOL isHeavy = [attributes containsObject:@"Heavy"];
     BOOL isLoading = [attributes containsObject:@"Loading"];
     BOOL isUnarmed = [attributes containsObject:@"Unarmed"];
+    BOOL isRanged = [attributes containsObject:@"Ranged"];
     
     NSAssert(isMainHand || isLight, @"Weapon cannot be off-handed unless it is a light weapon");
     
@@ -190,6 +197,7 @@
     [weapon addSubgroup:[DKWeaponBuilder5E damageAbilityScoreModifierFromAbilities:abilities
                                                                weaponProficiencies:weaponProficiencies
                                                                           mainHand:isMainHand
+                                                                            ranged:isRanged
                                                                            finesse:isFinesse]];
     
     //Ability score bonus to hit
