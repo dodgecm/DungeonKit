@@ -10,7 +10,7 @@ If you're a 5E player, the DungeonKit5E module provides an implementation of the
 
 Creating a character is easy.
 ```objc
-#import <DungeonKit/DungeonKit.h>
+#import <DungeonKit5E/DungeonKit5E.h>
 DKCharacter5E* character = [[DKCharacter5E alloc] init];
 ```
 
@@ -74,7 +74,7 @@ NSLog(@"My attack bonus for my quarterstaff is +%@ at level 5.", character.equip
 // My attack bonus for my quarterstaff is +3 at level 5.
 NSLog(@"My versatile quarterstaff does %@ damage per attack.", character.equipment.mainHandWeaponDamage.value);
 // My versatile quarterstaff does 1d8 damage per attack.
-  
+
 [character.equipment equipOffHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Shortsword
                                                             forCharacter:character
                                                               isMainHand:NO]];
