@@ -7,7 +7,6 @@
 //
 
 #import "DKStatisticGroup.h"
-#import "DKStatisticIDs5E.h"
 #import "DKChoiceModifierGroup.h"
 
 @interface DKStatisticGroup()
