@@ -2,88 +2,48 @@
 
 DungeonKit makes it easy to create character sheets for tabletop games.
 
-You define the statistics and their interactions with one another, and DungeonKit handles updating the entire graph's values automatically.
+You define the statistics and their interactions with one another, and DungeonKit handles updating the entire graph's values automatically.  DungeonKit also implements NSCoding so that character sheets can be persisted.
 
-If you're a 5E player, the DungeonKit5E module provides an implementation of the entire 5E basic [ruleset](https://dnd.wizards.com/articles/features/basicrules).
+If you're a 5E player, the [DungeonKit5E](https://github.com/dodgecm/DungeonKit5E) module provides an implementation of the entire 5E basic [ruleset](https://dnd.wizards.com/articles/features/basicrules).
 
-### Using the 5E Module
+### DungeonKit Objects
 
-Creating a character is easy.
+DungeonKit provides three primary objects as the building blocks of a character sheet: [Statistics](https://github.com/dodgecm/DungeonKit/blob/master/DungeonKit/DKStatistic.h), [Modifiers](https://github.com/dodgecm/DungeonKit/blob/master/DungeonKit/DKModifier.h), and [Statistic Groups](https://github.com/dodgecm/DungeonKit/blob/master/DungeonKit/DKStatisticGroup.h).  
+
+#### Statistics
+DKStatistic represents a statistic on the character sheet (ex: intellect, hotness, brawnyness).  Its value can be numeric, a string, a set of strings, or a group of dice.  
 ```objc
-#import <DungeonKit5E/DungeonKit5E.h>
-DKCharacter5E* character = [[DKCharacter5E alloc] init];
+#import <DungeonKit/DungeonKit.h>
+DKDiceCollection* oneD6 = [DKDiceCollection diceCollectionWithQuantity:1 sides:6 modifier:0];
+DKStatistic* diceStatistic = [DKDiceStatistic statisticWithDice:oneD6];
+NSLog(@"%@", diceStatistic.value);
+// 1d6
 ```
 
-Edit statistics by changing their base value.
+You may set an intrinsic value for the statistic, and then apply modifiers to it that change its value.
 ```objc
-character.name.base = @"Madagascar the Wise";
-character.abilities.intelligence.base = @17;
+DKNumericStatistic* ten = [DKNumericStatistic statisticWithInt:10];
+NSLog(@"%@", ten.value);
+// 10
+DKModifier* plusFive = [DKModifier numericModifierWithAdditiveBonus:5];
+[ten applyModifier:plusFive];
+NSLog(@"%@", ten.value);
+// 15
 ```
 
-#### Making Choices
-Make choices for your character.  You can query for a specific choice by using its [identifier](https://github.com/dodgecm/DungeonKit/blob/master/DungeonKit/5e/ModifierGroups/DKModifierGroupTags5E.h).
+#### Modifiers
+Modifiers change the value of a statistic (ex: +2 to intellect).  A modifier can  have a static value, or it can use the value of a second statistic when performing a modification.  
 ```objc
-NSLog(@"My character has an intelligence score of %@.", character.abilities.intelligence.value);
-// My character has an intelligence score of 17.
-
-DKChoiceModifierGroup* chooseRace = [character firstUnallocatedChoiceWithTag:DKChoiceRace];
-NSArray* possibleRaces = chooseRace.choices;
-[chooseRace choose:possibleRaces[3]]; //Human
-NSLog(@"My human character now has an intelligence score of %@.", character.abilities.intelligence.value);
-// My human character now has an intelligence score of 18.
+DKNumericStatistic* two = [DKNumericStatistic statisticWithInt:2];
+DKNumericStatistic* fourteen = [DKNumericStatistic statisticWithInt:14];
+DKModifier* plusTwo = [DKModifier numericModifierAddedFromSource:two];
+[fourteen applyModifier:plusTwo];
+NSLog(@"%@", fourteen.value);
+// 16
+two.base = @6;
+NSLog(@"%@", fourteen.value);
+// 20
 ```
 
-There is a special method for choosing your character's class.
-```objc
-NSLog(@"My character has %@ 1st level spell slots.", character.spells.firstLevelSpellSlotsMax.value);
-// My character has 0 1st level spell slots.
-
-[character chooseClass:kDKClassType5E_Wizard];
-NSLog(@"My wizard now has %@ 1st level spell slots.", character.spells.firstLevelSpellSlotsMax.value);
-// My wizard now has 2 1st level spell slots.
-```
-
-#### Leveling Up
-Level up by increasing your experience points statistic.
-```objc
-NSLog(@"My wizard is level %@.", character.level.value);
-// My wizard is level 1.
-
-character.experiencePoints.base = @6500;
-NSLog(@"My wizard is now level %@.", character.level.value);
-// My wizard is now level 5.
-NSLog(@"My proficiency bonus is +%@.", character.proficiencyBonus.value);
-// My proficiency bonus is +3.
-```
-
-#### Equipment
-You can also equip weapons and armor.  DungeonKit will keep track of your proficiencies and update your attack bonus, damage, and armor class (among others) appropriately.
-```objc
-NSLog(@"My wizard can use %@ as weapons.", character.weaponProficiencies.value);
-/*  My wizard can use {(
-    Crossbows,
-    Darts,
-    Quarterstaves,
-    Daggers,
-    Slings
-)} as weapons. */
-[character.equipment equipMainHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Quarterstaff
-                                                             forCharacter:character
-                                                               isMainHand:YES]];
-NSLog(@"My attack bonus for my quarterstaff is +%@ at level 5.", character.equipment.mainHandWeaponAttackBonus.value);
-// My attack bonus for my quarterstaff is +3 at level 5.
-NSLog(@"My versatile quarterstaff does %@ damage per attack.", character.equipment.mainHandWeaponDamage.value);
-// My versatile quarterstaff does 1d8 damage per attack.
-
-[character.equipment equipOffHandWeapon:[DKWeaponBuilder5E weaponOfType:kDKWeaponType5E_Shortsword
-                                                            forCharacter:character
-                                                              isMainHand:NO]];
-NSLog(@"My non-proficient attack bonus for my short sword is +%@.", character.equipment.offHandWeaponAttackBonus.value);
-// My non-proficient attack bonus for my short sword is +0.
-NSLog(@"My quarterstaff, held in only one hand, now does %@ damage per attack.", character.equipment.mainHandWeaponDamage.value);
-// My quarterstaff, held in only one hand, now does 1d6 damage per attack.
-```
-
-#### Exploring DungeonKit5E
-The 5E module contains [unit tests](https://github.com/dodgecm/DungeonKit/tree/master/DungeonKitTests/5e) with more in-depth code samples than this guide.  
-You may also find the list of all [statistics](https://github.com/dodgecm/DungeonKit/blob/master/DungeonKit/5e/DKStatisticIDs5E.h) in this module helpful.
+#### Statistic Groups
+Statistic groups are the top level object (ex: a character sheet) responsible for serializing the statistic and modifier graph.  Statistic groups may also own other statistic groups.
