@@ -10,5 +10,5 @@ Pod::Spec.new do |s|
   s.platform          = :ios, '8.0'
   s.requires_arc      = true
   s.frameworks        = [ "UIKit" ]
-  s.source_files   = 'DungeonKit/core/**/*.{h,m}'
+  s.source_files   = 'DungeonKit/**/*.{h,m}'
 end
